@@ -29,7 +29,7 @@ const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
   //   const selectCategory = usePlaceStore((state) => state.selectCategory);
   return (
     <div
-      className={`w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center`}
+      className={`w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center shrink-0`}
       style={{ borderColor: `var(--color-chip-${category.id})` }}
       //   onClick={() => selectCategory(category.id)}
     >
