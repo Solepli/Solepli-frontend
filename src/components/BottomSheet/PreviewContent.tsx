@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Place } from '../../types';
 import SolmarkChip from './SolmarkChip';
+import star from "../../assets/star.svg"
 
 interface PreviewContentProps{
   place:Place
@@ -13,7 +14,6 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
     "https://i.namu.wiki/i/PgSYmu9y55E5YicKvIK14P0ttQUQG4ioSn-Fd6u27a0r2Jeu02fJAYRkmf2qtOb6fHLBnlrLeXu_gSESQbmykg.webp",
     "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1"
   ];
-
 
 
   return (
@@ -30,23 +30,21 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
           <span className='text-xs text-gray-900 font-semibold'>영업 중</span>
         </div>
 
-        <SolmarkChip/>
+        <SolmarkChip />
       </div>
 
       {/* review range */}
       <div className='flex justify-between items-center pb-4'>
         <div>
           <p className='text-xs text-gray-900 font-medium mb-2'>90% 추천</p>
-          <div>
-            <div className='w-130 h-6 relative bg-gray-200 rounded-tl-sm rounded-br-sm'>
-              <div className='absolute w-100 h-6 bg-green-700 rounded-tl-sm rounded-br-sm'></div>
-            </div>
+          <div className='w-130 h-6 relative bg-gray-200 rounded-tl-sm rounded-br-sm'>
+            <div className='absolute w-100 h-6 bg-green-400 rounded-tl-sm rounded-br-sm'></div>
           </div>
         </div>
         {/* 별점 */}
         <div className='flex items-center pt-4'>
-          <div className='bg-gray-100 w-20 h-20'></div>
-          <p>4.5</p>
+          <img src={star} alt='star' className='w-20 h-20' />
+          <p className='text-xs text-black font-medium'>4.5</p>
         </div>
       </div>
 
@@ -55,7 +53,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
         {place.tags.map((tag) => {
           return (
             <div
-              className='bg-gray-100 ptb-4 px-8 py-4 text-xs font-light rounded-sm'
+              className='bg-gray-100 ptb-4 px-8 py-4 text-xs font-light rounded-sm text-gray-900'
               key={tag}>
               #{tag}
             </div>
@@ -64,7 +62,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
       </div>
 
       {/* photos */}
-      <div className='flex gap-2 grid grid-cols-3'>
+      <div className='gap-2 grid grid-cols-3'>
         {images.map((image, i) => {
           return (
             <img
