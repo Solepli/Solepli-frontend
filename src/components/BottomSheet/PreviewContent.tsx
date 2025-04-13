@@ -17,22 +17,9 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
 
 
   return (
-    <div className='p-16 pt-14 border-b border-gray-100'>
+    <div className='border-b border-gray-100'>
       {/* content title */}
-      <ContentTitle place={place} property='detail'/>
-      {/* <div className='flex justify-between pb-8'>
-        <div className='inline-flex items-center'>
-          <span className='text-base text-gray-900 font-bold pr-4'>
-            {place.title}
-          </span>
-          <span className='text-xs text-gray-400 pr-10'>
-            {place.category.title}
-          </span>
-          <span className='text-xs text-gray-900 font-semibold'>영업 중</span>
-        </div>
-
-        <SolmarkChip />
-      </div> */}
+      <ContentTitle place={place} property='preview'/>
 
       {/* review range */}
       <div className='flex justify-between items-center pb-4'>
