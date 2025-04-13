@@ -1,7 +1,7 @@
 import React from 'react'
 import { Place } from '../../types';
-import SolmarkChip from './SolmarkChip';
 import star from "../../assets/star.svg"
+import ContentTitle from './ContentTitle';
 
 interface PreviewContentProps{
   place:Place
@@ -19,7 +19,8 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
   return (
     <div className='p-16 pt-14 border-b border-gray-100'>
       {/* content title */}
-      <div className='flex justify-between pb-8'>
+      <ContentTitle place={place} property='detail'/>
+      {/* <div className='flex justify-between pb-8'>
         <div className='inline-flex items-center'>
           <span className='text-base text-gray-900 font-bold pr-4'>
             {place.title}
@@ -31,7 +32,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
         </div>
 
         <SolmarkChip />
-      </div>
+      </div> */}
 
       {/* review range */}
       <div className='flex justify-between items-center pb-4'>
