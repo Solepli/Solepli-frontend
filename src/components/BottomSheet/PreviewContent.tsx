@@ -2,6 +2,7 @@ import React from 'react'
 import { Place } from '../../types';
 import star from "../../assets/star.svg"
 import ContentTitle from './ContentTitle';
+import ReviewRange from './ReviewRange';
 
 interface PreviewContentProps{
   place:Place
@@ -22,19 +23,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
       <ContentTitle place={place} property='preview'/>
 
       {/* review range */}
-      <div className='flex justify-between items-center pb-4'>
-        <div>
-          <p className='text-xs text-gray-900 font-medium mb-2'>90% 추천</p>
-          <div className='w-130 h-6 relative bg-gray-200 rounded-tl-sm rounded-br-sm'>
-            <div className='absolute w-100 h-6 bg-green-400 rounded-tl-sm rounded-br-sm'></div>
-          </div>
-        </div>
-        {/* 별점 */}
-        <div className='flex items-center pt-4'>
-          <img src={star} alt='star' className='w-20 h-20' />
-          <p className='text-xs text-black font-medium'>4.5</p>
-        </div>
-      </div>
+      <ReviewRange rating={place.rating} recommend={90}/>
 
       {/* tag list */}
       <div className='flex mb-8 gap-4'>
