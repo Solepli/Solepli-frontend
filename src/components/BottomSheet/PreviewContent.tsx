@@ -4,6 +4,7 @@ import star from "../../assets/star.svg"
 import ContentTitle from './ContentTitle';
 import ReviewRange from './ReviewRange';
 import Tag from '../Tag';
+import TagList from './TagList';
 
 interface PreviewContentProps{
   place:Place
@@ -27,21 +28,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
       <ReviewRange rating={place.rating} recommend={90}/>
 
       {/* tag list */}
-      <div className='flex mb-8 gap-4'>
-        {place.tags.map((tag) => {
-          return (
-            <>
-            {/* <Tag name={tag}/> */}
-            <Tag name={tag} number={2}/>
-            </>
-            // <div
-            //   className='bg-gray-100 ptb-4 px-8 py-4 text-xs font-light rounded-sm text-gray-900'
-            //   key={tag}>
-            //   #{tag}
-            // </div>
-          );
-        })}
-      </div>
+      <TagList tags={place.tags}/>
 
       {/* photos */}
       <div className='gap-2 grid grid-cols-3'>
