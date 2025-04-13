@@ -13,7 +13,7 @@ const Tag: React.FC<TagProps> = ({ name, header, number }) => {
       {/* default */}
       {!number && !header && (
         <div className={`${style} bg-gray-100 px-8 py-4  text-gray-900`}>
-          #{name}
+          <p>#{name}</p>
         </div>
       )}
 

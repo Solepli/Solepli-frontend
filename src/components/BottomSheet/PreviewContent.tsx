@@ -1,9 +1,7 @@
 import React from 'react'
 import { Place } from '../../types';
-import star from "../../assets/star.svg"
 import ContentTitle from './ContentTitle';
 import ReviewRange from './ReviewRange';
-import Tag from '../Tag';
 import TagList from './TagList';
 
 interface PreviewContentProps{

@@ -49,7 +49,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
 
       {isDetail && (
         <div className='text-gray-900 text-xs border-b mb-12 border-gray-100 p-12 pt-0'>
-          <div className='flex items-center'><img src={location} alt="location" /><p>주소</p></div>
+          <div className='flex items-center'><img src={location} alt="location" /><p>{place.address}</p></div>
           <div className='flex items-center'><img src={clock} alt="clock" /><p>시간</p></div>
         </div>
       )}
