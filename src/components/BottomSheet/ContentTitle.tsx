@@ -35,12 +35,12 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
 
         {/* right */}
         {/* preview */}
-        {isPreview && <SolmarkChip label={false}/>}
+        {isPreview && <SolmarkChip/>}
 
         {/* detail */}
         {isDetail && (
           <div className='flex gap-8'>
-            <SolmarkChip label={true}/>
+            <SolmarkChip label/>
             <div className={`${buttonStyle} border border-gray-400`}><img src={share} alt="share" /></div>
             <div className={`${buttonStyle} bg-gray-100`}><img src={xButton} alt="x-button" /></div>
           </div>

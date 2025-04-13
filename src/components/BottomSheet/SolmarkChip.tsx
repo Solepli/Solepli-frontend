@@ -5,7 +5,7 @@ import heart from '../../assets/heart.svg';
 import heartFill from '../../assets/heartFill.svg';
 
 interface SolmarkChipProps {
-  label: boolean;
+  label?: boolean;
 }
 
 const SolmarkChip: React.FC<SolmarkChipProps> = ({ label }) => {
