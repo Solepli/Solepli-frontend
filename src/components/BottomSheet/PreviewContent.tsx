@@ -3,6 +3,7 @@ import { Place } from '../../types';
 import ContentTitle from './ContentTitle';
 import ReviewRange from './ReviewRange';
 import TagList from './TagList';
+import PreviewPhotos from './PreviewPhotos';
 
 interface PreviewContentProps{
   place:Place
@@ -18,7 +19,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
 
 
   return (
-    <div className='border-b border-gray-100'>
+    <div className='border-b border-gray-100 pt-12'>
       {/* content title */}
       <ContentTitle place={place} property='preview'/>
 
@@ -28,19 +29,9 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
       {/* tag list */}
       <TagList tags={place.tags}/>
 
-      {/* photos */}
-      <div className='gap-2 grid grid-cols-3'>
-        {images.map((image, i) => {
-          return (
-            <img
-              src={image}
-              alt=''
-              className={`h-90 object-cover rounded-sm ${i === 0 ? 'rounded-tl-[20px]' : ''} ${i === 2 ? 'rounded-br-[20px]' : ''}`}
-              key={i}
-            />
-          );
-        })}
-      </div>
+      {/* Preview photos */}
+      <PreviewPhotos images={images}/>
+      
     </div>
   );
 }
