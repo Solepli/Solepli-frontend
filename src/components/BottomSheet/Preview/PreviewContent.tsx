@@ -1,8 +1,8 @@
 import React from 'react'
-import { Place } from '../../types';
-import ContentTitle from './ContentTitle';
-import ReviewRange from './ReviewRange';
-import TagList from './TagList';
+import { Place } from '../../../types';
+import ContentTitle from '../ContentTitle';
+import ReviewRange from '../ReviewRange';
+import TagList from '../TagList';
 import PreviewPhotos from './PreviewPhotos';
 
 interface PreviewContentProps{
