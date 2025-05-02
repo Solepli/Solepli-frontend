@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+import photo from '../../../assets/photo.svg';
+
 const ReviewInput: React.FC = () => {
   const [text, setText] = useState<string>('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -8,6 +10,10 @@ const ReviewInput: React.FC = () => {
     if (e.target.value.length <= 500) {
       setText(e.target.value);
     }
+  };
+
+  const handleTextSubmit = () => {
+    setText('');
   };
 
   useEffect(() => {
@@ -52,6 +58,28 @@ const ReviewInput: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className='self-stretch flex flex-col items-start justify-center px-20'>
+        <div className='flex flex-row items-center gap-4 py-4'>
+          <div className='flex justify-center items-start w-[24px] h-[24px] p-4'>
+            <img width='16px' height='16px' src={photo} />
+          </div>
+          <button className="text-[12px] leading-[120%] tracking-[-0.18px] font-['Pretendard'] text-[#677390] whitespace-nowrap">
+            사진 추가하기
+          </button>
+        </div>
+      </div>
+
+      <div className='self-stretch h-34 flex items-center justify-end px-20'>
+        <button
+          disabled={text.length === 0}
+          onClick={handleTextSubmit}
+          className='flex items-center justify-center py-10 px-14 bg-[#434a61] rounded-[8px]'>
+          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-['Pretendard'] font-[500] text-[#fafafa] whitespace-nowrap">
+            리뷰 등록
+          </div>
+        </button>
       </div>
     </>
   );
