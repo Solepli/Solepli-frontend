@@ -1,13 +1,13 @@
 import React from 'react';
 import { Category } from '../../../types';
-import foodFill from '../../../assets/foodFill.svg';
-import cafeFill from '../../../assets/cafeFill.svg';
-import drinkFill from '../../../assets/drinkFill.svg';
-import entertainmentFill from '../../../assets/entertainmentFill.svg';
-import cultureFill from '../../../assets/cultureFill.svg';
-import shopFill from '../../../assets/shopFill.svg';
-import walkFill from '../../../assets/walkFill.svg';
-import workFill from '../../../assets/workFill.svg';
+import foodFill from '../../../assets/category-icons/foodFill.svg';
+import cafeFill from '../../../assets/category-icons/cafeFill.svg';
+import drinkFill from '../../../assets/category-icons/drinkFill.svg';
+import entertainmentFill from '../../../assets/category-icons/entertainmentFill.svg';
+import cultureFill from '../../../assets/category-icons/cultureFill.svg';
+import shopFill from '../../../assets/category-icons/shopFill.svg';
+import walkFill from '../../../assets/category-icons/walkFill.svg';
+import workFill from '../../../assets/category-icons/workFill.svg';
 
 interface CategoryButtonProps {
   category: Category;
