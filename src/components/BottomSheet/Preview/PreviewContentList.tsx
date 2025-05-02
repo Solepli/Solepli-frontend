@@ -1,6 +1,6 @@
 import React from 'react';
 import PreviewContent from './PreviewContent';
-import { places } from '../../places';
+import { places } from '../../../places';
 
 const PreviewContentList: React.FC = () => {
 
