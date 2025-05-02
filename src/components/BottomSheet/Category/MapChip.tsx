@@ -1,13 +1,13 @@
 import React from 'react';
 import { Category } from '../../../types';
-import food from '../../assets/food.svg';
-import cafe from '../../assets/cafe.svg';
-import drink from '../../assets/drink.svg';
-import entertainment from '../../assets/entertainment.svg';
-import culture from '../../assets/culture.svg';
-import shop from '../../assets/shop.svg';
-import walk from '../../assets/walk.svg';
-import work from '../../assets/work.svg';
+import food from '../../../assets/food.svg';
+import cafe from '../../../assets/cafe.svg';
+import drink from '../../../assets/drink.svg';
+import entertainment from '../../../assets/entertainment.svg';
+import culture from '../../../assets/culture.svg';
+import shop from '../../../assets/shop.svg';
+import walk from '../../../assets/walk.svg';
+import work from '../../../assets/work.svg';
 
 interface CategoryButtonProps {
   category: Category;
