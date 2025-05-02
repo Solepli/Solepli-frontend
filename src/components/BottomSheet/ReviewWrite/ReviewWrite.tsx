@@ -6,6 +6,7 @@ import xButton from '../../../assets/xButton.svg';
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
 import { Tag } from '../../../types';
+import ReviewInput from './ReviewInput';
 
 const ReviewWrite: React.FC = () => {
   const mood: Tag[] = [
@@ -54,6 +55,9 @@ const ReviewWrite: React.FC = () => {
         {/* 분위기 태그 */}
         <ReviewTagList title={'1인 이용'} tag={single} />
       </div>
+
+      {/* 리뷰 글 작성 */}
+      <ReviewInput />
     </div>
   );
 };
