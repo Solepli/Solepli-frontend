@@ -1,5 +1,5 @@
 import React from 'react';
-import { Category } from '../../types';
+import { Category } from '../../../types';
 import food from '../../assets/food.svg';
 import cafe from '../../assets/cafe.svg';
 import drink from '../../assets/drink.svg';
