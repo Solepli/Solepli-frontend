@@ -33,7 +33,7 @@ const ReviewWrite: React.FC = () => {
   ];
 
   return (
-    <div className='flex flex-col items-start justify-start'>
+    <div className='flex flex-col items-start justify-start pb-300'>
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
         <div className='w-[32px] h-[32px] shrink-0 flex flex-row items-center justify-center rounded-[8px]'>
