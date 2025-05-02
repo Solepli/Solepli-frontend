@@ -3,6 +3,7 @@ import React from 'react';
 import ReviewEmoji from './ReviewEmoji';
 
 import xButton from '../../../assets/xButton.svg';
+import ReviewRatio from './ReviewRatio';
 
 const ReviewWrite: React.FC = () => {
   return (
@@ -16,6 +17,9 @@ const ReviewWrite: React.FC = () => {
 
       {/* 방문 의향 체크 */}
       <ReviewEmoji />
+
+      {/* 만족도 체크 */}
+      <ReviewRatio />
     </div>
   );
 };
