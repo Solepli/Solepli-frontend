@@ -4,7 +4,7 @@ import emojiBad from '../../../assets/emojiBad.svg';
 
 const ReviewEmoji: React.FC = () => {
   return (
-    <div className='self-stretch flex flex-col items-center justify-center pt-0 px-0 pb-[40px] border-[solid] border-#eceef2 border-[0_0_1px]'>
+    <div className='self-stretch flex flex-col items-center justify-center pt-0 px-0 pb-[40px] border-[#eceef2] border-[0_0_1px]'>
       <div className='self-stretch flex flex-row items-center justify-center pt-0 px-0 pb-[8px]'>
         <div className="text-[14px] leading-[120%] tracking-[-0.35px] font-['Pretendard'] font-[600] text-[#343846] text-center whitespace-nowrap">
           혼자 또 방문할 의향이 있나요?
