@@ -8,6 +8,7 @@ import cultureFill from '../../../assets/category-icons/cultureFill.svg';
 import shopFill from '../../../assets/category-icons/shopFill.svg';
 import walkFill from '../../../assets/category-icons/walkFill.svg';
 import workFill from '../../../assets/category-icons/workFill.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface CategoryButtonProps {
   category: Category;
@@ -32,10 +33,17 @@ const iconMap: Record<string, string> = {
   work:workFill,
 };
 
+
 const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
+  const navigate = useNavigate();
   const icon = iconMap[category.id];
+
+const handleClick = () =>{
+  navigate("list");
+}
+
   return (
-    <div className='relative w-84 h-84 flex justify-center items-center'>
+    <div className='relative w-84 h-84 flex justify-center items-center' onClick={handleClick}>
       <Background category={category} />
       <div className='absolute top-6 right-6 w-6 h-6 rounded-full'style={{ backgroundColor: `var(--color-chip-${category.id})` }} ></div>
       <div>
