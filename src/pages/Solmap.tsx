@@ -1,22 +1,17 @@
-import React from 'react'
-import BottomSheet from '../components/BottomSheet/BottomSheet'
+import React from 'react';
+import BottomSheet from '../components/BottomSheet/BottomSheet';
 import { Outlet } from 'react-router-dom';
 
-const Solmap:React.FC = () => {
+const Solmap: React.FC = () => {
   return (
     <div>
-        <div>
-            map
-        </div>
-
-        <div className='absolute bottom-0'>
-
+      <div className='absolute bottom-0'>
         <BottomSheet>
-            <Outlet />
+          <Outlet />
         </BottomSheet>
-        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Solmap
+export default Solmap;
