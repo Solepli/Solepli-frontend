@@ -1,54 +1,84 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-    --spacing: 1px;
-}
+  --spacing: 1px;
 
-@layer base {
-    :root {
-        --color-black: #121212;
-        --color-chip-cafe: #4B6B55;
-        /* --color-chip-culture-art: #B66B4D; culture-art면 여러 문제가 있음 */
-        --color-chip-culture: #B66B4D;
-        --color-chip-drink: #735F85;
-        --color-chip-entertainment: #8F3973;
-        --color-chip-food: #444574;
-        --color-chip-shop: #617790;
-        --color-chip-walk: #678179;
-        --color-chip-work: #AF425D;
-        --color-gray-100: #ECEEF2;
-        --color-gray-200: #D5D8E2;
-        --color-gray-300: #B1B7C8;
-        --color-gray-400: #8690AA;
-        --color-gray-500: #646F8C;
-        --color-gray-600: #525B77;
-        --color-gray-700: #434A61;
-        --color-gray-800: #3A4052;
-        --color-gray-900: #343846;
-        --color-gray2-100: #E7E7E7;
-        --color-gray2-200: #D1D1D1;
-        --color-gray2-300: #B0B0B0;
-        --color-gray2-400: #888888;
-        --color-gray2-500: #6D6D6D;
-        --color-gray2-600: #5D5D5D;
-        --color-gray2-700: #4F4F4F;
-        --color-gray2-800: #454545;
-        --color-gray2-900: #3D3D3D;
-        --color-green-50: #F1F8F3;
-        --color-green-100: #DEEDE0;
-        --color-green-200: #BFDBC5;
-        --color-green-300: #95C0A2;
-        --color-green-400: #67A07A;
-        --color-green-500: #447F59;
-        --color-green-600: #346747;
-        --color-green-700: #274E37;
-        --color-green-800: #234230;
-        --color-green-900: #1D3728;
-        --color-green-950: #101E17;
-        --color-white: #FAFAFA
-    }
+  --color-white: #fafafa;
+  --color-black: #121212;
+
+  --color-chip-cafe: #4b6b55;
+  --color-chip-culture: #b66b4d; /* --color-chip-culture-art: #B66B4D; culture-art면 여러 문제가 있음 */
+  --color-chip-drink: #735f85;
+  --color-chip-entertainment: #8f3973;
+  --color-chip-food: #444574;
+  --color-chip-shop: #617790;
+  --color-chip-walk: #678179;
+  --color-chip-work: #af425d;
+  --color-gray-100: #eceef2;
+  --color-gray-200: #d5d8e2;
+  --color-gray-300: #b1b7c8;
+  --color-gray-400: #8690aa;
+  --color-gray-500: #646f8c;
+  --color-gray-600: #525b77;
+  --color-gray-700: #434a61;
+  --color-gray-800: #3a4052;
+  --color-gray-900: #343846;
+  --color-gray2-100: #e7e7e7;
+  --color-gray2-200: #d1d1d1;
+  --color-gray2-300: #b0b0b0;
+  --color-gray2-400: #888888;
+  --color-gray2-500: #6d6d6d;
+  --color-gray2-600: #5d5d5d;
+  --color-gray2-700: #4f4f4f;
+  --color-gray2-800: #454545;
+  --color-gray2-900: #3d3d3d;
+  --color-green-50: #f1f8f3;
+  --color-green-100: #deede0;
+  --color-green-200: #bfdbc5;
+  --color-green-300: #95c0a2;
+  --color-green-400: #67a07a;
+  --color-green-500: #447f59;
+  --color-green-600: #346747;
+  --color-green-700: #274e37;
+  --color-green-800: #234230;
+  --color-green-900: #1d3728;
+  --color-green-950: #101e17;
+
+  --color-primary-50: #f6f7f9;
+  --color-primary-100: #eceef2;
+  --color-primary-200: #d5d8e2;
+  --color-primary-300: #b0b7c9;
+  --color-primary-400: #8691aa;
+  --color-primary-500: #677390;
+  --color-primary-600: #525b77;
+  --color-primary-700: #434a61;
+  --color-primary-800: #3a4052;
+  --color-primary-900: #343846;
+  --color-primary-950: #22252f;
+  --color-secondary-50: #f0f5f2;
+  --color-secondary-100: #e0ebe5;
+  --color-secondary-200: #b8d5c6;
+  --color-secondary-300: #91c0a8;
+  --color-secondary-400: #6aab89;
+  --color-secondary-500: #3b6b57;
+  --color-secondary-600: #2d5a48;
+  --color-secondary-700: #214638;
+  --color-secondary-800: #18362b;
+  --color-secondary-900: #0f251d;
+  --color-secondary-950: #081712;
+  --color-secondary2-50: #f1f8f3;
+  --color-secondary2-100: #deede0;
+  --color-secondary2-200: #bfdbc5;
+  --color-secondary2-300: #95c0a2;
+  --color-secondary2-400: #67a07a;
+  --color-secondary2-500: #447f59;
+  --color-secondary2-600: #346747;
+  --color-secondary2-700: #274e37;
+  --color-secondary2-800: #234230;
+  --color-secondary2-900: #1d3728;
+  --color-secondary2-950: #101e17;
 }
 
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
