@@ -12,3 +12,57 @@
 body {
   margin: 0;
 }
+
+
+@theme {
+  --spacing: 1px;
+}
+
+@layer base {
+  :root {
+      --color-black: #121212;
+      --color-chip-cafe: #4B6B55;
+      /* --color-chip-culture-art: #B66B4D; culture-art면 여러 문제가 있음 */
+      --color-chip-culture: #B66B4D;
+      --color-chip-drink: #735F85;
+      --color-chip-entertainment: #8F3973;
+      --color-chip-food: #444574;
+      --color-chip-shop: #617790;
+      --color-chip-walk: #678179;
+      --color-chip-work: #AF425D;
+      --color-gray-100: #ECEEF2;
+      --color-gray-200: #D5D8E2;
+      --color-gray-300: #B1B7C8;
+      --color-gray-400: #8690AA;
+      --color-gray-500: #646F8C;
+      --color-gray-600: #525B77;
+      --color-gray-700: #434A61;
+      --color-gray-800: #3A4052;
+      --color-gray-900: #343846;
+      --color-gray2-100: #E7E7E7;
+      --color-gray2-200: #D1D1D1;
+      --color-gray2-300: #B0B0B0;
+      --color-gray2-400: #888888;
+      --color-gray2-500: #6D6D6D;
+      --color-gray2-600: #5D5D5D;
+      --color-gray2-700: #4F4F4F;
+      --color-gray2-800: #454545;
+      --color-gray2-900: #3D3D3D;
+      --color-green-50: #F1F8F3;
+      --color-green-100: #DEEDE0;
+      --color-green-200: #BFDBC5;
+      --color-green-300: #95C0A2;
+      --color-green-400: #67A07A;
+      --color-green-500: #447F59;
+      --color-green-600: #346747;
+      --color-green-700: #274E37;
+      --color-green-800: #234230;
+      --color-green-900: #1D3728;
+      --color-green-950: #101E17;
+      --color-white: #FAFAFA
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
