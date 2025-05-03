@@ -1,5 +1,5 @@
 import React from 'react'
-import { Category } from '../../types';
+import { Category } from '../../../types';
 import MapChip from './MapChip';
 
 const MapChipList: React.FC = () => {
