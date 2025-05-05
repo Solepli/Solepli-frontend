@@ -48,7 +48,7 @@ const ReviewWrite: React.FC = () => {
       {/* 만족도 체크 */}
       <ReviewRatio />
 
-      <div className='flex flex-col pb-32 border-[#eceef2] border-[0_0_1px]'>
+      <div className='flex flex-col pb-32 border-gray-100 border-[0_0_1px]'>
         {/* 분위기 태그 */}
         <ReviewTagList title={'분위기'} tag={mood} />
 
