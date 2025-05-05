@@ -5,11 +5,9 @@ import { Outlet } from 'react-router-dom';
 const Solmap: React.FC = () => {
   return (
     <div>
-      <div className='absolute bottom-0'>
-        <BottomSheet>
-          <Outlet />
-        </BottomSheet>
-      </div>
+      <BottomSheet>
+        <Outlet />
+      </BottomSheet>
     </div>
   );
 };
