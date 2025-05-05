@@ -30,11 +30,11 @@ const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
   return (
     <div
       className={`w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center shrink-0`}
-      style={{ borderColor: `var(--color-chip-${category.id})` }}
+      style={{ borderColor: `var(--color-chip-main-${category.id})` }}
       //   onClick={() => selectCategory(category.id)}
     >
       <img src={icon} alt={category.id}/>
-      <div className='text-black text-xs font-medium'>{category.title}</div>
+      <div className='text-primary-900 text-xs font-medium'>{category.title}</div>
     </div>
   );
 };

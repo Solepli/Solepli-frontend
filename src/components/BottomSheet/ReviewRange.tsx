@@ -16,9 +16,9 @@ const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
           </p>
 
           {/* 바 */}
-          <div className='w-130 h-6 relative bg-gray-200 rounded-tl-sm rounded-br-sm overflow-hidden'>
+          <div className='w-130 h-6 relative bg-primary-200 rounded-tl-sm rounded-br-sm overflow-hidden'>
             <div
-              className='absolute h-6 bg-green-400 rounded-br-sm'
+              className='absolute h-6 bg-secondary-400 rounded-br-sm'
               style={{ width: `${recommend}%` }}></div>
           </div>
         </div>
