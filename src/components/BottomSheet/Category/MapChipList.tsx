@@ -14,7 +14,7 @@ const MapChipList: React.FC = () => {
       { title: '오락/여가', id: 'entertainment' },
     ];
     return (
-      <div className='flex gap-10 p-16 pb-14 pt-10 h-52 whitespace-nowrap overflow-x-scroll overflow-y-hidden border-b border-gray-100 shrink-0'>
+      <div className='flex gap-10 p-16 pb-14 pt-10 h-52 whitespace-nowrap overflow-x-scroll overflow-y-hidden border-b border-gray-100 shrink-0 sticky top-0 bg-white z-1'>
         {categories.map((category) => {
           return <MapChip key={category.title} category={category} />;
         })}
