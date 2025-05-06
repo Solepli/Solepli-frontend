@@ -1,5 +1,5 @@
 import React from 'react';
-import xBottonCircle from '../../assets/x-button-circle.svg';
+import xBottonCircle from '../../assets/xButtonCircle.svg';
 
 interface RecentSearchTextProps {
   text: string;
