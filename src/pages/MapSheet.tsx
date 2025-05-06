@@ -5,39 +5,42 @@ const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
   const markers = useRef<naver.maps.Marker[]>([]);
+  const boundsRef = useRef<naver.maps.LatLngBounds | null>(null);
 
-  // 기본 좌표 (서울 시청)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147);
+  const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
+  let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
 
   useEffect(() => {
     if (!mapElement.current) return;
 
-    // 현재 위치를 비동기로 가져와 지도 초기화
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const currentLocation = new naver.maps.LatLng(
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        currentLocation = new naver.maps.LatLng(
           position.coords.latitude,
           position.coords.longitude
         );
         initMap(currentLocation);
       },
       () => {
-        // 위치를 가져오지 못했을 경우 기본 좌표로 설정
         initMap(defaultCenter);
       }
     );
-  }, [defaultCenter]);
+  }, []);
 
   // 지도 초기화 함수
   const initMap = (center: naver.maps.LatLng) => {
-    mapInstance.current = new naver.maps.Map(mapElement.current!, {
-      center: center,
+    const map = new naver.maps.Map(mapElement.current!, {
+      center,
       zoom: 16,
     });
+    mapInstance.current = map;
+
+    // 지도 초기화 후 마커 추가
+    addMarkers();
   };
 
-  useEffect(() => {
+  const addMarkers = () => {
     if (!mapInstance.current) return;
 
     // 기존 마커 삭제
@@ -50,6 +53,7 @@ const MapSheet: React.FC = () => {
       new naver.maps.LatLng(0, 0),
       new naver.maps.LatLng(0, 0)
     );
+    boundsRef.current = bounds;
 
     markers.current = places.map((place) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
@@ -72,29 +76,13 @@ const MapSheet: React.FC = () => {
 
       return marker;
     });
+  };
 
-    // 마커가 하나 이상 있을 경우, 경계에 맞춰 지도 이동
-    // 유사한 함수 : fitBounds
-    if (markers.current.length > 0) {
-      mapInstance.current.panToBounds(
-        bounds,
-        {
-          duration: 1000,
-          easing: 'easeOutCubic',
-        },
-        {
-          top: 30,
-          right: 30,
-          bottom: 200,
-          left: 30,
-        }
-      );
-    }
-
-    return () => naver.maps.Event.clearListeners(markers, 'click');
-  }, [mapInstance.current]);
-
-  return <div ref={mapElement} className='w-dvw h-dvh' />;
+  return (
+    <div className='relative w-dvw h-dvh'>
+      <div ref={mapElement} className='w-full h-full' />
+    </div>
+  );
 };
 
 export default MapSheet;
