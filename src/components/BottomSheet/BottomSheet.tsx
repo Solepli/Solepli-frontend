@@ -13,8 +13,6 @@ const Header: React.FC<{onPointerDown?: React.PointerEventHandler}> = ({onPointe
   );
 };
 
-const snapPoints = [MIN_Y, MID_Y, MAX_Y]; // 스냅 포인트 설정
-
 const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const sheetRef = useRef<HTMLDivElement>(null);
   const { snap, setSnap } = useBottomSheetStore();
@@ -35,18 +33,27 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }
   };
 
+  const getNextSnap = (): number => {
+    const finishY = window.innerHeight - (snap + dragOffset);
+
+    if (dragOffset > 0 && snap < MAX_Y) {
+      // 위로 드래그
+      if (finishY < MID_Y) return MAX_Y;
+      if (finishY > MID_Y) return MID_Y;
+    }
+
+    if (dragOffset < 0 && snap > MIN_Y) {
+      // 아래로 드래그
+      if (finishY > MID_Y) return MIN_Y;
+      if (finishY < MID_Y) return MID_Y;
+    }
+
+    return snap;
+  };
+
   const handlePointerUp = () => {
     if (dragStartY !== null) {
-      let nextSnap: number = snap;
-      if (dragOffset > 0 && snap < MAX_Y) {
-        nextSnap = snapPoints.find((point) => point > snap) || MAX_Y;
-      } else if (dragOffset < 0 && snap > MIN_Y) {
-        if (snap > MID_Y) {
-          nextSnap = MID_Y;
-        } else {
-          nextSnap = MIN_Y;
-        }
-      }
+      const nextSnap: number = getNextSnap();
       setSnap(nextSnap);
     }
     isHeader.current = false;
