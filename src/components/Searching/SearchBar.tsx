@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import search from '../../assets/search.svg';
 import useSearchStore from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
+import useDebounce from '../../hooks/useDebounce';
 
 const SearchBar: React.FC = () => {
   const { isFocused, setIsFocused, inputValue, setInputValue } =
     useSearchStore();
+
+  const debouncedInput = useDebounce(inputValue, 500);
+
+  // api로 보낼 검색어(inputValue)가 잘 debounced 되었는지 확인
+  useEffect(() => {
+    console.log(debouncedInput);
+  }, [debouncedInput]);
+
+  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   return (
     <div
@@ -25,7 +37,7 @@ const SearchBar: React.FC = () => {
             type='text'
             value={inputValue}
             spellCheck={false}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => onChangeInputValue(e)}
             placeholder='오늘은 어디서 시간을 보내나요?'
           />
         </div>
