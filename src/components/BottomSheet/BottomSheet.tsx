@@ -6,7 +6,7 @@ import { useBottomSheetStore } from '../../store/useBottomSheetStore';
 const Header: React.FC<{onPointerDown?: React.PointerEventHandler}> = ({onPointerDown}) => {
   return (
     <div 
-    className='w-full h-20 py-8 inline-flex flex-col justify-center items-center'
+    className='w-full h-20 py-8 inline-flex flex-col justify-center items-center bg-white absolute top-[-1px] z-100'
     onPointerDown={onPointerDown}>
       <div className='w-30 h-4 bg-gray-200 rounded-[10px]' />
     </div>
@@ -67,7 +67,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div
       ref={sheetRef}
-      className={`fixed bottom-0 left-0 w-full bg-white rounded-t-2xl z-50 ${isDragging ? '' : 'transition-all duration-300'} touch-none select-none pointer-events-auto`}
+      className={`fixed bottom-0 left-0 w-full bg-white rounded-t-2xl shadow-[0px_-1px_20px_0px_rgba(0,0,0,0.10)] z-50 ${isDragging ? '' : 'transition-all duration-300'} touch-none select-none pointer-events-auto relative`}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -78,7 +78,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* 드래그 핸들 */}
       <Header onPointerDown={() => isHeader.current = true} />
 
-      <div className={`h-full ${scrollableClass}`}>
+      <div className={`h-full pt-8 pb-50 ${scrollableClass}`}>
         {/* BottomSheet 내용 */}
         {children}
       </div>
