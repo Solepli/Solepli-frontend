@@ -8,6 +8,7 @@ import cultureFill from '../../../assets/category-icons/cultureFill.svg';
 import shopFill from '../../../assets/category-icons/shopFill.svg';
 import walkFill from '../../../assets/category-icons/walkFill.svg';
 import workFill from '../../../assets/category-icons/workFill.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface CategoryButtonProps {
   category: Category;
@@ -17,7 +18,7 @@ const Background: React.FC<CategoryButtonProps> = ({ category }) => {
   return (
     <div
       className='w-84 h-84 opacity-10 absolute top-0 left-0 rounded-[10px]'
-      style={{ backgroundColor: `var(--color-chip-${category.id})` }}></div>
+      style={{ backgroundColor: `var(--color-chip-main-${category.id})` }}></div>
   );
 };
 
@@ -32,15 +33,22 @@ const iconMap: Record<string, string> = {
   work:workFill,
 };
 
+
 const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
+  const navigate = useNavigate();
   const icon = iconMap[category.id];
+
+const handleClick = () =>{
+  navigate("list");
+}
+
   return (
-    <div className='relative w-84 h-84 flex justify-center items-center'>
+    <div className='relative w-84 h-84 flex justify-center items-center' onClick={handleClick}>
       <Background category={category} />
-      <div className='absolute top-6 right-6 w-6 h-6 rounded-full'style={{ backgroundColor: `var(--color-chip-${category.id})` }} ></div>
+      <div className='absolute top-6 right-6 w-6 h-6 rounded-full'style={{ backgroundColor: `var(--color-chip-main-${category.id})` }} ></div>
       <div>
         <img className='w-32 h-32' src={icon} alt={category.id}/>
-        <div className='text-center text-xs font-medium' style={{ color: `var(--color-chip-${category.id})` }}>{category.title}</div>
+        <div className='text-center text-xs font-medium' style={{ color: `var(--color-chip-main-${category.id})` }}>{category.title}</div>
       </div>
     </div>
   );
