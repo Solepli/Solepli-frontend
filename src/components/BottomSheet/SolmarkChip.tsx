@@ -11,7 +11,8 @@ interface SolmarkChipProps {
 const SolmarkChip: React.FC<SolmarkChipProps> = ({ label }) => {
   const [isSolmark, setIsSolmark] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleClick = (e:React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation() // 쏠마크칩 클릭 시 navigate 방지
     setIsSolmark((prev) => !prev);
   };
 
