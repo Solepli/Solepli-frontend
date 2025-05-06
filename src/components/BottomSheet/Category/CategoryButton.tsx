@@ -46,7 +46,7 @@ const handleClick = () =>{
     <div className='relative w-84 h-84 flex justify-center items-center' onClick={handleClick}>
       <Background category={category} />
       <div className='absolute top-6 right-6 w-6 h-6 rounded-full'style={{ backgroundColor: `var(--color-chip-main-${category.id})` }} ></div>
-      <div>
+      <div className='flex flex-col justify-center items-center'>
         <img className='w-32 h-32' src={icon} alt={category.id}/>
         <div className='text-center text-xs font-medium' style={{ color: `var(--color-chip-main-${category.id})` }}>{category.title}</div>
       </div>
