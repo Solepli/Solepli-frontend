@@ -40,6 +40,15 @@ const MapSheet: React.FC = () => {
         title: place.title,
       });
 
+      // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
+      // 유사한 함수 : setCenter, panTo
+      naver.maps.Event.addListener(marker, 'click', () => {
+        mapInstance.current?.morph(marker.getPosition(), 18, {
+          duration: 1000,
+          easing: 'easeOutCubic',
+        });
+      });
+
       return marker;
     });
 
@@ -53,6 +62,8 @@ const MapSheet: React.FC = () => {
         left: 50,
       });
     }
+
+    return () => naver.maps.Event.clearListeners(markers, 'click');
   }, []);
 
   return <div ref={mapElement} className='w-dvw h-dvh' />;
