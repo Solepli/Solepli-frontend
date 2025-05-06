@@ -23,8 +23,16 @@ const MapSheet: React.FC = () => {
     markers.current.forEach((m) => m.setMap(null));
     markers.current = [];
 
+    // 새로운 bounds 생성 (모든 마커를 포함하는 경계 박스)
+    const bounds = new naver.maps.LatLngBounds(
+      // 기본값
+      new naver.maps.LatLng(0, 0),
+      new naver.maps.LatLng(0, 0)
+    );
+
     markers.current = places.map((place) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
+      bounds.extend(position);
 
       const marker = new naver.maps.Marker({
         position: position,
@@ -34,7 +42,18 @@ const MapSheet: React.FC = () => {
 
       return marker;
     });
-  });
+
+    // 모든 마커를 포함하도록 지도 조정
+    if (markers.current.length > 0) {
+      mapInstance.current.fitBounds(bounds, {
+        // bounds의 여백(margin) 설정 옵션
+        top: 50,
+        right: 50,
+        bottom: 50,
+        left: 50,
+      });
+    }
+  }, []);
 
   return <div ref={mapElement} className='w-dvw h-dvh' />;
 };
