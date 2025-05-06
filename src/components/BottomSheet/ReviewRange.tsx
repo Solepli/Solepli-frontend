@@ -11,7 +11,7 @@ const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
     <div className='px-16 pb-4'>
       <div className='flex justify-between items-center'>
         <div>
-          <p className='text-xs text-gray-900 font-medium mb-2'>
+          <p className='text-xs text-primary-900 font-medium mb-2'>
             {recommend}% 추천
           </p>
 
@@ -26,7 +26,7 @@ const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
         {/* 별점 */}
         <div className='flex items-center pt-4'>
           <img src={star} alt='star' className='w-20 h-20' />
-          <p className='text-xs text-black font-medium'>{rating}</p>
+          <p className='text-xs text-primary-900 font-medium'>{rating}</p>
         </div>
       </div>
     </div>

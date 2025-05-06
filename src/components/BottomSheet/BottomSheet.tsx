@@ -9,7 +9,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({children}) => {
 
       {/* Header */}
       <div className='flex justify-center py-8 items-center'>
-        <div className='rounded-xl bg-gray-200 w-30 h-4'></div>
+        <div className='rounded-xl bg-primary-200 w-30 h-4'></div>
       </div>
 
       <div className='overflow-y-auto'>{children}</div>
