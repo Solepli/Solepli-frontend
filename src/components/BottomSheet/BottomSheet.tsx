@@ -29,6 +29,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (snap === MAX_Y && !isHeader.current) return; // MAX_Y일 때는 Header를 통해서만 드래그 가능
     if (dragStartY !== null) {
       const offset = dragStartY - e.clientY; //offset이 양수면 위로 드래그, 음수면 아래로 드래그
+      if(offset > 0 && snap === MAX_Y) return; // MAX_Y일 때는 위로 드래그 불가
       setDragOffset(offset);
     }
   };
@@ -67,7 +68,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div
       ref={sheetRef}
-      className={`fixed bottom-0 left-0 w-full bg-white rounded-t-2xl shadow-[0px_-1px_20px_0px_rgba(0,0,0,0.10)] z-50 ${isDragging ? '' : 'transition-all duration-300'} touch-none select-none pointer-events-auto relative`}
+      className={`fixed bottom-0 left-0 w-full bg-white rounded-t-2xl shadow-[0px_-1px_20px_0px_rgba(0,0,0,0.10)] z-50 ${isDragging ? '' : 'transition-all duration-300'} touch-none select-none pointer-events-auto`}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -78,7 +79,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* 드래그 핸들 */}
       <Header onPointerDown={() => isHeader.current = true} />
 
-      <div className={`h-full pt-8 pb-50 ${scrollableClass}`}>
+      <div className={`h-full pt-10 pb-50 ${scrollableClass}`}>
         {/* BottomSheet 내용 */}
         {children}
       </div>
