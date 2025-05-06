@@ -1,12 +1,15 @@
 import React from 'react';
 
 import search from '../../assets/search.svg';
+import useSearchStore from '../../store/searchStore';
 
 const SearchBar: React.FC = () => {
+  const { setIsFocused } = useSearchStore();
+
   return (
     <div
-      className='shadow-[0_2px_2px_0_rgba(18,18,18,0.1)]
-        h-[34px] flex-[1_0_0] flex items-center px-[8px] bg-white rounded-[12px]'>
+      className='shadow-[0_2px_2px_0_rgba(18,18,18,0.1)] h-[34px] flex-[1_0_0] flex items-center px-[8px] bg-white rounded-[12px]'
+      onClick={() => setIsFocused(true)}>
       <div className='flex-1 flex items-center justify-start gap-[4px]'>
         <img className='w-[24px] h-[24px]' src={search} />
         <div className='flex items-center gap-2'>
