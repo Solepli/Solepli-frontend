@@ -53,14 +53,21 @@ const MapSheet: React.FC = () => {
     });
 
     // 모든 마커를 포함하도록 지도 조정
+    // 유사한 함수 : fitBounds
     if (markers.current.length > 0) {
-      mapInstance.current.fitBounds(bounds, {
-        // bounds의 여백(margin) 설정 옵션
-        top: 50,
-        right: 50,
-        bottom: 50,
-        left: 50,
-      });
+      mapInstance.current.panToBounds(
+        bounds,
+        {
+          duration: 1000,
+          easing: 'easeOutCubic',
+        },
+        {
+          top: 50,
+          right: 50,
+          bottom: 50,
+          left: 50,
+        }
+      );
     }
 
     return () => naver.maps.Event.clearListeners(markers, 'click');
