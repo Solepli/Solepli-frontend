@@ -56,6 +56,8 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     setPlaces(places);
   });
 
+  const scrollableClass = snap === MAX_Y ? 'overflow-y-auto' : 'overflow-hidden';
+
   return (
     <div
       ref={sheetRef}
@@ -69,7 +71,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* 드래그 핸들 */}
       <Header />
 
-      <div className='h-full overflow-y-auto'>
+      <div className={`h-full ${scrollableClass}`}>
         {/* BottomSheet 내용 */}
         {children}
       </div>
