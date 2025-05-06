@@ -9,7 +9,7 @@ interface TagListProps{
 
 const TagList:React.FC<TagListProps> = ({tags, headerName, counts}) => {
   return (
-    <div className='flex gap-4 px-16 pt-2 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden'>
+    <div className='flex gap-4 px-16 pt-2 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan-x'>
       {headerName && <Tag name={headerName} header/>}
         {tags.map((tag, i) => {
           return <Tag name={tag} number={counts && counts[i]} />;
