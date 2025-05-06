@@ -24,7 +24,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
   }
 
   return (
-    <div className='border-b border-gray-100 pt-12' onClick={handleClick}>
+    <div className='border-b border-primary-100 pt-12' onClick={handleClick}>
       {/* content title */}
       <ContentTitle place={place} property='preview'/>
 
