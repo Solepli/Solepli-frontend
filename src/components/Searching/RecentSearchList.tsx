@@ -1,5 +1,5 @@
 import React from 'react';
-import { recentSearchText } from '../../recentSearchText';
+import { recentSearchText } from '../../recentSearchResults';
 import RecentSearch from './RecentSearch';
 
 const RecentSearchList: React.FC = () => {
