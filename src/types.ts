@@ -5,10 +5,15 @@ export type Category = {
 
 export type Place = {
   title: string;
-  address:string;
-  latitude:number;
-  longitude:number;
-  category:Category;
-  rating:number;
-  tags:string[];
+  address: string;
+  latitude: number;
+  longitude: number;
+  category: Category;
+  rating: number;
+  tags: string[];
+};
+
+export type Tag = {
+  id: string;
+  text: string;
 };
