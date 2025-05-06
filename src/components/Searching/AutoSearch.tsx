@@ -11,6 +11,7 @@ import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
 
 import { AutoSearchResults } from '../../types';
+import { formatDistance } from '../../utils/format';
 
 const iconMap: Record<string, string> = {
   food,
@@ -57,7 +58,7 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ autoSearchData }) => {
           {typeof autoSearchData.distance === 'number' && (
             <div className='flex items-center'>
               <div className="font-['Pretendard'] text-[12px] leading[125%] tracking-[-0.18px] text-center text-primary-400">
-                {autoSearchData.distance}
+                {formatDistance(autoSearchData.distance)}
               </div>
             </div>
           )}
