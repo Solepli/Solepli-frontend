@@ -10,11 +10,9 @@ const Solmap: React.FC = () => {
 
   return (
     <div className='h-full'>
-      {!isFocused && (
-        <div className='z-50 fixed top-0 inset-x-0'>
-          <SearchArea />
-        </div>
-      )}
+      <div className='z-100 fixed top-0 inset-x-0'>
+        <SearchArea />
+      </div>
 
       {isFocused && <SearchPanel />}
 
