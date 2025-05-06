@@ -1,20 +1,72 @@
-import React from 'react';
+// src/components/BottomSheet/BottomSheet.tsx
+import React, { useRef } from 'react';
+import { MAX_Y, MIN_Y, MID_Y, } from '../../constants';
+import { useBottomSheetStore } from '../../store/useBottomSheetStore';
 
-
-const BottomSheet: React.FC<{ children: React.ReactNode }> = ({children}) => {
-
-
+const Header: React.FC = () => {
   return (
-    <div className='w-full h-450 bg-white rounded-t-xl flex flex-col z-1 fixed bottom-0 pb-50 shadow-[0_-1px_20px_rgba(0,0,0,0.1)]'>
-
-      {/* Header */}
-      <div className='flex justify-center py-8 items-center'>
-        <div className='rounded-xl bg-gray-200 w-30 h-4'></div>
-      </div>
-
-      <div className='overflow-y-auto'>{children}</div>
+    <div className='w-full h-20 py-8 inline-flex flex-col justify-center items-center'>
+      <div className='w-30 h-4 bg-gray-200 rounded-[10px]' />
     </div>
   );
 };
 
+const snapPoints = [MIN_Y, MID_Y, MAX_Y]; // 스냅 포인트 설정
+
+const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const { snap, setSnap } = useBottomSheetStore();
+  const [dragStartY, setDragStartY] = React.useState<number | null>(null);
+  const [dragOffset, setDragOffset] = React.useState(0);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    setDragStartY(e.clientY);
+    sheetRef.current?.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (dragStartY !== null) {
+      const offset = dragStartY - e.clientY; //offset이 양수면 위로 드래그, 음수면 아래로 드래그
+      setDragOffset(offset);
+    }
+  };
+
+  const handlePointerUp = () => {
+    if (dragStartY !== null) {
+      let nextSnap: number = snap;
+      if (dragOffset > 0 && snap < MAX_Y) {
+        nextSnap = snapPoints.find((point) => point > snap) || MAX_Y;
+      } else if (dragOffset < 0 && snap > MIN_Y) {
+        if (snap > MID_Y) {
+          nextSnap = MID_Y;
+        } else {
+          nextSnap = MIN_Y;
+        }
+      }
+      setSnap(nextSnap);
+    }
+    setDragStartY(null);
+    setDragOffset(0);
+  };
+
+  return (
+    <div
+      ref={sheetRef}
+      className='fixed bottom-0 left-0 w-full bg-white rounded-t-2xl z-50 transition-all duration-300 touch-none select-none'
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      style={{
+        height: `${snap}px`,
+      }}>
+      {/* 드래그 핸들 */}
+      <Header />
+
+      <div className='h-full overflow-y-auto'>
+        {/* BottomSheet 내용 */}
+        {children}
+      </div>
+    </div>
+  );
+};
 export default BottomSheet;
