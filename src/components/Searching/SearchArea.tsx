@@ -4,12 +4,12 @@ import XButton from '../XButton';
 import useSearchStore from '../../store/searchStore';
 
 const SearchArea: React.FC = () => {
-  const { isFocused } = useSearchStore();
+  const { isFocused, setIsFocused } = useSearchStore();
 
   return (
     <div className='flex flex-row items-center justify-start gap-8 pt-[12px] px-[16px]'>
       <SearchBar />
-      {isFocused && <XButton />}
+      {isFocused && <XButton onClickFunc={() => setIsFocused(false)} />}
     </div>
   );
 };
