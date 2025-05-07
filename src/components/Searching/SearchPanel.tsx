@@ -7,7 +7,7 @@ const SearchPanel: React.FC = () => {
   const { inputValue } = useSearchStore();
 
   return (
-    <div className='z-70 min-h-full bg-[#fff] pt-[46px]'>
+    <div className='fixed top-0 left-0 w-full z-70 min-h-full bg-[#fff] pt-[46px]'>
       {!inputValue && <RecentSearchList />}
       {inputValue && <AutoSearchList />}
     </div>
