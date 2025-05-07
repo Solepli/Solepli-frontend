@@ -4,6 +4,7 @@ import TagList from './TagList';
 import EmojiGoodSmall from '../../assets/emojiGoodSmall.svg?react';
 import EmojiBadSmall from '../../assets/emojiBadSmall.svg?react';
 import Star from '../../assets/star.svg?react';
+import ExpandableText from './Review/ExpandableText';
 
 const Review = ({ review }: { review: ReviewProps }) => {
   return (
@@ -41,10 +42,7 @@ const Review = ({ review }: { review: ReviewProps }) => {
         </div>
       </div>
       {/* 리뷰 내용 */}
-      <div
-        className='w-full px-16 pb-12 text-primary-900 text-xs font-normal'>
-        {review.content}
-      </div>
+      <ExpandableText text={review.content} maxLines={3} />
       <TagList tags={review.tags} />
       {review.images.length > 0 && <ReviewPhotos images={review.images} />}
     </div>
