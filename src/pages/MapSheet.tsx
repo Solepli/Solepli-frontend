@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { places } from '../places';
 
 const MapSheet: React.FC = () => {
@@ -78,9 +78,35 @@ const MapSheet: React.FC = () => {
     });
   };
 
+  // 임시 버튼: 표시된 마커 기준으로 지도 이동
+  const moveToMarkers = useCallback(() => {
+    if (!mapInstance.current || !boundsRef.current) return;
+
+    mapInstance.current.panToBounds(
+      boundsRef.current,
+      {
+        duration: 1000,
+        easing: 'easeOutCubic',
+      },
+      {
+        top: 30,
+        right: 30,
+        bottom: 200,
+        left: 30,
+      }
+    );
+  }, []);
+
   return (
     <div className='relative w-dvw h-dvh'>
       <div ref={mapElement} className='w-full h-full' />
+
+      {/* 임시 버튼: 표시된 마커 기준으로 */}
+      <button
+        onClick={moveToMarkers}
+        className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
+        표시된 마커로 지도 이동
+      </button>
     </div>
   );
 };
