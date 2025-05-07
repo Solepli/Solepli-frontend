@@ -7,7 +7,7 @@ interface ReviewPhotosProps {
 const ReviewPhotos: React.FC<ReviewPhotosProps> = ({ images }) => {
 
   return (
-    <div className='px-16 pb-20 gap-2 flex overflow-x-scroll border-b border-primary-100'>
+    <div className='px-16 pb-20 gap-2 flex overflow-x-scroll border-b border-primary-100 touch-pan-x'>
       {images.map((image, i) => {
         return (
           <img
