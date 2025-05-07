@@ -97,6 +97,24 @@ const MapSheet: React.FC = () => {
     );
   }, []);
 
+  // 임시 버튼: 현재 위치로 지도 이동
+  const moveToCurrentLocation = useCallback(() => {
+    if (!mapInstance.current) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const currentLocation = new naver.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        mapInstance.current?.panTo(currentLocation);
+      },
+      () => {
+        mapInstance.current?.panTo(defaultCenter);
+      }
+    );
+  }, []);
+
   return (
     <div className='relative w-dvw h-dvh'>
       <div ref={mapElement} className='w-full h-full' />
@@ -106,6 +124,13 @@ const MapSheet: React.FC = () => {
         onClick={moveToMarkers}
         className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
         표시된 마커로 지도 이동
+      </button>
+
+      {/* 임시 버튼: 현재 위치로 */}
+      <button
+        onClick={moveToCurrentLocation}
+        className='absolute right-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
+        현재 위치로
       </button>
     </div>
   );
