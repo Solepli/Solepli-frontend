@@ -17,3 +17,10 @@ export type Tag = {
   id: string;
   text: string;
 };
+
+export type AutoSearchResults = {
+  title: string;
+  address: string | null;
+  category: { title: string; id: string };
+  distance: number | null;
+};
