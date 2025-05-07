@@ -1,22 +1,26 @@
-import React from 'react'
-import BottomSheet from '../components/BottomSheet/BottomSheet'
+import React from 'react';
+import BottomSheet from '../components/BottomSheet/BottomSheet';
 import { Outlet } from 'react-router-dom';
+import SearchArea from '../components/Searching/SearchArea';
+import SearchPanel from '../components/Searching/SearchPanel';
+import useSearchStore from '../store/searchStore';
 
-const Solmap:React.FC = () => {
+const Solmap: React.FC = () => {
+  const { isFocused } = useSearchStore();
+
   return (
-    <div>
-        <div>
-            map
-        </div>
+    <div className='h-full'>
+      <div className='z-100 fixed top-0 inset-x-0'>
+        <SearchArea />
+      </div>
 
-        <div className='absolute bottom-0'>
+      {isFocused && <SearchPanel />}
 
-        <BottomSheet>
-            <Outlet />
-        </BottomSheet>
-        </div>
+      <BottomSheet>
+        <Outlet />
+      </BottomSheet>
     </div>
-  )
-}
+  );
+};
 
-export default Solmap
+export default Solmap;
