@@ -1,11 +1,10 @@
 import React from 'react';
 import PreviewContent from './PreviewContent';
-import { places } from '../../../places';
 import MapChipList from '../Category/MapChipList';
+import { usePlaceStore } from '../../../store/placeStore';
 
 const PreviewContentList: React.FC = () => {
-
-const filteredPlaces = places;
+const filteredPlaces = usePlaceStore((state)=>state.filteredPlaces);;
 
   return (
     <div>
