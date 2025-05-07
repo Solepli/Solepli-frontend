@@ -1,10 +1,10 @@
-import { ReviewProps } from '../../types';
-import ReviewPhotos from './ReviewPhotos';
-import TagList from './TagList';
-import EmojiGoodSmall from '../../assets/emojiGoodSmall.svg?react';
-import EmojiBadSmall from '../../assets/emojiBadSmall.svg?react';
-import Star from '../../assets/star.svg?react';
-import ExpandableText from './Review/ExpandableText';
+import { ReviewProps } from '../../../types';
+import ReviewPhotos from '../ReviewPhotos';
+import TagList from '../TagList';
+import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
+import EmojiBadSmall from '../../../assets/emojiBadSmall.svg?react';
+import Star from '../../../assets/star.svg?react';
+import ExpandableText from './ExpandableText';
 
 const Review = ({ review }: { review: ReviewProps }) => {
   return (
