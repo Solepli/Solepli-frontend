@@ -1,12 +1,20 @@
 import { Route, Routes } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
+import Solmap from '../pages/Solmap';
+import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
+import PreviewContentList from '../components/BottomSheet/Preview/PreviewContentList';
+import DetailContent from '../components/BottomSheet/DetailContent';
 
 const AppRouter = () => {
   return (
     <Routes>
       <Route path='/' element={<AppLayout />}>
         <Route path='sollect' element={<></>} />
-        <Route path='map' element={<></>} />
+        <Route path='map' element={<Solmap />}>
+          <Route index element={<CategoryButtonList />} />
+          <Route path='list' element={<PreviewContentList />} />
+          <Route path='detail' element={<DetailContent />} />
+        </Route>
         <Route path='mark' element={<></>} />
         <Route path='profile' element={<></>} />
       </Route>

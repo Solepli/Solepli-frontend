@@ -44,6 +44,7 @@
   --color-green-900: #1d3728;
   --color-green-950: #101e17;
 
+
   --color-primary-50: #f6f7f9;
   --color-primary-100: #eceef2;
   --color-primary-200: #d5d8e2;
@@ -82,3 +83,4 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
