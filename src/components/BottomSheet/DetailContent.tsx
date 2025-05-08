@@ -4,6 +4,7 @@ import { places } from '../../places';
 import ReviewRange from './ReviewRange';
 import TagList from './TagList';
 import ReviewPhotos from './ReviewPhotos';
+import ReviewList from './Review/ReviewList';
 
 const DetailContent: React.FC = () => {
   const place = places[0];
@@ -34,6 +35,9 @@ const DetailContent: React.FC = () => {
 
       {/* ReviewPhotoList */}
       <ReviewPhotos images={images} />
+
+      {/* ReviewList */}
+      <ReviewList placeId={place.title} />
     </div>
   );
 };

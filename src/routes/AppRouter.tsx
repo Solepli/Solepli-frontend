@@ -4,6 +4,7 @@ import Solmap from '../pages/Solmap';
 import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
 import PreviewContentList from '../components/BottomSheet/Preview/PreviewContentList';
 import DetailContent from '../components/BottomSheet/DetailContent';
+import ReviewsPage from '../pages/ReviewsPage';
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
           <Route index element={<CategoryButtonList />} />
           <Route path='list' element={<PreviewContentList />} />
           <Route path='detail' element={<DetailContent />} />
+          <Route path='reviews/:placeId' element={<ReviewsPage />} />
         </Route>
         <Route path='mark' element={<></>} />
         <Route path='profile' element={<></>} />
