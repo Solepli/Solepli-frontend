@@ -3,6 +3,16 @@ export type Category = {
   id: string;
 };
 
+// export type oPlace = {
+//   title: string;
+//   address: string;
+//   latitude: number;
+//   longitude: number;
+//   category: Category;
+//   rating: number;
+//   tags: string[];
+// };
+
 export type Place = {
   title: string;
   address: string;
@@ -10,8 +20,16 @@ export type Place = {
   longitude: number;
   category: Category;
   rating: number;
-  tags: string[];
+  tags: Tag[];
+  hours: Hours[];
 };
+
+type Hours = {
+  day: number;
+  startTime: number;
+  endTime: number;
+};
+
 
 export type Tag = {
   id: string;
