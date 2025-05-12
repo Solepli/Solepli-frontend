@@ -9,6 +9,7 @@ import shopFill from '../../../assets/category-icons/shopFill.svg';
 import walkFill from '../../../assets/category-icons/walkFill.svg';
 import workFill from '../../../assets/category-icons/workFill.svg';
 import { useNavigate } from 'react-router-dom';
+import { usePlaceStore } from '../../../store/placeStore';
 
 interface CategoryButtonProps {
   category: Category;
@@ -38,9 +39,14 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
   const navigate = useNavigate();
   const icon = iconMap[category.id];
 
+    const { setCategory } = usePlaceStore();
+
 const handleClick = () =>{
+  setCategory(category.id);
   navigate("list");
 }
+
+
 
   return (
     <div className='relative w-84 h-84 flex justify-center items-center' onClick={handleClick}>

@@ -24,3 +24,15 @@ export type AutoSearchResults = {
   category: { title: string; id: string };
   distance: number | null;
 };
+
+export interface ReviewProps {
+  id: number;
+  username: string;
+  profileImage: string;
+  date: string;
+  rating: number;
+  emoji: 'good' | 'bad';
+  content: string;
+  images: string[];
+  tags: string[];
+}

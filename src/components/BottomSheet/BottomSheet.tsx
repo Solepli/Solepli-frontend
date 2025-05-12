@@ -98,9 +98,8 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     setDragOffset(0);
   };
   useEffect(()=>{
-    console.log(places);
     setPlaces(places);
-  });
+  },[]);
 
   const scrollableClass =
     snap === MAX && !isCategory ? 'overflow-y-auto' : 'overflow-hidden';
