@@ -20,7 +20,7 @@ export type Place = {
   longitude: number;
   category: Category;
   rating: number;
-  tags: Tag[];
+  tags: TagType[];
   hours: Hours[];
 };
 
@@ -31,7 +31,7 @@ type Hours = {
 };
 
 
-export type Tag = {
+export type TagType = {
   id: string;
   text: string;
 };
