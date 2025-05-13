@@ -1,22 +1,12 @@
-import { ReviewProps, TagType } from '../../../types';
+import { ReviewType } from '../../../types';
 import ReviewPhotos from '../ReviewPhotos';
 import TagList from '../TagList';
 import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
 import EmojiBadSmall from '../../../assets/emojiBadSmall.svg?react';
 import Star from '../../../assets/star.svg?react';
 import ExpandableText from './ExpandableText';
-import { useState } from 'react';
 
-const Review = ({ review }: { review: ReviewProps }) => {
-  // TagType 쓰려면 ReviewProps에서도 TagType으로 바꿔야해서 일단 직접 바꿔두기.
-  const [tags, setTags] = useState<TagType[]>(
-    review.tags.map((tag, i) => ({
-      id: i.toString(),
-      text: tag,
-    }))
-  );
-
-
+const Review = ({ review }: { review: ReviewType }) => {
   return (
     <div className='py-16'>
       <div className='px-16 pb-12 flex items-center justify-between'>
@@ -54,7 +44,7 @@ const Review = ({ review }: { review: ReviewProps }) => {
       {/* 리뷰 내용 */}
       <ExpandableText text={review.content} maxLines={3} />
       {/* review.tags 에서 tags로 잠시 수정 */}
-      <TagList tags={tags} />
+      <TagList tags={review.tags} />
       {review.images.length > 0 && <ReviewPhotos images={review.images} />}
     </div>
   );

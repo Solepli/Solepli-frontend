@@ -43,7 +43,7 @@ export type AutoSearchResults = {
   distance: number | null;
 };
 
-export interface ReviewProps {
+export type ReviewType = {
   id: number;
   username: string;
   profileImage: string;
@@ -52,5 +52,5 @@ export interface ReviewProps {
   emoji: 'good' | 'bad';
   content: string;
   images: string[];
-  tags: string[];
+  tags: TagType[];
 }

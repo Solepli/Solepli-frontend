@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchReviews } from '../../../api/reviewApi';
 import Review from './Review';
-import { ReviewProps } from '../../../types';
+import { ReviewType } from '../../../types';
 import ShowAllReviewsButton from './ShowAllReviewsButton';
 import { useNavigate } from 'react-router-dom';
 import ReviewEmoji from '../ReviewWrite/ReviewEmoji';
@@ -13,7 +13,7 @@ interface ReviewListProps {
 }
 
 const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
-  const { data, isLoading, error } = useQuery<ReviewProps[]>({
+  const { data, isLoading, error } = useQuery<ReviewType[]>({
     queryKey: ['reviews', placeId],
     queryFn: () => fetchReviews(placeId),
   });
@@ -44,7 +44,7 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
         </div>
       ) : (
         <>
-          {reviewsToShow?.map((review: ReviewProps) => (
+          {reviewsToShow?.map((review: ReviewType) => (
             <Review review={review} key={review.id} />
           ))}
           {!showAll && (
