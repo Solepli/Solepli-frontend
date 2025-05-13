@@ -1,10 +1,10 @@
 import React from 'react';
 import ReviewTag from './ReviewTag';
-import { Tag } from '../../../types';
+import { TagType } from '../../../types';
 
 interface ReviewTagProps {
   title: string;
-  tag: Tag[];
+  tag: TagType[];
 }
 
 const ReviewTagList: React.FC<ReviewTagProps> = ({ title, tag }) => {

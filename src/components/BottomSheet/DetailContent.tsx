@@ -8,8 +8,16 @@ import ReviewList from './Review/ReviewList';
 
 const DetailContent: React.FC = () => {
   const place = places[0];
-  const tags1 = ['조용한', '편안한', '고급스러운'];
-  const tags2 = ['1인 좌석이 있는', '1인 메뉴가 있는', '콘센트가 많은'];
+  const tags1 = [
+      { id: 'quiet', text: '조용한' },
+      { id: 'lively', text: '시끌벅적한' },
+      { id: 'cozy', text: '편안한' },
+    ];
+  const tags2 = [
+      { id: 'luxurious', text: '고급스러운' },
+      { id: 'unique', text: '색다른' },
+      { id: 'hip', text: '힙한' },
+    ];
   const counts = [2, 3, 1];
 
   const images = [

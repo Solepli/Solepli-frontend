@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { usePlaceStore } from '../../store/placeStore';
-import { places } from '../../places';
+// import { places } from '../../places';
 import {
   MAX_Y,
   MIN_Y,
@@ -28,8 +27,7 @@ const Header: React.FC<{
 };
 
 const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const setPlaces = usePlaceStore((state)=>state.setPlaces);
-    const sheetRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
   const { snap, setSnap } = useBottomSheetStore();
   const [dragStartY, setDragStartY] = React.useState<number | null>(null);
   const [dragOffset, setDragOffset] = React.useState(0);
@@ -97,9 +95,6 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     setDragStartY(null);
     setDragOffset(0);
   };
-  useEffect(()=>{
-    setPlaces(places);
-  },[]);
 
   const scrollableClass =
     snap === MAX && !isCategory ? 'overflow-y-auto' : 'overflow-hidden';
