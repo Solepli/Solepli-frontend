@@ -17,6 +17,7 @@ const CurrentLocationButton: React.FC<CurrentLocationButtonProps> = ({
         position: 'absolute',
         bottom: `${(snap || 0) + 6}px`,
         display: isVisible ? 'flex' : 'none',
+        transition: 'bottom 0.2s ease-in-out',
       }}
       onClick={handleClick}>
       <img src={currentLocation} alt='currentLocation' className='w-24 h-24' />
