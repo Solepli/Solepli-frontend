@@ -69,7 +69,12 @@ const MapSheet: React.FC = () => {
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
       // 유사한 함수 : setCenter, panTo
       naver.maps.Event.addListener(marker, 'click', () => {
-        mapInstance.current?.morph(marker.getPosition(), 18, {
+        // 마커 위치 중심에서 살짝위로 보정
+        const adjustedPosition = new naver.maps.LatLng(
+          position.lat() - 0.0003,
+          position.lng()
+        );
+        mapInstance.current?.morph(adjustedPosition, 18, {
           duration: 1000,
           easing: 'easeOutCubic',
         });
