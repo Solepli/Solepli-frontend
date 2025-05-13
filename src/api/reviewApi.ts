@@ -20,11 +20,11 @@ const mockReviews: ReviewType[] = [
   혼자 온 사람들도 많아서 눈치 안 보고 오래 있을 수 있었어요 앞으로도…`,
     images: [],
     tags: [
-      '조용한',
-      '고급스러운',
-      '자연친화적인',
-      '1인 좌석이 있는',
-      '1인 메뉴가 있는',
+      { id: 'quiet', text: '조용한' },
+      { id: 'luxurious', text: '고급스러운' },
+      { id: 'nature-friendly', text: '자연친화적인' },
+      { id: 'single-seat', text: '1인 좌석이 있는' },
+      { id: 'single-menu', text: '1인 메뉴가 있는' },
     ],
   },
   {
@@ -43,11 +43,11 @@ const mockReviews: ReviewType[] = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
     tags: [
-      '조용한',
-      '고급스러운',
-      '1인 좌석이 있는',
-      '1인 메뉴가 있는',
-      '태그 없음',
+      { id: 'quiet', text: '조용한' },
+      { id: 'luxurious', text: '고급스러운' },
+      { id: 'single-seat', text: '1인 좌석이 있는' },
+      { id: 'single-menu', text: '1인 메뉴가 있는' },
+      { id: 'no-tag', text: '태그 없음' },
     ],
   },
   {
@@ -59,7 +59,12 @@ const mockReviews: ReviewType[] = [
     emoji: 'bad',
     content: '',
     images: [],
-    tags: ['조용한', '고급스러운', '트렌디한', '태그 없음'],
+    tags: [
+      { id: 'quiet', text: '조용한' },
+      { id: 'luxurious', text: '고급스러운' },
+      { id: 'trendy', text: '트렌디한' },
+      { id: 'no-tag', text: '태그 없음' },
+    ],
   },
   {
     id: 4,
@@ -73,7 +78,11 @@ const mockReviews: ReviewType[] = [
       'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
-    tags: ['조용한', '자연친화적인', '1인 좌석이 있는'],
+    tags: [
+      { id: 'quiet', text: '조용한' },
+      { id: 'nature-friendly', text: '자연친화적인' },
+      { id: 'single-seat', text: '1인 좌석이 있는' },
+    ],
   },
   {
     id: 5,
@@ -86,7 +95,10 @@ const mockReviews: ReviewType[] = [
     images: [
       'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
     ],
-    tags: ['조용한', '고급스러운', '태그 없음'],
+    tags: [
+      { id: 'quiet', text: '조용한' },
+      { id: 'luxurious', text: '고급스러운' },
+    ],
   },
   {
     id: 6,
@@ -102,7 +114,11 @@ const mockReviews: ReviewType[] = [
       'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
-    tags: ['조용한', '작업하기 좋은', '1인 메뉴가 있는'],
+    tags: [
+      { id: 'quiet', text: '조용한' },
+      { id: 'good-for-work', text: '작업하기 좋은' },
+      { id: 'single-menu', text: '1인 메뉴가 있는' },
+    ],
   },
   {
     id: 7,
@@ -113,7 +129,11 @@ const mockReviews: ReviewType[] = [
     emoji: 'good',
     content: `완전 제 취향의 카페였어요. 음악도 잔잔하고 인테리어도 깔끔!`,
     images: [],
-    tags: ['조용한', '고급스러운', '트렌디한'],
+    tags: [
+      { id: 'quiet', text: '조용한' },
+      { id: 'luxurious', text: '고급스러운' },
+      { id: 'trendy', text: '트렌디한' },
+    ],
   },
   {
     id: 8,
@@ -128,6 +148,10 @@ const mockReviews: ReviewType[] = [
       'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
-    tags: ['트렌디한', '사람이 많은', '태그 없음'],
+    tags: [
+      { id: 'trendy', text: '트렌디한' },
+      { id: 'crowded', text: '사람이 많은' },
+      { id: 'no-tag', text: '태그 없음' },
+    ],
   },
 ];
