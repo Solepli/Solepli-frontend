@@ -1,4 +1,4 @@
-import { ReviewProps } from '../types';
+import { ReviewType } from '../types';
 
 export const fetchReviews = async (placeId: string) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -7,7 +7,7 @@ export const fetchReviews = async (placeId: string) => {
   return mockReviews;
 };
 
-const mockReviews: ReviewProps[] = [
+const mockReviews: ReviewType[] = [
   {
     id: 1,
     username: 'eoksdjeos',

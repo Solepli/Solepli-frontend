@@ -1,4 +1,4 @@
-import { ReviewProps, TagType } from '../../../types';
+import { ReviewType, TagType } from '../../../types';
 import ReviewPhotos from '../ReviewPhotos';
 import TagList from '../TagList';
 import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
@@ -7,7 +7,7 @@ import Star from '../../../assets/star.svg?react';
 import ExpandableText from './ExpandableText';
 import { useState } from 'react';
 
-const Review = ({ review }: { review: ReviewProps }) => {
+const Review = ({ review }: { review: ReviewType }) => {
   // TagType 쓰려면 ReviewProps에서도 TagType으로 바꿔야해서 일단 직접 바꿔두기.
   const [tags, setTags] = useState<TagType[]>(
     review.tags.map((tag, i) => ({
