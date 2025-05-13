@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PreviewCotentEmpty: React.FC = () => {
+const PreviewContentEmpty: React.FC = () => {
   return (
     <div>
       <div className='flex py-80 flex-col items-start'>
@@ -22,4 +22,4 @@ const PreviewCotentEmpty: React.FC = () => {
   );
 };
 
-export default PreviewCotentEmpty;
+export default PreviewContentEmpty;
