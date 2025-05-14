@@ -20,7 +20,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
   ];
 
   const handleClick = ()=>{
-    navigate('/map/detail');
+    navigate('/map/detail', { state: { from: 'preview' } });
   }
 
   return (
