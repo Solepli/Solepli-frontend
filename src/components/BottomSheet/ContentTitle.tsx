@@ -4,7 +4,7 @@ import { Place } from '../../types';
 import location from '../../assets/location.svg';
 import clock from '../../assets/clock.svg';
 import share from '../../assets/share.svg';
-import xButton from '../../assets/xButton.svg';
+import XButton from '../XButton';
 
 interface ContentTitleProps {
   place: Place;
@@ -46,9 +46,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
             <div className={`${buttonStyle} border border-primary-400`}>
               <img src={share} alt='share' />
             </div>
-            <div className={`${buttonStyle} bg-primary-100`}>
-              <img src={xButton} alt='x-button' />
-            </div>
+            <XButton onClickFunc={()=>{}} detail/>
           </div>
         )}
       </div>
