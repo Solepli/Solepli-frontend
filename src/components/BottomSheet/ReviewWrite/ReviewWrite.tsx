@@ -8,10 +8,23 @@ import { TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
 import XButton from '../../XButton';
 import { useNavigate, } from 'react-router-dom';
+import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import { useShallow } from 'zustand/shallow';
 
 const ReviewWrite: React.FC = () => {
   // const { placeId } = useParams();
   const navigate = useNavigate();
+
+  //리렌더링을 방지하기 위해 useShallow 사용
+  const { moodTags, setMoodTags } = useReviewWriteStore(useShallow((state) => ({
+    moodTags: state.moodTags,
+    setMoodTags: state.setMoodTags,
+  })));
+
+  const { singleTags, setSingleTags } = useReviewWriteStore(useShallow((state) => ({
+    singleTags: state.singleTags,
+    setSingleTags: state.setSingleTags,
+  })));
 
   const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
@@ -54,10 +67,10 @@ const ReviewWrite: React.FC = () => {
 
       <div className='flex flex-col pb-32 border-gray-100 border-[0_0_1px]'>
         {/* 분위기 태그 */}
-        <ReviewTagList title={'분위기'} tag={mood} />
+        <ReviewTagList title={'분위기'} tag={mood} selectedTags={moodTags} setSelectedTags={setMoodTags} />
 
         {/* 분위기 태그 */}
-        <ReviewTagList title={'1인 이용'} tag={single} />
+        <ReviewTagList title={'1인 이용'} tag={single} selectedTags={singleTags} setSelectedTags={setSingleTags}/>
       </div>
 
       {/* 리뷰 글 작성 */}
