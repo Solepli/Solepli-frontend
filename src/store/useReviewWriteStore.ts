@@ -15,8 +15,8 @@ interface ReviewWriteState {
   singleTags: TagType[];
   setSingleTags: (tags: TagType[]) => void;
 
-  content: string;
-  setContent: (value: string) => void;
+  text: string;
+  setText: (value: string) => void;
 
   reset: () => void;
 }
@@ -34,8 +34,8 @@ const useReviewWriteStore = create<ReviewWriteState>((set) => ({
   singleTags: [],
   setSingleTags: (tags) => set({ singleTags: tags }),
 
-  content: '',
-  setContent: (value) => set({ content: value }),
+  text: '',
+  setText: (value) => set({ text: value }),
 
   reset: () =>
     set({
@@ -43,7 +43,7 @@ const useReviewWriteStore = create<ReviewWriteState>((set) => ({
       rating: 0,
       moodTags: [],
       singleTags: [],
-      content: '',
+      text: '',
     }),
 }));
 

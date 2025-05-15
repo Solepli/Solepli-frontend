@@ -1,19 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect, } from 'react';
 
 import photo from '../../../assets/photo.svg';
+import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import { useShallow } from 'zustand/shallow';
 
 const ReviewInput: React.FC = () => {
-  const [text, setText] = useState<string>('');
+  const { text, setText } = useReviewWriteStore(useShallow((state) => ({
+    text: state.text,
+    setText: state.setText,
+  })));
+
+  const { reset } = useReviewWriteStore(useShallow((state) => ({
+    reset: state.reset,
+  })));
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= 500) {
       setText(e.target.value);
     }
-  };
-
-  const handleTextSubmit = () => {
-    setText('');
   };
 
   useEffect(() => {
@@ -27,10 +33,13 @@ const ReviewInput: React.FC = () => {
   return (
     <>
       <div className='self-stretch flex flex-col items-center justify-center pt-32 px-16 pb-4'>
-        <div className='self-stretch flex items-center justify-center pb-12'>
-          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-[500] text-primary-900 whitespace-nowrap">
+        <div className='self-stretch flex items-center justify-center pb-12 gap-3'>
+          <span className="text-sm font-medium leading-none tracking-[-0.35px] text-primary-900 whitespace-nowrap">
             어떤 점이 좋았나요?
-          </div>
+          </span>
+          <span className='text-primary-500 text-[10px] font-normal leading-3 relative top-[1px]'>
+            (선택)
+          </span>
         </div>
 
         <div className='self-stretch flex flex-col gap-10 items-start justify-start'>
@@ -74,7 +83,7 @@ const ReviewInput: React.FC = () => {
       <div className='self-stretch h-34 flex items-center justify-end px-20'>
         <button
           disabled={text.length === 0}
-          onClick={handleTextSubmit}
+          onClick={reset}
           className='flex items-center justify-center py-10 px-14 bg-primary-700 rounded-[8px]'>
           <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-[500] text-white whitespace-nowrap">
             리뷰 등록
