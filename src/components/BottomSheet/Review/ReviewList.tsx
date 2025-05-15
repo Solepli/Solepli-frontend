@@ -33,7 +33,9 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
       ) : (
         <div className='h-40 border-t border-primary-100' />
       )}
-      <ReviewEmoji />
+      <div onClick={() => navigate(`/map/review-write/${placeId}`)}>
+        <ReviewEmoji />
+      </div>
 
       {reviewsToShow && reviewsToShow.length === 0 ? (
         <div className='w-full h-40 pt-50 flex justify-center items-center'>

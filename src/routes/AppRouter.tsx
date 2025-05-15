@@ -6,6 +6,7 @@ import PreviewContentList from '../components/BottomSheet/Preview/PreviewContent
 import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
+import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
 
 const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ const AppRouter = () => {
           <Route path='not-found' element={<PreviewContentEmpty />} />
           <Route path='detail/:placeId' element={<DetailContent />} />
           <Route path='reviews/:placeId' element={<ReviewsPage />} />
+          <Route path='review-write/:placeId' element={<ReviewWrite />} />
         </Route>
         <Route path='mark' element={<></>} />
         <Route path='profile' element={<></>} />
