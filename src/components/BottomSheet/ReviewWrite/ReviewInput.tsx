@@ -28,7 +28,7 @@ const ReviewInput: React.FC = () => {
     <>
       <div className='self-stretch flex flex-col items-center justify-center pt-32 px-16 pb-4'>
         <div className='self-stretch flex items-center justify-center pb-12'>
-          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-['Pretendard'] font-[500] text-primary-900 whitespace-nowrap">
+          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-[500] text-primary-900 whitespace-nowrap">
             어떤 점이 좋았나요?
           </div>
         </div>
@@ -44,15 +44,15 @@ const ReviewInput: React.FC = () => {
                 placeholder=''
                 rows={5}
                 className="focus:outline-none focus:ring-0 resize-none 
-                flex-1 text-[12px] leading-[120%] tracking-[-0.18px] font-['Pretendard'] text-primary-900"
+                flex-1 text-[12px] leading-[120%] tracking-[-0.18px] text-primary-900"
               />
             </div>
 
             <div className='self-stretch flex flex-row items-center justify-end pt-[6px]'>
-              <div className="text-[12px] leading-[120%] tracking-[-0.18px] font-['Pretendard'] font-[500] text-gray2-900 text-right whitespace-nowrap">
+              <div className="text-[12px] leading-[120%] tracking-[-0.18px] font-[500] text-gray2-900 text-right whitespace-nowrap">
                 {text.length}
               </div>
-              <div className="text-[10px] leading-[120%] font-['Pretendard'] text-gray2-600 text-right whitespace-nowrap">
+              <div className="text-[10px] leading-[120%] text-gray2-600 text-right whitespace-nowrap">
                 /500
               </div>
             </div>
@@ -65,7 +65,7 @@ const ReviewInput: React.FC = () => {
           <div className='flex justify-center items-start w-[24px] h-[24px] p-4'>
             <img width='16px' height='16px' src={photo} />
           </div>
-          <button className="text-[12px] leading-[120%] tracking-[-0.18px] font-['Pretendard'] text-primary-500 whitespace-nowrap">
+          <button className="text-[12px] leading-[120%] tracking-[-0.18px] text-primary-500 whitespace-nowrap">
             사진 추가하기
           </button>
         </div>
@@ -76,7 +76,7 @@ const ReviewInput: React.FC = () => {
           disabled={text.length === 0}
           onClick={handleTextSubmit}
           className='flex items-center justify-center py-10 px-14 bg-primary-700 rounded-[8px]'>
-          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-['Pretendard'] font-[500] text-white whitespace-nowrap">
+          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-[500] text-white whitespace-nowrap">
             리뷰 등록
           </div>
         </button>
