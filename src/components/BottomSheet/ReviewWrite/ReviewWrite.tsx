@@ -2,13 +2,17 @@ import React from 'react';
 
 import ReviewEmoji from './ReviewEmoji';
 
-import xButton from '../../../assets/xButton.svg';
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
 import { TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
+import XButton from '../../XButton';
+import { useNavigate, } from 'react-router-dom';
 
 const ReviewWrite: React.FC = () => {
+  // const { placeId } = useParams();
+  const navigate = useNavigate();
+
   const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
     { id: 'lively', text: '시끌벅적한' },
@@ -37,9 +41,9 @@ const ReviewWrite: React.FC = () => {
     <div className='flex flex-col items-start justify-start pb-300'>
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
-        <div className='w-[32px] h-[32px] shrink-0 flex flex-row items-center justify-center rounded-[8px]'>
-          <img width='24' height='24' src={xButton}></img>
-        </div>
+        <XButton onClickFunc={() => navigate(`/map/detail`)} />
+        {/* todo: 뒤로가기 버튼, 추후 placeId로 변환할 것 */}
+        {/* <XButton onClickFunc={() => navigate(`/map/detail/${placeId}`)} /> */}
       </div>
 
       {/* 방문 의향 체크 */}
