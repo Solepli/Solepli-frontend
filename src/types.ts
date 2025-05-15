@@ -34,13 +34,15 @@ export type AutoSearchResults = {
   distance: number | null;
 };
 
+export type Emoji = 'good' | 'bad' | null;
+
 export type ReviewType = {
   id: number;
   username: string;
   profileImage: string;
   date: string;
   rating: number;
-  emoji: 'good' | 'bad';
+  emoji: Emoji;
   content: string;
   images: string[];
   tags: TagType[];
