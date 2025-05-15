@@ -1,8 +1,12 @@
 import React from 'react';
-import emojiGood from '../../../assets/emojiGood.svg';
-import emojiBad from '../../../assets/emojiBad.svg';
+import EmojiGood from '../../../assets/emojiGood.svg?react';
+import EmojiCheckedGood from '../../../assets/emojiCheckedGood.svg?react';
+import EmojiBad from '../../../assets/emojiBad.svg?react';
+import EmojiCheckedBad from '../../../assets/emojiCheckedBad.svg?react';
+import useEmojiStore from '../../../store/useEmojiStore';
 
 const ReviewEmoji: React.FC = () => {
+  const { selectedEmoji, selectEmoji } = useEmojiStore();
   return (
     <div className='self-stretch flex flex-col items-center justify-center pt-0 px-0 pb-[40px] border-primary-100 border-[0_0_1px]'>
       <div className='self-stretch flex flex-row items-center justify-center pt-0 px-0 pb-[8px]'>
@@ -12,21 +16,13 @@ const ReviewEmoji: React.FC = () => {
       </div>
       <div className='self-stretch flex flex-row items-center justify-center gap-[12px]'>
         <div className='flex flex-row items-center justify-center p-[4px]'>
-          <div className='p-[2px] w-[32px] h-[32px]'>
-            <img
-              className='w-[28px] h-[28px]'
-              width='28'
-              height='28'
-              src={emojiGood}></img>
+          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji('good')}>
+            {selectedEmoji === 'good' ? <EmojiCheckedGood /> : <EmojiGood />}
           </div>
         </div>
         <div className='flex flex-row items-center justify-center p-[4px]'>
-          <div className='p-[2px] w-[32px] h-[32px]'>
-            <img
-              className='w-[28px] h-[28px]'
-              width='28'
-              height='28'
-              src={emojiBad}></img>
+          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji('bad')}>
+            {selectedEmoji === 'bad' ? <EmojiCheckedBad /> : <EmojiBad />}
           </div>
         </div>
       </div>
