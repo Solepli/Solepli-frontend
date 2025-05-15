@@ -3,10 +3,14 @@ import EmojiGood from '../../../assets/emojiGood.svg?react';
 import EmojiCheckedGood from '../../../assets/emojiCheckedGood.svg?react';
 import EmojiBad from '../../../assets/emojiBad.svg?react';
 import EmojiCheckedBad from '../../../assets/emojiCheckedBad.svg?react';
-import useEmojiStore from '../../../store/useEmojiStore';
+import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import { useShallow } from 'zustand/shallow';
 
 const ReviewEmoji: React.FC = () => {
-  const { selectedEmoji, selectEmoji } = useEmojiStore();
+  const { selectedEmoji, selectEmoji } = useReviewWriteStore(useShallow((state) => ({
+    selectedEmoji: state.emoji,
+    selectEmoji: state.setEmoji,
+  })));
   return (
     <div className='self-stretch flex flex-col items-center justify-center pt-0 px-0 pb-[40px] border-primary-100 border-[0_0_1px]'>
       <div className='self-stretch flex flex-row items-center justify-center pt-0 px-0 pb-[8px]'>
