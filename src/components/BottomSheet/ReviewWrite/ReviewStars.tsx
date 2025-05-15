@@ -14,16 +14,16 @@ const ReviewStars: React.FC = () => {
   );
   return (
     <div className='self-stretch flex flex-row items-center justify-center gap-[2px]'>
-      {Array.from({ length: 5 }).map((_, i) =>
-        i <= rating ? (
+      {Array.from({ length: 5 }).map((_, i) => 
+        i+1 <= rating ? (
           <StarFill
             key={i}
-            onClick={() => setRating(i)}
+            onClick={() => setRating(i+1)}
           />
         ) : (
           <StarEmpty
             key={i}
-            onClick={() => setRating(i)}
+            onClick={() => setRating(i+1)}
           />
         )
       )}
