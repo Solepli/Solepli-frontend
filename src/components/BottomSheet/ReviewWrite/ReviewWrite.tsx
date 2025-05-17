@@ -4,32 +4,51 @@ import ReviewEmoji from './ReviewEmoji';
 
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
-import { TagType } from '../../../types';
+import { ReviewType, TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
 import XButton from '../../XButton';
 import { useNavigate, } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/useReviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
+import { addReview } from '../../../api/reviewApi';
 
 const ReviewWrite: React.FC = () => {
   // const { placeId } = useParams();
   const navigate = useNavigate();
 
   //리렌더링을 방지하기 위해 useShallow 사용
-  const { moodTags, setMoodTags } = useReviewWriteStore(useShallow((state) => ({
+  const { moodTags, setMoodTags, emoji, rating, text, setSingleTags, singleTags, reset } = useReviewWriteStore(useShallow((state) => ({
     moodTags: state.moodTags,
     setMoodTags: state.setMoodTags,
-  })));
-
-  const { singleTags, setSingleTags } = useReviewWriteStore(useShallow((state) => ({
     singleTags: state.singleTags,
     setSingleTags: state.setSingleTags,
-  })));
-
-  const { reset } = useReviewWriteStore(useShallow((state) => ({
+    emoji: state.emoji,
+    rating: state.rating,
+    text: state.text,
     reset: state.reset,
   })));
+
+  const reviewWrite = () => {
+    const newReview: ReviewType = {
+      id: 0,
+      username: 'eoksdjeos',
+      profileImage: 'https://i.pravatar.cc/50?img=1', // 샘플 이미지 URL
+      date: new Date().toLocaleDateString('ko-KR').slice(2),
+      rating,
+      emoji,
+      content: text,
+      images: [],
+      tags: [...moodTags, ...singleTags],
+    }
+
+    addReview(newReview);
+    reset();
+    navigateToDetail();
+  }
+  const navigateToDetail = () => {
+    navigate(`/map/detail`);
+  }
 
   const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
@@ -59,7 +78,7 @@ const ReviewWrite: React.FC = () => {
     <div className='flex flex-col items-start justify-start pb-300'>
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
-        <XButton onClickFunc={() => navigate(`/map/detail`)} />
+        <XButton onClickFunc={navigateToDetail} />
         {/* todo: 뒤로가기 버튼, 추후 placeId로 변환할 것 */}
         {/* <XButton onClickFunc={() => navigate(`/map/detail/${placeId}`)} /> */}
       </div>
@@ -82,7 +101,7 @@ const ReviewWrite: React.FC = () => {
       <ReviewInput />
 
       {/* 리뷰 작성 완료 버튼 */}
-      <ReviewWriteButton onClickFunc={reset} />
+      <ReviewWriteButton onClickFunc={reviewWrite} />
 
     </div>
   );
