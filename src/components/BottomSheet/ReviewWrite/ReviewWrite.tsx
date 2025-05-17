@@ -10,6 +10,7 @@ import XButton from '../../XButton';
 import { useNavigate, } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/useReviewWriteStore';
 import { useShallow } from 'zustand/shallow';
+import ReviewWriteButton from './ReviewWriteButton';
 
 const ReviewWrite: React.FC = () => {
   // const { placeId } = useParams();
@@ -24,6 +25,10 @@ const ReviewWrite: React.FC = () => {
   const { singleTags, setSingleTags } = useReviewWriteStore(useShallow((state) => ({
     singleTags: state.singleTags,
     setSingleTags: state.setSingleTags,
+  })));
+
+  const { reset } = useReviewWriteStore(useShallow((state) => ({
+    reset: state.reset,
   })));
 
   const mood: TagType[] = [
@@ -75,6 +80,10 @@ const ReviewWrite: React.FC = () => {
 
       {/* 리뷰 글 작성 */}
       <ReviewInput />
+
+      {/* 리뷰 작성 완료 버튼 */}
+      <ReviewWriteButton onClickFunc={reset} />
+
     </div>
   );
 };

@@ -10,10 +10,6 @@ const ReviewInput: React.FC = () => {
     setText: state.setText,
   })));
 
-  const { reset } = useReviewWriteStore(useShallow((state) => ({
-    reset: state.reset,
-  })));
-
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -78,17 +74,6 @@ const ReviewInput: React.FC = () => {
             사진 추가하기
           </button>
         </div>
-      </div>
-
-      <div className='self-stretch h-34 flex items-center justify-end px-20'>
-        <button
-          disabled={text.length === 0}
-          onClick={reset}
-          className='flex items-center justify-center py-10 px-14 bg-primary-700 rounded-[8px]'>
-          <div className="text-[14px] leading-[100%] tracking-[-0.35px] font-[500] text-white whitespace-nowrap">
-            리뷰 등록
-          </div>
-        </button>
       </div>
     </>
   );
