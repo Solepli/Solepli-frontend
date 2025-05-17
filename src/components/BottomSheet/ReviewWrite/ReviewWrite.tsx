@@ -54,7 +54,7 @@ const ReviewWrite: React.FC = () => {
 
   const fromReviewList = location.state?.fromReviewList;
 
-  const reviewWrite = () => {
+  const reviewWrite = async () => {
     const newReview: ReviewType = {
       id: 0,
       username: 'eoksdjeos',
@@ -67,7 +67,7 @@ const ReviewWrite: React.FC = () => {
       tags: [...moodTags, ...singleTags],
     };
 
-    addReview(newReview);
+    await addReview(newReview);
     reset();
     navigateToDetail();
   };
