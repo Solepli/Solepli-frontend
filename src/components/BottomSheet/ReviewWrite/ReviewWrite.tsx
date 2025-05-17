@@ -21,17 +21,36 @@ const ReviewWrite: React.FC = () => {
   const location = useLocation();
 
   //리렌더링을 방지하기 위해 useShallow 사용
-  const { moodTags, setMoodTags, emoji, rating, text, setSingleTags, singleTags, files, reset } = useReviewWriteStore(useShallow((state) => ({
-    moodTags: state.moodTags,
-    setMoodTags: state.setMoodTags,
-    singleTags: state.singleTags,
-    setSingleTags: state.setSingleTags,
-    emoji: state.emoji,
-    rating: state.rating,
-    text: state.text,
-    files: state.files,
-    reset: state.reset,
-  })));
+  const {
+    moodTags,
+    setMoodTags,
+    emoji,
+    rating,
+    text,
+    setSingleTags,
+    singleTags,
+    files,
+    reset,
+  } = useReviewWriteStore(
+    useShallow((state) => ({
+      moodTags: state.moodTags,
+      setMoodTags: state.setMoodTags,
+      singleTags: state.singleTags,
+      setSingleTags: state.setSingleTags,
+      emoji: state.emoji,
+      rating: state.rating,
+      text: state.text,
+      files: state.files,
+      reset: state.reset,
+    }))
+  );
+
+  // 리뷰 작성 버튼 활성화 조건
+  const isWrittenable =
+    moodTags !== null &&
+    rating > 0 &&
+    moodTags.length > 0 &&
+    singleTags.length > 0;
 
   const fromReviewList = location.state?.fromReviewList;
 
@@ -44,14 +63,14 @@ const ReviewWrite: React.FC = () => {
       rating,
       emoji,
       content: text,
-      images: files.map((file) => URL.createObjectURL(file)), 
+      images: files.map((file) => URL.createObjectURL(file)),
       tags: [...moodTags, ...singleTags],
-    }
+    };
 
     addReview(newReview);
     reset();
     navigateToDetail();
-  }
+  };
   const navigateToDetail = () => {
     if (fromReviewList) {
       navigate(`/map/reviews/${placeId}`);
@@ -59,7 +78,7 @@ const ReviewWrite: React.FC = () => {
       //TODO: placeId 추가하기
       navigate(`/map/detail/`);
     }
-  }
+  };
 
   const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
@@ -102,10 +121,20 @@ const ReviewWrite: React.FC = () => {
 
       <div className='flex flex-col pb-32 border-gray-100 border-[0_0_1px]'>
         {/* 분위기 태그 */}
-        <ReviewTagList title={'분위기'} tag={mood} selectedTags={moodTags} setSelectedTags={setMoodTags} />
+        <ReviewTagList
+          title={'분위기'}
+          tag={mood}
+          selectedTags={moodTags}
+          setSelectedTags={setMoodTags}
+        />
 
         {/* 분위기 태그 */}
-        <ReviewTagList title={'1인 이용'} tag={single} selectedTags={singleTags} setSelectedTags={setSingleTags}/>
+        <ReviewTagList
+          title={'1인 이용'}
+          tag={single}
+          selectedTags={singleTags}
+          setSelectedTags={setSingleTags}
+        />
       </div>
 
       {/* 리뷰 글 작성 */}
@@ -115,8 +144,7 @@ const ReviewWrite: React.FC = () => {
       <ReviewPhotosInput />
 
       {/* 리뷰 작성 완료 버튼 */}
-      <ReviewWriteButton onClickFunc={reviewWrite} />
-
+      <ReviewWriteButton onClickFunc={reviewWrite} disabled={!isWrittenable} />
     </div>
   );
 };
