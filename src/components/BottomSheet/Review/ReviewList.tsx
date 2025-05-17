@@ -8,7 +8,7 @@ import ReviewEmoji from '../ReviewWrite/ReviewEmoji';
 import XButton from '../../XButton';
 
 interface ReviewListProps {
-  placeId: string;
+  placeId: number;
   showAll?: boolean;
 }
 

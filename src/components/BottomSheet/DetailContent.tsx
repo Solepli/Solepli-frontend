@@ -45,7 +45,7 @@ const DetailContent: React.FC = () => {
       <ReviewPhotos images={images} />
 
       {/* ReviewList */}
-      <ReviewList placeId={place.title} />
+      <ReviewList placeId={place.id} />
     </div>
   );
 };
