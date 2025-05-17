@@ -12,6 +12,7 @@ import useReviewWriteStore from '../../../store/useReviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
 import { addReview } from '../../../api/reviewApi';
+import ReviewPhotosInput from './ReviewPhotosInput';
 
 const ReviewWrite: React.FC = () => {
   // const { placeId } = useParams();
@@ -20,7 +21,7 @@ const ReviewWrite: React.FC = () => {
   const location = useLocation();
 
   //리렌더링을 방지하기 위해 useShallow 사용
-  const { moodTags, setMoodTags, emoji, rating, text, setSingleTags, singleTags, reset } = useReviewWriteStore(useShallow((state) => ({
+  const { moodTags, setMoodTags, emoji, rating, text, setSingleTags, singleTags, files, reset } = useReviewWriteStore(useShallow((state) => ({
     moodTags: state.moodTags,
     setMoodTags: state.setMoodTags,
     singleTags: state.singleTags,
@@ -28,6 +29,7 @@ const ReviewWrite: React.FC = () => {
     emoji: state.emoji,
     rating: state.rating,
     text: state.text,
+    files: state.files,
     reset: state.reset,
   })));
 
@@ -42,7 +44,7 @@ const ReviewWrite: React.FC = () => {
       rating,
       emoji,
       content: text,
-      images: [],
+      images: files.map((file) => URL.createObjectURL(file)), 
       tags: [...moodTags, ...singleTags],
     }
 
@@ -108,6 +110,9 @@ const ReviewWrite: React.FC = () => {
 
       {/* 리뷰 글 작성 */}
       <ReviewInput />
+
+      {/* 사진 추가하기 */}
+      <ReviewPhotosInput />
 
       {/* 리뷰 작성 완료 버튼 */}
       <ReviewWriteButton onClickFunc={reviewWrite} />

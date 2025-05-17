@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, } from 'react';
 
-import photo from '../../../assets/photo.svg';
 import useReviewWriteStore from '../../../store/useReviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 
@@ -62,17 +61,6 @@ const ReviewInput: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div className='self-stretch flex flex-col items-start justify-center px-20'>
-        <div className='flex flex-row items-center gap-4 py-4'>
-          <div className='flex justify-center items-start w-[24px] h-[24px] p-4'>
-            <img width='16px' height='16px' src={photo} />
-          </div>
-          <button className="text-[12px] leading-[120%] tracking-[-0.18px] text-primary-500 whitespace-nowrap">
-            사진 추가하기
-          </button>
         </div>
       </div>
     </>

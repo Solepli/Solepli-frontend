@@ -18,6 +18,9 @@ interface ReviewWriteState {
   text: string;
   setText: (value: string) => void;
 
+  files: File[];
+  setFiles: (files: File[]) => void;
+
   reset: () => void;
 }
 
@@ -36,6 +39,9 @@ const useReviewWriteStore = create<ReviewWriteState>((set) => ({
 
   text: '',
   setText: (value) => set({ text: value }),
+
+  files: [],
+  setFiles: (files) => set({ files }),
 
   reset: () =>
     set({
