@@ -33,7 +33,7 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
       ) : (
         <div className='h-40 border-t border-primary-100' />
       )}
-      <div onClick={() => navigate(`/map/review-write/${placeId}`)}>
+      <div onClick={() => navigate(`/map/review-write/${placeId}`, { state: { fromReviewList: showAll } })}>
         <ReviewEmoji />
       </div>
 

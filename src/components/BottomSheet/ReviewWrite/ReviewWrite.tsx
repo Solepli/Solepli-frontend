@@ -7,7 +7,7 @@ import ReviewTagList from './ReviewTagList';
 import { ReviewType, TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
 import XButton from '../../XButton';
-import { useNavigate, } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/useReviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
@@ -16,6 +16,8 @@ import { addReview } from '../../../api/reviewApi';
 const ReviewWrite: React.FC = () => {
   // const { placeId } = useParams();
   const navigate = useNavigate();
+  const { placeId } = useParams();
+  const location = useLocation();
 
   //리렌더링을 방지하기 위해 useShallow 사용
   const { moodTags, setMoodTags, emoji, rating, text, setSingleTags, singleTags, reset } = useReviewWriteStore(useShallow((state) => ({
@@ -28,6 +30,8 @@ const ReviewWrite: React.FC = () => {
     text: state.text,
     reset: state.reset,
   })));
+
+  const fromReviewList = location.state?.fromReviewList;
 
   const reviewWrite = () => {
     const newReview: ReviewType = {
@@ -47,7 +51,12 @@ const ReviewWrite: React.FC = () => {
     navigateToDetail();
   }
   const navigateToDetail = () => {
-    navigate(`/map/detail`);
+    if (fromReviewList) {
+      navigate(`/map/reviews/${placeId}`);
+    } else {
+      //TODO: placeId 추가하기
+      navigate(`/map/detail/`);
+    }
   }
 
   const mood: TagType[] = [
