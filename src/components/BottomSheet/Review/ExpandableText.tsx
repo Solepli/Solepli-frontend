@@ -12,7 +12,7 @@ const ExpandableText = ({ text, maxLines = 3 }: ExpandableTextProps) => {
     text.split('\n').length > maxLines || text.length > 100;
 
   return (
-    <div className='w-full px-16 pb-12 text-primary-900 text-xs font-normal leading-relaxed'>
+    <div className='w-full px-16 pb-12 text-primary-900 text-sm font-normal leading-[150%]'>
       {!expanded ? (
         <div className={`relative line-clamp-${maxLines}`}>
           <p className='whitespace-pre-line'>{text}</p>
@@ -20,7 +20,7 @@ const ExpandableText = ({ text, maxLines = 3 }: ExpandableTextProps) => {
           {shouldTruncate && (
             <button
               onClick={() => setExpanded(true)}
-              className='absolute right-0 bottom-0 bg-white text-primary-400 text-xs pl-1 pr-2'>
+              className='absolute right-0 bottom-0 bg-white text-primary-400 text-sm leading-[150%] pl-1 pr-2'>
               더보기
             </button>
           )}
@@ -30,7 +30,7 @@ const ExpandableText = ({ text, maxLines = 3 }: ExpandableTextProps) => {
           <p className='whitespace-pre-line'>{text}</p>
           {shouldTruncate && (
             <button
-              className='text-primary-400 text-xs'
+              className='text-primary-400 text-sm leading-[150%]'
               onClick={() => setExpanded(false)}>
               접기
             </button>

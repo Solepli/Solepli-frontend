@@ -39,9 +39,9 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
 
       {reviewsToShow && reviewsToShow.length === 0 ? (
         <div className='w-full h-40 pt-50 flex justify-center items-center'>
-          <p className='text-primary-400 text-xs font-normal leading-relaxed text-center'>
-          아직 리뷰가 없습니다. <br />
-          소중한 리뷰를 남겨주세요!
+          <p className='text-primary-900 text-sm font-normal leading-[150%] text-center'>
+          아직 리뷰가 없습니다.<br />
+          소중한 후기를 공유해주세요!
           </p>
         </div>
       ) : (

@@ -29,11 +29,8 @@ const ReviewInput: React.FC = () => {
     <>
       <div className='self-stretch flex flex-col items-center justify-center pt-32 px-16 pb-4'>
         <div className='self-stretch flex items-center justify-center pb-12 gap-3'>
-          <span className="text-sm font-medium leading-none tracking-[-0.35px] text-primary-900 whitespace-nowrap">
+          <span className="text-base font-semibold leading-[150%] text-primary-900 whitespace-nowrap">
             어떤 점이 좋았나요?
-          </span>
-          <span className='text-primary-500 text-[10px] font-normal leading-3 relative top-[1px]'>
-            (선택)
           </span>
         </div>
 
@@ -45,18 +42,18 @@ const ReviewInput: React.FC = () => {
                 ref={textareaRef}
                 value={text}
                 onChange={handleChangeText}
-                placeholder=''
+                placeholder='리뷰를 남기면 다른 쏠플러에게 도움이 될 수 있어요.'
                 rows={5}
-                className="focus:outline-none focus:ring-0 resize-none 
-                flex-1 text-[12px] leading-[120%] tracking-[-0.18px] text-primary-900"
+                className="focus:outline-none focus:ring-0 resize-none placeholder:text-primary-400
+                flex-1 text-sm leading-[150%] text-primary-900 font-normal"
               />
             </div>
 
             <div className='self-stretch flex flex-row items-center justify-end pt-[6px]'>
-              <div className="text-[12px] leading-[120%] tracking-[-0.18px] font-[500] text-gray2-900 text-right whitespace-nowrap">
+              <div className="text-sm leading-[150%] font-normal text-grayScale-900 text-right whitespace-nowrap">
                 {text.length}
               </div>
-              <div className="text-[10px] leading-[120%] text-gray2-600 text-right whitespace-nowrap">
+              <div className="text-xs leading-[150%] text-grayScale-600 text-right whitespace-nowrap">
                 /500
               </div>
             </div>
