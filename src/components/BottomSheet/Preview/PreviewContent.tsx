@@ -20,8 +20,8 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
   ];
 
   const handleClick = ()=>{
-    navigate('/map/detail', { state: { from: 'preview' } });
-  }
+    navigate(`/map/detail/${place.id}`, { state: { from: 'preview' } });
+  } 
 
   return (
     <div className='border-b border-primary-100 pt-12' onClick={handleClick}>
