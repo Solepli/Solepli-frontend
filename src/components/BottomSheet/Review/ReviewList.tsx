@@ -3,7 +3,7 @@ import { fetchReviews } from '../../../api/reviewApi';
 import Review from './Review';
 import { ReviewType } from '../../../types';
 import ShowAllReviewsButton from './ShowAllReviewsButton';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewEmoji from '../ReviewWrite/ReviewEmoji';
 import XButton from '../../XButton';
 
@@ -18,6 +18,7 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
     queryFn: () => fetchReviews(placeId),
   });
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>에러 발생</p>;
@@ -33,7 +34,8 @@ const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
       ) : (
         <div className='h-40 border-t border-primary-100' />
       )}
-      <div onClick={() => navigate(`/map/review-write/${placeId}`, { state: { fromReviewList: showAll } })}>
+      {/* <div onClick={() => navigate(`/map/review-write/${placeId}`, { state: { fromReviewList: showAll } })}> */}
+      <div onClick={() => navigate(`/login-modal`, { state: { background: location } })}>
         <ReviewEmoji />
       </div>
 
