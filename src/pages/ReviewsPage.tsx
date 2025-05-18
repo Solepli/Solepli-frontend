@@ -6,7 +6,7 @@ const ReviewsPage = () => {
 
   if (!placeId) return <div>잘못된 접근입니다.</div>;
 
-  return <ReviewList placeId={placeId} showAll />;
+  return <ReviewList placeId={parseInt(placeId)} showAll />;
 };
 
 export default ReviewsPage;

@@ -16,16 +16,15 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({ label }) => {
     setIsSolmark((prev) => !prev);
   };
 
-  const gradient = 'bg-linear-120 from-primary-400 via-primary-600 to-primary-400 border-primary-600';
 
   return (
     <div onClick={handleClick}>
       {label ? (
         <div
           className={`flex w-58 h-32 p-2 border rounded-lg justify-center items-center 
-        ${isSolmark ? gradient : 'border-primary-400'}`}>
+        ${isSolmark ? 'border-chip-mark' : 'border-chip-bg-mark'}`}>
           <p
-            className={`w-30 text-center text-xs ${isSolmark ? 'text-white' : 'text-primary-400'}`}>
+            className={`w-30 text-center text-xs ${isSolmark ? 'text-chip-mark' : 'text-chip-bg-mark'}`}>
             1
           </p>
           <img
@@ -37,7 +36,7 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({ label }) => {
       ) : (
         <div
           className={`flex w-24 h-24 border rounded-lg justify-center items-center 
-        ${isSolmark ? gradient : 'border-primary-400'}`}>
+        ${isSolmark ? 'border-chip-mark' : 'border-chip-bg-mark'}`}>
           <img
             src={isSolmark ? heartFill : heart}
             alt=''

@@ -15,46 +15,45 @@ interface CategoryButtonProps {
   category: Category;
 }
 
-const Background: React.FC<CategoryButtonProps> = ({ category }) => {
-  return (
-    <div
-      className='w-84 h-84 opacity-10 absolute top-0 left-0 rounded-[10px]'
-      style={{ backgroundColor: `var(--color-chip-main-${category.id})` }}></div>
-  );
-};
-
 const iconMap: Record<string, string> = {
-  food:foodFill,
-  cafe:cafeFill,
-  drink:drinkFill,
-  entertainment:entertainmentFill,
-  culture:cultureFill,
-  shop:shopFill,
-  walk:walkFill,
-  work:workFill,
+  food: foodFill,
+  cafe: cafeFill,
+  drink: drinkFill,
+  entertainment: entertainmentFill,
+  culture: cultureFill,
+  shop: shopFill,
+  walk: walkFill,
+  work: workFill,
 };
-
 
 const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
   const navigate = useNavigate();
   const icon = iconMap[category.id];
 
-    const { setCategory } = usePlaceStore();
+  const { setCategory } = usePlaceStore();
 
-const handleClick = () =>{
-  setCategory(category.id);
-  navigate("list");
-}
-
-
+  const handleClick = () => {
+    setCategory(category.id);
+    navigate('list');
+  };
 
   return (
-    <div className='relative w-84 h-84 flex justify-center items-center' onClick={handleClick}>
-      <Background category={category} />
-      <div className='absolute top-6 right-6 w-6 h-6 rounded-full'style={{ backgroundColor: `var(--color-chip-main-${category.id})` }} ></div>
+    <div
+      className='relative w-84 h-84 flex justify-center items-center rounded-[10px]'
+      style={{
+        backgroundColor: `var(--color-chip-light-bg-${category.id})`,
+      }}
+      onClick={handleClick}>
+      <div
+        className='absolute top-6 right-6 w-6 h-6 rounded-full'
+        style={{ backgroundColor: `var(--color-chip-${category.id})` }}></div>
       <div className='flex flex-col justify-center items-center'>
-        <img className='w-32 h-32' src={icon} alt={category.id}/>
-        <div className='text-center text-xs font-medium' style={{ color: `var(--color-chip-main-${category.id})` }}>{category.title}</div>
+        <img className='w-32 h-32' src={icon} alt={category.id} />
+        <div
+          className='text-center text-xs font-medium'
+          style={{ color: `var(--color-chip-${category.id})` }}>
+          {category.title}
+        </div>
       </div>
     </div>
   );
