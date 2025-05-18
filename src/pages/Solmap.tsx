@@ -3,7 +3,7 @@ import BottomSheet from '../components/BottomSheet/BottomSheet';
 import { Outlet } from 'react-router-dom';
 import SearchArea from '../components/Searching/SearchArea';
 import SearchPanel from '../components/Searching/SearchPanel';
-import useSearchStore from '../store/searchStore';
+import { useSearchStore } from '../store/searchStore';
 import { usePlaceStore } from '../store/placeStore';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlaces } from '../api/placeApi';

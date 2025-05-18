@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import XButton from '../XButton';
-import useSearchStore from '../../store/searchStore';
+import { useSearchStore } from '../../store/searchStore';
 
 const SearchArea: React.FC = () => {
   const { isFocused, setIsFocused } = useSearchStore();

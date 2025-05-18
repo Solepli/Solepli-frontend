@@ -1,7 +1,7 @@
 import React from 'react';
 import RecentSearchList from './RecentSearchList';
 import AutoSearchList from './AutoSearchList';
-import useSearchStore from '../../store/searchStore';
+import { useSearchStore } from '../../store/searchStore';
 
 const SearchPanel: React.FC = () => {
   const { inputValue } = useSearchStore();
