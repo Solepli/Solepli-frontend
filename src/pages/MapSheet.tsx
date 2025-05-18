@@ -16,7 +16,7 @@ const MapSheet: React.FC = () => {
   // 문제 해결 전까지 mock 데이터는 fetchMockPlacesNearby로 가져옴.
   // const { data } = useQuery({
   //   queryKey: ['placesNearby'],
-  //   queryFn: fetchPlaceNearby(
+  //   queryFn: fetchPlacesNearby(
   //     valueLngLat!.swX,
   //     valueLngLat!.swY,
   //     valueLngLat!.neX,

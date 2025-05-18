@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchPlaceNearby = async (
+export const fetchPlacesNearby = async (
   swX: number,
   swY: number,
   neX: number,
