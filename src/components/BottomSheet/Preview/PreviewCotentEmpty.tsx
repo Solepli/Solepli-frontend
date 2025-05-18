@@ -1,6 +1,9 @@
 import React from 'react';
+import PreviewContent from './PreviewContent';
+import { usePlaceStore } from '../../../store/placeStore';
 
 const PreviewCotentEmpty: React.FC = () => {
+  const filteredPlaces = usePlaceStore((state) => state.filteredPlaces);
   return (
     <div>
       <div className='flex py-80 flex-col items-start'>
@@ -17,6 +20,12 @@ const PreviewCotentEmpty: React.FC = () => {
           이런 장소는 어떠세요?
         </div>
         <div className='flex-1 h-1 bg-primary-100' />
+      </div>
+
+      <div>
+        {filteredPlaces.map((place) => (
+          <PreviewContent key={place.title} place={place} />
+        ))}
       </div>
     </div>
   );

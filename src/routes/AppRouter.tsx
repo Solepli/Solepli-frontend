@@ -5,6 +5,7 @@ import CategoryButtonList from '../components/BottomSheet/Category/CategoryButto
 import PreviewContentList from '../components/BottomSheet/Preview/PreviewContentList';
 import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
+import PreviewCotentEmpty from '../components/BottomSheet/Preview/PreviewCotentEmpty';
 
 const AppRouter = () => {
   return (
@@ -14,6 +15,7 @@ const AppRouter = () => {
         <Route path='map' element={<Solmap />}>
           <Route index element={<CategoryButtonList />} />
           <Route path='list' element={<PreviewContentList />} />
+          <Route path='not-found' element={<PreviewCotentEmpty />} />
           <Route path='detail' element={<DetailContent />} />
           <Route path='reviews/:placeId' element={<ReviewsPage />} />
         </Route>
