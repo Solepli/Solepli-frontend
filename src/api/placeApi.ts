@@ -1,5 +1,4 @@
 import { Place } from '../types';
-import axios from 'axios';
 
 export const fetchPlaces = async () => {
   await new Promise((res) => setTimeout(res, 500));
@@ -9,29 +8,6 @@ export const fetchPlaces = async () => {
 export const fetchPlaceById = async (id: number) => {
   // await new Promise((res) => setTimeout(res, 300));
   return mockPlaces[id];
-};
-
-export const fetchPlaceNearby = async (
-  swLat: number,
-  swLng: number,
-  neLat: number,
-  neLng: number,
-  category: string | null
-) => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}/api/solemap/markers`,
-    {
-      params: {
-        swLat: swLat,
-        swLng: swLng,
-        neLat: neLat,
-        neLng: neLng,
-        category: category,
-      },
-    }
-  );
-
-  return response.data;
 };
 
 const mockPlaces: Place[] = [
