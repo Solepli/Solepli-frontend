@@ -17,8 +17,8 @@ export type Place = {
 
 type Hours = {
   day: number;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
 };
 
 
