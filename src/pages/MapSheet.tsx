@@ -55,6 +55,12 @@ const MapSheet: React.FC = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (mapInstance.current && data) {
+      addMarkers();
+    }
+  }, [mapInstance.current, data]);
+
   const initMap = (center: naver.maps.LatLng) => {
     const map = new naver.maps.Map(mapElement.current!, {
       center,
@@ -63,8 +69,6 @@ const MapSheet: React.FC = () => {
     mapInstance.current = map;
 
     getCurrentBounds(map);
-
-    addMarkers();
   };
 
   const getCurrentBounds = (map: naver.maps.Map) => {
