@@ -55,7 +55,6 @@ const MapSheet: React.FC = () => {
     );
   }, []);
 
-  // 지도 초기화 함수
   const initMap = (center: naver.maps.LatLng) => {
     const map = new naver.maps.Map(mapElement.current!, {
       center,
@@ -65,13 +64,11 @@ const MapSheet: React.FC = () => {
 
     getCurrentBounds(map);
 
-    // 지도 초기화 후 마커 추가
     addMarkers();
   };
 
   const getCurrentBounds = (map: naver.maps.Map) => {
     const bounds: naver.maps.Bounds = map.getBounds();
-    // console.log('getBoudns: ', bounds);
     setLngLat({
       swX: bounds.minX(),
       swY: bounds.minY(),
@@ -89,7 +86,6 @@ const MapSheet: React.FC = () => {
 
     // 새로운 bounds 생성 및 초기화 (모든 마커를 포함하는 경계 박스)
     const bounds = new naver.maps.LatLngBounds(
-      // 기본값 (sw, ne)
       new naver.maps.LatLng(0, 0),
       new naver.maps.LatLng(0, 0)
     );
@@ -108,9 +104,8 @@ const MapSheet: React.FC = () => {
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
       // 유사한 함수 : setCenter, panTo
       naver.maps.Event.addListener(marker, 'click', () => {
-        // 마커 위치 중심에서 살짝위로 보정
         const adjustedPosition = new naver.maps.LatLng(
-          position.lat() - 0.0003,
+          position.lat(),
           position.lng()
         );
         mapInstance.current?.morph(adjustedPosition, 18, {
@@ -142,7 +137,6 @@ const MapSheet: React.FC = () => {
   //   );
   // }, []);
 
-  // 임시 버튼: 현재 위치로 지도 이동
   const moveToCurrentLocation = useCallback(() => {
     if (!mapInstance.current) return;
 
@@ -164,14 +158,13 @@ const MapSheet: React.FC = () => {
     <div className='relative w-dvw h-dvh'>
       <div ref={mapElement} className='w-full h-full' />
 
-      {/* 임시 버튼: 표시된 마커 기준으로 */}
+      {/* 임시 버튼: 표시된 마커 기준으로 지도 이동*/}
       {/* <button
         onClick={moveToMarkers}
         className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
         표시된 마커로 지도 이동
       </button> */}
 
-      {/* 현재 위치로 버튼 */}
       <CurrentLocationButton handleClick={moveToCurrentLocation} />
     </div>
   );
