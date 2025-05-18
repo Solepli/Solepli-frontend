@@ -4,7 +4,7 @@ export type Category = {
 };
 
 export type Place = {
-  id:number;
+  id: number;
   title: string;
   address: string;
   latitude: number;
@@ -20,7 +20,6 @@ type Hours = {
   startTime: number;
   endTime: number;
 };
-
 
 export type TagType = {
   id: string;
@@ -44,4 +43,11 @@ export type ReviewType = {
   content: string;
   images: string[];
   tags: TagType[];
-}
+};
+
+export type CurrentBoundsXY = {
+  swX: number;
+  swY: number;
+  neX: number;
+  neY: number;
+};

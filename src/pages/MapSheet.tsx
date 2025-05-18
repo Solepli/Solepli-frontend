@@ -1,10 +1,19 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { places } from '../places';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
+import { CurrentBoundsXY } from '../types';
 
 function getCurrentBounds(map: naver.maps.Map) {
-  const a: naver.maps.Bounds = map.getBounds();
-  console.log('getBoudns: ', a);
+  const bounds: naver.maps.Bounds = map.getBounds();
+  // console.log('getBoudns: ', bounds);
+
+  const data: CurrentBoundsXY = {
+    swX: bounds.minX(),
+    swY: bounds.minY(),
+    neX: bounds.maxX(),
+    neY: bounds.maxY(),
+  };
+  return data;
 }
 
 const MapSheet: React.FC = () => {
@@ -45,7 +54,12 @@ const MapSheet: React.FC = () => {
     // 지도 초기화 후 마커 추가
     addMarkers();
 
-    getCurrentBounds(map);
+    callFetchPlaceNearby(map);
+  };
+
+  // 위치 기반 마커 장소 가져오는 함수
+  const callFetchPlaceNearby = (paramMap: naver.maps.Map) => {
+    getCurrentBounds(paramMap);
   };
 
   const addMarkers = () => {
