@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { places } from '../places';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchMockPlacesNearby } from '../api/mapApi';
@@ -42,8 +41,11 @@ const MapSheet: React.FC = () => {
       (position) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         currentLocation = new naver.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude
+          // position.coords.latitude,
+          // position.coords.longitude
+          // 지도 화면 내 마커 정보를 받기 위해 사용자의 현재 좌표를 서울 지역으로 하드코딩
+          37.51234,
+          127.060395
         );
         initMap(currentLocation);
       },
@@ -61,10 +63,10 @@ const MapSheet: React.FC = () => {
     });
     mapInstance.current = map;
 
+    getCurrentBounds(map);
+
     // 지도 초기화 후 마커 추가
     addMarkers();
-
-    getCurrentBounds(map);
   };
 
   const getCurrentBounds = (map: naver.maps.Map) => {
@@ -93,14 +95,14 @@ const MapSheet: React.FC = () => {
     );
     boundsRef.current = bounds;
 
-    markers.current = places.map((place) => {
+    markers.current = data!.places.map((place) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
       const marker = new naver.maps.Marker({
         position: position,
         map: mapInstance.current || undefined,
-        title: place.title,
+        title: place.category,
       });
 
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
