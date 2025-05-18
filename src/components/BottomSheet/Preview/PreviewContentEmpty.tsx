@@ -2,7 +2,7 @@ import React from 'react';
 import PreviewContent from './PreviewContent';
 import { usePlaceStore } from '../../../store/placeStore';
 
-const PreviewCotentEmpty: React.FC = () => {
+const PreviewContentEmpty: React.FC = () => {
   const filteredPlaces = usePlaceStore((state) => state.filteredPlaces);
   return (
     <div>
@@ -31,4 +31,4 @@ const PreviewCotentEmpty: React.FC = () => {
   );
 };
 
-export default PreviewCotentEmpty;
+export default PreviewContentEmpty;
