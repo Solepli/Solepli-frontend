@@ -1,13 +1,18 @@
 import React from 'react';
 import XButtonCircle from '../XButtonCircle';
+import { deleteRecentSearchWords } from '../../api/searchApi';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface RecentSearchTextProps {
   text: string;
 }
 
 const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
-  function onClickDeleteRow(): void {
-    console.log('Click XButtonCircle');
+  const queryClient = useQueryClient();
+
+  async function onClickDeleteRow() {
+    await deleteRecentSearchWords(text);
+    queryClient.invalidateQueries({ queryKey: ['recentSearchWords'] });
   }
 
   return (
