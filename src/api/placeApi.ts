@@ -1,19 +1,42 @@
 import { Place } from '../types';
+import axios from 'axios';
 
 export const fetchPlaces = async () => {
   await new Promise((res) => setTimeout(res, 500));
   return mockPlaces;
 };
 
-export const fetchPlaceById = async(id:number) =>{
+export const fetchPlaceById = async (id: number) => {
   // await new Promise((res) => setTimeout(res, 300));
   return mockPlaces[id];
-}
+};
 
+export const fetchPlaceNearby = async (
+  swLat: number,
+  swLng: number,
+  neLat: number,
+  neLng: number,
+  category: string | null
+) => {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_BASE_URL}/api/solemap/markers`,
+    {
+      params: {
+        swLat: swLat,
+        swLng: swLng,
+        neLat: neLat,
+        neLng: neLng,
+        category: category,
+      },
+    }
+  );
+
+  return response.data;
+};
 
 const mockPlaces: Place[] = [
   {
-    id:1,
+    id: 1,
     title: '스타벅스 노량진동점',
     address: '서울 동작구 노량진로 190',
     latitude: 37.513213,
@@ -36,7 +59,7 @@ const mockPlaces: Place[] = [
   },
 
   {
-    id:2,
+    id: 2,
     title: '도로도로커피숍',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.51388,
@@ -58,7 +81,7 @@ const mockPlaces: Place[] = [
     ],
   },
   {
-    id:3,
+    id: 3,
     title: '미분당',
     address: '서울 동작구 노량진로 190',
     latitude: 37.5132,
@@ -81,7 +104,7 @@ const mockPlaces: Place[] = [
   },
 
   {
-    id:4,
+    id: 4,
     title: '샤브로',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.513,
