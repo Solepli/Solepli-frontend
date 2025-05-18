@@ -3,17 +3,8 @@ export type Category = {
   id: string;
 };
 
-// export type oPlace = {
-//   title: string;
-//   address: string;
-//   latitude: number;
-//   longitude: number;
-//   category: Category;
-//   rating: number;
-//   tags: string[];
-// };
-
 export type Place = {
+  id:number;
   title: string;
   address: string;
   latitude: number;

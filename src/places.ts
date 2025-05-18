@@ -1,5 +1,6 @@
 export const places = [
   {
+    id:1,
     title: '스타벅스 노량진동점',
     address: '서울 동작구 노량진로 190',
     latitude: 37.513213,
@@ -22,6 +23,7 @@ export const places = [
   },
 
   {
+    id:2,
     title: '도로도로커피숍',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.51388,
@@ -43,6 +45,7 @@ export const places = [
     ],
   },
   {
+    id:3,
     title: '미분당',
     address: '서울 동작구 노량진로 190',
     latitude: 37.5132,
@@ -65,6 +68,7 @@ export const places = [
   },
 
   {
+    id:4,
     title: '샤브로',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.513,

@@ -1,6 +1,6 @@
 import { ReviewType } from '../types';
 
-export const fetchReviews = async (placeId: string) => {
+export const fetchReviews = async (placeId: number) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
   console.log('Fetching reviews for placeId:', placeId);
 

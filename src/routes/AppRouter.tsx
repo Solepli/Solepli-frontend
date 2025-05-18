@@ -14,7 +14,7 @@ const AppRouter = () => {
         <Route path='map' element={<Solmap />}>
           <Route index element={<CategoryButtonList />} />
           <Route path='list' element={<PreviewContentList />} />
-          <Route path='detail' element={<DetailContent />} />
+          <Route path='detail/:placeId' element={<DetailContent />} />
           <Route path='reviews/:placeId' element={<ReviewsPage />} />
         </Route>
         <Route path='mark' element={<></>} />
