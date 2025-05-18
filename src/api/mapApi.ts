@@ -1,24 +1,26 @@
 import axios from 'axios';
 
 export const fetchPlaceNearby = async (
-  swLat: number,
-  swLng: number,
-  neLat: number,
-  neLng: number,
-  category: string | null
+  swX: number,
+  swY: number,
+  neX: number,
+  neY: number,
+  category?: string
 ) => {
   const response = await axios.get(
     `${import.meta.env.VITE_API_BASE_URL}/api/solemap/markers`,
     {
       params: {
-        swLat: swLat,
-        swLng: swLng,
-        neLat: neLat,
-        neLng: neLng,
+        swLng: swX,
+        swLat: swY,
+        neLng: neX,
+        neLat: neY,
         category: category,
       },
     }
   );
+
+  console.log('res: ', response);
 
   return response.data;
 };
