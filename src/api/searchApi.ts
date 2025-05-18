@@ -3,4 +3,10 @@ export const fetchRecentSearchWords = async () => {
   return mockRecentSearchWords;
 };
 
-const mockRecentSearchWords: string[] = ['강남구', '돈까스', '성수동'];
+export const deleteRecentSearchWords = async (keyword: string) => {
+  // 하드 코딩으로 mockRecentSearchWords의 검색어 삭제
+  mockRecentSearchWords = mockRecentSearchWords.filter((w) => w !== keyword);
+  return mockRecentSearchWords;
+};
+
+let mockRecentSearchWords: string[] = ['강남구', '돈까스', '성수동'];
