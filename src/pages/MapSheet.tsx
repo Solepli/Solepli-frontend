@@ -1,26 +1,36 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { places } from '../places';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
-import { CurrentBoundsXY } from '../types';
-
-function getCurrentBounds(map: naver.maps.Map) {
-  const bounds: naver.maps.Bounds = map.getBounds();
-  // console.log('getBoudns: ', bounds);
-
-  const data: CurrentBoundsXY = {
-    swX: bounds.minX(),
-    swY: bounds.minY(),
-    neX: bounds.maxX(),
-    neY: bounds.maxY(),
-  };
-  return data;
-}
+import { useQuery } from '@tanstack/react-query';
+import { fetchMockPlacesNearby } from '../api/mapApi';
+import { useBoundsStore } from '../store/mapStore';
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
   const markers = useRef<naver.maps.Marker[]>([]);
   const boundsRef = useRef<naver.maps.LatLngBounds | null>(null);
+
+  const { valueLngLat, setLngLat } = useBoundsStore();
+
+  // cors 문제로 주석처리
+  // 문제 해결 전까지 mock 데이터는 fetchMockPlacesNearby로 가져옴.
+  // const { data } = useQuery({
+  //   queryKey: ['placesNearby'],
+  //   queryFn: fetchPlaceNearby(
+  //     valueLngLat!.swX,
+  //     valueLngLat!.swY,
+  //     valueLngLat!.neX,
+  //     valueLngLat!.neY
+  //   ),
+  //   enabled: valueLngLat !== undefined,
+  // });
+
+  // Mock Data Api
+  const { data } = useQuery({
+    queryKey: ['placesNearby'],
+    queryFn: fetchMockPlacesNearby,
+  });
 
   const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
   let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
@@ -54,12 +64,18 @@ const MapSheet: React.FC = () => {
     // 지도 초기화 후 마커 추가
     addMarkers();
 
-    callFetchPlaceNearby(map);
+    getCurrentBounds(map);
   };
 
-  // 위치 기반 마커 장소 가져오는 함수
-  const callFetchPlaceNearby = (paramMap: naver.maps.Map) => {
-    getCurrentBounds(paramMap);
+  const getCurrentBounds = (map: naver.maps.Map) => {
+    const bounds: naver.maps.Bounds = map.getBounds();
+    // console.log('getBoudns: ', bounds);
+    setLngLat({
+      swX: bounds.minX(),
+      swY: bounds.minY(),
+      neX: bounds.maxX(),
+      neY: bounds.maxY(),
+    });
   };
 
   const addMarkers = () => {
