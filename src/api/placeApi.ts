@@ -1,4 +1,12 @@
-export const places = [
+import { Place } from '../types';
+
+export const fetchPlaces = async () => {
+  await new Promise((res) => setTimeout(res, 500));
+  return mockPlaces;
+};
+
+
+const mockPlaces: Place[] = [
   {
     title: '스타벅스 노량진동점',
     address: '서울 동작구 노량진로 190',

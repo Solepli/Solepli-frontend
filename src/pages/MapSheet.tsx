@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { places } from '../places';
+import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -68,7 +69,12 @@ const MapSheet: React.FC = () => {
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
       // 유사한 함수 : setCenter, panTo
       naver.maps.Event.addListener(marker, 'click', () => {
-        mapInstance.current?.morph(marker.getPosition(), 18, {
+        // 마커 위치 중심에서 살짝위로 보정
+        const adjustedPosition = new naver.maps.LatLng(
+          position.lat() - 0.0003,
+          position.lng()
+        );
+        mapInstance.current?.morph(adjustedPosition, 18, {
           duration: 1000,
           easing: 'easeOutCubic',
         });
@@ -126,12 +132,9 @@ const MapSheet: React.FC = () => {
         표시된 마커로 지도 이동
       </button>
 
-      {/* 임시 버튼: 현재 위치로 */}
-      <button
-        onClick={moveToCurrentLocation}
-        className='absolute right-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
-        현재 위치로
-      </button>
+      {/* 현재 위치로 버튼 */}
+      <CurrentLocationButton handleClick={moveToCurrentLocation}/>
+      
     </div>
   );
 };

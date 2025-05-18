@@ -5,11 +5,11 @@ import ReviewEmoji from './ReviewEmoji';
 import xButton from '../../../assets/xButton.svg';
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
-import { Tag } from '../../../types';
+import { TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
 
 const ReviewWrite: React.FC = () => {
-  const mood: Tag[] = [
+  const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
     { id: 'lively', text: '시끌벅적한' },
     { id: 'cozy', text: '편안한' },
@@ -21,7 +21,7 @@ const ReviewWrite: React.FC = () => {
     { id: 'photo-worthy', text: '사진 찍기 좋은' },
     { id: 'great-view', text: '뷰가 좋은' },
   ];
-  const single: Tag[] = [
+  const single: TagType[] = [
     { id: 'single-seat', text: '1인 좌석이 있는' },
     { id: 'single-menu', text: '1인 메뉴가 있는' },
     { id: 'many-outlets', text: '콘센트가 많은' },
