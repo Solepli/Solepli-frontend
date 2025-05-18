@@ -7,6 +7,7 @@ import useSearchStore from '../store/searchStore';
 import { usePlaceStore } from '../store/placeStore';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlaces } from '../api/placeApi';
+import MapSheet from './MapSheet';
 
 const Solmap: React.FC = () => {
   const { isFocused } = useSearchStore();
@@ -30,12 +31,14 @@ const Solmap: React.FC = () => {
   if (error) {
     return <p>에러 발생</p>;
   }
-  
+
   return (
     <div className='h-full'>
       <div className='z-100 fixed top-0 inset-x-0'>
         <SearchArea />
       </div>
+
+      <MapSheet />
 
       {isFocused && <SearchPanel />}
 
