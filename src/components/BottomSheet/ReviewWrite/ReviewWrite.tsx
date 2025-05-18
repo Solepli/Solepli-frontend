@@ -75,8 +75,7 @@ const ReviewWrite: React.FC = () => {
     if (fromReviewList) {
       navigate(`/map/reviews/${placeId}`);
     } else {
-      //TODO: placeId 추가하기
-      navigate(`/map/detail/`);
+      navigate(`/map/detail/${placeId}`);
     }
   };
 
@@ -109,8 +108,6 @@ const ReviewWrite: React.FC = () => {
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
         <XButton onClickFunc={navigateToDetail} />
-        {/* todo: 뒤로가기 버튼, 추후 placeId로 변환할 것 */}
-        {/* <XButton onClickFunc={() => navigate(`/map/detail/${placeId}`)} /> */}
       </div>
 
       {/* 방문 의향 체크 */}

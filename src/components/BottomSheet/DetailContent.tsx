@@ -53,7 +53,7 @@ const DetailContent: React.FC = () => {
       <ReviewPhotos images={images} />
 
       {/* ReviewList */}
-      <ReviewList placeId={selectedPlace.id} />
+      {placeId && <ReviewList placeId={parseInt(placeId)} />}
     </div>
   );
 };

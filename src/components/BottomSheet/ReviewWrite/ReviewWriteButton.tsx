@@ -1,5 +1,3 @@
-// TODO: disable 기능 validatio과 함께 추가하기.
-
 interface ReviewWriteButtonProps {
   onClickFunc: () => void;
   disabled: boolean;
