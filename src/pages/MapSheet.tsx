@@ -2,6 +2,11 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { places } from '../places';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 
+function getCurrentBounds(map: naver.maps.Map) {
+  const a: naver.maps.Bounds = map.getBounds();
+  console.log('getBoudns: ', a);
+}
+
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
@@ -39,6 +44,8 @@ const MapSheet: React.FC = () => {
 
     // 지도 초기화 후 마커 추가
     addMarkers();
+
+    getCurrentBounds(map);
   };
 
   const addMarkers = () => {
@@ -85,23 +92,23 @@ const MapSheet: React.FC = () => {
   };
 
   // 임시 버튼: 표시된 마커 기준으로 지도 이동
-  const moveToMarkers = useCallback(() => {
-    if (!mapInstance.current || !boundsRef.current) return;
+  // const moveToMarkers = useCallback(() => {
+  //   if (!mapInstance.current || !boundsRef.current) return;
 
-    mapInstance.current.panToBounds(
-      boundsRef.current,
-      {
-        duration: 1000,
-        easing: 'easeOutCubic',
-      },
-      {
-        top: 30,
-        right: 30,
-        bottom: 200,
-        left: 30,
-      }
-    );
-  }, []);
+  //   mapInstance.current.panToBounds(
+  //     boundsRef.current,
+  //     {
+  //       duration: 1000,
+  //       easing: 'easeOutCubic',
+  //     },
+  //     {
+  //       top: 30,
+  //       right: 30,
+  //       bottom: 200,
+  //       left: 30,
+  //     }
+  //   );
+  // }, []);
 
   // 임시 버튼: 현재 위치로 지도 이동
   const moveToCurrentLocation = useCallback(() => {
@@ -126,15 +133,14 @@ const MapSheet: React.FC = () => {
       <div ref={mapElement} className='w-full h-full' />
 
       {/* 임시 버튼: 표시된 마커 기준으로 */}
-      <button
+      {/* <button
         onClick={moveToMarkers}
         className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
         표시된 마커로 지도 이동
-      </button>
+      </button> */}
 
       {/* 현재 위치로 버튼 */}
-      <CurrentLocationButton handleClick={moveToCurrentLocation}/>
-      
+      <CurrentLocationButton handleClick={moveToCurrentLocation} />
     </div>
   );
 };
