@@ -44,20 +44,20 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ autoSearchData }) => {
 
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
         <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
-          <div className="font-['Pretendard'] text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-900">
+          <div className='text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-950'>
             {autoSearchData.title}
           </div>
         </div>
 
         <div className='flex justify-between items-center self-stretch'>
           {autoSearchData.address && (
-            <div className="font-['Pretendard'] text-[12px] leading-[125%] tracking-[-0.18px] text-center text-primary-400">
+            <div className='text-[12px] leading-[120%] tracking-[-0.18px] text-center text-primary-400'>
               {autoSearchData.address}
             </div>
           )}
           {typeof autoSearchData.distance === 'number' && (
             <div className='flex items-center'>
-              <div className="font-['Pretendard'] text-[12px] leading[125%] tracking-[-0.18px] text-center text-primary-400">
+              <div className='text-[12px] leading[120%] tracking-[-0.18px] text-center text-primary-400'>
                 {formatDistance(autoSearchData.distance)}
               </div>
             </div>
