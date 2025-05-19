@@ -50,7 +50,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
       <div className='flex flex-col justify-center items-center'>
         <img className='w-32 h-32' src={icon} alt={category.id} />
         <div
-          className='text-center text-xs font-medium'
+          className='text-center text-sm font-medium leading-tight'
           style={{ color: `var(--color-chip-${category.id})` }}>
           {category.title}
         </div>
