@@ -1,4 +1,6 @@
 import React from 'react';
+import xBottonCircle from '../../assets/xButtonCircle.svg';
+import ClockFill from '../../assets/clockFill.svg?react';
 import XButtonCircle from '../XButtonCircle';
 import { deleteRecentSearchWords } from '../../api/searchApi';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,10 +18,20 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
   }
 
   return (
-    <div className='self-stretch flex items-center p-[12px_16px_0px_16px]'>
-      <div className='flex items-center gap-4 flex-[1_0_0]'>
-        <div className="flex-[1_0_0] text-[12px] leading-[120%] tracking-[-0.18px] font-['Pretendard'] text-black">
-          {text}
+    <div className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
+      <div className='flex h-36 items-center gap-4 flex-[1_0_0] justify-start'>
+        <div className='flex items-center gap-4 flex-[1_0_0]'>
+          <ClockFill />
+          <div className='flex-[1_0_0] text-[12px] leading-[120%] tracking-[-0.18px] text-primary-950'>
+            {text}
+          </div>
+        </div>
+        <div className='flex w-36 h-36 justify-center items-center self-stretch'>
+          <img
+            className='w-24 h-24 shrink-0 aspect-[1/1]'
+            src={xBottonCircle}
+            alt='xBottonCircle'
+          />
         </div>
         <XButtonCircle onClickFunc={() => onClickDeleteRow()} />
       </div>
