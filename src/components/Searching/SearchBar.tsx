@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import search from '../../assets/search.svg';
-import useSearchStore from '../../store/searchStore';
+import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
 import useDebounce from '../../hooks/useDebounce';
 
