@@ -8,6 +8,7 @@ import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
 import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
 import LoginModal from '../components/LoginModal';
+import RelatedSollect from '../pages/RelatedSollect';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const AppRouter = () => {
           </Route>
           <Route path='mark' element={<></>} />
           <Route path='profile' element={<></>} />
+          <Route path='related-sollect' element={<RelatedSollect/>} />
         </Route>
       </Routes>
       {/* Modal Routes */}
