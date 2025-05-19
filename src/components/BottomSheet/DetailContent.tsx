@@ -6,7 +6,8 @@ import ReviewPhotos from './ReviewPhotos';
 import ReviewList from './Review/ReviewList';
 import { fetchPlaceById } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import arrow from "../../assets/arrow.svg"
 
 const DetailContent: React.FC = () => {
   const { selectedPlace } = usePlaceStore();
@@ -45,12 +46,25 @@ const DetailContent: React.FC = () => {
 
       {/* tags */}
       <div className='pb-12'>
-        <TagList headerName='분위기' tags={selectedPlace.tags} counts={counts} />
-        <TagList headerName='1인 이용' tags={selectedPlace.tags} counts={counts} />
+        <TagList
+          headerName='분위기'
+          tags={selectedPlace.tags}
+          counts={counts}
+        />
+        <TagList
+          headerName='1인 이용'
+          tags={selectedPlace.tags}
+          counts={counts}
+        />
       </div>
 
       {/* ReviewPhotoList */}
-      <ReviewPhotos images={images} more/>
+      <ReviewPhotos images={images} more />
+
+      {/* 관련 쏠렉트 보기 */}
+      <Link className='flex text-primary-950 text-xs pl-16 mb-12' to='/related-sollect'>
+        관련 쏠렉트 보기 <img src={arrow} alt='arrow' />
+      </Link>
 
       {/* ReviewList */}
       {placeId && <ReviewList placeId={parseInt(placeId)} />}
