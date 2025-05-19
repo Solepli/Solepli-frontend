@@ -53,3 +53,10 @@ export type CurrentBoundsXY = {
   neX: number;
   neY: number;
 };
+
+export type SollectPhotoType ={
+  id:number;
+  title:string;
+  address:string;
+  imageUrl:string;
+}
