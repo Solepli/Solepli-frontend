@@ -3,6 +3,36 @@ import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButt
 import { useQuery } from '@tanstack/react-query';
 import { fetchMockPlacesNearby } from '../api/mapApi';
 import { useBoundsStore } from '../store/mapStore';
+import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
+import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
+import DrinkMarker from '../assets/category-icons/mapMarker/drinkMarker.svg?url';
+import EntertainmentMarker from '../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
+import FoodMarker from '../assets/category-icons/mapMarker/foodMarker.svg?url';
+import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
+import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
+import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
+
+const categoryKeyMap: Record<string, string> = {
+  식당: 'food',
+  카페: 'cafe',
+  주점: 'drink',
+  '오락/여가': 'entertainment',
+  '문화/예술': 'culture',
+  쇼핑: 'shop',
+  산책: 'walk',
+  '공부/작업': 'work',
+};
+
+const iconMarker: Record<string, string> = {
+  food: FoodMarker,
+  cafe: CafeMarker,
+  drink: DrinkMarker,
+  entertainment: EntertainmentMarker,
+  culture: CultureMarker,
+  shop: ShopMarker,
+  walk: WalkMarker,
+  work: WorkMarker,
+};
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -26,10 +56,14 @@ const MapSheet: React.FC = () => {
   // });
 
   // Mock Data Api
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ['placesNearby'],
     queryFn: fetchMockPlacesNearby,
   });
+
+  if (error) {
+    console.log('error: ', error);
+  }
 
   const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
   let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
@@ -102,7 +136,9 @@ const MapSheet: React.FC = () => {
       const marker = new naver.maps.Marker({
         position: position,
         map: mapInstance.current || undefined,
-        title: place.category,
+        icon: {
+          url: iconMarker[categoryKeyMap[place.category]],
+        },
       });
 
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동

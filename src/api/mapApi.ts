@@ -37,7 +37,7 @@ const mockPlacesNearby = {
       id: 123,
       latitude: 37.51123,
       longitude: 127.05845,
-      category: '공원',
+      category: '산책',
     },
     {
       id: 456,
