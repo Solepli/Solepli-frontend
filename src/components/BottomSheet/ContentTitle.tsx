@@ -60,7 +60,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
-          <span className='text-lg text-primary-900 font-bold pr-4'>
+          <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
             {place.title}
           </span>
           <span className='text-sm text-primary-400 pr-12'>
