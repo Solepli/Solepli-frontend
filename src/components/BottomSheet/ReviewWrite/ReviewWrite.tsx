@@ -2,13 +2,83 @@ import React from 'react';
 
 import ReviewEmoji from './ReviewEmoji';
 
-import xButton from '../../../assets/xButton.svg';
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
-import { TagType } from '../../../types';
+import { ReviewType, TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
+import XButton from '../../XButton';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import { useShallow } from 'zustand/shallow';
+import ReviewWriteButton from './ReviewWriteButton';
+import { addReview } from '../../../api/reviewApi';
+import ReviewPhotosInput from './ReviewPhotosInput';
 
 const ReviewWrite: React.FC = () => {
+  // const { placeId } = useParams();
+  const navigate = useNavigate();
+  const { placeId } = useParams();
+  const location = useLocation();
+
+  //리렌더링을 방지하기 위해 useShallow 사용
+  const {
+    moodTags,
+    setMoodTags,
+    emoji,
+    rating,
+    text,
+    setSingleTags,
+    singleTags,
+    files,
+    reset,
+  } = useReviewWriteStore(
+    useShallow((state) => ({
+      moodTags: state.moodTags,
+      setMoodTags: state.setMoodTags,
+      singleTags: state.singleTags,
+      setSingleTags: state.setSingleTags,
+      emoji: state.emoji,
+      rating: state.rating,
+      text: state.text,
+      files: state.files,
+      reset: state.reset,
+    }))
+  );
+
+  // 리뷰 작성 버튼 활성화 조건
+  const isWrittenable =
+    moodTags !== null &&
+    rating > 0 &&
+    moodTags.length > 0 &&
+    singleTags.length > 0;
+
+  const fromReviewList = location.state?.fromReviewList;
+
+  const reviewWrite = async () => {
+    const newReview: ReviewType = {
+      id: 0,
+      username: 'eoksdjeos',
+      profileImage: 'https://i.pravatar.cc/50?img=1', // 샘플 이미지 URL
+      date: new Date().toLocaleDateString('ko-KR').slice(2),
+      rating,
+      emoji,
+      content: text,
+      images: files.map((file) => URL.createObjectURL(file)),
+      tags: [...moodTags, ...singleTags],
+    };
+
+    await addReview(newReview);
+    reset();
+    navigateToDetail();
+  };
+  const navigateToDetail = () => {
+    if (fromReviewList) {
+      navigate(`/map/reviews/${placeId}`);
+    } else {
+      navigate(`/map/detail/${placeId}`);
+    }
+  };
+
   const mood: TagType[] = [
     { id: 'quiet', text: '조용한' },
     { id: 'lively', text: '시끌벅적한' },
@@ -37,9 +107,7 @@ const ReviewWrite: React.FC = () => {
     <div className='flex flex-col items-start justify-start pb-300'>
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
-        <div className='w-[32px] h-[32px] shrink-0 flex flex-row items-center justify-center rounded-[8px]'>
-          <img width='24' height='24' src={xButton}></img>
-        </div>
+        <XButton onClickFunc={navigateToDetail} />
       </div>
 
       {/* 방문 의향 체크 */}
@@ -50,14 +118,30 @@ const ReviewWrite: React.FC = () => {
 
       <div className='flex flex-col pb-32 border-gray-100 border-[0_0_1px]'>
         {/* 분위기 태그 */}
-        <ReviewTagList title={'분위기'} tag={mood} />
+        <ReviewTagList
+          title={'분위기'}
+          tag={mood}
+          selectedTags={moodTags}
+          setSelectedTags={setMoodTags}
+        />
 
         {/* 분위기 태그 */}
-        <ReviewTagList title={'1인 이용'} tag={single} />
+        <ReviewTagList
+          title={'1인 이용'}
+          tag={single}
+          selectedTags={singleTags}
+          setSelectedTags={setSingleTags}
+        />
       </div>
 
       {/* 리뷰 글 작성 */}
       <ReviewInput />
+
+      {/* 사진 추가하기 */}
+      <ReviewPhotosInput />
+
+      {/* 리뷰 작성 완료 버튼 */}
+      <ReviewWriteButton onClickFunc={reviewWrite} disabled={!isWrittenable} />
     </div>
   );
 };

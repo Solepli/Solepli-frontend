@@ -18,10 +18,10 @@ const Review = ({ review }: { review: ReviewType }) => {
             className='w-38 h-38 rounded-full object-cover'
           />
           <div className='flex flex-col'>
-            <span className='text-primary-900 text-xs font-semibold'>
+            <span className='text-primary-900 text-sm font-bold leading-[150%]'>
               @{review.username}
             </span>
-            <span className='text-primary-400 text-[10px] font-normal'>
+            <span className='text-primary-400 text-xs font-normal leading-[120%]'>
               {review.date}
             </span>
           </div>
@@ -35,7 +35,7 @@ const Review = ({ review }: { review: ReviewType }) => {
           <div className='h-14 border-l border-primary-400 mx-1' />
           <div className='flex items-center'>
             <Star />
-            <span className='justify-start text-primary-900 text-xs font-medium leading-none'>
+            <span className='justify-start text-primary-900 text-sm font-medium leading-[150%]'>
               {review.rating.toFixed(1)}
             </span>
           </div>

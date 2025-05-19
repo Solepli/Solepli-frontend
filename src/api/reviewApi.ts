@@ -7,6 +7,14 @@ export const fetchReviews = async (placeId: number) => {
   return mockReviews;
 };
 
+export const addReview = async (newReview: ReviewType) => {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  console.log('Adding review:', newReview);
+
+  // Mock adding the review to the database
+  mockReviews.push(newReview);
+}
+
 const mockReviews: ReviewType[] = [
   {
     id: 1,
