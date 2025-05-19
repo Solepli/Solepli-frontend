@@ -5,15 +5,14 @@ export const fetchPlaces = async () => {
   return mockPlaces;
 };
 
-export const fetchPlaceById = async(id:number) =>{
+export const fetchPlaceById = async (id: number) => {
   // await new Promise((res) => setTimeout(res, 300));
   return mockPlaces[id];
-}
-
+};
 
 const mockPlaces: Place[] = [
   {
-    id:1,
+    id: 1,
     title: '스타벅스 노량진동점',
     address: '서울 동작구 노량진로 190',
     latitude: 37.513213,
@@ -26,17 +25,18 @@ const mockPlaces: Place[] = [
       { id: 'cozy', text: '편안한' },
     ],
     hours: [
-      { day: 0, startTime: 8, endTime: 16 },
-      { day: 1, startTime: 8, endTime: 16 },
-      { day: 2, startTime: 8, endTime: 16 },
-      { day: 3, startTime: 8, endTime: 16 },
-      { day: 4, startTime: 8, endTime: 16 },
-      { day: 5, startTime: 8, endTime: 16 },
+      { day: 0, startTime: "10:00", endTime: "20:30" },
+      { day: 1, startTime: "10:00", endTime: "20:30" },
+      { day: 2, startTime: "10:00", endTime: "20:30" },
+      { day: 3, startTime: "10:00", endTime: "20:30" },
+      { day: 4, startTime: "10:00", endTime: "20:30" },
+      { day: 5, startTime: "10:00", endTime: "20:30" },
+      { day: 6, startTime: "10:00", endTime: "17:00" },
     ],
   },
 
   {
-    id:2,
+    id: 2,
     title: '도로도로커피숍',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.51388,
@@ -49,16 +49,17 @@ const mockPlaces: Place[] = [
       { id: 'cozy', text: '편안한' },
     ],
     hours: [
-      { day: 0, startTime: 8, endTime: 16 },
-      { day: 1, startTime: 8, endTime: 16 },
-      { day: 2, startTime: 8, endTime: 16 },
-      { day: 3, startTime: 8, endTime: 16 },
-      { day: 4, startTime: 8, endTime: 16 },
-      { day: 5, startTime: 8, endTime: 16 },
+      { day: 0, startTime: "10:00", endTime: "20:30" },
+      { day: 1, startTime: "10:00", endTime: "20:30" },
+      { day: 2, startTime: "10:00", endTime: "20:30" },
+      { day: 3, startTime: "10:00", endTime: "20:30" },
+      { day: 4, startTime: "10:00", endTime: "20:30" },
+      { day: 5, startTime: "10:00", endTime: "20:30" },
+      { day: 6, startTime: "10:00", endTime: "17:00" },
     ],
   },
   {
-    id:3,
+    id: 3,
     title: '미분당',
     address: '서울 동작구 노량진로 190',
     latitude: 37.5132,
@@ -71,17 +72,18 @@ const mockPlaces: Place[] = [
       { id: 'hip', text: '힙한' },
     ],
     hours: [
-      { day: 0, startTime: 8, endTime: 16 },
-      { day: 1, startTime: 8, endTime: 16 },
-      { day: 2, startTime: 8, endTime: 16 },
-      { day: 3, startTime: 8, endTime: 16 },
-      { day: 4, startTime: 8, endTime: 16 },
-      { day: 5, startTime: 8, endTime: 16 },
+      { day: 0, startTime: "10:00", endTime: "20:30" },
+      { day: 1, startTime: "10:00", endTime: "20:30" },
+      { day: 2, startTime: "10:00", endTime: "20:30" },
+      { day: 3, startTime: "10:00", endTime: "20:30" },
+      { day: 4, startTime: "10:00", endTime: "20:30" },
+      { day: 5, startTime: "10:00", endTime: "20:30" },
+      { day: 6, startTime: "10:00", endTime: "17:00" },
     ],
   },
 
   {
-    id:4,
+    id: 4,
     title: '샤브로',
     address: '서울 동작구 노량진로 145 1층',
     latitude: 37.513,
@@ -94,12 +96,13 @@ const mockPlaces: Place[] = [
       { id: 'hip', text: '힙한' },
     ],
     hours: [
-      { day: 0, startTime: 8, endTime: 16 },
-      { day: 1, startTime: 8, endTime: 16 },
-      { day: 2, startTime: 8, endTime: 16 },
-      { day: 3, startTime: 8, endTime: 16 },
-      { day: 4, startTime: 8, endTime: 16 },
-      { day: 5, startTime: 8, endTime: 16 },
+      { day: 0, startTime: "10:00", endTime: "20:30" },
+      { day: 1, startTime: "10:00", endTime: "20:30" },
+      { day: 2, startTime: "10:00", endTime: "20:30" },
+      { day: 3, startTime: "10:00", endTime: "20:30" },
+      { day: 4, startTime: "10:00", endTime: "20:30" },
+      { day: 5, startTime: "10:00", endTime: "20:30" },
+      { day: 6, startTime: "10:00", endTime: "17:00" },
     ],
   },
 ];

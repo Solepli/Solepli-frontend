@@ -8,7 +8,7 @@ interface ReviewRangeProps {
 
 const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
   return (
-    <div className='px-16 pb-4'>
+    <div className='px-16 pb-8'>
       <div className='flex justify-between items-center'>
         <div>
           <p className='text-xs text-primary-900 font-medium mb-2'>

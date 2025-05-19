@@ -4,7 +4,7 @@ export type Category = {
 };
 
 export type Place = {
-  id:number;
+  id: number;
   title: string;
   address: string;
   latitude: number;
@@ -17,10 +17,9 @@ export type Place = {
 
 type Hours = {
   day: number;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
 };
-
 
 export type TagType = {
   id: string;
@@ -34,14 +33,23 @@ export type AutoSearchResults = {
   distance: number | null;
 };
 
+export type Emoji = 'good' | 'bad' | null;
+
 export type ReviewType = {
   id: number;
   username: string;
   profileImage: string;
   date: string;
   rating: number;
-  emoji: 'good' | 'bad';
+  emoji: Emoji;
   content: string;
   images: string[];
   tags: TagType[];
-}
+};
+
+export type CurrentBoundsXY = {
+  swX: number;
+  swY: number;
+  neX: number;
+  neY: number;
+};

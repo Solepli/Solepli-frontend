@@ -1,18 +1,20 @@
 import React from 'react';
-import { recentSearchText } from '../../recentSearchResults';
 import RecentSearch from './RecentSearch';
 import SearchTitle from './SearchTitle';
+import { useQuery } from '@tanstack/react-query';
+import { fetchRecentSearchWords } from '../../api/searchApi';
 
 const RecentSearchList: React.FC = () => {
-  const getRecentSearchText = recentSearchText;
+  const { data } = useQuery({
+    queryKey: ['recentSearchWords'],
+    queryFn: fetchRecentSearchWords,
+  });
 
   return (
     <div>
       <SearchTitle title={'최근 검색어'} />
 
-      {getRecentSearchText.map((text, i) => (
-        <RecentSearch text={text} key={i} />
-      ))}
+      {data?.map((text, i) => <RecentSearch text={text} key={i} />)}
     </div>
   );
 };
