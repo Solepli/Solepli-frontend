@@ -6,15 +6,21 @@ import clock from '../../assets/clock.svg';
 import share from '../../assets/share.svg';
 import XButton from '../XButton';
 import { useLocation, useNavigate } from 'react-router-dom';
+import arrow from '../../assets/arrow.svg';
+import { useState } from 'react';
 
 interface ContentTitleProps {
   place: Place;
   property: 'preview' | 'detail';
 }
 
+const days = ['월', '화', '수', '목', '금', '토', '일'];
+
 const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
   const isPreview = property === 'preview';
   const isDetail = property === 'detail';
+
+  const [showHoursInfo, setShowHoursInfo] = useState(false);
 
   const navigate = useNavigate();
   const from = useLocation().state?.from;
@@ -31,15 +37,25 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
 
   const buttonStyle = 'w-32 h-32 rounded-lg flex justify-center items-center';
 
+  // 하드코딩
+  const isOpen = true;
+  const closingTime = '22:30';
+  const [degree, setDegree] = useState(90);
+
+  const handleShowHoursInfo = () =>{
+    setShowHoursInfo(!showHoursInfo);
+    setDegree((degree + 180) % 360);
+  }
+
   return (
     <div>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
-          <span className='text-base text-primary-900 font-bold pr-4'>
+          <span className='text-lg text-primary-900 font-bold pr-8'>
             {place.title}
           </span>
-          <span className='text-xs text-primary-400 pr-10'>
+          <span className='text-sm text-primary-400 pr-10'>
             {place.category.title}
           </span>
           {isPreview && (
@@ -65,17 +81,39 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         )}
       </div>
 
-      {/* 위치, 영업시간 */}
+      {/* detail 위치, 영업시간 */}
       {isDetail && (
-        <div className='text-primary-900 text-xs border-b mb-12 border-primary-100 p-12 pt-0'>
+        <div className='text-primary-900 text-sm border-b mb-12 border-primary-100 p-12 pt-0'>
           <div className='flex items-center'>
             <img src={location} alt='location' />
             <p>{place.address}</p>
           </div>
-          <div className='flex items-center'>
+
+          <div className='flex items-center' onClick={handleShowHoursInfo}>
             <img src={clock} alt='clock' />
-            <p>영업 중</p>
+            <p>
+              {isOpen ? '영업 중' : '영업 종료'} · {closingTime} 영업 종료
+            </p>
+            <img
+              src={arrow}
+              alt='arrow'
+              className={`w-20 h-20 rotate-${degree}`}
+            />
           </div>
+
+          {showHoursInfo && (
+            <div className='px-24 py-6'>
+              <ul>
+                {place.hours.map((hour) => {
+                  return (
+                    <p className='text-primary-950 text-sm'>
+                      {days[hour.day]} <span className='text-primary-400'>·</span> {hour.startTime} ~ {hour.endTime}
+                    </p>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>
