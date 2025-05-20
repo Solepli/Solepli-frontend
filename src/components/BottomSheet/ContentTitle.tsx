@@ -42,24 +42,32 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
   const closingTime = '22:30';
   const [degree, setDegree] = useState(90);
 
-  const handleShowHoursInfo = () =>{
+  const handleShowHoursInfo = () => {
     setShowHoursInfo(!showHoursInfo);
     setDegree((degree + 180) % 360);
-  }
+  };
+
+  const copyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
-          <span className='text-lg text-primary-900 font-bold pr-8'>
+          <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
             {place.title}
           </span>
-          <span className='text-sm text-primary-400 pr-10'>
+          <span className='text-sm text-primary-400 pr-12'>
             {place.category.title}
           </span>
           {isPreview && (
-            <span className='text-xs text-primary-900 font-semibold'>
+            <span className='text-sm text-primary-900 font-semibold'>
               영업 중
             </span>
           )}
@@ -73,7 +81,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         {isDetail && (
           <div className='flex gap-8'>
             <SolmarkChip label />
-            <div className={`${buttonStyle} border border-primary-400`}>
+            <div
+              className={`${buttonStyle} border border-primary-400`}
+              onClick={copyUrl}>
               <img src={share} alt='share' />
             </div>
             <XButton onClickFunc={handleBack} detail />
@@ -107,7 +117,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
                 {place.hours.map((hour) => {
                   return (
                     <p className='text-primary-950 text-sm'>
-                      {days[hour.day]} <span className='text-primary-400'>·</span> {hour.startTime} ~ {hour.endTime}
+                      {days[hour.day]}{' '}
+                      <span className='text-primary-400'>·</span>{' '}
+                      {hour.startTime} ~ {hour.endTime}
                     </p>
                   );
                 })}

@@ -1,5 +1,5 @@
 import React from 'react';
-import star from '../../assets/star.svg';
+import star from '../../assets/starFill.svg';
 
 interface ReviewRangeProps {
   rating: number;
