@@ -57,6 +57,7 @@ export type CurrentBoundsXY = {
 export type SollectPhotoType ={
   id:number;
   title:string;
+  placeTitle?:string;
   address:string;
   imageUrl:string;
 }
