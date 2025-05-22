@@ -19,7 +19,7 @@ const ExpandableText = ({ text, maxLines = 3 }: ExpandableTextProps) => {
   }, [text, maxLines]);
 
   return (
-    <div className='w-full px-16 pb-12 text-primary-900 text-sm font-normal leading-[150%]'>
+    <div className='w-full px-16 pb-8 text-primary-900 text-sm font-normal leading-[150%]'>
       {!expanded ? (
         <div
           className="relative overflow-hidden"

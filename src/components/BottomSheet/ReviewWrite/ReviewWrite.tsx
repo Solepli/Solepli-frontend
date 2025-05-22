@@ -104,7 +104,7 @@ const ReviewWrite: React.FC = () => {
   ];
 
   return (
-    <div className='flex flex-col items-start justify-start pb-300'>
+    <div className='flex flex-col items-start justify-start pb-30'>
       {/* content title */}
       <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
         <XButton onClickFunc={navigateToDetail} />
