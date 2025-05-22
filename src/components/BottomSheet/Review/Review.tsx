@@ -1,5 +1,5 @@
 import { ReviewType } from '../../../types';
-import ReviewPhotos from '../ReviewPhotos';
+import ReviewPhotos from './ReviewPhotos';
 import TagList from '../TagList';
 import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
 import EmojiBadSmall from '../../../assets/emojiBadSmall.svg?react';
@@ -43,9 +43,12 @@ const Review = ({ review }: { review: ReviewType }) => {
       </div>
       {/* 리뷰 내용 */}
       <ExpandableText text={review.content} maxLines={3} />
-      {/* review.tags 에서 tags로 잠시 수정 */}
       <TagList tags={review.tags} />
-      {review.images.length > 0 && <ReviewPhotos images={review.images} />}
+      {review.images.length > 0 && (
+        <div className='px-16'>
+          <ReviewPhotos images={review.images} />
+        </div>
+      )}
     </div>
   );
 };
