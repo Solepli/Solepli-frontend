@@ -31,7 +31,7 @@ const ReviewPhotos = ({ images, onDeleteFunc }: ReviewPhotosProps) => {
   if (images.length === 0) return;
 
   return (
-    <div className='w-full overflow-x-auto'>
+    <div className='w-full overflow-x-auto touch-pan'>
       <div className='inline-flex gap-6'>
         {images.map((image, index) => {
           return (

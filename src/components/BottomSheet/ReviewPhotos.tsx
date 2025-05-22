@@ -16,7 +16,7 @@ const ReviewPhotos: React.FC<ReviewPhotosProps> = ({ images, more }) => {
   }
 
   return (
-    <div className='px-16 pb-8 gap-2 flex overflow-x-scroll touch-pan-x'>
+    <div className='px-16 pb-8 gap-2 flex overflow-x-scroll touch-pan'>
       {images.map((image, i) => {
         const isLast = i === images.length - 1;
 
