@@ -9,6 +9,7 @@ import XButton from '../../XButton';
 import useAuthStore from '../../../store/authStore';
 import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
+import { useCallback } from 'react';
 
 interface ReviewListProps {
   placeId: number;
@@ -16,9 +17,19 @@ interface ReviewListProps {
 }
 
 const ReviewList = ({ placeId, showAll = false }: ReviewListProps) => {
+  const selectSortedReviews = useCallback((data: ReviewType[]) => {
+    const sortByDate = (a: ReviewType, b: ReviewType) => {
+      const dateA = new Date('20' + a.date.split('.').join('-'));
+      const dateB = new Date('20' + b.date.split('.').join('-'));
+      return dateB.getTime() - dateA.getTime();
+    };
+    return data.sort(sortByDate);
+  }, []);
+
   const { data, isLoading, error } = useQuery<ReviewType[]>({
     queryKey: ['reviews', placeId],
     queryFn: () => fetchReviews(placeId),
+    select: selectSortedReviews,
   });
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const { reset } = useReviewWriteStore(
