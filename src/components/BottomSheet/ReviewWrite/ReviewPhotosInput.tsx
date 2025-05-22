@@ -2,7 +2,7 @@ import { useRef, } from 'react';
 import Photo from '../../../assets/photo.svg?react';
 import XButtonCircle from '../../XButtonCircle';
 // import { useShallow } from 'zustand/shallow';
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 
 interface PreviewPhotoProps {

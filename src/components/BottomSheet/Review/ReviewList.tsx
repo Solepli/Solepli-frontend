@@ -6,8 +6,8 @@ import ShowAllReviewsButton from './ShowAllReviewsButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewEmoji from '../ReviewWrite/ReviewEmoji';
 import XButton from '../../XButton';
-import useAuthStore from '../../../store/useAuthStore';
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useAuthStore from '../../../store/authStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 
 interface ReviewListProps {

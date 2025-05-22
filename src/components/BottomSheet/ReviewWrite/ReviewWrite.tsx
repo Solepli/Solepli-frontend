@@ -8,7 +8,7 @@ import { ReviewType, TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
 import XButton from '../../XButton';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
 import { addReview } from '../../../api/reviewApi';

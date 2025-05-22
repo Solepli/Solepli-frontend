@@ -3,7 +3,7 @@ import React from 'react';
 import StarEmpty from '../../../assets/starEmpty.svg?react';
 import StarFill from '../../../assets/starFill.svg?react';
 import { useShallow } from 'zustand/shallow';
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 
 const ReviewStars: React.FC = () => {
   const { rating, setRating } = useReviewWriteStore(

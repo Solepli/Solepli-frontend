@@ -1,7 +1,7 @@
 import React from 'react';
 import currentLocation from '../../assets/currentLocation.svg';
 import { CurrentLocationButtonProps } from '../../interface';
-import { useBottomSheetStore } from '../../store/useBottomSheetStore';
+import { useBottomSheetStore } from '../../store/bottomSheetStore';
 import { MAX_Y } from '../../constants';
 
 const CurrentLocationButton: React.FC<CurrentLocationButtonProps> = ({
