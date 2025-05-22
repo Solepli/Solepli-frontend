@@ -9,7 +9,7 @@ interface AuthStore {
 const useAuthStore = create(
     persist<AuthStore>(
         (set) => ({
-            isLoggedIn: true,
+            isLoggedIn: false,
             login: () => {
                 const userLocalStorage = localStorage.getItem('accessToken');
                 if (userLocalStorage) {

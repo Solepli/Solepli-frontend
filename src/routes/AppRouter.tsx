@@ -7,10 +7,11 @@ import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
 import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
-import LoginModal from '../components/LoginModal';
+import LoginModal from '../components/login/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
 import SearchPage from '../pages/SearchPage';
+import OAtuhCallback from '../components/login/OAuthCallback';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -43,6 +44,9 @@ const AppRouter = () => {
           <Route path='/login-modal' element={<LoginModal />} />
         </Routes>
       )}
+      <Routes>
+        <Route path='/:loginType/callback' element={<OAtuhCallback />} />
+      </Routes>
     </>
   );
 };
