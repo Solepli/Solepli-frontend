@@ -1,5 +1,5 @@
 import { ReviewType } from '../../../types';
-import ReviewPhotos from '../ReviewPhotos';
+import ReviewPhotos from './ReviewPhotos';
 import TagList from '../TagList';
 import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
 import EmojiBadSmall from '../../../assets/emojiBadSmall.svg?react';
@@ -8,7 +8,7 @@ import ExpandableText from './ExpandableText';
 
 const Review = ({ review }: { review: ReviewType }) => {
   return (
-    <div className='py-16'>
+    <div className='pt-20 pb-12'>
       <div className='px-16 pb-12 flex items-center justify-between'>
         {/* 왼쪽: 프로필 이미지 + 이름/날짜 */}
         <div className='flex items-center gap-8'>
@@ -43,9 +43,15 @@ const Review = ({ review }: { review: ReviewType }) => {
       </div>
       {/* 리뷰 내용 */}
       <ExpandableText text={review.content} maxLines={3} />
-      {/* review.tags 에서 tags로 잠시 수정 */}
-      <TagList tags={review.tags} />
-      {review.images.length > 0 && <ReviewPhotos images={review.images} />}
+      {/* 태그, div는 단순 padding을 위해 추가 */}
+      <div className='pb-4'>
+        <TagList tags={review.tags} />
+      </div>
+      {review.images.length > 0 && (
+        <div className='px-16'>
+          <ReviewPhotos images={review.images} />
+        </div>
+      )}
     </div>
   );
 };

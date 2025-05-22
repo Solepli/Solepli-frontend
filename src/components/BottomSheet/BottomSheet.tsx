@@ -7,7 +7,7 @@ import {
   CATAGORY_MAX_Y,
   CATAGORY_MIN_Y,
 } from '../../constants';
-import { useBottomSheetStore } from '../../store/useBottomSheetStore';
+import { useBottomSheetStore } from '../../store/bottomSheetStore';
 import { useLocation } from 'react-router-dom';
 import MapChipList from './Category/MapChipList';
 

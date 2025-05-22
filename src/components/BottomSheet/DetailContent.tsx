@@ -67,7 +67,7 @@ const DetailContent: React.FC = () => {
       </Link>
 
       {/* ReviewList */}
-      {placeId && <ReviewList placeId={parseInt(placeId)} />}
+      {placeId && <ReviewList placeId={parseInt(placeId)} placeName={selectedPlace.title} />}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import EmojiGood from '../../../assets/emojiGood.svg?react';
 import EmojiCheckedGood from '../../../assets/emojiCheckedGood.svg?react';
 import EmojiBad from '../../../assets/emojiBad.svg?react';
 import EmojiCheckedBad from '../../../assets/emojiCheckedBad.svg?react';
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 
 const ReviewEmoji: React.FC = () => {

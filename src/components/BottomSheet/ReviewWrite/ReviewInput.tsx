@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, } from 'react';
 
-import useReviewWriteStore from '../../../store/useReviewWriteStore';
+import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 
 const ReviewInput: React.FC = () => {
