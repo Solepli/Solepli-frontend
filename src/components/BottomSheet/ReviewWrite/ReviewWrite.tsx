@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import ReviewEmoji from './ReviewEmoji';
 
@@ -6,16 +6,18 @@ import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
 import { ReviewType, TagType } from '../../../types';
 import ReviewInput from './ReviewInput';
-import XButton from '../../XButton';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
 import { addReview } from '../../../api/reviewApi';
 import ReviewPhotosInput from './ReviewPhotosInput';
+import TitleHeader from '../../global/TitleHeader';
 
 const ReviewWrite: React.FC = () => {
-  // const { placeId } = useParams();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const navigate = useNavigate();
   const { placeId } = useParams();
   const location = useLocation();
@@ -53,6 +55,7 @@ const ReviewWrite: React.FC = () => {
     singleTags.length > 0;
 
   const fromReviewList = location.state?.fromReviewList;
+  const placeName = location.state?.place;
 
   const reviewWrite = async () => {
     const newReview: ReviewType = {
@@ -73,7 +76,7 @@ const ReviewWrite: React.FC = () => {
   };
   const navigateToDetail = () => {
     if (fromReviewList) {
-      navigate(`/map/reviews/${placeId}`);
+      navigate(`/map/reviews/${placeId}`, { state: { placeName } });
     } else {
       navigate(`/map/detail/${placeId}`);
     }
@@ -105,13 +108,13 @@ const ReviewWrite: React.FC = () => {
 
   return (
     <div className='flex flex-col items-start justify-start pb-30'>
-      {/* content title */}
-      <div className='self-stretch flex flex-row items-center justify-end pt-0 px-[16px] pb-[8px]'>
-        <XButton onClickFunc={navigateToDetail} />
-      </div>
+      {/* 뒤로가기 */}
+      <TitleHeader title={placeName} onClick={navigateToDetail} />
 
-      {/* 방문 의향 체크 */}
-      <ReviewEmoji />
+      {/* 방문 의향 체크, pt-78: TitleHeader + 해당 컴포넌트 20 */}
+      <div className='w-full pt-78'>
+        <ReviewEmoji />
+      </div>
 
       {/* 만족도 체크 */}
       <ReviewRatio />
