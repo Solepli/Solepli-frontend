@@ -54,7 +54,7 @@ const ReviewList = ({
   const handleEmojiClick = () => {
     if (isLoggedIn) {
       navigate(`/map/review-write/${placeId}`, {
-        state: { fromReviewList: showAll, place: placeName },
+        state: { place: placeName },
       });
     } else {
       reset();

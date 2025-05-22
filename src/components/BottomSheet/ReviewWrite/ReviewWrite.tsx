@@ -54,7 +54,6 @@ const ReviewWrite: React.FC = () => {
     moodTags.length > 0 &&
     singleTags.length > 0;
 
-  const fromReviewList = location.state?.fromReviewList;
   const placeName = location.state?.place;
 
   const reviewWrite = async () => {
@@ -75,11 +74,7 @@ const ReviewWrite: React.FC = () => {
     navigateToDetail();
   };
   const navigateToDetail = () => {
-    if (fromReviewList) {
-      navigate(`/map/reviews/${placeId}`, { state: { placeName } });
-    } else {
-      navigate(`/map/detail/${placeId}`);
-    }
+    navigate(`/map/detail/${placeId}`, { state: { placeName } });
   };
 
   const mood: TagType[] = [
