@@ -96,10 +96,13 @@ const MapSheet: React.FC = () => {
   }, [mapInstance.current, data]);
 
   const initMap = (center: naver.maps.LatLng) => {
-    const map = new naver.maps.Map(mapElement.current!, {
+    const MapOptions = {
       center,
       zoom: 16,
-    });
+      gl: true,
+      customStyleId: import.meta.env.VITE_MAP_STYLE_ID,
+    };
+    const map = new naver.maps.Map(mapElement.current!, MapOptions);
     mapInstance.current = map;
 
     getCurrentBounds(map);
