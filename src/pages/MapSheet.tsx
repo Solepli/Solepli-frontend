@@ -15,7 +15,7 @@ import { initCluster } from '../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
 import { markerPlaceType } from '../types';
 
-const iconMarker: Record<string, string> = {
+const markerIconMap: Record<string, string> = {
   food: FoodMarker,
   cafe: CafeMarker,
   drink: DrinkMarker,
@@ -130,7 +130,7 @@ const MapSheet: React.FC = () => {
         position: position,
         map: mapInstance.current || undefined,
         icon: {
-          url: iconMarker[place.category],
+          url: markerIconMap[place.category],
         },
       });
 
