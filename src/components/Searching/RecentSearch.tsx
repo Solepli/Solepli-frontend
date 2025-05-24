@@ -26,13 +26,7 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
             {text}
           </div>
         </div>
-        <div className='flex w-36 h-36 justify-center items-center self-stretch'>
-          <img
-            className='w-24 h-24 shrink-0 aspect-[1/1]'
-            src={xBottonCircle}
-            alt='xBottonCircle'
-          />
-        </div>
+      
         <XButtonCircle onClickFunc={() => onClickDeleteRow()} />
       </div>
     </div>
