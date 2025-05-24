@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
-import { fetchMockPlacesNearby } from '../api/mapApi';
+import { fetchPlacesNearby } from '../api/mapApi';
 import { useBoundsStore } from '../store/mapStore';
 import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
 import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
@@ -12,6 +12,7 @@ import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
 import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
 import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
 import { initCluster } from '../utils/clusterManager';
+import { useShallow } from 'zustand/shallow';
 
 const categoryKeyMap: Record<string, string> = {
   식당: 'food',
@@ -41,29 +42,27 @@ const MapSheet: React.FC = () => {
   const markers = useRef<naver.maps.Marker[]>([]);
   const boundsRef = useRef<naver.maps.LatLngBounds | null>(null);
 
-  const { valueLngLat, setLngLat } = useBoundsStore();
+  const { valueLngLat, setLngLat } = useBoundsStore(
+    useShallow((state) => ({
+      valueLngLat: state.valueLngLat,
+      setLngLat: state.setLngLat,
+    }))
+  );
 
-  // cors 문제로 주석처리
-  // 문제 해결 전까지 mock 데이터는 fetchMockPlacesNearby로 가져옴.
-  // const { data } = useQuery({
-  //   queryKey: ['placesNearby'],
-  //   queryFn: fetchPlacesNearby(
-  //     valueLngLat!.swX,
-  //     valueLngLat!.swY,
-  //     valueLngLat!.neX,
-  //     valueLngLat!.neY
-  //   ),
-  //   enabled: valueLngLat !== undefined,
-  // });
-
-  // Mock Data Api
-  const { data, error } = useQuery({
+  const { data, error, isError } = useQuery({
     queryKey: ['placesNearby'],
-    queryFn: fetchMockPlacesNearby,
+    queryFn: () =>
+      fetchPlacesNearby(
+        valueLngLat!.swX,
+        valueLngLat!.swY,
+        valueLngLat!.neX,
+        valueLngLat!.neY
+      ),
+    enabled: valueLngLat !== undefined,
   });
 
-  if (error) {
-    console.log('error: ', error);
+  if (isError) {
+    console.log('fetchPlacesNearby isError :::', error);
   }
 
   const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
