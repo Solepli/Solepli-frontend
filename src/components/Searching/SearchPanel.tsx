@@ -5,11 +5,13 @@ import { useSearchStore } from '../../store/searchStore';
 
 const SearchPanel: React.FC = () => {
   const { inputValue } = useSearchStore();
+  const fromSollect = window.location.pathname.includes('/sollect/search');
 
   return (
-    <div className='fixed top-0 left-0 w-full z-70 min-h-full bg-[#fff] pt-[46px]'>
+    <div className='w-full'>
+      {fromSollect && inputValue && <RecentSearchList />}
       {!inputValue && <RecentSearchList />}
-      {inputValue && <AutoSearchList />}
+      {inputValue && !fromSollect && <AutoSearchList />}
     </div>
   );
 };

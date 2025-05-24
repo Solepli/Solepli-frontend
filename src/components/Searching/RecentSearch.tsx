@@ -7,13 +7,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 interface RecentSearchTextProps {
   text: string;
+  mode: string;
 }
 
-const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
+const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const queryClient = useQueryClient();
 
   async function onClickDeleteRow() {
-    await deleteRecentSearchWords(text);
+    await deleteRecentSearchWords(mode, text);
     queryClient.invalidateQueries({ queryKey: ['recentSearchWords'] });
   }
 
@@ -26,13 +27,7 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
             {text}
           </div>
         </div>
-        <div className='flex w-36 h-36 justify-center items-center self-stretch'>
-          <img
-            className='w-24 h-24 shrink-0 aspect-[1/1]'
-            src={xBottonCircle}
-            alt='xBottonCircle'
-          />
-        </div>
+      
         <XButtonCircle onClickFunc={() => onClickDeleteRow()} />
       </div>
     </div>

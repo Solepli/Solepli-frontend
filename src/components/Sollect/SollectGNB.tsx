@@ -2,8 +2,12 @@ import React from 'react';
 import logo from '../../assets/logo.svg';
 import add from '../../assets/add.svg';
 import search from '../../assets/search.svg';
+import { useSearchStore } from '../../store/searchStore';
+import { useNavigate } from 'react-router-dom';
 
 const SollectGNB = () => {
+  const { inputValue, setInputValue } = useSearchStore();
+  const navigate = useNavigate();
   return (
     <div className='flex px-16 py-12 gap-8'>
       {/* logo */}
@@ -16,6 +20,9 @@ const SollectGNB = () => {
           type='text'
           placeholder='오늘은 어디서 시간을 보내나요?'
           className='text-sm flex-1 focus:outline-none focus:ring-0 resize-none'
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onClick={() => navigate('/sollect/search')}
         />
       </div>
 
