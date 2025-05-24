@@ -10,7 +10,9 @@ const SollectPage = () => {
 
       {/* popular Sollect */}
       <h1 className='text-primary-950 text-xl font-bold pt-12 px-20 pb-8'>인기 많은 솔렉트</h1>
-      <PopularSollectList />
+      <div className='flex justify-center'>
+        <PopularSollectList />
+      </div>
 
 
       {/* Sollect Chip List */}
