@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SollectGNB from '../components/Sollect/SollectGNB'
 import PopularSollectList from '../components/Sollect/PopularSollectList';
 import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupList';
+import { useSearchStore } from '../store/searchStore';
 
 const SollectPage = () => {
+  const {setInputValue} = useSearchStore();
+  useEffect(()=>{
+    setInputValue("");
+  },[]);
   return (
     <div>
       {/* GNB */}
