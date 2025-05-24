@@ -9,6 +9,7 @@ import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewConten
 import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
 import LoginModal from '../components/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
+import SollectPage from '../pages/SollectPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const AppRouter = () => {
     <>
       <Routes location={state?.background || location}>
         <Route path='/' element={<AppLayout />}>
-          <Route path='sollect' element={<></>} />
+          <Route path='sollect' element={<SollectPage/>} />
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
             <Route path='list' element={<PreviewContentList />} />
