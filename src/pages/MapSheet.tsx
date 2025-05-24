@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef } from 'react';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
-import { fetchMockPlacesNearby } from '../api/mapApi';
+import { fetchPlacesNearby } from '../api/mapApi';
 import { useBoundsStore } from '../store/mapStore';
 import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
 import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
@@ -12,19 +13,11 @@ import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
 import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
 import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
 import { initCluster } from '../utils/clusterManager';
+import { useShallow } from 'zustand/shallow';
+import { mapMarkerType } from '../types';
+import { useMarkerStore } from '../store/markerStore';
 
-const categoryKeyMap: Record<string, string> = {
-  식당: 'food',
-  카페: 'cafe',
-  주점: 'drink',
-  '오락/여가': 'entertainment',
-  '문화/예술': 'culture',
-  쇼핑: 'shop',
-  산책: 'walk',
-  '공부/작업': 'work',
-};
-
-const iconMarker: Record<string, string> = {
+const markerIconMap: Record<string, string> = {
   food: FoodMarker,
   cafe: CafeMarker,
   drink: DrinkMarker,
@@ -41,40 +34,58 @@ const MapSheet: React.FC = () => {
   const markers = useRef<naver.maps.Marker[]>([]);
   const boundsRef = useRef<naver.maps.LatLngBounds | null>(null);
 
-  const { valueLngLat, setLngLat } = useBoundsStore();
+  const { valueLngLat, setLngLat } = useBoundsStore(
+    useShallow((state) => ({
+      valueLngLat: state.valueLngLat,
+      setLngLat: state.setLngLat,
+    }))
+  );
 
-  // cors 문제로 주석처리
-  // 문제 해결 전까지 mock 데이터는 fetchMockPlacesNearby로 가져옴.
-  // const { data } = useQuery({
-  //   queryKey: ['placesNearby'],
-  //   queryFn: fetchPlacesNearby(
-  //     valueLngLat!.swX,
-  //     valueLngLat!.swY,
-  //     valueLngLat!.neX,
-  //     valueLngLat!.neY
-  //   ),
-  //   enabled: valueLngLat !== undefined,
-  // });
+  const { mapMarkers, setMapMarkers } = useMarkerStore(
+    useShallow((state) => ({
+      mapMarkers: state.mapMarkers,
+      setMapMarkers: state.setMapMarkers,
+    }))
+  );
 
-  // Mock Data Api
-  const { data, error } = useQuery({
+  const { data, error, isError } = useQuery({
     queryKey: ['placesNearby'],
-    queryFn: fetchMockPlacesNearby,
+    queryFn: () =>
+      fetchPlacesNearby(
+        valueLngLat!.swX,
+        valueLngLat!.swY,
+        valueLngLat!.neX,
+        valueLngLat!.neY
+      ),
+    enabled: valueLngLat !== undefined,
   });
 
-  if (error) {
-    console.log('error: ', error);
+  if (isError) {
+    console.log('fetchPlacesNearby isError :::', error);
   }
 
   const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
   let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
 
   useEffect(() => {
+    if (data) {
+      // todo : 추후 [지도 화면 내 장소 마커 정보 조회] api의 response 변경되면 data.places -> data로 변경
+      setMapMarkers(data.places);
+    }
+  }, [data, setMapMarkers]);
+
+  useEffect(() => {
+    console.log('mapMarkers :::', mapMarkers);
+    if (mapMarkers.length > 0) {
+      addMarkers();
+    }
+  }, [mapMarkers]);
+
+  useEffect(() => {
     if (!mapElement.current) return;
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         currentLocation = new naver.maps.LatLng(
           // position.coords.latitude,
           // position.coords.longitude
@@ -89,12 +100,6 @@ const MapSheet: React.FC = () => {
       }
     );
   }, []);
-
-  useEffect(() => {
-    if (mapInstance.current && data) {
-      addMarkers();
-    }
-  }, [mapInstance.current, data]);
 
   const initMap = (center: naver.maps.LatLng) => {
     const MapOptions = {
@@ -133,7 +138,7 @@ const MapSheet: React.FC = () => {
     );
     boundsRef.current = bounds;
 
-    markers.current = data!.places.map((place) => {
+    markers.current = mapMarkers.map((place: mapMarkerType) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
@@ -141,7 +146,7 @@ const MapSheet: React.FC = () => {
         position: position,
         map: mapInstance.current || undefined,
         icon: {
-          url: iconMarker[categoryKeyMap[place.category]],
+          url: markerIconMap[place.category],
         },
       });
 
