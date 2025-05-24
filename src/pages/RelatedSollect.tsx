@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import SollectPhoto from '../components/Sollect/SollectPhoto';
 import { fetchSollects } from '../api/sollectApi';
 import { SollectPhotoType } from '../types';
+import SollectList from '../components/Sollect/SollectList';
 
 
 const RelatedSollect = () => {
@@ -24,11 +25,7 @@ const RelatedSollect = () => {
     <div>
       <TitleHeader title='관련 쏠렉트' onClick={() => navigate(-1)} />
     
-      <div className='flex flex-wrap gap-12 justify-center pt-58'>
-        {sollects.map((sollect) => {
-          return <SollectPhoto sollect={sollect} key={sollect.id} />;
-        })}
-      </div>
+    <SollectList sollects={sollects} customStyle="pt-58"/>
     </div>
   );
 };

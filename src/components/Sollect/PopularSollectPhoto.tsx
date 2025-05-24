@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { SollectPhotoProps } from '../../interface';
-import heart from '../../assets/heartFill.svg';
 import locationWhite from "../../assets/locationWhite.svg"
 import SollectMark from './SollectMark';
 
