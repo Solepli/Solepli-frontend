@@ -13,17 +13,7 @@ import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
 import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
 import { initCluster } from '../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
-
-const categoryKeyMap: Record<string, string> = {
-  식당: 'food',
-  카페: 'cafe',
-  주점: 'drink',
-  '오락/여가': 'entertainment',
-  '문화/예술': 'culture',
-  쇼핑: 'shop',
-  산책: 'walk',
-  '공부/작업': 'work',
-};
+import { markerPlaceType } from '../types';
 
 const iconMarker: Record<string, string> = {
   food: FoodMarker,
@@ -132,7 +122,7 @@ const MapSheet: React.FC = () => {
     );
     boundsRef.current = bounds;
 
-    markers.current = data!.places.map((place) => {
+    markers.current = data.places.map((place: markerPlaceType) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
@@ -140,7 +130,7 @@ const MapSheet: React.FC = () => {
         position: position,
         map: mapInstance.current || undefined,
         icon: {
-          url: iconMarker[categoryKeyMap[place.category]],
+          url: iconMarker[place.category],
         },
       });
 

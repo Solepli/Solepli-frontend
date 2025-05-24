@@ -54,9 +54,16 @@ export type CurrentBoundsXY = {
   neY: number;
 };
 
-export type SollectPhotoType ={
-  id:number;
-  title:string;
-  address:string;
-  imageUrl:string;
-}
+export type SollectPhotoType = {
+  id: number;
+  title: string;
+  address: string;
+  imageUrl: string;
+};
+
+export type markerPlaceType = {
+  id: number;
+  category: string;
+  latitude: number;
+  longitude: number;
+};
