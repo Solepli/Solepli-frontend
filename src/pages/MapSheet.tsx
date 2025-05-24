@@ -11,6 +11,7 @@ import FoodMarker from '../assets/category-icons/mapMarker/foodMarker.svg?url';
 import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
 import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
 import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
+import { initCluster } from '../utils/clusterManager';
 
 const categoryKeyMap: Record<string, string> = {
   식당: 'food',
@@ -159,6 +160,7 @@ const MapSheet: React.FC = () => {
 
       return marker;
     });
+    const clustering = initCluster(markers.current, mapInstance.current);
   };
 
   // 임시 버튼: 표시된 마커 기준으로 지도 이동
