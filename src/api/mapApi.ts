@@ -1,4 +1,5 @@
-import axios from 'axios';
+import { publicAxios } from './axios';
+import { ENDPOINT } from './urls';
 
 export const fetchPlacesNearby = async (
   swX: number,
@@ -7,22 +8,19 @@ export const fetchPlacesNearby = async (
   neY: number,
   category?: string
 ) => {
-  const response = await axios.get(
-    `${import.meta.env.VITE_API_BASE_URL}/api/solemap/markers`,
-    {
-      params: {
-        swLng: swX,
-        swLat: swY,
-        neLng: neX,
-        neLat: neY,
-        category: category,
-      },
-    }
-  );
+  const response = await publicAxios.get(ENDPOINT.SOLMAP_MARKERS, {
+    params: {
+      swLng: swX,
+      swLat: swY,
+      neLng: neX,
+      neLat: neY,
+      category: category,
+    },
+  });
 
-  console.log('res: ', response);
+  console.log('response.data.data :::', response.data.data);
 
-  return response.data;
+  return response.data.data;
 };
 
 export const fetchMockPlacesNearby = async () => {
