@@ -2,6 +2,7 @@ import React from 'react'
 import SollectGNB from '../components/Sollect/SollectGNB'
 import PopularSollectList from '../components/Sollect/PopularSollectList';
 import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
+import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupList';
 
 const SollectPage = () => {
   return (
@@ -19,7 +20,8 @@ const SollectPage = () => {
       {/* Sollect Chip List */}
       <SollectChipList />
 
-      {/* Sollect Group */}
+      {/* Sollect Group List*/}
+      <SollectGroupList />
     </div>
   );
 }
