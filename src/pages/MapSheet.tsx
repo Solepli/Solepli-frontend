@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef } from 'react';
 import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
@@ -13,7 +14,8 @@ import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
 import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
 import { initCluster } from '../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
-import { markerPlaceType } from '../types';
+import { mapMarkerType } from '../types';
+import { useMarkerStore } from '../store/markerStore';
 
 const markerIconMap: Record<string, string> = {
   food: FoodMarker,
@@ -39,6 +41,13 @@ const MapSheet: React.FC = () => {
     }))
   );
 
+  const { mapMarkers, setMapMarkers } = useMarkerStore(
+    useShallow((state) => ({
+      mapMarkers: state.mapMarkers,
+      setMapMarkers: state.setMapMarkers,
+    }))
+  );
+
   const { data, error, isError } = useQuery({
     queryKey: ['placesNearby'],
     queryFn: () =>
@@ -59,11 +68,24 @@ const MapSheet: React.FC = () => {
   let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
 
   useEffect(() => {
+    if (data) {
+      // todo : 추후 [지도 화면 내 장소 마커 정보 조회] api의 response 변경되면 data.places -> data로 변경
+      setMapMarkers(data.places);
+    }
+  }, [data, setMapMarkers]);
+
+  useEffect(() => {
+    console.log('mapMarkers :::', mapMarkers);
+    if (mapMarkers.length > 0) {
+      addMarkers();
+    }
+  }, [mapMarkers]);
+
+  useEffect(() => {
     if (!mapElement.current) return;
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         currentLocation = new naver.maps.LatLng(
           // position.coords.latitude,
           // position.coords.longitude
@@ -78,12 +100,6 @@ const MapSheet: React.FC = () => {
       }
     );
   }, []);
-
-  useEffect(() => {
-    if (mapInstance.current && data) {
-      addMarkers();
-    }
-  }, [mapInstance.current, data]);
 
   const initMap = (center: naver.maps.LatLng) => {
     const MapOptions = {
@@ -122,7 +138,7 @@ const MapSheet: React.FC = () => {
     );
     boundsRef.current = bounds;
 
-    markers.current = data.places.map((place: markerPlaceType) => {
+    markers.current = mapMarkers.map((place: mapMarkerType) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
