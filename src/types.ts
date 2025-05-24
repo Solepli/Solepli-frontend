@@ -61,7 +61,7 @@ export type SollectPhotoType = {
   imageUrl: string;
 };
 
-export type markerPlaceType = {
+export type mapMarkerType = {
   id: number;
   category: string;
   latitude: number;
