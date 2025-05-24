@@ -7,13 +7,14 @@ import { useQueryClient } from '@tanstack/react-query';
 
 interface RecentSearchTextProps {
   text: string;
+  mode: string;
 }
 
-const RecentSearch: React.FC<RecentSearchTextProps> = ({ text }) => {
+const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const queryClient = useQueryClient();
 
   async function onClickDeleteRow() {
-    await deleteRecentSearchWords(text);
+    await deleteRecentSearchWords(mode, text);
     queryClient.invalidateQueries({ queryKey: ['recentSearchWords'] });
   }
 
