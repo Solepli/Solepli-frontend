@@ -98,7 +98,7 @@ const MapSheet: React.FC = () => {
   const initMap = (center: naver.maps.LatLng) => {
     const MapOptions = {
       center,
-      zoom: 16,
+      zoom: 13,
       gl: true,
       customStyleId: import.meta.env.VITE_MAP_STYLE_ID,
     };
