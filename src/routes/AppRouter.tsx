@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Location, Route, Routes, useLocation } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import Solmap from '../pages/Solmap';
 import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
@@ -7,19 +7,21 @@ import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
 import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
-import LoginModal from '../components/login/LoginModal';
+import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
 import SearchPage from '../pages/SearchPage';
-import OAtuhCallback from '../components/login/OAuthCallback';
+import OAtuhCallback from '../auth/OAuthCallback';
 
 const AppRouter = () => {
   const location = useLocation();
-  const state = location.state as { background?: Location };
+  const background: Location = location.state?.background;
+  const modal = location.state?.modal;
 
   return (
     <>
-      <Routes location={state?.background || location}>
+      {/* 모달이 아닐 땐 location으로, 모달일 땐 background로 Routes */}
+      <Routes location={(modal && background) || location}>
         <Route path='/' element={<AppLayout />}>
           <Route path='sollect' element={<SollectPage />} />
           <Route path='sollect/search' element={<SearchPage />} />
@@ -35,18 +37,16 @@ const AppRouter = () => {
           <Route path='map/search' element={<SearchPage />} />
           <Route path='mark' element={<></>} />
           <Route path='profile' element={<></>} />
-          <Route path='related-sollect' element={<RelatedSollect />} />
+          <Route path='related-sollect' element={<RelatedSollect  />} />
+          <Route path=':loginType/callback' element={<OAtuhCallback />} />
         </Route>
       </Routes>
       {/* Modal Routes */}
-      {state?.background && (
+      {modal && (
         <Routes>
           <Route path='/login-modal' element={<LoginModal />} />
         </Routes>
       )}
-      <Routes>
-        <Route path='/:loginType/callback' element={<OAtuhCallback />} />
-      </Routes>
     </>
   );
 };

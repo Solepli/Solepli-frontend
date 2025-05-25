@@ -1,15 +1,26 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import useAuthStore from '../../store/authStore';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
 import { useShallow } from 'zustand/shallow';
+import useLocationStore from '../store/locationStore';
 
 const OAtuhCallback = () => {
   const { search } = useLocation();
+  const navigate = useNavigate();
   const { loginType } = useParams();
-const { login } = useAuthStore(useShallow((state) => ({
-    login: state.login,
-  })));
+  const { login } = useAuthStore(
+    useShallow((state) => ({
+      login: state.login,
+    }))
+  );
+  const { targetSource, previousLocation, clearLocation } = useLocationStore(
+    useShallow((state) => ({
+      targetSource: state.targetSource,
+      previousLocation: state.previousLocation,
+      clearLocation: state.clearLocation,
+    }))
+  );
   const query = new URLSearchParams(search);
 
   const code = query.get('code');
@@ -30,19 +41,39 @@ const { login } = useAuthStore(useShallow((state) => ({
         },
       })
       .then((response) => {
-        console.log('Response data:', response.data.data.accessToken);
         const accessToken = response.data.data.accessToken;
         // Store tokens in local storage or state management
         localStorage.setItem('accessToken', accessToken);
+
         login();
-        window.location.href = '/map'; // Redirect to the desired page after successful login
+
+        const target = targetSource;
+        const previous = previousLocation;
+        clearLocation();
+
         // Redirect to the desired page after successful login
+        if (target) {
+          // If there is a target source, redirect to that page
+          navigate(target || '/', { replace: true });
+        } else if (previous) {
+          navigate(previous || '/', { replace: true });
+        } else {
+          navigate('/', { replace: true });
+        }
       })
       .catch((error) => {
         console.error('Error during OAuth callback:', error);
         // Handle error (e.g., show an error message to the user)
       });
-  }, [code, login, loginType]);
+  }, [
+    clearLocation,
+    code,
+    login,
+    loginType,
+    navigate,
+    previousLocation,
+    targetSource,
+  ]);
 
   return <div>Loading...</div>;
 };

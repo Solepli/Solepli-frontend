@@ -1,6 +1,6 @@
-import Kakao from '../../assets/logoKakaoTalk.svg?react';
-import Naver from '../../assets/logoNaver.svg?react';
-import Google from '../../assets/logoGoogle.svg?react';
+import Kakao from '../assets/logoKakaoTalk.svg?react';
+import Naver from '../assets/logoNaver.svg?react';
+import Google from '../assets/logoGoogle.svg?react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginModal = () => {
