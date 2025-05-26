@@ -3,13 +3,11 @@ import { fetchReviews } from '../../../api/reviewApi';
 import Review from './Review';
 import { ReviewType } from '../../../types';
 import ShowAllReviewsButton from './ShowAllReviewsButton';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ReviewEmoji from '../ReviewWrite/ReviewEmoji';
-import useAuthStore from '../../../store/authStore';
-import useReviewWriteStore from '../../../store/reviewWriteStore';
-import { useShallow } from 'zustand/shallow';
 import { useCallback } from 'react';
 import TitleHeader from '../../global/TitleHeader';
+import LoginRequiredAction from '../../../auth/LoginRequiredAction';
 
 interface ReviewListProps {
   placeId: number;
@@ -36,14 +34,8 @@ const ReviewList = ({
     queryFn: () => fetchReviews(placeId),
     select: selectSortedReviews,
   });
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  const { reset } = useReviewWriteStore(
-    useShallow((state) => ({
-      reset: state.reset,
-    }))
-  );
+
   const navigate = useNavigate();
-  const location = useLocation();
 
   if (isLoading) return <p>로딩 중...</p>;
   if (error) return <p>에러 발생</p>;
@@ -52,14 +44,9 @@ const ReviewList = ({
   const reviewsToShow = showAll ? data : data?.slice(0, 5);
 
   const handleEmojiClick = () => {
-    if (isLoggedIn) {
-      navigate(`/map/review-write/${placeId}`, {
-        state: { place: placeName },
-      });
-    } else {
-      reset();
-      navigate(`/login-modal`, { state: { background: location } });
-    }
+    navigate(`/map/review-write/${placeId}`, {
+      state: { place: placeName },
+    });
   };
 
   return (
@@ -75,9 +62,11 @@ const ReviewList = ({
         <div className='h-40 border-t border-primary-100' />
       )}
 
-      <div onClick={handleEmojiClick} className={showAll ? 'pt-78' : ''}>
-        <ReviewEmoji />
-      </div>
+      <LoginRequiredAction onAction={handleEmojiClick}>
+        <div className={showAll ? 'pt-78' : ''}>
+          <ReviewEmoji />
+        </div>
+      </LoginRequiredAction>
 
       {reviewsToShow && reviewsToShow.length === 0 ? (
         <div className='w-full h-40 pt-50 flex justify-center items-center'>
