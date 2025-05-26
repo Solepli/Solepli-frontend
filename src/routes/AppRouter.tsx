@@ -11,6 +11,7 @@ import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
 import SearchPage from '../pages/SearchPage';
+import SollectSearchResultPage from '../pages/SollectSearchResultPage';
 import OAuthCallback from '../auth/OAuthCallback';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
@@ -27,6 +28,7 @@ const AppRouter = () => {
         <Route path='/' element={<AppLayout />}>
           <Route path='sollect' element={<SollectPage />} />
           <Route path='sollect/search' element={<SearchPage />} />
+          <Route path='sollect/search/result' element={<SollectSearchResultPage />} />
 
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
