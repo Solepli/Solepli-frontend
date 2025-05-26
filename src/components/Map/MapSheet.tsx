@@ -100,6 +100,11 @@ const MapSheet: React.FC = () => {
   };
 
   const initMap = (center: naver.maps.LatLng) => {
+    if (!mapElement.current) {
+      console.warn('mapElement.current가 null입니다!');
+      return;
+    }
+
     const MapOptions = {
       center,
       zoom: 13,
@@ -108,8 +113,7 @@ const MapSheet: React.FC = () => {
     };
     const map = new naver.maps.Map(mapElement.current!, MapOptions);
     mapInstance.current = map;
-
-    getCurrentBounds(map);
+    // getCurrentBounds(map);
   };
 
   const getCurrentBounds = (map: naver.maps.Map) => {
@@ -189,20 +193,14 @@ const MapSheet: React.FC = () => {
   // }, []);
 
   const moveToCurrentLocation = useCallback(() => {
-    if (!mapInstance.current) return;
+    if (!mapInstance.current) {
+      console.warn('mapInstance.current가 null입니다!');
+      return;
+    }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const currentLocation = new naver.maps.LatLng(
-          position.coords.latitude,
-          position.coords.longitude
-        );
-        mapInstance.current?.panTo(currentLocation);
-      },
-      () => {
-        mapInstance.current?.panTo(defaultCenter);
-      }
-    );
+    getUserLatLng().then((userLatLng) => {
+      mapInstance.current?.panTo(userLatLng);
+    });
   }, []);
 
   return (
