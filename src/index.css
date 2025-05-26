@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  font-family: 'Pretendard', sans-serif;
-
+  font-family: Pretendard;
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
