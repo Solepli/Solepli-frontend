@@ -4,22 +4,30 @@ import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectList from '../components/Sollect/SollectList';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSollects } from '../api/sollectApi';
+import SollectNoResult from '../components/Sollect/SollectNoResult';
 
 const SollectSearchResultPage = () => {
   const { data } = useQuery({
     queryKey: ['sollects'],
     queryFn: fetchSollects,
   });
+
+  // category filtering Data 구현 필요
+
   return (
     <div>
       <div className='z-10 w-full bg-white fixed'>
         <SollectGNB />
-        <SollectChipList />
+        {data && <SollectChipList />}
       </div>
 
-      <div className='pt-133 pb-24'>
-        <SollectList sollects={data ? data : []} />
-      </div>
+      {data ? (
+        <div className='pt-133 pb-24'>
+          <SollectList sollects={data ? data : []} />
+        </div>
+      ) : (
+        <SollectNoResult />
+      )}
     </div>
   );
 };
