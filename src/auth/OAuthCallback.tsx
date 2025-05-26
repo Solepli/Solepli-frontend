@@ -5,7 +5,7 @@ import useAuthStore from '../store/authStore';
 import { useShallow } from 'zustand/shallow';
 import useLocationStore from '../store/locationStore';
 
-const OAtuhCallback = () => {
+const OAuthCallback = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const { loginType } = useParams();
@@ -77,4 +77,4 @@ const OAtuhCallback = () => {
 
   return <div>Loading...</div>;
 };
-export default OAtuhCallback;
+export default OAuthCallback;

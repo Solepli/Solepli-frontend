@@ -11,7 +11,7 @@ import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
 import SearchPage from '../pages/SearchPage';
-import OAtuhCallback from '../auth/OAuthCallback';
+import OAuthCallback from '../auth/OAuthCallback';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 
@@ -40,7 +40,7 @@ const AppRouter = () => {
           <Route path='mark' element={<></>} />
           <Route path='profile' element={<Profile />} />
           <Route path='related-sollect' element={<RelatedSollect />} />
-          <Route path=':loginType/callback' element={<OAtuhCallback />} />
+          <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
         <Route path='login' element={<Login />} />
       </Routes>
