@@ -13,9 +13,8 @@ const SollectPage = () => {
   return (
     <div>
       {/* GNB */}
-      <div className='fixed w-full'>
+      <div className='fixed w-full z-10'>
         <SollectGNB />
-
       </div>
 
       {/* popular Sollect */}

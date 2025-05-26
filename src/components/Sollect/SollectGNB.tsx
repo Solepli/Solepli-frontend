@@ -9,7 +9,7 @@ const SollectGNB = () => {
   const { inputValue, setInputValue } = useSearchStore();
   const navigate = useNavigate();
   return (
-    <div className='flex px-16 py-12 gap-8'>
+    <div className='flex px-16 py-12 gap-8 bg-white'>
       {/* logo */}
       <img src={logo} alt='logo' className='w-34 h-34' />
 
