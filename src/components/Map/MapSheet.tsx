@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesNearby } from '../../api/mapApi';
@@ -64,8 +64,13 @@ const MapSheet: React.FC = () => {
     console.log('fetchPlacesNearby isError :::', error);
   }
 
-  const defaultCenter = new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
-  let currentLocation: naver.maps.LatLng; // 사용자의 현재 좌표
+  useLayoutEffect(() => {
+    if (!mapElement.current) return;
+
+    getUserLatLng().then((userLatLng) => {
+      initMap(userLatLng);
+    });
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -80,25 +85,19 @@ const MapSheet: React.FC = () => {
     }
   }, [mapMarkers]);
 
-  useEffect(() => {
-    if (!mapElement.current) return;
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        currentLocation = new naver.maps.LatLng(
-          // position.coords.latitude,
-          // position.coords.longitude
-          // 지도 화면 내 마커 정보를 받기 위해 사용자의 현재 좌표를 서울 지역으로 하드코딩
-          37.51234,
-          127.060395
-        );
-        initMap(currentLocation);
-      },
-      () => {
-        initMap(defaultCenter);
-      }
-    );
-  }, []);
+  // 사용자의 현재 위치 받아오기 함수
+  const getUserLatLng = async (): Promise<naver.maps.LatLng> => {
+    try {
+      // const position = await new Promise<GeolocationPosition>((res, rej) => {
+      //   navigator.geolocation.getCurrentPosition(res, rej);
+      // });
+      // return new naver.maps.LatLng(position.coords.latitude, position.coords.latitude);
+      // 사용자의 현재 좌표를 서울 지역으로 하드코딩
+      return new naver.maps.LatLng(37.51234, 127.060395);
+    } catch {
+      return new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
+    }
+  };
 
   const initMap = (center: naver.maps.LatLng) => {
     const MapOptions = {
