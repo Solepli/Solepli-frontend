@@ -44,7 +44,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
 
   const handleShowHoursInfo = () => {
     setShowHoursInfo(!showHoursInfo);
-    setDegree((degree + 180) % 360);
+    setDegree((prev) => (prev === 90 ? 0 : 90));
   };
 
   const copyUrl = async () => {
@@ -107,7 +107,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
             <img
               src={arrow}
               alt='arrow'
-              className={`w-20 h-20 rotate-${degree}`}
+              className='w-20 h-20'
+              style={{transform:`rotate(${degree}deg)`}}
             />
           </div>
 
