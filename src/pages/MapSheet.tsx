@@ -69,8 +69,7 @@ const MapSheet: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      // todo : 추후 [지도 화면 내 장소 마커 정보 조회] api의 response 변경되면 data.places -> data로 변경
-      setMapMarkers(data.places);
+      setMapMarkers(data);
     }
   }, [data, setMapMarkers]);
 
