@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useRef } from 'react';
-import CurrentLocationButton from '../components/BottomSheet/CurrentLocationButton';
+import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
-import { fetchPlacesNearby } from '../api/mapApi';
-import { useBoundsStore } from '../store/mapStore';
-import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
-import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
-import DrinkMarker from '../assets/category-icons/mapMarker/drinkMarker.svg?url';
-import EntertainmentMarker from '../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
-import FoodMarker from '../assets/category-icons/mapMarker/foodMarker.svg?url';
-import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
-import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
-import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
-import { initCluster } from '../utils/clusterManager';
+import { fetchPlacesNearby } from '../../api/mapApi';
+import { useBoundsStore } from '../../store/mapStore';
+import CafeMarker from '../../assets/category-icons/mapMarker/cafeMarker.svg?url';
+import CultureMarker from '../../assets/category-icons/mapMarker/cultureMarker.svg?url';
+import DrinkMarker from '../../assets/category-icons/mapMarker/drinkMarker.svg?url';
+import EntertainmentMarker from '../../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
+import FoodMarker from '../../assets/category-icons/mapMarker/foodMarker.svg?url';
+import ShopMarker from '../../assets/category-icons/mapMarker/shopMarker.svg?url';
+import WalkMarker from '../../assets/category-icons/mapMarker/walkMarker.svg?url';
+import WorkMarker from '../../assets/category-icons/mapMarker/workMarker.svg?url';
+import { initCluster } from '../../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
-import { mapMarkerType } from '../types';
-import { useMarkerStore } from '../store/markerStore';
+import { mapMarkerType } from '../../types';
+import { useMarkerStore } from '../../store/markerStore';
 
 const markerIconMap: Record<string, string> = {
   food: FoodMarker,

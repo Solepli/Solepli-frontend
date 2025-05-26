@@ -7,7 +7,7 @@ import { useSearchStore } from '../store/searchStore';
 import { usePlaceStore } from '../store/placeStore';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlaces } from '../api/placeApi';
-import MapSheet from './MapSheet';
+import MapSheet from '../components/Map/MapSheet';
 import MapSearchBar from '../components/Searching/MapSearchBar';
 
 const Solmap: React.FC = () => {
