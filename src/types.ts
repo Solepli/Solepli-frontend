@@ -47,11 +47,11 @@ export type ReviewType = {
   tags: TagType[];
 };
 
-export type CurrentBoundsXY = {
-  swX: number;
+export type CurrentLatLng = {
   swY: number;
-  neX: number;
+  swX: number;
   neY: number;
+  neX: number;
 };
 
 export type mapMarkerType = {

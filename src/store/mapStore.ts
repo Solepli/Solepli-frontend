@@ -1,12 +1,17 @@
 import { create } from 'zustand';
-import { CurrentBoundsXY } from '../types';
+import { CurrentLatLng } from '../types';
 
-interface BoundsStore {
-  valueLngLat?: CurrentBoundsXY;
-  setLngLat: (lnglat: CurrentBoundsXY) => void;
+interface MapState {
+  currentLatLng: CurrentLatLng;
+  setCurrentLatLng: (latlng: CurrentLatLng) => void;
 }
 
-export const useBoundsStore = create<BoundsStore>((set) => ({
-  valueLngLat: undefined,
-  setLngLat: (lnglat) => set({ valueLngLat: lnglat }),
+export const useMapStore = create<MapState>((set) => ({
+  currentLatLng: {
+    swY: 0,
+    swX: 0,
+    neY: 0,
+    neX: 0,
+  },
+  setCurrentLatLng: (latlng) => set({ currentLatLng: latlng }),
 }));

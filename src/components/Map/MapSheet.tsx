@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesNearby } from '../../api/mapApi';
-import { useBoundsStore } from '../../store/mapStore';
+import { useMapStore } from '../../store/mapStore';
 import CafeMarker from '../../assets/category-icons/mapMarker/cafeMarker.svg?url';
 import CultureMarker from '../../assets/category-icons/mapMarker/cultureMarker.svg?url';
 import DrinkMarker from '../../assets/category-icons/mapMarker/drinkMarker.svg?url';
@@ -31,13 +31,13 @@ const markerIconMap: Record<string, string> = {
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
-  const markers = useRef<naver.maps.Marker[]>([]);
   const boundsRef = useRef<naver.maps.LatLngBounds>(null);
+  const markers = useRef<naver.maps.Marker[]>([]);
 
-  const { valueLngLat, setLngLat } = useBoundsStore(
+  const { currentLatLng, setCurrentLatLng } = useMapStore(
     useShallow((state) => ({
-      valueLngLat: state.valueLngLat,
-      setLngLat: state.setLngLat,
+      currentLatLng: state.currentLatLng,
+      setCurrentLatLng: state.setCurrentLatLng,
     }))
   );
 
@@ -52,12 +52,12 @@ const MapSheet: React.FC = () => {
     queryKey: ['placesNearby'],
     queryFn: () =>
       fetchPlacesNearby(
-        valueLngLat!.swX,
-        valueLngLat!.swY,
-        valueLngLat!.neX,
-        valueLngLat!.neY
+        currentLatLng!.swX,
+        currentLatLng!.swY,
+        currentLatLng!.neX,
+        currentLatLng!.neY
       ),
-    enabled: valueLngLat !== undefined,
+    enabled: currentLatLng !== undefined,
   });
 
   if (isError) {
@@ -115,11 +115,11 @@ const MapSheet: React.FC = () => {
 
   const getCurrentBounds = (map: naver.maps.Map) => {
     const bounds: naver.maps.Bounds = map.getBounds();
-    setLngLat({
-      swX: bounds.minX(),
+    setCurrentLatLng({
       swY: bounds.minY(),
-      neX: bounds.maxX(),
+      swX: bounds.minX(),
       neY: bounds.maxY(),
+      neX: bounds.maxX(),
     });
   };
 
@@ -130,7 +130,6 @@ const MapSheet: React.FC = () => {
     markers.current.forEach((m) => m.setMap(null));
     markers.current = [];
 
-    // 새로운 bounds 생성 및 초기화 (모든 마커를 포함하는 경계 박스)
     const bounds = new naver.maps.LatLngBounds(
       new naver.maps.LatLng(0, 0),
       new naver.maps.LatLng(0, 0)
