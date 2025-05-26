@@ -32,7 +32,7 @@ const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
   const markers = useRef<naver.maps.Marker[]>([]);
-  const boundsRef = useRef<naver.maps.LatLngBounds | null>(null);
+  const boundsRef = useRef<naver.maps.LatLngBounds>(null);
 
   const { valueLngLat, setLngLat } = useBoundsStore(
     useShallow((state) => ({
