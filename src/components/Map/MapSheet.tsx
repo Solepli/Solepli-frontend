@@ -9,6 +9,7 @@ import { MarkersInfoType } from '../../types';
 import { useMarkersStore } from '../../store/markersStore';
 import { initCluster } from '../../utils/clusterManager';
 import { IconMarkerMap } from '../../utils/icon';
+import { getCurrentBounds, getUserLatLng, initMap } from '../../utils/mapFunc';
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -57,7 +58,8 @@ const MapSheet: React.FC = () => {
     if (!mapElement.current) return;
 
     getUserLatLng().then((userLatLng) => {
-      initMap(userLatLng);
+      initMap(mapElement, mapInstance, userLatLng);
+      getCurrentBounds(mapInstance.current, setCurrentLatLng);
     });
   }, []);
 
@@ -74,48 +76,6 @@ const MapSheet: React.FC = () => {
       addMarkers();
     }
   }, [markersInfo]);
-
-  // 사용자의 현재 위치 받아오기 함수
-  const getUserLatLng = async (): Promise<naver.maps.LatLng> => {
-    try {
-      // const position = await new Promise<GeolocationPosition>((res, rej) => {
-      //   navigator.geolocation.getCurrentPosition(res, rej);
-      // });
-      // return new naver.maps.LatLng(position.coords.latitude, position.coords.latitude);
-      // 사용자의 현재 좌표를 서울 지역으로 하드코딩
-      return new naver.maps.LatLng(37.51234, 127.060395);
-    } catch {
-      return new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
-    }
-  };
-
-  const initMap = (center: naver.maps.LatLng) => {
-    if (!mapElement.current) {
-      console.warn('mapElement.current가 null입니다!');
-      return;
-    }
-
-    const MapOptions = {
-      center,
-      zoom: 13,
-      gl: true,
-      customStyleId: import.meta.env.VITE_MAP_STYLE_ID,
-    };
-    const map = new naver.maps.Map(mapElement.current!, MapOptions);
-    mapInstance.current = map;
-
-    getCurrentBounds(mapInstance.current);
-  };
-
-  const getCurrentBounds = (map: naver.maps.Map) => {
-    const bounds: naver.maps.Bounds = map.getBounds();
-    setCurrentLatLng({
-      swY: bounds.minY(),
-      swX: bounds.minX(),
-      neY: bounds.maxY(),
-      neX: bounds.maxX(),
-    });
-  };
 
   const addMarkers = () => {
     if (!mapInstance.current) return;
@@ -200,7 +160,7 @@ const MapSheet: React.FC = () => {
       <div ref={mapElement} className='w-full h-full' />
 
       <button
-        onClick={() => getCurrentBounds(mapInstance.current!)}
+        onClick={() => getCurrentBounds(mapInstance.current!, setCurrentLatLng)}
         className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
         getCurrentBounds
       </button>
