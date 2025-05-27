@@ -166,7 +166,7 @@ const MapSheet: React.FC = () => {
         });
       });
     });
-    const clustering = initCluster(markedMarkers, mapInstance.current);
+    // const clustering = initCluster(markedMarkers, mapInstance.current);
     /*
      * todo : naver cloud api map forum에서 클러스터별 최상단 마커의 종류에 따른 (클러스터 아이콘) 설정이 가능하다고 답변받을시
      * clustering.setIcons([clusterIconList[카테고리]])를 사용하여 클러스터 아이콘 지정 구현
