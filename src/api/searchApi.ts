@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useSearchStore } from '../store/searchStore';
+import { privateAxios } from './axios';
+import { ENDPOINT } from './urls';
 
-const accessToken = localStorage.getItem('accessToken');
 
 // export const fetchRecentSearchWords = async () => {
 //   await new Promise((res) => setTimeout(res, 500));
@@ -19,14 +20,8 @@ export const deleteRecentSearchWords = async (
   keyword: string
 ) => {
   try {
-    const res = await axios.delete(
-      `/api/api/${mode}/search/recent/${keyword}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const res = await privateAxios.delete(ENDPOINT.RECENT_SEARCH.DELETE(mode, keyword));
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
@@ -36,11 +31,7 @@ export const deleteRecentSearchWords = async (
 
 export const fetchRecentSearchWords = async (mode: string) => {
   try {
-    const res = await axios.get(`/api/api/${mode}/search/recent`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await privateAxios.get(ENDPOINT.RECENT_SEARCH.GET(mode));
 
     console.log(res.data.data);
 
@@ -54,15 +45,10 @@ export const fetchRecentSearchWords = async (mode: string) => {
 
 export const postRecentSearchWord = async (inputValue: string, mode:string) => {
   try {
-    const res = await axios.post(
-      `/api/api/${mode}/search/recent`,
-      { keyword: inputValue },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    console.log(inputValue);
+    const res = await privateAxios.post(ENDPOINT.RECENT_SEARCH.POST(mode), {
+      "keyword": inputValue,
+    });
   } catch (e) {
     console.log(e);
   }
