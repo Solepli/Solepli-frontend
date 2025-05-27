@@ -4,29 +4,11 @@ import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesNearby } from '../../api/mapApi';
 import { useMapStore } from '../../store/mapStore';
-import CafeMarker from '../../assets/category-icons/mapMarker/cafeMarker.svg?url';
-import CultureMarker from '../../assets/category-icons/mapMarker/cultureMarker.svg?url';
-import DrinkMarker from '../../assets/category-icons/mapMarker/drinkMarker.svg?url';
-import EntertainmentMarker from '../../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
-import FoodMarker from '../../assets/category-icons/mapMarker/foodMarker.svg?url';
-import ShopMarker from '../../assets/category-icons/mapMarker/shopMarker.svg?url';
-import WalkMarker from '../../assets/category-icons/mapMarker/walkMarker.svg?url';
-import WorkMarker from '../../assets/category-icons/mapMarker/workMarker.svg?url';
-import { initCluster } from '../../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
 import { MarkersInfoType } from '../../types';
 import { useMarkersStore } from '../../store/markersStore';
-
-const markerIconMap: Record<string, string> = {
-  food: FoodMarker,
-  cafe: CafeMarker,
-  drink: DrinkMarker,
-  entertainment: EntertainmentMarker,
-  culture: CultureMarker,
-  shop: ShopMarker,
-  walk: WalkMarker,
-  work: WorkMarker,
-};
+import { initCluster } from '../../utils/clusterManager';
+import { IconMarkerMap } from '../../utils/icon';
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -151,7 +133,7 @@ const MapSheet: React.FC = () => {
       const marker = new naver.maps.Marker({
         position: position,
         icon: {
-          url: markerIconMap[place.category],
+          url: IconMarkerMap[place.category],
         },
       });
       marker.setMap(mapInstance.current);
