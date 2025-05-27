@@ -49,7 +49,7 @@ const MapSheet: React.FC = () => {
   );
 
   const { data, error, isError } = useQuery({
-    queryKey: ['placesNearby'],
+    queryKey: ['placesNearby', currentLatLng],
     queryFn: () =>
       fetchPlacesNearby(
         currentLatLng!.swX,
@@ -57,7 +57,6 @@ const MapSheet: React.FC = () => {
         currentLatLng!.neX,
         currentLatLng!.neY
       ),
-    enabled: currentLatLng !== undefined,
   });
 
   if (isError) {
@@ -113,7 +112,8 @@ const MapSheet: React.FC = () => {
     };
     const map = new naver.maps.Map(mapElement.current!, MapOptions);
     mapInstance.current = map;
-    // getCurrentBounds(map);
+
+    getCurrentBounds(mapInstance.current);
   };
 
   const getCurrentBounds = (map: naver.maps.Map) => {
@@ -206,6 +206,12 @@ const MapSheet: React.FC = () => {
   return (
     <div className='relative w-dvw h-dvh'>
       <div ref={mapElement} className='w-full h-full' />
+
+      <button
+        onClick={() => getCurrentBounds(mapInstance.current!)}
+        className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
+        getCurrentBounds
+      </button>
 
       {/* 임시 버튼: 표시된 마커 기준으로 지도 이동*/}
       {/* <button
