@@ -14,8 +14,8 @@ import WalkMarker from '../../assets/category-icons/mapMarker/walkMarker.svg?url
 import WorkMarker from '../../assets/category-icons/mapMarker/workMarker.svg?url';
 import { initCluster } from '../../utils/clusterManager';
 import { useShallow } from 'zustand/shallow';
-import { mapMarkerType } from '../../types';
-import { useMarkerStore } from '../../store/markerStore';
+import { MarkersInfoType } from '../../types';
+import { useMarkersStore } from '../../store/markersStore';
 
 const markerIconMap: Record<string, string> = {
   food: FoodMarker,
@@ -41,18 +41,18 @@ const MapSheet: React.FC = () => {
   );
 
   const {
-    mapMarkers,
-    setMapMarkers,
-    markedMarkers,
-    setMarkedMarkers,
-    clearMarkedMarkers,
-  } = useMarkerStore(
+    markersInfo,
+    setMarkersInfo,
+    markersObject,
+    setMarkersObject,
+    clearMarkersObject,
+  } = useMarkersStore(
     useShallow((state) => ({
-      mapMarkers: state.mapMarkers,
-      setMapMarkers: state.setMapMarkers,
-      markedMarkers: state.markedMarkers,
-      setMarkedMarkers: state.setMarkedMarkers,
-      clearMarkedMarkers: state.clearMarkedMarkers,
+      markersInfo: state.markersInfo,
+      setMarkersInfo: state.setMarkersInfo,
+      markersObject: state.markersObject,
+      setMarkersObject: state.setMarkersObject,
+      clearMarkersObject: state.clearMarkersObject,
     }))
   );
 
@@ -81,17 +81,17 @@ const MapSheet: React.FC = () => {
 
   useEffect(() => {
     if (data) {
-      setMapMarkers(data);
+      setMarkersInfo(data);
     }
-  }, [data, setMapMarkers]);
+  }, [data, setMarkersInfo]);
 
   useEffect(() => {
-    console.log('mapMarkers :::', mapMarkers);
-    if (mapMarkers.length > 0) {
+    console.log('mapMarkers :::', markersInfo);
+    if (markersInfo.length > 0) {
       deleteMarkers();
       addMarkers();
     }
-  }, [mapMarkers]);
+  }, [markersInfo]);
 
   // 사용자의 현재 위치 받아오기 함수
   const getUserLatLng = async (): Promise<naver.maps.LatLng> => {
@@ -144,7 +144,7 @@ const MapSheet: React.FC = () => {
     );
     boundsRef.current = bounds;
 
-    mapMarkers.map((place: mapMarkerType) => {
+    markersInfo.map((place: MarkersInfoType) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
@@ -155,7 +155,7 @@ const MapSheet: React.FC = () => {
         },
       });
       marker.setMap(mapInstance.current);
-      setMarkedMarkers(marker);
+      setMarkersObject(marker);
 
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
       // 유사한 함수 : setCenter, panTo
@@ -174,13 +174,13 @@ const MapSheet: React.FC = () => {
   };
 
   const deleteMarkers = () => {
-    if (markedMarkers.length === 0) return;
+    if (markersObject.length === 0) return;
 
     boundsRef.current = null;
-    markedMarkers.forEach((m) => {
+    markersObject.forEach((m) => {
       m.setMap(null);
     });
-    clearMarkedMarkers();
+    clearMarkersObject();
   };
 
   // 임시 버튼: 표시된 마커 기준으로 지도 이동

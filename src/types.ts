@@ -54,7 +54,7 @@ export type CurrentLatLng = {
   neX: number;
 };
 
-export type mapMarkerType = {
+export type MarkersInfoType = {
   id: number;
   category: string;
   latitude: number;
