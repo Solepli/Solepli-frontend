@@ -32,7 +32,6 @@ const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
   const boundsRef = useRef<naver.maps.LatLngBounds>(null);
-  const markers = useRef<naver.maps.Marker[]>([]);
 
   const { currentLatLng, setCurrentLatLng } = useMapStore(
     useShallow((state) => ({
@@ -41,10 +40,19 @@ const MapSheet: React.FC = () => {
     }))
   );
 
-  const { mapMarkers, setMapMarkers } = useMarkerStore(
+  const {
+    mapMarkers,
+    setMapMarkers,
+    markedMarkers,
+    setMarkedMarkers,
+    clearMarkedMarkers,
+  } = useMarkerStore(
     useShallow((state) => ({
       mapMarkers: state.mapMarkers,
       setMapMarkers: state.setMapMarkers,
+      markedMarkers: state.markedMarkers,
+      setMarkedMarkers: state.setMarkedMarkers,
+      clearMarkedMarkers: state.clearMarkedMarkers,
     }))
   );
 
@@ -80,6 +88,7 @@ const MapSheet: React.FC = () => {
   useEffect(() => {
     console.log('mapMarkers :::', mapMarkers);
     if (mapMarkers.length > 0) {
+      deleteMarkers();
       addMarkers();
     }
   }, [mapMarkers]);
@@ -129,48 +138,49 @@ const MapSheet: React.FC = () => {
   const addMarkers = () => {
     if (!mapInstance.current) return;
 
-    // 기존 마커 삭제
-    markers.current.forEach((m) => m.setMap(null));
-    markers.current = [];
-
     const bounds = new naver.maps.LatLngBounds(
       new naver.maps.LatLng(0, 0),
       new naver.maps.LatLng(0, 0)
     );
     boundsRef.current = bounds;
 
-    markers.current = mapMarkers.map((place: mapMarkerType) => {
+    mapMarkers.map((place: mapMarkerType) => {
       const position = new naver.maps.LatLng(place.latitude, place.longitude);
       bounds.extend(position);
 
       const marker = new naver.maps.Marker({
         position: position,
-        map: mapInstance.current || undefined,
         icon: {
           url: markerIconMap[place.category],
         },
       });
+      marker.setMap(mapInstance.current);
+      setMarkedMarkers(marker);
 
       // 마커 클릭시 지정한 좌표와 줌 레벨을 사용하는 새로운 위치로 지도를 이동
       // 유사한 함수 : setCenter, panTo
       naver.maps.Event.addListener(marker, 'click', () => {
-        const adjustedPosition = new naver.maps.LatLng(
-          position.lat(),
-          position.lng()
-        );
-        mapInstance.current?.morph(adjustedPosition, 18, {
+        mapInstance.current?.morph(position, 18, {
           duration: 1000,
           easing: 'easeOutCubic',
         });
       });
-
-      return marker;
     });
-    const clustering = initCluster(markers.current, mapInstance.current);
+    const clustering = initCluster(markedMarkers, mapInstance.current);
     /*
      * todo : naver cloud api map forum에서 클러스터별 최상단 마커의 종류에 따른 (클러스터 아이콘) 설정이 가능하다고 답변받을시
      * clustering.setIcons([clusterIconList[카테고리]])를 사용하여 클러스터 아이콘 지정 구현
      */
+  };
+
+  const deleteMarkers = () => {
+    if (markedMarkers.length === 0) return;
+
+    boundsRef.current = null;
+    markedMarkers.forEach((m) => {
+      m.setMap(null);
+    });
+    clearMarkedMarkers();
   };
 
   // 임시 버튼: 표시된 마커 기준으로 지도 이동
