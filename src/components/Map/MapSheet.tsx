@@ -9,6 +9,7 @@ import { useMarkersStore } from '../../store/markersStore';
 import { initCluster } from '../../utils/clusterManager';
 import { getCurrentBounds, getUserLatLng, initMap } from '../../utils/mapFunc';
 import { addMarkers, deleteMarkers } from '../../utils/markerFunc';
+import ReloadMarkerButton from '../BottomSheet/ReloadMarkerButton';
 
 const MapSheet: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -110,18 +111,18 @@ const MapSheet: React.FC = () => {
     <div className='relative w-dvw h-dvh'>
       <div ref={mapElement} className='w-full h-full' />
 
-      <button
-        onClick={() => getCurrentBounds(mapInstance.current!, setCurrentLatLng)}
-        className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
-        getCurrentBounds
-      </button>
-
       {/* 임시 버튼: 표시된 마커 기준으로 지도 이동*/}
       {/* <button
         onClick={moveToMarkers}
         className='absolute left-4 top-1/2 -translate-y-1/2 bg-white shadow px-4 py-2 rounded text-sm z-10'>
         표시된 마커로 지도 이동
       </button> */}
+
+      <ReloadMarkerButton
+        handleClick={() =>
+          getCurrentBounds(mapInstance.current!, setCurrentLatLng)
+        }
+      />
 
       <CurrentLocationButton handleClick={moveToCurrentLocation} />
     </div>
