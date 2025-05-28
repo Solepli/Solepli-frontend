@@ -4,8 +4,12 @@ import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
 import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
+import { searchSollect } from '../../api/sollectApi';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar: React.FC = () => {
+  const navigate = useNavigate();
+
   const { inputValue, setInputValue, setRelatedSearchList } = useSearchStore(
     useShallow((state) => ({
       inputValue: state.inputValue,
@@ -24,7 +28,7 @@ const SearchBar: React.FC = () => {
 
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      console.log(inputValue);
+      navigate('/sollect/search/result');
       postRecentSearchWord(inputValue, mode);
     }
   };

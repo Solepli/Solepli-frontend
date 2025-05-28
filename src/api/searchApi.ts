@@ -67,8 +67,7 @@ export const postRecentSearchWord = async (
   mode: string
 ) => {
   try {
-    console.log(inputValue);
-    const res = await privateAxios.post(ENDPOINT.RECENT_SEARCH.POST(mode), {
+    await privateAxios.post(ENDPOINT.RECENT_SEARCH.POST(mode), {
       keyword: inputValue,
     });
   } catch (e) {

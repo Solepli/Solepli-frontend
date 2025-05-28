@@ -4,6 +4,7 @@ import PopularSollectList from '../components/Sollect/PopularSollectList';
 import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupList';
 import { useSearchStore } from '../store/searchStore';
+import PopularSollectSlider from '../components/Sollect/PopularSollectSlider';
 
 const SollectPage = () => {
   const {setInputValue} = useSearchStore();
@@ -11,7 +12,7 @@ const SollectPage = () => {
     setInputValue("");
   },[]);
   return (
-    <div>
+    <div className='touch-pan-y'>
       {/* GNB */}
       <div className='fixed w-full z-10'>
         <SollectGNB />
@@ -20,7 +21,8 @@ const SollectPage = () => {
       {/* popular Sollect */}
       <h1 className='text-primary-950 text-xl font-bold pt-64 px-20 pb-8'>인기 많은 솔렉트</h1>
       <div className='flex justify-center'>
-        <PopularSollectList />
+        {/* <PopularSollectList /> */}
+        <PopularSollectSlider />
       </div>
 
 
