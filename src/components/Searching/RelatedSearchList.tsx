@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import AutoSearch from './AutoSearch';
+import RelatedSearch from './RelatedSearch';
 import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
 import useDebounce from '../../hooks/useDebounce';
@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getRelatedSearchWords } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 
-const AutoSearchList: React.FC = () => {
+const RelatedSearchList: React.FC = () => {
   const { inputValue, relatedSearchList, setRelatedSearchList } =
     useSearchStore(
       useShallow((state) => ({
@@ -42,10 +42,10 @@ const AutoSearchList: React.FC = () => {
       <SearchTitle title={'검색 결과'} />
 
       {relatedSearchList.map((data) => (
-        <AutoSearch relatedSearchWord={data} key={data.id} />
+        <RelatedSearch relatedSearchWord={data} key={data.id} />
       ))}
     </div>
   );
 };
 
-export default AutoSearchList;
+export default RelatedSearchList;

@@ -1,18 +1,5 @@
-import axios from 'axios';
-import { useSearchStore } from '../store/searchStore';
 import { privateAxios, publicAxios } from './axios';
 import { ENDPOINT } from './urls';
-
-// export const fetchRecentSearchWords = async () => {
-//   await new Promise((res) => setTimeout(res, 500));
-//   return mockRecentSearchWords;
-// };
-
-// export const deleteRecentSearchWords = async (keyword: string) => {
-//   // 하드 코딩으로 mockRecentSearchWords의 검색어 삭제
-//   mockRecentSearchWords = mockRecentSearchWords.filter((w) => w !== keyword);
-//   return mockRecentSearchWords;
-// };
 
 export const getRelatedSearchWords = async (
   keyword: string,
@@ -48,9 +35,7 @@ export const deleteRecentSearchWords = async (
   }
 };
 
-// let mockRecentSearchWords: string[] = ['강남구', '돈까스', '성수동'];
-
-export const fetchRecentSearchWords = async (mode: string) => {
+export const getRecentSearchWords = async (mode: string) => {
   try {
     const res = await privateAxios.get(ENDPOINT.RECENT_SEARCH.GET(mode));
 

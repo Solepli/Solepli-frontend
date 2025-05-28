@@ -1,5 +1,4 @@
 import React from 'react';
-
 import food from '../../assets/category-icons/foodFill.svg';
 import cafe from '../../assets/category-icons/cafeFill.svg';
 import drink from '../../assets/category-icons/drinkFill.svg';
@@ -9,9 +8,7 @@ import shop from '../../assets/category-icons/shopFill.svg';
 import walk from '../../assets/category-icons/walkFill.svg';
 import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
-
 import { RelatedSearchWord } from '../../types';
-import { formatDistance } from '../../utils/format';
 
 const iconMap: Record<string, string> = {
   food,
@@ -25,11 +22,11 @@ const iconMap: Record<string, string> = {
   location,
 };
 
-interface AutoSearchProps {
+interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
 }
 
-const AutoSearch: React.FC<AutoSearchProps> = ({ relatedSearchWord }) => {
+const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
   const icon =
     relatedSearchWord.type === 'PLACE'
       ? iconMap[relatedSearchWord.category!]
@@ -70,4 +67,4 @@ const AutoSearch: React.FC<AutoSearchProps> = ({ relatedSearchWord }) => {
   );
 };
 
-export default AutoSearch;
+export default RelatedSearch;
