@@ -4,9 +4,12 @@ import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
 import useDebounce from '../../hooks/useDebounce';
 import { postRecentSearchWord } from '../../api/searchApi';
+import { searchSollect } from '../../api/sollectApi';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar: React.FC = () => {
-  const { isFocused, setIsFocused, inputValue, setInputValue } =
+  const navigate = useNavigate();
+  const { inputValue, setInputValue } =
     useSearchStore();
 
   const debouncedInput = useDebounce(inputValue, 500);
@@ -24,9 +27,9 @@ const SearchBar: React.FC = () => {
     ? 'sollect'
     : 'map';
 
-  const handleEnter = (e:KeyboardEvent) => {
+  const handleEnter = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
-      console.log(inputValue)
+      navigate('/sollect/search/result');
       postRecentSearchWord(inputValue, mode);
     }
   };
