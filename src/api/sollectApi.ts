@@ -1,8 +1,31 @@
 import { SollectPhotoType } from '../types';
+import { publicAxios } from './axios';
+import { ENDPOINT } from './urls';
 
 export const fetchSollects = async () => {
   await new Promise((res) => setTimeout(res, 500));
   return mockSollects;
+};
+
+export const searchSollect = async (
+  keyword?: string,
+  category?: string,
+  size?: number,
+  cursorId?: number
+) => {
+  const params:any={};
+  if(keyword) params.keyword = keyword;
+  if(category) params.category = category;
+  if(size !== undefined) params.size = size;
+  if(cursorId !== undefined) params.cursorId = cursorId;
+
+  try {
+    const res = await publicAxios.get(ENDPOINT.SOLLECT_SEARCH, { params });
+    console.log(res.data);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const mockSollects: SollectPhotoType[] = [
