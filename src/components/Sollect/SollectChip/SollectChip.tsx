@@ -1,10 +1,10 @@
 import React from 'react';
 import { SollectChipProps } from '../../../interface';
 import { iconMap, iconBlackMap } from '../../../utils/icon';
-import { usePlaceStore } from '../../../store/placeStore';
+import { useSollectStore } from '../../../store/sollectStore';
 
 const SollectChip: React.FC<SollectChipProps> = ({ category }) => {
-  const { selectedCategory, setCategory } = usePlaceStore();
+  const { selectedCategory, setSelectedCategory, clearCategory } = useSollectStore();
   const isSelected = selectedCategory === category.id;
 
   const IconComponent = isSelected
@@ -22,7 +22,11 @@ const SollectChip: React.FC<SollectChipProps> = ({ category }) => {
   };
 
   const handleClick = ()=>{
-    setCategory(category.id);
+    if(isSelected){
+      clearCategory();
+    }else{
+      setSelectedCategory(category.id);
+    }
   }
 
   return (
