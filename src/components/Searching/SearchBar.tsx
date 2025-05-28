@@ -30,9 +30,9 @@ const SearchBar: React.FC = () => {
   });
 
   useEffect(() => {
-  if (isSuccess) {
+    if (isSuccess) {
       setRelatedSearchList(data);
-  }
+    }
   }, [isSuccess, data, setRelatedSearchList]);
 
   if (error) {
@@ -43,7 +43,7 @@ const SearchBar: React.FC = () => {
     ? 'sollect'
     : 'map';
 
-  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
@@ -70,7 +70,7 @@ const SearchBar: React.FC = () => {
             type='text'
             value={inputValue}
             spellCheck={false}
-            onChange={(e) => onChangeInputValue(e)}
+            onChange={(e) => changeInputValue(e)}
             placeholder='오늘은 어디서 시간을 보내나요?'
             autoFocus
             onKeyDown={(e) => handleEnter(e)}

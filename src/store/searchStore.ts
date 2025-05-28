@@ -9,7 +9,7 @@ interface SearchState {
   setInputValue: (value: string) => void;
 
   relatedSearchList: RelatedSearchWord[];
-  setRelatedSearchList: (relatedSearchList: RelatedSearchWord[]) => void;
+  setRelatedSearchList: (list: RelatedSearchWord[]) => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -20,6 +20,5 @@ export const useSearchStore = create<SearchState>((set) => ({
   setInputValue: (value) => set({ inputValue: value }),
 
   relatedSearchList: [],
-  setRelatedSearchList: (relatedSearchList) =>
-    set({ relatedSearchList: relatedSearchList }),
+  setRelatedSearchList: (list) => set({ relatedSearchList: list }),
 }));
