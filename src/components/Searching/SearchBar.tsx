@@ -53,6 +53,12 @@ const SearchBar: React.FC = () => {
       postRecentSearchWord(inputValue, mode);
     }
   };
+
+  const clickXButtonCircle = () => {
+    setInputValue('');
+    setRelatedSearchList([]);
+  };
+
   return (
     <div className='bg-primary-100 h-34 flex-[1_0_0] flex items-center px-8 rounded-xl'>
       <div className='flex-1 flex items-center justify-start gap-[4px]'>
@@ -71,7 +77,7 @@ const SearchBar: React.FC = () => {
           />
         </div>
       </div>
-      {inputValue && <XButtonCircle onClickFunc={() => setInputValue('')} />}
+      {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
     </div>
   );
 };
