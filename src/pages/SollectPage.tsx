@@ -12,7 +12,7 @@ const SollectPage = () => {
     setInputValue("");
   },[]);
   return (
-    <div>
+    <div className='touch-pan-y'>
       {/* GNB */}
       <div className='fixed w-full z-10'>
         <SollectGNB />
