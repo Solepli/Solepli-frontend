@@ -11,22 +11,33 @@ const SearchBar: React.FC = () => {
 
   const debouncedInput = useDebounce(inputValue, 500);
 
-  // api로 보낼 검색어(inputValue)가 잘 debounced 되었는지 확인
-  useEffect(() => {
-    console.log(debouncedInput);
-  }, [debouncedInput]);
+  const { data, isSuccess, error } = useQuery({
+    queryKey: ['RSList', debouncedInput],
+    queryFn: () => {
+      return getRelatedSearchWords(debouncedInput, 37.51234, 127.060395);
+    },
+    enabled: debouncedInput !== '',
+  });
 
-  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+  if (isSuccess) {
+    console.log('RSList :::', data);
+  }
+
+  if (error) {
+    console.log('RSList error :::', error);
+  }
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
     : 'map';
 
-  const handleEnter = (e:KeyboardEvent) => {
+  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      console.log(inputValue)
+      console.log(inputValue);
       postRecentSearchWord(inputValue, mode);
     }
   };
