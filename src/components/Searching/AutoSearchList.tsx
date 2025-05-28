@@ -1,17 +1,17 @@
 import React from 'react';
 import AutoSearch from './AutoSearch';
-import { autoSearchResults } from '../../autoSearchResults';
 import SearchTitle from './SearchTitle';
+import { useSearchStore } from '../../store/searchStore';
 
 const AutoSearchList: React.FC = () => {
-  const filteredData = autoSearchResults;
+  const { relatedSearchList } = useSearchStore();
 
   return (
     <div className='flex flex-col items-start'>
       <SearchTitle title={'검색 결과'} />
 
-      {filteredData.map((data, i) => (
-        <AutoSearch autoSearchData={data} key={i} />
+      {relatedSearchList.map((data) => (
+        <AutoSearch relatedSearchWord={data} key={data.id} />
       ))}
     </div>
   );

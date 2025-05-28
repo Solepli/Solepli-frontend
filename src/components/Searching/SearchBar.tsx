@@ -3,11 +3,21 @@ import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
 import useDebounce from '../../hooks/useDebounce';
-import { postRecentSearchWord } from '../../api/searchApi';
+import {
+  getRelatedSearchWords,
+  postRecentSearchWord,
+} from '../../api/searchApi';
+import { useShallow } from 'zustand/shallow';
+import { useQuery } from '@tanstack/react-query';
 
 const SearchBar: React.FC = () => {
-  const { isFocused, setIsFocused, inputValue, setInputValue } =
-    useSearchStore();
+  const { inputValue, setInputValue, setRelatedSearchList } = useSearchStore(
+    useShallow((state) => ({
+      inputValue: state.inputValue,
+      setInputValue: state.setInputValue,
+      setRelatedSearchList: state.setRelatedSearchList,
+    }))
+  );
 
   const debouncedInput = useDebounce(inputValue, 500);
 
@@ -19,9 +29,11 @@ const SearchBar: React.FC = () => {
     enabled: debouncedInput !== '',
   });
 
+  useEffect(() => {
   if (isSuccess) {
-    console.log('RSList :::', data);
+      setRelatedSearchList(data);
   }
+  }, [isSuccess, data, setRelatedSearchList]);
 
   if (error) {
     console.log('RSList error :::', error);
