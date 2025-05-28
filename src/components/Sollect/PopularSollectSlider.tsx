@@ -16,7 +16,6 @@ const PopularSollectSlider = () => {
   const [sollects, setSollects] = useState<SollectPhotoType[]>([]);
 
   const handlePointerDown = (e: React.MouseEvent) => {
-    console.log(e.clientX);
     setStartX(e.clientX);
     setIsDragging(true);
   };
@@ -57,7 +56,6 @@ const PopularSollectSlider = () => {
     const getSollects = async () => {
       const data = await fetchSollects();
       const addedData = [data[data.length - 1], ...data, data[0]];
-      console.log(addedData);
       setSollects(addedData);
     };
 
@@ -73,8 +71,6 @@ const PopularSollectSlider = () => {
   }, [transition]);
 
   const paddingLeft = (window.innerWidth - 350) / 2;
-  console.log(window.innerWidth);
-  console.log(paddingLeft);
 
   return (
     <div

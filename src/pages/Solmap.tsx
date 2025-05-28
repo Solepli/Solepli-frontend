@@ -23,7 +23,6 @@ const Solmap: React.FC = () => {
     if (data) {
       setPlaces(data);
     }
-    console.log(data);
   }, [data]);
 
   if (isLoading) {
