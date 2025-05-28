@@ -10,7 +10,8 @@ const PopularSollectSlider = () => {
   const [startX, setStartX] = useState(0);
   const [transX, setTransX] = useState(0);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [transition, setTransition] = useState(true);
 
   const [sollects, setSollects] = useState<SollectPhotoType[]>([]);
 
@@ -26,7 +27,7 @@ const PopularSollectSlider = () => {
     setTransX(delta);
   };
 
-  const handlePointerUp = (e: React.MouseEvent) => {
+  const handlePointerUp = () => {
     if (!isDragging) return;
     setIsDragging(false);
 
@@ -42,14 +43,35 @@ const PopularSollectSlider = () => {
     setTransX(0);
   };
 
+  const handleTransitionEnd = () => {
+    if (currentIndex === sollects.length - 1) {
+      setTransition(false);
+      setCurrentIndex(1);
+    } else if (currentIndex === 0) {
+      setTransition(false);
+      setCurrentIndex(sollects.length - 2);
+    }
+  };
+
   useEffect(() => {
     const getSollects = async () => {
       const data = await fetchSollects();
-      setSollects(data);
+      const addedData = [data[data.length - 1], ...data, data[0]];
+      console.log(addedData);
+      setSollects(addedData);
     };
 
     getSollects();
   }, []);
+
+  useEffect(() => {
+    if (!transition) {
+      requestAnimationFrame(() => {
+        setTransition(true);
+      });
+    }
+  }, [transition]);
+
   return (
     <div
       className='pb-12 select-none cursor-grab overflow-hidden w-full h-442 pl-20'
@@ -58,12 +80,19 @@ const PopularSollectSlider = () => {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}>
       <div
-        className='flex gap-8 transition-transform duration-300 ease-out items-center'
+        className={`flex gap-8 items-center ${transition ? 'transition-transform duration-300 ease-out' : ''}`}
         style={{
           transform: `translateX(${-currentIndex * SLIDE_WIDTH + transX}px)`,
-        }}>
+        }}
+        onTransitionEnd={handleTransitionEnd}>
         {sollects.map((sollect, i) => {
-          return <PopularSollectPhoto sollect={sollect} key={sollect.id} center={i===currentIndex}/>;
+          return (
+            <PopularSollectPhoto
+              sollect={sollect}
+              key={i}
+              center={i === currentIndex}
+            />
+          );
         })}
       </div>
     </div>

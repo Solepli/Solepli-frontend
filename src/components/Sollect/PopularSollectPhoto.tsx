@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import { SollectPhotoProps } from '../../interface';
-import locationWhite from "../../assets/locationWhite.svg"
+import locationWhite from '../../assets/locationWhite.svg';
 import SollectMark from './SollectMark';
+import { SollectPhotoType } from '../../types';
 
-const PopularSollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
+interface PopularSollectProps {
+  sollect: SollectPhotoType;
+  center: boolean;
+}
+
+const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
+  sollect,
+  center,
+}) => {
   const [marked, setMarked] = useState(false);
   return (
     <div
-      className='relative w-350 h-430 rounded-lg overflow-hidden flex flex-col justify-end shrink-0'
+      className={`relative rounded-lg overflow-hidden flex flex-col justify-end shrink-0 ${center ? 'w-350 h-430' : 'w-320 h-390'}`}
       style={{
         backgroundImage: `url(${sollect.imageUrl})`,
         backgroundRepeat: 'no-repeat',
@@ -19,7 +28,7 @@ const PopularSollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
 
       {/* Sollect Mark */}
       <div className='absolute top-12 right-12'>
-        <SollectMark marked={marked} setMarked={setMarked}/>
+        <SollectMark marked={marked} setMarked={setMarked} />
       </div>
 
       {/* text */}
