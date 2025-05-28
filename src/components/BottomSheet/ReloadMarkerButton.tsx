@@ -22,7 +22,7 @@ const ReloadMarkerButton: React.FC<ReloadMarkerButtonProps> = ({
         transition: 'bottom 0.2s ease-in-out',
       }}>
       <div
-        className='inline-flex h-32 py-16 pr-12 pl-8 items-center shrink-0 rounded-[100px] bg-primary-50 shadow-[0_1_2_0_rgba(18,18,18,0.1)] '
+        className='inline-flex h-32 py-16 pr-12 pl-8 items-center shrink-0 rounded-[100px] bg-primary-50 shadow-[0px_1px_2px_0px_rgba(18,18,18,0.10)]'
         onClick={handleClick}>
         <div className='flex w-24 h-24 p-4 justify-center items-center'>
           <Compass />
