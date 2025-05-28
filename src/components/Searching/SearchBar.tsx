@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
-import useDebounce from '../../hooks/useDebounce';
-import {
-  getRelatedSearchWords,
-  postRecentSearchWord,
-} from '../../api/searchApi';
+import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
-import { useQuery } from '@tanstack/react-query';
 
 const SearchBar: React.FC = () => {
   const { inputValue, setInputValue, setRelatedSearchList } = useSearchStore(
@@ -18,26 +13,6 @@ const SearchBar: React.FC = () => {
       setRelatedSearchList: state.setRelatedSearchList,
     }))
   );
-
-  const debouncedInput = useDebounce(inputValue, 500);
-
-  const { data, isSuccess, error } = useQuery({
-    queryKey: ['RSList', debouncedInput],
-    queryFn: () => {
-      return getRelatedSearchWords(debouncedInput, 37.51234, 127.060395);
-    },
-    enabled: debouncedInput !== '',
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      setRelatedSearchList(data);
-    }
-  }, [isSuccess, data, setRelatedSearchList]);
-
-  if (error) {
-    console.log('RSList error :::', error);
-  }
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
