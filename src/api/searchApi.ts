@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useSearchStore } from '../store/searchStore';
-import { privateAxios } from './axios';
+import { privateAxios, publicAxios } from './axios';
 import { ENDPOINT } from './urls';
-
 
 // export const fetchRecentSearchWords = async () => {
 //   await new Promise((res) => setTimeout(res, 500));
@@ -15,12 +14,34 @@ import { ENDPOINT } from './urls';
 //   return mockRecentSearchWords;
 // };
 
+export const getRelatedSearchWords = async (
+  keyword: string,
+  userLat: number,
+  userLng: number
+) => {
+  try {
+    const res = await publicAxios.get(ENDPOINT.RELATED_SEARCH, {
+      params: {
+        keyword: keyword,
+        userLat: userLat,
+        userLng: userLng,
+      },
+    });
+    console.log(res);
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const deleteRecentSearchWords = async (
   mode: string,
   keyword: string
 ) => {
   try {
-    const res = await privateAxios.delete(ENDPOINT.RECENT_SEARCH.DELETE(mode, keyword));
+    const res = await privateAxios.delete(
+      ENDPOINT.RECENT_SEARCH.DELETE(mode, keyword)
+    );
     console.log(res);
   } catch (e) {
     console.log(e);
@@ -41,13 +62,14 @@ export const fetchRecentSearchWords = async (mode: string) => {
   }
 };
 
-
-
-export const postRecentSearchWord = async (inputValue: string, mode:string) => {
+export const postRecentSearchWord = async (
+  inputValue: string,
+  mode: string
+) => {
   try {
     console.log(inputValue);
     const res = await privateAxios.post(ENDPOINT.RECENT_SEARCH.POST(mode), {
-      "keyword": inputValue,
+      keyword: inputValue,
     });
   } catch (e) {
     console.log(e);
