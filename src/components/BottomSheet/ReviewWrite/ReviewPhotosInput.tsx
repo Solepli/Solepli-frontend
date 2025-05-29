@@ -5,6 +5,8 @@ import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewPhotos from '../Review/ReviewPhotos';
 
+const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_MAX_FILE_SIZE);
+
 const ReviewPhotosInput = () => {
   const { files, setFiles } = useReviewWriteStore(
     useShallow((state) => ({
@@ -31,7 +33,7 @@ const ReviewPhotosInput = () => {
     }
 
     selectedFiles = selectedFiles.filter((file) => {
-      if (file.size > 5 * 1024 * 1024) {
+      if (file.size > MAX_FILE_SIZE) {
         alert('파일 크기는 5MB를 초과할 수 없습니다.');
         return false;
       }

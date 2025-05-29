@@ -15,6 +15,7 @@ import SollectSearchResultPage from '../pages/SollectSearchResultPage';
 import OAuthCallback from '../auth/OAuthCallback';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
+import SollectWritePage from '../pages/SollectWritePage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -49,6 +50,7 @@ const AppRouter = () => {
           <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
         <Route path='login' element={<Login />} />
+        <Route path='/sollect/write' element={<SollectWritePage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (
