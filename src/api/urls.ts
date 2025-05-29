@@ -13,4 +13,5 @@ export const ENDPOINT = {
       `/api/${mode}/search/recent/${encodeURIComponent(keyword)}`,
   },
   SOLLECT_SEARCH: '/api/sollect/search',
+  SOLMARK_SOLLECT: '/api/solmark/sollect',
 };
