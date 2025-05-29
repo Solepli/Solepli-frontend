@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import RecentSearch from './RecentSearch';
 import SearchTitle from './SearchTitle';
 import { useQuery } from '@tanstack/react-query';
-import { fetchRecentSearchWords } from '../../api/searchApi';
+import { getRecentSearchWords } from '../../api/searchApi';
 
 const RecentSearchList: React.FC = () => {
   const mode = window.location.pathname.includes('/sollect/search')
@@ -11,7 +11,7 @@ const RecentSearchList: React.FC = () => {
 
   const { data } = useQuery({
     queryKey: ['recentSearchWords'],
-    queryFn: () => fetchRecentSearchWords(mode),
+    queryFn: () => getRecentSearchWords(mode),
   });
 
   return (

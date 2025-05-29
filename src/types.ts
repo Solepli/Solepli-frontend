@@ -26,11 +26,16 @@ export type TagType = {
   text: string;
 };
 
-export type AutoSearchResults = {
-  title: string;
+export type RelatedSearchWord = {
   address: string | null;
-  category: { title: string; id: string };
-  distance: number | null;
+  category: string | null;
+  distance: {
+    unit: string;
+    value: number;
+  };
+  id: number | null;
+  name: string;
+  type: 'DISTRICT' | 'PLACE';
 };
 
 export type Emoji = 'good' | 'bad' | null;

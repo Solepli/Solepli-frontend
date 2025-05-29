@@ -1,38 +1,43 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
-import useDebounce from '../../hooks/useDebounce';
 import { postRecentSearchWord } from '../../api/searchApi';
+import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
-  const { inputValue, setInputValue } =
-    useSearchStore();
 
-  const debouncedInput = useDebounce(inputValue, 500);
-
-  // api로 보낼 검색어(inputValue)가 잘 debounced 되었는지 확인
-  useEffect(() => {
-    console.log(debouncedInput);
-  }, [debouncedInput]);
-
-  const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+  const { inputValue, setInputValue, setRelatedSearchList } = useSearchStore(
+    useShallow((state) => ({
+      inputValue: state.inputValue,
+      setInputValue: state.setInputValue,
+      setRelatedSearchList: state.setRelatedSearchList,
+    }))
+  );
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
     : 'map';
 
-  const handleEnter = (e: KeyboardEvent) => {
+  const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       navigate('/sollect/search/result');
       postRecentSearchWord(inputValue, mode);
     }
   };
+
+  const clickXButtonCircle = () => {
+    setInputValue('');
+    setRelatedSearchList([]);
+  };
+
   return (
     <div className='bg-primary-100 h-34 flex-[1_0_0] flex items-center px-8 rounded-xl'>
       <div className='flex-1 flex items-center justify-start gap-[4px]'>
@@ -44,14 +49,14 @@ const SearchBar: React.FC = () => {
             type='text'
             value={inputValue}
             spellCheck={false}
-            onChange={(e) => onChangeInputValue(e)}
+            onChange={(e) => changeInputValue(e)}
             placeholder='오늘은 어디서 시간을 보내나요?'
             autoFocus
             onKeyDown={(e) => handleEnter(e)}
           />
         </div>
       </div>
-      {inputValue && <XButtonCircle onClickFunc={() => setInputValue('')} />}
+      {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
     </div>
   );
 };

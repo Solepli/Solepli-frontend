@@ -1,6 +1,6 @@
 import React from 'react';
 import RecentSearchList from './RecentSearchList';
-import AutoSearchList from './AutoSearchList';
+import RelatedSearch from './RelatedSearchList';
 import { useSearchStore } from '../../store/searchStore';
 
 const SearchPanel: React.FC = () => {
@@ -11,7 +11,7 @@ const SearchPanel: React.FC = () => {
     <div className='w-full'>
       {fromSollect && inputValue && <RecentSearchList />}
       {!inputValue && <RecentSearchList />}
-      {inputValue && !fromSollect && <AutoSearchList />}
+      {inputValue && !fromSollect && <RelatedSearch />}
     </div>
   );
 };
