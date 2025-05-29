@@ -28,7 +28,7 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
 
       {/* Sollect Mark */}
       <div className='absolute top-12 right-12'>
-        <SollectMark marked={marked} setMarked={setMarked} />
+        <SollectMark marked={marked} setMarked={setMarked} id={sollect.id} />
       </div>
 
       {/* text */}
