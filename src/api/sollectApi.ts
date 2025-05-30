@@ -1,5 +1,5 @@
 import { SollectPhotoType } from '../types';
-import { publicAxios } from './axios';
+import { privateAxios, publicAxios } from './axios';
 import { ENDPOINT } from './urls';
 
 export const fetchSollects = async () => {
@@ -27,6 +27,24 @@ export const searchSollect = async (
     console.log(e);
   }
 };
+
+
+export const postSolmarkSollect = async (id:number)=>{
+  try{
+    await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT+`/${id}`);
+  }catch(e){
+    console.log(e);
+  }
+}
+
+export const deleteSolmarkSollect = async (id:number)=>{
+  try{
+    await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT+`/${id}`);
+  }catch(e){
+    console.log(e);
+  }
+}
+
 
 const mockSollects: SollectPhotoType[] = [
   {
