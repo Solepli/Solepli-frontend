@@ -2,10 +2,12 @@ import React from 'react';
 import { SollectChipProps } from '../../../interface';
 import { iconMap, iconBlackMap } from '../../../utils/icon';
 import { useSollectStore } from '../../../store/sollectStore';
+import { useNavigate } from 'react-router-dom';
 
 const SollectChip: React.FC<SollectChipProps> = ({ category }) => {
   const { selectedCategory, setSelectedCategory, clearCategory } = useSollectStore();
   const isSelected = selectedCategory === category.id;
+  const navigate = useNavigate();
 
   const IconComponent = isSelected
     ? iconBlackMap[category.id]
@@ -26,6 +28,7 @@ const SollectChip: React.FC<SollectChipProps> = ({ category }) => {
       clearCategory();
     }else{
       setSelectedCategory(category.id);
+      navigate("/sollect/search/result");
     }
   }
 
