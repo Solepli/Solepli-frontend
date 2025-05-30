@@ -13,19 +13,10 @@ const SollectSearchResultPage = () => {
   const {selectedCategory, clearCategory} = useSollectStore();
   const [cursorId, setCursorId] = useState();
 
-  // const { data } = useQuery({
-  //   queryKey: ['searchSollect', inputValue, selectedCategory, cursorId],
-  //   queryFn: fetchSollects,
-  // });
   const { data } = useQuery({
     queryKey: ['searchSollect', inputValue, selectedCategory, cursorId],
     queryFn: () => searchSollect(inputValue, selectedCategory, undefined, cursorId),
-    enabled: !!inputValue,
   });
-
-  useEffect(()=>{
-    clearCategory();
-  },[])
 
   return (
     <div>
