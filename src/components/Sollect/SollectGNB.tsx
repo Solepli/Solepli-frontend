@@ -4,10 +4,15 @@ import add from '../../assets/add.svg';
 import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import { useNavigate } from 'react-router-dom';
+import LoginRequiredAction from '../../auth/LoginRequiredAction';
 
 const SollectGNB = () => {
   const { inputValue, setInputValue } = useSearchStore();
   const navigate = useNavigate();
+
+  const handleAddSollectButton = ()=>{
+    // navigate to write sollect page
+  }
   return (
     <div className='flex px-16 py-12 gap-8 bg-white'>
       {/* logo */}
@@ -27,9 +32,12 @@ const SollectGNB = () => {
       </div>
 
       {/* AddSollectButton */}
-      <button className='bg-primary-900 rounded-xl w-34 h-34 shrink-0 flex justify-center items-center'>
-        <img src={add} alt='add' className='w-24 h-24' />
-      </button>
+      {/* 나중에 target Source에 sollect write 넣기 */}
+      <LoginRequiredAction onAction={handleAddSollectButton} targetSource='/sollect/write'>
+        <button className='bg-primary-900 rounded-xl w-34 h-34 shrink-0 flex justify-center items-center'>
+          <img src={add} alt='add' className='w-24 h-24' />
+        </button>
+      </LoginRequiredAction>
     </div>
   );
 };
