@@ -28,7 +28,11 @@ const SearchBar: React.FC = () => {
 
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      navigate('/sollect/search/result');
+      if (mode === 'sollect') {
+        navigate('/sollect/search/result');
+      } else if (mode === 'solmap') {
+        navigate('/map/list');
+      }
       postRecentSearchWord(inputValue, mode);
     }
   };
