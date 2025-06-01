@@ -22,6 +22,7 @@ const RelatedSearchList: React.FC = () => {
   const { data, isSuccess, error } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
+      // todo : 사용자의 실시간 좌표로 가져오기
       return getRelatedSearchWords(debouncedInput, 37.51234, 127.060395);
     },
     enabled: debouncedInput !== '',
@@ -41,8 +42,8 @@ const RelatedSearchList: React.FC = () => {
     <div className='flex flex-col items-start'>
       <SearchTitle title={'검색 결과'} />
 
-      {relatedSearchList.map((data) => (
-        <RelatedSearch relatedSearchWord={data} key={data.id} />
+      {relatedSearchList?.map((data) => (
+        <RelatedSearch relatedSearchWord={data} key={data.id || data.name} />
       ))}
     </div>
   );
