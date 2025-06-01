@@ -10,27 +10,37 @@ import { useNavigate } from 'react-router-dom';
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { inputValue, setInputValue, setRelatedSearchList } = useSearchStore(
-    useShallow((state) => ({
-      inputValue: state.inputValue,
-      setInputValue: state.setInputValue,
-      setRelatedSearchList: state.setRelatedSearchList,
-    }))
-  );
+  const { inputValue, setInputValue, relatedSearchList, setRelatedSearchList } =
+    useSearchStore(
+      useShallow((state) => ({
+        inputValue: state.inputValue,
+        setInputValue: state.setInputValue,
+        relatedSearchList: state.relatedSearchList,
+        setRelatedSearchList: state.setRelatedSearchList,
+      }))
+    );
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
-    : 'map';
+    : 'solmap';
 
   const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const handleEnter = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key !== 'Enter') return;
+
+    if (e.key === 'Enter' && mode === 'sollect') {
       navigate('/sollect/search/result');
-      postRecentSearchWord(inputValue, mode);
+    } else if (e.key === 'Enter' && mode === 'solmap') {
+      if (relatedSearchList.length > 0) {
+        navigate('/map/list');
+      } else {
+        navigate('/map/not-found');
+      }
     }
+    postRecentSearchWord(inputValue, mode);
   };
 
   const clickXButtonCircle = () => {

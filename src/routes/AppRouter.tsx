@@ -28,7 +28,10 @@ const AppRouter = () => {
         <Route path='/' element={<AppLayout />}>
           <Route path='sollect' element={<SollectPage />} />
           <Route path='sollect/search' element={<SearchPage />} />
-          <Route path='sollect/search/result' element={<SollectSearchResultPage />} />
+          <Route
+            path='sollect/search/result'
+            element={<SollectSearchResultPage />}
+          />
 
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
@@ -38,6 +41,7 @@ const AppRouter = () => {
             <Route path='reviews/:placeId' element={<ReviewsPage />} />
             <Route path='review-write/:placeId' element={<ReviewWrite />} />
           </Route>
+
           <Route path='map/search' element={<SearchPage />} />
           <Route path='mark' element={<></>} />
           <Route path='profile' element={<Profile />} />

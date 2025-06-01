@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import RelatedSearch from './RelatedSearch';
 import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
@@ -22,10 +22,14 @@ const RelatedSearchList: React.FC = () => {
   const { data, isSuccess, error } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
-      return getRelatedSearchWords(debouncedInput, 37.51234, 127.060395);
+      return getRelatedSearchWords(debouncedInput, latlng.lat, latlng.lng);
     },
     enabled: debouncedInput !== '',
   });
+
+  if (error) {
+    console.log('RSList error :::', error);
+  }
 
   useEffect(() => {
     if (isSuccess) {
@@ -33,16 +37,28 @@ const RelatedSearchList: React.FC = () => {
     }
   }, [isSuccess, data, setRelatedSearchList]);
 
-  if (error) {
-    console.log('RSList error :::', error);
-  }
+  // 사용자가 위치정보를 허용하지 않을 시 좌표가 0,0으로 설정됨.
+  const [latlng, setLatlng] = useState({ lat: 0, lng: 0 });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (res) => {
+          setLatlng({ lat: res.coords.latitude, lng: res.coords.longitude });
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    }
+  }, []);
 
   return (
     <div className='flex flex-col items-start'>
       <SearchTitle title={'검색 결과'} />
 
-      {relatedSearchList.map((data) => (
-        <RelatedSearch relatedSearchWord={data} key={data.id} />
+      {relatedSearchList?.map((data) => (
+        <RelatedSearch relatedSearchWord={data} key={data.id || data.name} />
       ))}
     </div>
   );
