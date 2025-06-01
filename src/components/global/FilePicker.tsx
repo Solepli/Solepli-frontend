@@ -14,6 +14,8 @@ export interface FilePickerProps {
   maxSize?: number;
   /** input accept 속성 (기본 이미지) */
   accept?: string;
+  /** 기존 file을 기억할지  */
+  keepFiles?: boolean;
   /** 외부에서 클릭 트리거를 어떻게 그릴지 */
   children: (open: () => void) => React.ReactNode;
 }
@@ -28,6 +30,7 @@ const FilePicker: React.FC<FilePickerProps> = ({
   maxCount = DEFAULT_MAX_COUNT,
   maxSize = MAX_FILE_SIZE,
   accept = '.png,.jpg,.jpeg',
+  keepFiles = true,
   children,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -57,7 +60,12 @@ const FilePicker: React.FC<FilePickerProps> = ({
       return true;
     });
 
-    onChange([...files, ...selected]);
+    if (keepFiles) {
+      onChange([...files, ...selected]);
+    } else {
+      onChange(selected);
+    }
+
     // 同 이벤트에서 같은 파일 다시 고를 수 있도록 value 초기화
     e.target.value = '';
   };

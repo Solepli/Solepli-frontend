@@ -24,7 +24,8 @@ const SollectWriteImageInput = () => {
         files={paragraphs.filter((p) => p.type === 'IMAGE').map((p) => p.file).filter((file): file is File => file !== undefined)}
         onChange={onFileChange}
         multiple={true}
-        maxCount={100}>
+        maxCount={100}
+        keepFiles={false}>
         {(open) => <AddLogo onClick={open} />}
       </FilePicker>
     </div>
