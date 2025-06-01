@@ -9,15 +9,19 @@ type Paragraph = {
 
 type SollectWriteState = {
   seq: number;
+  focusSeq: number | null;
   paragraphs: Paragraph[];
   addTextParagraph: (afterSeq?: number) => void;
   addImageParagraph: (afterSeq?: number) => void;
   updateParagraphContent: (seq: number, content: string) => void;
   deleteParagraph: (seq: number) => void;
+  setParagraphs: (paragraphs: Paragraph[]) => void;
+  setFocusSeq: (seq: number | null) => void;
 };
 
 export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   seq: 0,
+  focusSeq: null, // 초기 포커스 시퀀스는 -1로 설정
   paragraphs: [],
 
   addTextParagraph: (afterSeq) =>
@@ -29,11 +33,10 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       };
       if (!afterSeq) return { paragraphs: [...state.paragraphs, newPara] };
 
-      const newSeq = state.paragraphs.findIndex((p) => p.seq === afterSeq);
       const updated = [
-        ...state.paragraphs.slice(0, newSeq + 1),
+        ...state.paragraphs.slice(0, afterSeq + 1),
         newPara,
-        ...state.paragraphs.slice(newSeq + 1),
+        ...state.paragraphs.slice(afterSeq + 1),
       ];
       return { paragraphs: updated };
     }),
@@ -66,5 +69,15 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   deleteParagraph: (seq) =>
     set((state) => ({
       paragraphs: state.paragraphs.filter((p) => p.seq !== seq),
+    })),
+
+  setParagraphs: (paragraphs: Paragraph[]) =>
+    set(() => ({
+      paragraphs,
+    })),
+
+  setFocusSeq: (seq) =>
+    set(() => ({
+      focusSeq: seq,
     })),
 }));

@@ -4,7 +4,7 @@ import SollectWriteImageInput from '../components/Sollect/SollectWrite/SollectWr
 
 const SollectWritePage = () => {
   return (
-    <div className='w-full h-dvh flex flex-col relative'>
+    <div className='w-full h-dvh flex flex-col relative overflow-hidden'>
       <SollectWriteHeader />
       <SollectWriteContent />
       <SollectWriteImageInput />

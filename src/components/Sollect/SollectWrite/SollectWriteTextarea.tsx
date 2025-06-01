@@ -1,39 +1,71 @@
 import { useEffect, useRef } from 'react';
+import { useShallow } from 'zustand/shallow';
+import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 
 interface SollectWriteTextareaProps {
+  seq: number;
+  index: number;
   parentScrollRef: React.RefObject<HTMLDivElement | null>;
+  isLast: boolean;
+  register: (el: HTMLTextAreaElement | null) => void;
+  value?: string;
 }
 
 const SollectWriteTextarea: React.FC<SollectWriteTextareaProps> = ({
+  seq,
   parentScrollRef,
+  register,
+  value,
 }) => {
-  useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
+  const { updateParagraphContent, deleteParagraph } = useSollectWriteStore(
+    useShallow((state) => ({
+      maxSeq: state.seq,
+      focusSeq: state.focusSeq,
+      paragraphs: state.paragraphs,
+      addTextParagraph: state.addTextParagraph,
+      setParagraphs: state.setParagraphs,
+      updateParagraphContent: state.updateParagraphContent,
+      deleteParagraph: state.deleteParagraph,
+    }))
+  );
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleScroll = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const target = e.target;
+  useEffect(() => {
+    if (!textareaRef.current) return;
+    textareaRef.current.focus();
+    textareaRef.current.value = value || ''; // Set initial value if provided
+  }, [value]);
+
+  const handleScroll = () => {
+    if (!textareaRef.current) return;
+
+    const target = textareaRef.current;
     const scrollContainer = parentScrollRef.current;
-    const prevScroll = scrollContainer?.scrollTop ?? 0;
 
     target.style.height = 'auto'; // Reset height first
     target.style.height = `${target.scrollHeight}px`; // Then set to scrollHeight
 
-    if (scrollContainer) scrollContainer.scrollTop = prevScroll;
+    if (scrollContainer) {
+      scrollContainer.scrollTop = scrollContainer.scrollHeight; // Scroll to the bottom
+    }
   };
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   return (
-    <div
-      className='w-full h-auto flex items-start justify-start'
-      onClick={(e) => {
-        e.stopPropagation(); // 클릭 이벤트 전파 방지
-      }}>
+    <div className='w-full flex flex-1 flex-col h-full'>
       <textarea
-        ref={textareaRef}
-        rows={1}
+        ref={(el) => {
+          textareaRef.current = el;
+          register(el); // Register the textarea element
+        }}
         onChange={handleScroll}
-        className='w-full resize-none border-none outline-none bg-transparent overflow-hidden'
+        onBlur={(e) => {
+          if(e.target.value.trim() === '') {
+            // If the content is empty, remove the paragraph
+            deleteParagraph(seq);
+          } 
+          updateParagraphContent(seq, e.target.value.trim());
+        }}
+        className='w-full h-full resize-none border-none outline-none bg-transparent'
       />
     </div>
   );
