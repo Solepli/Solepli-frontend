@@ -7,7 +7,7 @@ import { getRecentSearchWords } from '../../api/searchApi';
 const RecentSearchList: React.FC = () => {
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
-    : 'map';
+    : 'solmap';
 
   const { data } = useQuery({
     queryKey: ['recentSearchWords'],

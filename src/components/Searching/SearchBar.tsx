@@ -20,7 +20,7 @@ const SearchBar: React.FC = () => {
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
-    : 'map';
+    : 'solmap';
 
   const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
