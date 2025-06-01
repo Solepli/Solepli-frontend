@@ -52,7 +52,7 @@ export type ReviewType = {
   tags: TagType[];
 };
 
-export type CurrentLatLng = {
+export type DisplayLatLng = {
   swY: number;
   swX: number;
   neY: number;
