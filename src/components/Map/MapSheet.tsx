@@ -10,19 +10,20 @@ import { useMarkersStore } from '../../store/markersStore';
 import { MarkersInfoType } from '../../types';
 import { IconMarkerMap } from '../../utils/icon';
 
+// 유저의 현재 위치를 반환하는 함수 (지금은 사용자의 현재 좌표를 서울 지역으로 하드코딩)
 const getUserLatLng = async (): Promise<naver.maps.LatLng> => {
   try {
     // const position = await new Promise<GeolocationPosition>((res, rej) => {
     //   navigator.geolocation.getCurrentPosition(res, rej);
     // });
     // return new naver.maps.LatLng(position.coords.latitude, position.coords.latitude);
-    // 사용자의 현재 좌표를 서울 지역으로 하드코딩
     return new naver.maps.LatLng(37.51234, 127.060395);
   } catch {
     return new naver.maps.LatLng(37.5666805, 126.9784147); // 기본 좌표 (서울 시청)
   }
 };
 
+// 화면에 보여지는 지도 영역 좌표를 반환하는 함수
 const getDisplayBounds = (
   InstanceCurrent: naver.maps.Map | null
 ): naver.maps.Bounds => {
@@ -30,6 +31,7 @@ const getDisplayBounds = (
   return bounds;
 };
 
+// divRef에 지도를 생성해서 만들어진 지도 객체를 mapRef에 담는 함수
 const initMap = (
   divRef: React.RefObject<HTMLDivElement | null>,
   mapRef: React.RefObject<naver.maps.Map | null>,
@@ -51,6 +53,7 @@ const initMap = (
   return map;
 };
 
+// 지도에 인자로 받은 마커 객체 리스트를 표시하는 함수
 const addMarkers = (
   mapRef: React.RefObject<naver.maps.Map | null>,
   markerObjectList: naver.maps.Marker[]
@@ -82,6 +85,7 @@ const addMarkers = (
    */
 };
 
+// 지도에 표시된 마커 객체 리스트를 삭제하는 함수
 const deleteMarkers = (
   markerObjectList: naver.maps.Marker[]
   // clearMarkerObjectList: () => void
@@ -148,6 +152,7 @@ const MapSheet = () => {
     console.log('fetchPlacesNearby isError :::', error);
   }
 
+  // 지도를 생성하고 화면 좌표를 설정함
   useLayoutEffect(() => {
     if (!mapElement.current) return;
 
@@ -163,6 +168,7 @@ const MapSheet = () => {
     });
   }, []);
 
+  // useMarkerStore의 markerObjectList를 구독하여 변경이 감지될 때마다 작업을 수행하도록함
   useEffect(() => {
     const unsubscribe = useMarkersStore.subscribe(
       (state) => state.markerObjectList,
@@ -179,6 +185,7 @@ const MapSheet = () => {
     return () => unsubscribe();
   }, []);
 
+  // useQuery의 getDisplayMarkers 호출 성공시 받아온 마커 리스트를 마커 객체 리스트로 생성하여 markerObjectList에 한 번에 저장함
   useEffect(() => {
     if (data) {
       const markerList: naver.maps.Marker[] = [];
