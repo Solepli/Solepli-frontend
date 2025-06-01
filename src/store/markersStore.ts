@@ -1,23 +1,22 @@
 import { create } from 'zustand';
-import { MarkersInfoType } from '../types';
+import { subscribeWithSelector } from 'zustand/middleware';
+// import { MarkersInfoType } from '../types';
 
 interface markersState {
-  markersInfo: MarkersInfoType[];
-  setMarkersInfo: (places: MarkersInfoType[]) => void;
+  // markersInfo: MarkersInfoType[];
+  // setMarkersInfo: (places: MarkersInfoType[]) => void;
 
-  markersObject: naver.maps.Marker[];
-  setMarkersObject: (marker: naver.maps.Marker) => void;
-  clearMarkersObject: () => void;
+  markerObjectList: naver.maps.Marker[];
+  setMarkerObjectList: (marker: naver.maps.Marker[]) => void;
+  clearMarkerObjectList: () => void;
 }
 
-export const useMarkersStore = create<markersState>((set) => ({
-  markersInfo: [],
-  setMarkersInfo: (markersInfo) => set({ markersInfo: markersInfo }),
-
-  markersObject: [],
-  setMarkersObject: (marker) =>
-    set((state) => ({
-      markersObject: [...state.markersObject, marker],
-    })),
-  clearMarkersObject: () => set({ markersObject: [] }),
-}));
+export const useMarkersStore = create<markersState>()(
+  // markersInfo: [],
+  // setMarkersInfo: (markersInfo) => set({ markersInfo: markersInfo }),
+  subscribeWithSelector((set) => ({
+    markerObjectList: [],
+    setMarkerObjectList: (marker) => set({ markerObjectList: marker }),
+    clearMarkerObjectList: () => set({ markerObjectList: [] }),
+  }))
+);
