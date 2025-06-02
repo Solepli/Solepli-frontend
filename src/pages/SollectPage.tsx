@@ -5,12 +5,17 @@ import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupList';
 import { useSearchStore } from '../store/searchStore';
 import PopularSollectSlider from '../components/Sollect/PopularSollectSlider';
+import { useSollectStore } from '../store/sollectStore';
 
 const SollectPage = () => {
   const {setInputValue} = useSearchStore();
+  const {clearCategory} = useSollectStore();
+
   useEffect(()=>{
     setInputValue("");
+    clearCategory();
   },[]);
+  
   return (
     <div className='touch-pan-y'>
       {/* GNB */}
