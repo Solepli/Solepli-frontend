@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SollectPhotoType } from '../../types';
-import { fetchPopularSollect, fetchSollects } from '../../api/sollectApi';
+import { fetchPopularSollect } from '../../api/sollectApi';
 import PopularSollectPhoto from './PopularSollectPhoto';
 
 const SLIDE_WIDTH = 328;
