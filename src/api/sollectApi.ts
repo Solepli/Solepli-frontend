@@ -13,11 +13,11 @@ export const searchSollect = async (
   size?: number,
   cursorId?: number
 ) => {
-  const params:any={};
-  if(keyword) params.keyword = keyword;
-  if(category) params.category = category;
-  if(size !== undefined) params.size = size;
-  if(cursorId !== undefined) params.cursorId = cursorId;
+  const params: any = {};
+  if (keyword) params.keyword = keyword;
+  if (category) params.category = category;
+  if (size !== undefined) params.size = size;
+  if (cursorId !== undefined) params.cursorId = cursorId;
 
   try {
     const res = await publicAxios.get(ENDPOINT.SOLLECT_SEARCH, { params });
@@ -28,87 +28,111 @@ export const searchSollect = async (
   }
 };
 
-
-export const postSolmarkSollect = async (id:number)=>{
-  try{
-    await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT+`/${id}`);
-  }catch(e){
+export const postSolmarkSollect = async (id: number) => {
+  try {
+    await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
-export const deleteSolmarkSollect = async (id:number)=>{
-  try{
-    await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT+`/${id}`);
-  }catch(e){
+export const deleteSolmarkSollect = async (id: number) => {
+  try {
+    await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
+export const fetchPopularSollect = async () => {
+  try {
+    const res = await publicAxios.get(ENDPOINT.POPULAR_SOLLECT);
+    console.log(res);
+    return res.data.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const mockSollects: SollectPhotoType[] = [
   {
-    id: 1,
+    sollectId: 1,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
       'https://i.pinimg.com/736x/01/f5/89/01f589cf7ccd3191ee2d55dc81d8fa82.jpg',
-    placeTitle: '뺑 에 뵈르',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 2,
-    title: '잠시 쉬어가는 시간',
-    address: '성동구, 성수동2가',
-    imageUrl:
+    sollectId: 2,
+    title: '성수동 혼놀 코스',
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
       'https://i.pinimg.com/736x/da/4b/bd/da4bbde3aede9fcf1fe487a392e3e4ec.jpg',
-    placeTitle: '뺑 에 뵈르',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 3,
+    sollectId: 3,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
+      'https://i.pinimg.com/736x/01/f5/89/01f589cf7ccd3191ee2d55dc81d8fa82.jpg',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
+  },
+  {
+    sollectId: 4,
+    title: '성수동 혼놀 코스',
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8HvHrjwd0T3122vCeMXg79UAWqixsmLBLVEoQol3KlaZEsY4_LrR1sLtcWYqGdjIciA&usqp=CAU',
-    placeTitle: '뺑 에 뵈르',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 4,
+    sollectId: 5,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
-      'https://cdn.imweb.me/upload/S202207276eb21328c800f/0d1de28381aef.jpg',
-    placeTitle: '뺑 에 뵈르',
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
+      'https://i.pinimg.com/736x/da/4b/bd/da4bbde3aede9fcf1fe487a392e3e4ec.jpg',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 5,
+    sollectId: 6,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
-      'https://cdn.imweb.me/upload/S202207276eb21328c800f/0d1de28381aef.jpg',
-    placeTitle: '뺑 에 뵈르',
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
+      'https://i.pinimg.com/736x/01/f5/89/01f589cf7ccd3191ee2d55dc81d8fa82.jpg',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 6,
+    sollectId: 7,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8HvHrjwd0T3122vCeMXg79UAWqixsmLBLVEoQol3KlaZEsY4_LrR1sLtcWYqGdjIciA&usqp=CAU',
-    placeTitle: '뺑 에 뵈르',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
   },
   {
-    id: 7,
+    sollectId: 8,
     title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8HvHrjwd0T3122vCeMXg79UAWqixsmLBLVEoQol3KlaZEsY4_LrR1sLtcWYqGdjIciA&usqp=CAU',
-    placeTitle: '뺑 에 뵈르',
-  },
-  {
-    id: 8,
-    title: '성수동 혼놀 코스',
-    address: '성동구, 성수동2가',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8HvHrjwd0T3122vCeMXg79UAWqixsmLBLVEoQol3KlaZEsY4_LrR1sLtcWYqGdjIciA&usqp=CAU',
-    placeTitle: '뺑 에 뵈르',
-  },
+    district: '성동구',
+    neighborhood:"성수동2가",
+    thumbnailImage:
+      'https://i.pinimg.com/736x/01/f5/89/01f589cf7ccd3191ee2d55dc81d8fa82.jpg',
+    isMarked:false,
+    // placeTitle: '뺑 에 뵈르',
+  }
 ];

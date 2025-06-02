@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SollectPhotoType } from '../../types';
-import { fetchSollects } from '../../api/sollectApi';
+import { fetchPopularSollect, fetchSollects } from '../../api/sollectApi';
 import PopularSollectPhoto from './PopularSollectPhoto';
 
 const SLIDE_WIDTH = 328;
@@ -54,7 +54,7 @@ const PopularSollectSlider = () => {
 
   useEffect(() => {
     const getSollects = async () => {
-      const data = await fetchSollects();
+      const data = await fetchPopularSollect();
       const addedData = [data[data.length - 1], ...data, data[0]];
       setSollects(addedData);
     };
