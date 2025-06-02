@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 
@@ -33,39 +33,26 @@ const SollectWriteTextarea: React.FC<SollectWriteTextareaProps> = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const caretRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    if (!textareaRef.current) return;
-    textareaRef.current.focus();
-    textareaRef.current.value = value || ''; // Set initial value if provided
-  }, [value]);
+  const adjustLayout = useCallback(() => {
+    const ta = textareaRef.current;
+    if (!ta) return;
 
-  useEffect(() => {
-    if (!textareaRef.current) return;
+    const sc = parentScrollRef.current; // 스크롤 컨테이너
 
-    const target = textareaRef.current;
-    const scrollContainer = parentScrollRef.current;
+    ta.style.height = 'auto'; // 1) 높이 초기화
+    ta.style.height = `${ta.scrollHeight}px`; // 2) 실제 높이로 재설정
 
-    target.style.height = 'auto'; // Reset height first
-    target.style.height = `${target.scrollHeight}px`; // Then set to scrollHeight
+    if (sc) sc.scrollTop = sc.scrollHeight; // 3) 항상 맨 아래로
+  }, [parentScrollRef]); // 부모 스크롤 DOM 이 바뀔 때만 새로 만듦
 
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight; // Scroll to the bottom
-    } 
-  }, [value, parentScrollRef]);
-
-  const handleScroll = () => {
+  /** value(초기값·외부 변경) 반영 직후 레이아웃 확정 */
+  useLayoutEffect(() => {
     if (!textareaRef.current) return;
 
-    const target = textareaRef.current;
-    const scrollContainer = parentScrollRef.current;
-
-    target.style.height = 'auto'; // Reset height first
-    target.style.height = `${target.scrollHeight}px`; // Then set to scrollHeight
-
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight; // Scroll to the bottom
-    }
-  };
+    textareaRef.current.focus(); // 포커스
+    textareaRef.current.value = value || ''; // prop→DOM
+    adjustLayout(); // 👈 여기서 한 번만 호출
+  }, [value, adjustLayout]);
 
   return (
     <div className='w-full flex flex-1 flex-col h-full'>
@@ -76,7 +63,7 @@ const SollectWriteTextarea: React.FC<SollectWriteTextareaProps> = ({
         }}
         onChange={(e) => {
           caretRef.current = e.currentTarget.selectionStart ?? 0;
-          handleScroll();
+          adjustLayout(); // Adjust layout on change
         }}
         onFocus={(e) => {
           setFocus(seq, e.target);
