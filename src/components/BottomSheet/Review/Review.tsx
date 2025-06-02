@@ -8,7 +8,7 @@ import ExpandableText from './ExpandableText';
 
 const Review = ({ review }: { review: ReviewType }) => {
   return (
-    <div className='pt-20 pb-12'>
+    <div className='pt-20 pb-12 border-b border-grayScale-100'>
       <div className='px-16 pb-12 flex items-center justify-between'>
         {/* 왼쪽: 프로필 이미지 + 이름/날짜 */}
         <div className='flex items-center gap-8'>
