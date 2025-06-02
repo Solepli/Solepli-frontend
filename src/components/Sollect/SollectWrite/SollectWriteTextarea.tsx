@@ -55,7 +55,7 @@ const SollectWriteTextarea: React.FC<SollectWriteTextareaProps> = ({
   }, [value, adjustLayout]);
 
   return (
-    <div className='w-full flex flex-1 flex-col h-full'>
+    <div className='w-full flex flex-1 flex-col px-16 h-full'>
       <textarea
         ref={(el) => {
           textareaRef.current = el;
