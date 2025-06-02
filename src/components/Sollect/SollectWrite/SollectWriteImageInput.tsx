@@ -4,17 +4,22 @@ import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 
 const SollectWriteImageInput = () => {
-  const { paragraphs, addImageParagraph } = useSollectWriteStore(
+  const { paragraphs, focusTextarea, insertImageAtCaret } = useSollectWriteStore(
     useShallow((state) => ({
       paragraphs: state.paragraphs,
-      addImageParagraph: state.addImageParagraph,
+      focusTextarea: state.focusTextarea,
+      insertImageAtCaret: state.insertImageAtCaret,
     }))
   );
 
   const onFileChange = (newFiles: File[]) => {
     if (newFiles.length === 0) return;
+    let caret = null;
+    if (focusTextarea) {
+      caret = focusTextarea.selectionStart ?? 0;
+    }
     newFiles.forEach((file) => {
-      addImageParagraph(file);
+      insertImageAtCaret(file, caret);
     })
   };
 
