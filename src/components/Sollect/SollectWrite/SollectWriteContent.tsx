@@ -59,7 +59,7 @@ const SollectWriteContent = () => {
           {/* 빈 영역일 때 */}
           {paragraphs.length === 0 && (
             <div
-              className='w-full flex flex-1 items-up justify-start text-primary-500 text-sm font-normal leading-tight'
+              className='w-full flex flex-1 px-16 items-up justify-start text-primary-500 text-sm font-normal leading-tight'
               onClick={handleBlankClick}>
               쏠플 경험에 대해 자세히 알려주세요!
             </div>
