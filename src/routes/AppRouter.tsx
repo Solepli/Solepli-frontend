@@ -56,6 +56,7 @@ const AppRouter = () => {
           <Route path='place' element={<SollectWritePlacePage />} />
         </Route>
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
+        <Route path='/sollect/write/search' element={<SearchPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (
