@@ -6,7 +6,7 @@ const ShowAllReviewsButton: React.FC<{ onClick: () => void }> = ({
   return (
     <div
       onClick={onClick}
-      className='w-full p-16 border-t border-primary-100 flex justify-center items-center cursor-pointer'>
+      className='w-full p-16 flex justify-center items-center cursor-pointer'>
       <span className='text-primary-500 text-xs font-normal underline leading-none'>
         리뷰 더보기
       </span>
