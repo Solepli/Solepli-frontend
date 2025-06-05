@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TitleHeader from '../components/global/TitleHeader';
 import { useNavigate } from 'react-router-dom';
-import SollectPhoto from '../components/Sollect/SollectPhoto';
 import { fetchSollects } from '../api/sollectApi';
 import { SollectPhotoType } from '../types';
 import SollectList from '../components/Sollect/SollectList';

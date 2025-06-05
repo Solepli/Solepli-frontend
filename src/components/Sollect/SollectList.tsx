@@ -12,7 +12,7 @@ const SollectList: React.FC<SollectListProps> = ({ horizontal, sollects, customS
   return (
     <div className={style}>
       {sollects.map((sollect) => {
-        return <SollectPhoto sollect={sollect} key={sollect.id} />;
+        return <SollectPhoto sollect={sollect} key={sollect.sollectId} />;
       })}
     </div>
   );

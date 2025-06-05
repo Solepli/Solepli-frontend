@@ -20,4 +20,6 @@ export const ENDPOINT = {
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
+
+  POPULAR_SOLLECT: '/api/sollect/popular',
 };

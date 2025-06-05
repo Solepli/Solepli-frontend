@@ -67,9 +67,10 @@ export type MarkersInfoType = {
 };
 
 export type SollectPhotoType = {
-  id: number;
+  sollectId: number;
   title: string;
-  placeTitle?: string;
-  address: string;
-  imageUrl: string;
+  thumbnailImage: string;
+  district:string;
+  neighborhood:string;
+  isMarked:boolean;
 };

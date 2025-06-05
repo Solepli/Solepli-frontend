@@ -5,7 +5,7 @@ import SollectMark from './SollectMark';
 
 const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
   const navigate = useNavigate();
-  const [marked, setMarked] = useState(false);
+  const [marked, setMarked] = useState(sollect.isMarked);
 
   const handleClick = () => {
     navigate('');
@@ -16,7 +16,7 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
       onClick={handleClick}
       className='relative w-174 h-220 rounded-lg overflow-hidden flex flex-col justify-end shrink-0'
       style={{
-        backgroundImage: `url(${sollect.imageUrl})`,
+        backgroundImage: `url(${sollect.thumbnailImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
@@ -26,12 +26,18 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
 
       {/* Sollect Mark */}
       <div className='absolute top-8 right-8'>
-        <SollectMark marked={marked} setMarked={setMarked} id={sollect.id}/>
+        <SollectMark
+          marked={marked}
+          setMarked={setMarked}
+          id={sollect.sollectId}
+        />
       </div>
 
       <div className='p-20 z-1 text-white'>
         <p className='text-sm font-bold pb-4'>{sollect.title}</p>
-        <p className='text-xs'>{sollect.address}</p>
+        <p className='text-xs'>
+          {sollect.district}, {sollect.neighborhood}
+        </p>
       </div>
     </div>
   );
