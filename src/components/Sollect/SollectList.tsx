@@ -8,14 +8,16 @@ const SollectList: React.FC<SollectListProps> = ({ horizontal, sollects, customS
   if (horizontal) {
     style += ' px-16 flex overflow-x-scroll flex-row gap-4 overflow-y-auto';
   } else {
-    style += ' flex flex-wrap gap-12 justify-center overflow-y-auto';
+    style += ' gap-12 overflow-y-auto grid grid-cols-2';
   }
 
   return (
-    <div className={style}>
-      {sollects.map((sollect) => {
-        return <SollectPhoto sollect={sollect} key={sollect.sollectId} />;
-      })}
+    <div className='flex justify-center'>
+      <div className={style}>
+        {sollects.map((sollect) => {
+          return <SollectPhoto sollect={sollect} key={sollect.sollectId} />;
+        })}
+      </div>
     </div>
   );
 };
