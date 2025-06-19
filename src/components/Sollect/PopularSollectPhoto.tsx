@@ -34,8 +34,7 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
       <div className='p-24 z-1 text-white'>
         <h1 className='text-3xl font-bold pb-16'>{sollect.title}</h1>
         <div className='flex justify-between'>
-          {/* 나중에 장소명으로 변경하기 */}
-          <span className='text-xs'>{sollect.title}</span>
+          <span className='text-xs'>{sollect.placeName}</span>
           <span className='text-xs flex items-center'>
             <img src={locationWhite} alt='location' className='h-16 w-16' />
             {sollect.district}, {sollect.neighborhood}

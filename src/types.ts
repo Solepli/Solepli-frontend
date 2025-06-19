@@ -73,4 +73,5 @@ export type SollectPhotoType = {
   district:string;
   neighborhood:string;
   isMarked:boolean;
+  placeName:string;
 };

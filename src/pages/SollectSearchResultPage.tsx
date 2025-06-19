@@ -7,22 +7,17 @@ import { fetchSollects, searchSollect } from '../api/sollectApi';
 import SollectNoResult from '../components/Sollect/SollectNoResult';
 import { useSearchStore } from '../store/searchStore';
 import { useSollectStore } from '../store/sollectStore';
+import { useScrollSentinel } from '../hooks/useInfiniteScrollQuery';
 
 const SollectSearchResultPage = () => {
   const { inputValue } = useSearchStore();
   const { selectedCategory, clearCategory } = useSollectStore();
-  const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // const { data } = useQuery({
-  //   queryKey: ['searchSollect', inputValue, selectedCategory, cursorId],
-  //   queryFn: () => searchSollect(inputValue, selectedCategory, undefined, cursorId),
-  // });
-
-  // 무한 스크롤
+  // useInfiniteQuery를 통한 무한 스크롤 구현
   // pageParam이 cursorId 역할을 한다. 초기값은 undefined
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['searchSollect', inputValue, selectedCategory],
+      queryKey: ['searchSollect', inputValue, selectedCategory], // inputValue, selectedCategory 바뀌면 새로 fetch
       queryFn: ({ pageParam = undefined }) =>
         searchSollect(inputValue, selectedCategory, undefined, pageParam),
       getNextPageParam: (lastPage) => {
@@ -36,27 +31,14 @@ const SollectSearchResultPage = () => {
   // 데이터 합침
   const sollects = data ? data.pages.flat() : [];
 
-  // 스크롤 끝까지 했는지 감지하기
-  useEffect(() => {
-    if (!sentinelRef.current) return;
+  // sentinelRef div가 뷰포트에 들어오면 다음 페이지 fetch
+  // 스크롤 끝까지 했는지 sentinel 감시
+  const sentinelRef = useScrollSentinel({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      {
-        root: null,
-        rootMargin: '100px',
-        threshold: 0,
-      }
-    );
-
-    observer.observe(sentinelRef.current);
-
-    return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <div>
