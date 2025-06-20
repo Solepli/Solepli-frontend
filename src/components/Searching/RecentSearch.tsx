@@ -25,7 +25,12 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
 
   const handleClick = async () => {
     setInputValue(text);
-    navigate('/sollect/search/result');
+    if(mode === "sollect"){
+      navigate('/sollect/search/result');
+    }else if(mode === "solmap"){
+      // TODO: list page에서 searchPlace 해야함
+      navigate('/map/list');
+    }
     await postRecentSearchWord(text, mode);
   };
 
