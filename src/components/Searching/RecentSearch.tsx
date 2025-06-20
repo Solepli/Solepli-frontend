@@ -1,5 +1,4 @@
 import React from 'react';
-import xBottonCircle from '../../assets/xButtonCircle.svg';
 import ClockFill from '../../assets/clockFill.svg?react';
 import XButtonCircle from '../XButtonCircle';
 import { deleteRecentSearchWords } from '../../api/searchApi';
@@ -21,25 +20,26 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
     queryClient.invalidateQueries({ queryKey: ['recentSearchWords'] });
   }
 
-  const {setInputValue} = useSearchStore();
+  const { setInputValue } = useSearchStore();
   const navigate = useNavigate();
 
-  const handleClick = ()=>{
+  const handleClick = async () => {
     setInputValue(text);
     navigate('/sollect/search/result');
-    postRecentSearchWord(text, mode);
-  }
+    await postRecentSearchWord(text, mode);
+  };
 
   return (
-    <div className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10' onClick={handleClick}>
+    <div
+      className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
       <div className='flex h-36 items-center gap-4 flex-[1_0_0] justify-start'>
-        <div className='flex items-center gap-4 flex-[1_0_0]'>
+        <div className='flex items-center gap-4 flex-[1_0_0]' onClick={handleClick}>
           <ClockFill />
           <div className='flex-[1_0_0] text-[12px] leading-[120%] tracking-[-0.18px] text-primary-950'>
             {text}
           </div>
         </div>
-      
+
         <XButtonCircle onClickFunc={() => onClickDeleteRow()} />
       </div>
     </div>

@@ -9,9 +9,12 @@ const RecentSearchList: React.FC = () => {
     ? 'sollect'
     : 'solmap';
 
+  const accessToken = localStorage.getItem('accessToken');
+  
   const { data } = useQuery({
     queryKey: ['recentSearchWords'],
     queryFn: () => getRecentSearchWords(mode),
+    enabled: !!accessToken,
   });
 
   return (
