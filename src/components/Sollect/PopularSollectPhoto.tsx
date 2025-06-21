@@ -14,6 +14,7 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
 }) => {
   const [marked, setMarked] = useState(false);
   return (
+    // TODO: onClick 조회 이벤트 필요
     <div
       className={`relative rounded-lg overflow-hidden flex flex-col justify-end shrink-0 ${center ? 'w-350 h-430' : 'w-320 h-390'}`}
       style={{
