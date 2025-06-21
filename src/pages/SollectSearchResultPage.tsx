@@ -11,7 +11,7 @@ import { useScrollSentinel } from '../hooks/useInfiniteScrollQuery';
 
 const SollectSearchResultPage = () => {
   const { inputValue } = useSearchStore();
-  const { selectedCategory, clearCategory } = useSollectStore();
+  const { selectedCategory } = useSollectStore();
   const [hasResult, setHasResult] = useState(false);
 
   // useInfiniteQuery를 통한 무한 스크롤 구현
