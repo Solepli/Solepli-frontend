@@ -6,6 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSearchStore } from '../../store/searchStore';
 import { useNavigate } from 'react-router-dom';
 import { postRecentSearchWord } from '../../api/searchApi';
+import { useSollectStore } from '../../store/sollectStore';
 
 interface RecentSearchTextProps {
   text: string;
@@ -14,6 +15,7 @@ interface RecentSearchTextProps {
 
 const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const queryClient = useQueryClient();
+  const {clearCategory} = useSollectStore();
 
   async function onClickDeleteRow() {
     await deleteRecentSearchWords(mode, text);
@@ -26,6 +28,7 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const handleClick = async () => {
     setInputValue(text);
     if(mode === "sollect"){
+      clearCategory();
       navigate('/sollect/search/result');
     }else if(mode === "solmap"){
       // TODO: list page에서 searchPlace 해야함

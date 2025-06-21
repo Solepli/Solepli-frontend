@@ -6,9 +6,11 @@ import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
+import { useSollectStore } from '../../store/sollectStore';
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
+  const {clearCategory} = useSollectStore();
 
   const { inputValue, setInputValue, relatedSearchList, setRelatedSearchList } =
     useSearchStore(
@@ -32,6 +34,7 @@ const SearchBar: React.FC = () => {
     if (e.key !== 'Enter') return;
 
     if (e.key === 'Enter' && mode === 'sollect') {
+      clearCategory();
       navigate('/sollect/search/result');
     } else if (e.key === 'Enter' && mode === 'solmap') {
       if (relatedSearchList.length > 0) {
