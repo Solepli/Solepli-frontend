@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import ReloadMarkerButton from '../BottomSheet/ReloadMarkerButton';
 import { getDisplayMarkers } from '../../api/mapApi';
@@ -53,11 +54,13 @@ const initMap = (
 /* 마커 추가 함수 */
 const addMarkers = (
   mapRef: React.RefObject<naver.maps.Map | null>,
-  objectList: naver.maps.Marker[] | null
+  objectList: naver.maps.Marker[] | null,
+  markerIdList: number[],
+  navigate: NavigateFunction
 ) => {
   if (!mapRef.current || !objectList) return;
 
-  objectList.forEach((m: naver.maps.Marker) => {
+  objectList.forEach((m: naver.maps.Marker, index: number) => {
     // 지도에 마커 객체 설정
     m.setMap(mapRef.current);
 
@@ -67,6 +70,8 @@ const addMarkers = (
         duration: 1000,
         easing: 'easeOutCubic',
       });
+
+      navigate(`/map/detail/${markerIdList[index]}`);
     });
   });
 
@@ -108,6 +113,8 @@ const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
 
 /* MapSheet.tsx */
 const MapSheet = () => {
+  const navigate = useNavigate();
+
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
 
@@ -132,15 +139,22 @@ const MapSheet = () => {
     }))
   );
 
-  const { newMarkerObjectList, setNewMarkerObjectList, prevMarkerObjectList } =
-    useMarkerStore(
-      useShallow((state) => ({
-        newMarkerObjectList: state.newMarkerObjectList,
-        setNewMarkerObjectList: state.setNewMarkerObjectList,
-        prevMarkerObjectList: state.prevMarkerObjectList,
-        setPrevMarkerObjectList: state.setPrevMarkerObjectList,
-      }))
-    );
+  const {
+    markerIdList,
+    setMarkerIdList,
+    newMarkerObjectList,
+    setNewMarkerObjectList,
+    prevMarkerObjectList,
+  } = useMarkerStore(
+    useShallow((state) => ({
+      markerIdList: state.markerIdList,
+      setMarkerIdList: state.setMarkerIdList,
+      newMarkerObjectList: state.newMarkerObjectList,
+      setNewMarkerObjectList: state.setNewMarkerObjectList,
+      prevMarkerObjectList: state.prevMarkerObjectList,
+      setPrevMarkerObjectList: state.setPrevMarkerObjectList,
+    }))
+  );
 
   useLayoutEffect(() => {
     if (!mapElement.current) return;
@@ -177,8 +191,11 @@ const MapSheet = () => {
         newBounds.getMax().x,
         newBounds.getMax().y
       ).then((res) => {
-        const newObjects = createMarkerObjectList(res);
-        setNewMarkerObjectList(newObjects);
+        const result = createMarkerObjectList(res);
+        if (!result) return;
+        const { objectList, idList } = result;
+        setNewMarkerObjectList(objectList);
+        setMarkerIdList(idList);
       });
     }
 
@@ -203,7 +220,7 @@ const MapSheet = () => {
     if (!mapInstance.current) return;
 
     // 지도에 마커 추가
-    addMarkers(mapInstance, newMarkerObjectList);
+    addMarkers(mapInstance, newMarkerObjectList, markerIdList, navigate);
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
@@ -217,9 +234,11 @@ const MapSheet = () => {
       currentBounds.getMax().x,
       currentBounds.getMax().y
     );
-
-    const newObjects = createMarkerObjectList(data);
-    setNewMarkerObjectList(newObjects);
+    const result = createMarkerObjectList(data);
+    if (!result) return;
+    const { objectList, idList } = result;
+    setNewMarkerObjectList(objectList);
+    setMarkerIdList(idList);
   }, []);
 
   /* 실시간 사용자 위치로 지도 이동 */

@@ -1,8 +1,16 @@
 import { Place } from '../types';
+import { publicAxios } from './axios';
+import { ENDPOINT } from './urls';
 
 export const fetchPlaces = async () => {
   await new Promise((res) => setTimeout(res, 500));
   return mockPlaces;
+};
+
+export const getPlaceDetail = async (id: number) => {
+  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_DETAIL + id);
+
+  return res.data.data;
 };
 
 export const fetchPlaceById = async (id: number) => {
@@ -25,13 +33,13 @@ const mockPlaces: Place[] = [
       { id: 'cozy', text: '편안한' },
     ],
     hours: [
-      { day: 0, startTime: "10:00", endTime: "20:30" },
-      { day: 1, startTime: "10:00", endTime: "20:30" },
-      { day: 2, startTime: "10:00", endTime: "20:30" },
-      { day: 3, startTime: "10:00", endTime: "20:30" },
-      { day: 4, startTime: "10:00", endTime: "20:30" },
-      { day: 5, startTime: "10:00", endTime: "20:30" },
-      { day: 6, startTime: "10:00", endTime: "17:00" },
+      { day: 0, startTime: '10:00', endTime: '20:30' },
+      { day: 1, startTime: '10:00', endTime: '20:30' },
+      { day: 2, startTime: '10:00', endTime: '20:30' },
+      { day: 3, startTime: '10:00', endTime: '20:30' },
+      { day: 4, startTime: '10:00', endTime: '20:30' },
+      { day: 5, startTime: '10:00', endTime: '20:30' },
+      { day: 6, startTime: '10:00', endTime: '17:00' },
     ],
   },
 
@@ -49,13 +57,13 @@ const mockPlaces: Place[] = [
       { id: 'cozy', text: '편안한' },
     ],
     hours: [
-      { day: 0, startTime: "10:00", endTime: "20:30" },
-      { day: 1, startTime: "10:00", endTime: "20:30" },
-      { day: 2, startTime: "10:00", endTime: "20:30" },
-      { day: 3, startTime: "10:00", endTime: "20:30" },
-      { day: 4, startTime: "10:00", endTime: "20:30" },
-      { day: 5, startTime: "10:00", endTime: "20:30" },
-      { day: 6, startTime: "10:00", endTime: "17:00" },
+      { day: 0, startTime: '10:00', endTime: '20:30' },
+      { day: 1, startTime: '10:00', endTime: '20:30' },
+      { day: 2, startTime: '10:00', endTime: '20:30' },
+      { day: 3, startTime: '10:00', endTime: '20:30' },
+      { day: 4, startTime: '10:00', endTime: '20:30' },
+      { day: 5, startTime: '10:00', endTime: '20:30' },
+      { day: 6, startTime: '10:00', endTime: '17:00' },
     ],
   },
   {
@@ -72,13 +80,13 @@ const mockPlaces: Place[] = [
       { id: 'hip', text: '힙한' },
     ],
     hours: [
-      { day: 0, startTime: "10:00", endTime: "20:30" },
-      { day: 1, startTime: "10:00", endTime: "20:30" },
-      { day: 2, startTime: "10:00", endTime: "20:30" },
-      { day: 3, startTime: "10:00", endTime: "20:30" },
-      { day: 4, startTime: "10:00", endTime: "20:30" },
-      { day: 5, startTime: "10:00", endTime: "20:30" },
-      { day: 6, startTime: "10:00", endTime: "17:00" },
+      { day: 0, startTime: '10:00', endTime: '20:30' },
+      { day: 1, startTime: '10:00', endTime: '20:30' },
+      { day: 2, startTime: '10:00', endTime: '20:30' },
+      { day: 3, startTime: '10:00', endTime: '20:30' },
+      { day: 4, startTime: '10:00', endTime: '20:30' },
+      { day: 5, startTime: '10:00', endTime: '20:30' },
+      { day: 6, startTime: '10:00', endTime: '17:00' },
     ],
   },
 
@@ -96,13 +104,13 @@ const mockPlaces: Place[] = [
       { id: 'hip', text: '힙한' },
     ],
     hours: [
-      { day: 0, startTime: "10:00", endTime: "20:30" },
-      { day: 1, startTime: "10:00", endTime: "20:30" },
-      { day: 2, startTime: "10:00", endTime: "20:30" },
-      { day: 3, startTime: "10:00", endTime: "20:30" },
-      { day: 4, startTime: "10:00", endTime: "20:30" },
-      { day: 5, startTime: "10:00", endTime: "20:30" },
-      { day: 6, startTime: "10:00", endTime: "17:00" },
+      { day: 0, startTime: '10:00', endTime: '20:30' },
+      { day: 1, startTime: '10:00', endTime: '20:30' },
+      { day: 2, startTime: '10:00', endTime: '20:30' },
+      { day: 3, startTime: '10:00', endTime: '20:30' },
+      { day: 4, startTime: '10:00', endTime: '20:30' },
+      { day: 5, startTime: '10:00', endTime: '20:30' },
+      { day: 6, startTime: '10:00', endTime: '17:00' },
     ],
   },
 ];

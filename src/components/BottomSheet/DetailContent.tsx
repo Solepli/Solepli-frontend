@@ -4,12 +4,26 @@ import ReviewRange from './ReviewRange';
 import TagList from './TagList';
 import ReviewPhotos from './ReviewPhotos';
 import ReviewList from './Review/ReviewList';
-import { fetchPlaceById } from '../../api/placeApi';
+import { fetchPlaceById, getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { Link, useParams } from 'react-router-dom';
-import arrow from "../../assets/arrow.svg"
+import arrow from '../../assets/arrow.svg';
+import { useQuery } from '@tanstack/react-query';
 
 const DetailContent: React.FC = () => {
+  const { placeId } = useParams<{ placeId: string }>();
+
+  const { data } = useQuery({
+    queryKey: ['placeDetail', placeId],
+    queryFn: () => getPlaceDetail(parseInt(placeId!)),
+    enabled: !!placeId,
+  });
+
+  // complete api: 마커 클릭시 해당 마커의 상세정보 호출
+  useEffect(() => {
+    console.log('placeDetail:', data);
+  }, [data]);
+
   const { selectedPlace } = usePlaceStore();
   const counts = [2, 3, 1];
 
@@ -21,8 +35,6 @@ const DetailContent: React.FC = () => {
     'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
   ];
-
-  const { placeId } = useParams<{ placeId: string }>();
 
   useEffect(() => {
     if (placeId) {
@@ -62,12 +74,19 @@ const DetailContent: React.FC = () => {
       <ReviewPhotos images={images} more />
 
       {/* 관련 쏠렉트 보기 */}
-      <Link className='flex text-primary-950 text-xs pl-16 mb-12' to='/related-sollect'>
+      <Link
+        className='flex text-primary-950 text-xs pl-16 mb-12'
+        to='/related-sollect'>
         관련 쏠렉트 보기 <img src={arrow} alt='arrow' />
       </Link>
 
       {/* ReviewList */}
-      {placeId && <ReviewList placeId={parseInt(placeId)} placeName={selectedPlace.title} />}
+      {placeId && (
+        <ReviewList
+          placeId={parseInt(placeId)}
+          placeName={selectedPlace.title}
+        />
+      )}
     </div>
   );
 };
