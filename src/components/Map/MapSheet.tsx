@@ -35,13 +35,11 @@ const initMap = (
     disableKineticPan: false,
   } as naver.maps.MapOptions & {
     bounds?: naver.maps.Bounds;
-    padding?: naver.maps.padding;
   };
 
-  // 조건부로 bounds, padding 추가 (center, zoom 무시)
+  // 조건부로 bounds 추가 (center, zoom 무시)
   if (isSearchBounds && lastBounds) {
     MapOptions.bounds = lastBounds;
-    MapOptions.padding = { top: 75, right: 50, bottom: 175, left: 50 };
   }
 
   // divRef에 지도를 생성
