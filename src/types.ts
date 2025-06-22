@@ -52,14 +52,12 @@ export type ReviewType = {
   tags: TagType[];
 };
 
-export type DisplayLatLng = {
-  swY: number;
-  swX: number;
-  neY: number;
-  neX: number;
+export type LatLngType = {
+  lat: number;
+  lng: number;
 };
 
-export type MarkersInfoType = {
+export type MarkerInfoType = {
   id: number;
   category: string;
   latitude: number;
