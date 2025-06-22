@@ -7,7 +7,6 @@ import { getDisplayMarkers } from '../../api/mapApi';
 import { useMapStore } from '../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
 import { useMarkerStore } from '../../store/markerStore';
-import { getUserLocation } from '../../utils/geolocation';
 
 import {
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
@@ -17,7 +16,7 @@ import {
 const initMap = (
   divRef: React.RefObject<HTMLDivElement | null>,
   mapRef: React.RefObject<naver.maps.Map | null>,
-  center: naver.maps.LatLng,
+  center: naver.maps.LatLng | null,
   isSearchBounds: boolean,
   lastBounds: naver.maps.Bounds | undefined,
   lastZoom: number
@@ -119,7 +118,7 @@ const MapSheet = () => {
   const mapInstance = useRef<naver.maps.Map | null>(null);
 
   const {
-    initCenter,
+    userLatLng,
     isSearchBounds,
     setIsSearchBounds,
     lastBounds,
@@ -128,8 +127,7 @@ const MapSheet = () => {
     setLastZoom,
   } = useMapStore(
     useShallow((state) => ({
-      initCenter: state.initCenter,
-      setInitCenter: state.setInitCenter,
+      userLatLng: state.userLatLng,
       isSearchBounds: state.isSearchBounds,
       setIsSearchBounds: state.setIsSearchBounds,
       lastBounds: state.lastBounds,
@@ -156,11 +154,15 @@ const MapSheet = () => {
     }))
   );
 
+  /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
     if (!mapElement.current) return;
 
     // 지도 생성
-    const center = new naver.maps.LatLng(initCenter.lat, initCenter.lng);
+    let center = null;
+    if (userLatLng) {
+      center = new naver.maps.LatLng(userLatLng.lat, userLatLng.lng);
+    }
     const map = initMap(
       mapElement,
       mapInstance,
@@ -205,11 +207,6 @@ const MapSheet = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   console.log('lastBounds:', lastBounds);
-  //   console.log('getZoom:', mapInstance.current?.getZoom());
-  // }, [lastBounds]);
-
   /* [useEffect] prevMarkerObjectList 변경될 때 */
   useEffect(() => {
     deleteMarkers(prevMarkerObjectList);
@@ -245,9 +242,15 @@ const MapSheet = () => {
   const moveToUserLocation = useCallback(async () => {
     if (!mapInstance.current) return;
 
-    const { lat, lng } = await getUserLocation();
-    mapInstance.current.panTo(new naver.maps.LatLng(lat, lng));
-  }, []);
+    if (userLatLng == null) {
+      alert('사용자의 현재 위치를 불러올 수 없습니다.');
+      return;
+    }
+
+    mapInstance.current.panTo(
+      new naver.maps.LatLng(userLatLng.lat, userLatLng.lng)
+    );
+  }, [userLatLng]);
 
   return (
     <div className='relative w-dvw h-dvh'>
