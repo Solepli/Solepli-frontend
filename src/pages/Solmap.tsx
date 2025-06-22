@@ -36,7 +36,6 @@ const Solmap: React.FC = () => {
     watchIdRef.current = watchUserLocation(
       (position) => {
         const { latitude, longitude } = position.coords;
-        console.log(latitude, longitude);
         setUserLatLng({ lat: latitude, lng: longitude });
       },
       (error) => {

@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
 interface markerState {
-  markerIdList: number[];
-  setMarkerIdList: (list: number[]) => void;
+  markerIdList: number[] | null;
+  setMarkerIdList: (list: number[] | null) => void;
 
   newMarkerObjectList: naver.maps.Marker[] | null;
   setNewMarkerObjectList: (markers: naver.maps.Marker[] | null) => void;
@@ -12,7 +12,7 @@ interface markerState {
 }
 
 export const useMarkerStore = create<markerState>()((set, get) => ({
-  markerIdList: [],
+  markerIdList: null,
   setMarkerIdList: (list) => set({ markerIdList: list }),
 
   newMarkerObjectList: null,

@@ -54,10 +54,10 @@ const initMap = (
 const addMarkers = (
   mapRef: React.RefObject<naver.maps.Map | null>,
   objectList: naver.maps.Marker[] | null,
-  markerIdList: number[],
+  markerIdList: number[] | null,
   navigate: NavigateFunction
 ) => {
-  if (!mapRef.current || !objectList) return;
+  if (!mapRef.current || !objectList || !markerIdList) return;
 
   objectList.forEach((m: naver.maps.Marker, index: number) => {
     // 지도에 마커 객체 설정
@@ -194,10 +194,14 @@ const MapSheet = () => {
         newBounds.getMax().y
       ).then((res) => {
         const result = createMarkerObjectList(res);
-        if (!result) return;
-        const { objectList, idList } = result;
-        setNewMarkerObjectList(objectList);
-        setMarkerIdList(idList);
+        if (!result) {
+          setNewMarkerObjectList(null);
+          setMarkerIdList(null);
+        } else {
+          const { objectList, idList } = result;
+          setNewMarkerObjectList(objectList);
+          setMarkerIdList(idList);
+        }
       });
     }
 
@@ -231,11 +235,16 @@ const MapSheet = () => {
       currentBounds.getMax().x,
       currentBounds.getMax().y
     );
+
     const result = createMarkerObjectList(data);
-    if (!result) return;
-    const { objectList, idList } = result;
-    setNewMarkerObjectList(objectList);
-    setMarkerIdList(idList);
+    if (!result) {
+      setNewMarkerObjectList(null);
+      setMarkerIdList(null);
+    } else {
+      const { objectList, idList } = result;
+      setNewMarkerObjectList(objectList);
+      setMarkerIdList(idList);
+    }
   }, []);
 
   /* 실시간 사용자 위치로 지도 이동 */

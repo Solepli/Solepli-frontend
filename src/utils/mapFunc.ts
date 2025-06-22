@@ -4,11 +4,14 @@ import { IconMarkerMap } from './icon';
 // 마커를 객체로 생성 후 반환 (마커의 id List도 별도로 반환)
 export const createMarkerObjectList = (
   markers: MarkerInfoType[] | null
-): { objectList: naver.maps.Marker[]; idList: number[] } | null => {
+): {
+  objectList: naver.maps.Marker[] | null;
+  idList: number[] | null;
+} | null => {
   if (!markers || markers.length === 0) return null;
 
-  const objectList: naver.maps.Marker[] = [];
-  const idList: number[] = [];
+  const objectList: naver.maps.Marker[] | null = [];
+  const idList: number[] | null = [];
 
   markers?.forEach((m: MarkerInfoType) => {
     const position = new naver.maps.LatLng(m.latitude, m.longitude);
