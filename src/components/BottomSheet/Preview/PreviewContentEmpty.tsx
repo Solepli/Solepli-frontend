@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PreviewContent from './PreviewContent';
 import { usePlaceStore } from '../../../store/placeStore';
+import { useQuery } from '@tanstack/react-query';
+import { useMapStore } from '../../../store/mapStore';
+import { getPlacesNearby } from '../../../api/placeApi';
 
 const PreviewContentEmpty: React.FC = () => {
   const filteredPlaces = usePlaceStore((state) => state.filteredPlaces);
+
+  const { userLatLng } = useMapStore();
+
+  const { data } = useQuery({
+    queryKey: ['placesNearby', userLatLng],
+    queryFn: () => getPlacesNearby(userLatLng!.lat, userLatLng!.lng), // [원본 코드]
+    // queryFn: () => getPlacesNearby(37.51234, 127.060395), // [대체 코드] 만약 본인 주변에 장소가 없다고 나온다면 이것을 주석을 풀어서 사용할 것 / todo : 배포할 때 풀어서 배포하기
+    enabled: !!userLatLng,
+  });
+
+  // complete api: 검색결과 없을 시 유저 위치 기반 거리순 추천 장소 리스트 호출
+  useEffect(() => {
+    console.log('placeDetail:', data);
+  }, [data]);
+
   return (
     <div>
       <div className='flex py-80 flex-col items-start'>

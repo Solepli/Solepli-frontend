@@ -16,7 +16,7 @@ interface MapState {
 }
 
 export const useMapStore = create<MapState>((set) => ({
-  userLatLng: null,
+  userLatLng: { lat: 37.5666805, lng: 126.9784147 }, // 유저 기본 좌표 : 서울 시청
   setUserLatLng: (latlng) => set({ userLatLng: latlng }),
 
   isSearchBounds: false,

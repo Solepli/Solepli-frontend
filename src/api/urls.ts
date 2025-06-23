@@ -6,6 +6,7 @@ export const ENDPOINT = {
   // solmap
   SOLMAP_MARKERS: '/api/solmap/markers',
   SOLMAP_PLACE_DETAIL: '/api/solmap/place/search/',
+  SOLMAP_PLACE_NEARBY: '/api/solmap/places/nearby',
   RELATED_SEARCH: '/api/solmap/search/related',
 
   // solmap + sollect

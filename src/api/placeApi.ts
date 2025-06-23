@@ -13,6 +13,20 @@ export const getPlaceDetail = async (id: number) => {
   return res.data.data;
 };
 
+export const getPlacesNearby = async (
+  userLat: number,
+  userLng: number,
+  cursorId?: number,
+  cursorDist?: number,
+  limit: number = 5
+) => {
+  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_NEARBY, {
+    params: { userLat, userLng, cursorId, cursorDist, limit },
+  });
+
+  return res.data.data;
+};
+
 export const fetchPlaceById = async (id: number) => {
   // await new Promise((res) => setTimeout(res, 300));
   return mockPlaces[id];
