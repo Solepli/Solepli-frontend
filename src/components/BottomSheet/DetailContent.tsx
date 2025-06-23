@@ -19,7 +19,8 @@ const DetailContent: React.FC = () => {
     enabled: !!placeId,
   });
 
-  // complete api: 마커 클릭시 해당 마커의 상세정보 호출
+  // complete api: 마커 클릭시 해당 장소 상세정보 호출
+  // complete api: 검색 결과에서 특정 장소 클릭시 상세 정보 호출
   useEffect(() => {
     console.log('placeDetail:', data);
   }, [data]);

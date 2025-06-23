@@ -20,7 +20,8 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
 
   const clickResult = async () => {
     if (relatedSearchWord.type === 'PLACE') {
-      // todo : 상세정보 api로 마커+디테일뷰 한 번에 불러오기
+      // 클릭한 장소 디테일뷰로 이동
+      navigate(`/map/detail/${relatedSearchWord.id}?detailType=searching`);
     } else if (relatedSearchWord.type === 'DISTRICT') {
       // 클릭한 지역명 저장
       setSelectedRegion(relatedSearchWord.name);

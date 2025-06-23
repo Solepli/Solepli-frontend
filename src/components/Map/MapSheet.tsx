@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import {
   NavigateFunction,
   useNavigate,
+  useParams,
   useSearchParams,
 } from 'react-router-dom';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
@@ -16,6 +17,7 @@ import {
   createMarkersBounds,
 } from '../../utils/mapFunc';
 import { useSearchStore } from '../../store/searchStore';
+import { getPlaceDetail } from '../../api/placeApi';
 
 /* 지도 생성 */
 const initMap = (
@@ -75,7 +77,13 @@ const addMarkers = (
         easing: 'easeOutCubic',
       });
 
-      navigate(`/map/detail/${markerIdList[index]}`);
+      const isSame = window.location.pathname.includes(
+        `/map/detail/${markerIdList[index]}`
+      );
+
+      if (!isSame) {
+        navigate(`/map/detail/${markerIdList[index]}`);
+      }
     });
   });
 
@@ -118,8 +126,10 @@ const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
 /* MapSheet.tsx */
 const MapSheet = () => {
   const navigate = useNavigate();
+  const { placeId } = useParams<{ placeId: string }>();
   const [searchParams] = useSearchParams();
   const queryType = searchParams.get('queryType');
+  const detailType = searchParams.get('detailType');
 
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
@@ -194,7 +204,7 @@ const MapSheet = () => {
 
     const newBounds = map.getBounds();
 
-    // 추가할 마커 객체가 없으면 getDisplayMarkers api 호출
+    // 초기 마커 추가
     if (newMarkerObjectList === null) {
       getDisplayMarkers(
         newBounds.getMin().x,
@@ -218,34 +228,48 @@ const MapSheet = () => {
   /* [useEffect] queryType 값에 따른 마커 변경 */
   useEffect(() => {
     const fetchMarkers = async () => {
-      if (queryType === 'region') {
-        try {
-          // 지역명 마커 api 호출
+      try {
+        if (queryType === 'region' && selectedRegion) {
+          // 검색창에서 지역명 선택시 마커 표시
           const newInfo = await getRegionMarkers(selectedRegion);
-          // 새로운 마커 객체(+ idList) 생성 및 저장
           const result = createMarkerObjectList(newInfo);
-          if (!result) {
-            setNewMarkerObjectList(null);
-            setMarkerIdList(null);
-            return;
-          }
-          const { objectList, idList } = result;
-          setNewMarkerObjectList(objectList);
-          setMarkerIdList(idList);
-          // 새로운 bounds 생성 및 이동
-          const newBounds = createMarkersBounds(objectList);
-          if (!newBounds) return;
-          mapInstance.current?.fitBounds(newBounds, {
-            bottom: 320,
-          });
-        } catch (error) {
-          console.error('지역 마커를 불러오는 중 오류 발생:', error);
+          applyMarkerResult(result);
+        } else if (detailType === 'searching' && placeId) {
+          // 검색창에서 특정 장소 선택시 마커 표시
+          const placeDetail = await getPlaceDetail(parseInt(placeId));
+          const result = createMarkerObjectList([
+            {
+              id: placeDetail.place.id,
+              category: placeDetail.place.category,
+              latitude: placeDetail.place.latitude,
+              longitude: placeDetail.place.longitude,
+            },
+          ]);
+          applyMarkerResult(result);
         }
+      } catch (error) {
+        console.error('마커를 불러오는 중 오류 발생:', error);
       }
     };
 
     fetchMarkers();
-  }, [queryType, selectedRegion]);
+  }, [queryType, selectedRegion, detailType, placeId]);
+
+  const applyMarkerResult = (
+    result: ReturnType<typeof createMarkerObjectList>
+  ) => {
+    const { objectList, idList } = result;
+    setNewMarkerObjectList(objectList);
+    setMarkerIdList(idList);
+
+    const newBounds = createMarkersBounds(objectList);
+    if (!newBounds) return;
+
+    mapInstance.current?.fitBounds(newBounds, {
+      bottom: idList.length === 1 ? 3200 : 480,
+      maxZoom: 16,
+    });
+  };
 
   /* [useEffect] prevMarkerObjectList 변경될 때 */
   useEffect(() => {
@@ -273,15 +297,9 @@ const MapSheet = () => {
     );
 
     const result = createMarkerObjectList(data);
-    if (!result) {
-      setNewMarkerObjectList(null);
-      setMarkerIdList(null);
-      return;
-    } else {
-      const { objectList, idList } = result;
-      setNewMarkerObjectList(objectList);
-      setMarkerIdList(idList);
-    }
+    const { objectList, idList } = result;
+    setNewMarkerObjectList(objectList);
+    setMarkerIdList(idList);
   }, []);
 
   /* 실시간 사용자 위치로 지도 이동 */
