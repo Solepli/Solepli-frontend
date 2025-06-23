@@ -5,6 +5,8 @@ export const BASE_URL = API_URL;
 export const ENDPOINT = {
   // solmap
   SOLMAP_MARKERS: '/api/solmap/markers',
+  SOLMAP_REGION_MARKERS: (regionName: string) =>
+    `/api/solmap/region/${regionName}/markers`,
   SOLMAP_PLACE_DETAIL: '/api/solmap/place/search/',
   SOLMAP_PLACE_NEARBY: '/api/solmap/places/nearby',
   RELATED_SEARCH: '/api/solmap/search/related',

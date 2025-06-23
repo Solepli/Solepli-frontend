@@ -18,7 +18,11 @@ export const getDisplayMarkers = async (
     },
   });
 
-  console.log('response.data.data :::', response.data.data);
-
   return response.data.data;
+};
+
+export const getRegionMarkers = async (regionName: string) => {
+  const res = await publicAxios.get(ENDPOINT.SOLMAP_REGION_MARKERS(regionName));
+
+  return res.data.data;
 };

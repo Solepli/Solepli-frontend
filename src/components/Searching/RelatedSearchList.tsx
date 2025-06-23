@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import RelatedSearch from './RelatedSearch';
 import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
@@ -6,6 +6,7 @@ import useDebounce from '../../hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
 import { getRelatedSearchWords } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
+import { useMapStore } from '../../store/mapStore';
 
 const RelatedSearchList: React.FC = () => {
   const { inputValue, relatedSearchList, setRelatedSearchList } =
@@ -17,41 +18,27 @@ const RelatedSearchList: React.FC = () => {
       }))
     );
 
+  const { userLatLng } = useMapStore();
+
   const debouncedInput = useDebounce(inputValue, 500);
 
-  const { data, isSuccess, error } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
-      return getRelatedSearchWords(debouncedInput, latlng.lat, latlng.lng);
+      return getRelatedSearchWords(
+        debouncedInput,
+        userLatLng!.lat,
+        userLatLng!.lng
+      );
     },
-    enabled: debouncedInput !== '',
+    enabled: debouncedInput !== '' && !!userLatLng,
   });
-
-  if (error) {
-    console.log('RSList error :::', error);
-  }
 
   useEffect(() => {
     if (isSuccess) {
       setRelatedSearchList(data);
     }
   }, [isSuccess, data, setRelatedSearchList]);
-
-  // 사용자가 위치정보를 허용하지 않을 시 좌표가 0,0으로 설정됨.
-  const [latlng, setLatlng] = useState({ lat: 0, lng: 0 });
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (res) => {
-          setLatlng({ lat: res.coords.latitude, lng: res.coords.longitude });
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
-    }
-  }, []);
 
   return (
     <div className='flex flex-col items-start'>

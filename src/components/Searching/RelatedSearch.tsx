@@ -1,45 +1,68 @@
 import React from 'react';
-import food from '../../assets/category-icons/foodFill.svg';
-import cafe from '../../assets/category-icons/cafeFill.svg';
-import drink from '../../assets/category-icons/drinkFill.svg';
-import entertainment from '../../assets/category-icons/entertainmentFill.svg';
-import culture from '../../assets/category-icons/cultureFill.svg';
-import shop from '../../assets/category-icons/shopFill.svg';
-import walk from '../../assets/category-icons/walkFill.svg';
-import work from '../../assets/category-icons/workFill.svg';
-import location from '../../assets/locationFill.svg';
 import { RelatedSearchWord } from '../../types';
-
-const iconMap: Record<string, string> = {
-  food,
-  cafe,
-  drink,
-  entertainment,
-  culture,
-  shop,
-  walk,
-  work,
-  location,
-};
+import { iconRelatedSearch } from '../../utils/icon';
+import { useNavigate } from 'react-router-dom';
+import { useMapStore } from '../../store/mapStore';
+import { useShallow } from 'zustand/shallow';
+import { useMarkerStore } from '../../store/markerStore';
+import { getRegionMarkers } from '../../api/mapApi';
+import {
+  createMarkerObjectList,
+  createMarkersBounds,
+} from '../../utils/mapFunc';
 
 interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
 }
 
 const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
-  const icon =
+  const navigate = useNavigate();
+
+  const { setIsSearchBounds, setLastBounds } = useMapStore(
+    useShallow((state) => ({
+      setIsSearchBounds: state.setIsSearchBounds,
+      setLastBounds: state.setLastBounds,
+    }))
+  );
+
+  const { setNewMarkerObjectList, setMarkerIdList } = useMarkerStore(
+    useShallow((state) => ({
+      setNewMarkerObjectList: state.setNewMarkerObjectList,
+      setMarkerIdList: state.setMarkerIdList,
+    }))
+  );
+
+  const IconComponent =
     relatedSearchWord.type === 'PLACE'
-      ? iconMap[relatedSearchWord.category!]
-      : location;
+      ? iconRelatedSearch[relatedSearchWord.category!]
+      : iconRelatedSearch['location'];
+
+  const clickResult = async () => {
+    if (relatedSearchWord.type === 'PLACE') {
+      // todo : 상세정보 api로 마커+디테일뷰 한 번에 불러오기
+    } else if (relatedSearchWord.type === 'DISTRICT') {
+      // getRegionMarkers api 호출
+      const newInfo = await getRegionMarkers(relatedSearchWord.name);
+      // 새로운 마커 객체(+ idList) 생성 및 저장
+      const result = createMarkerObjectList(newInfo);
+      const { objectList, idList } = result!;
+      setNewMarkerObjectList(objectList);
+      setMarkerIdList(idList);
+      // 새로운 bounds 생성 및 저장
+      const newBounds = createMarkersBounds(objectList);
+      setIsSearchBounds(true);
+      setLastBounds(newBounds);
+      // todo : 지역정보 api로 장소 리스트 불러오기
+    }
+    navigate('/map/list');
+  };
 
   return (
-    <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>
+    <div
+      className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'
+      onClick={clickResult}>
       <div className='flex p-4 items-start rounded-[4px] bg-gray-400/10'>
-        <img
-          className='w-24 h-24'
-          src={icon}
-          alt={relatedSearchWord.type + relatedSearchWord.category}
-        />
+        <IconComponent className='w-24 h-24' />
       </div>
 
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
