@@ -18,7 +18,7 @@ const PreviewContentEmpty: React.FC = () => {
 
   // complete api: 검색결과 없을 시 유저 위치 기반 거리순 추천 장소 리스트 호출
   useEffect(() => {
-    console.log('placeDetail:', data);
+    console.log('placeRecommanded:', data);
   }, [data]);
 
   return (
