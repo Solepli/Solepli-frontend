@@ -29,7 +29,7 @@ const initMap = (
   if (!divRef.current) return;
 
   const MapOptions = {
-    zoom: lastZoom || 16,
+    zoom: lastZoom,
     center: lastBounds?.getCenter() || center,
     gl: true,
     customStyleId: import.meta.env.VITE_MAP_STYLE_ID,

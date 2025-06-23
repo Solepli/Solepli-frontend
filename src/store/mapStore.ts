@@ -25,6 +25,6 @@ export const useMapStore = create<MapState>((set) => ({
   lastBounds: undefined,
   setLastBounds: (bounds) => set({ lastBounds: bounds }),
 
-  lastZoom: 16,
+  lastZoom: 15,
   setLastZoom: (zoom) => set({ lastZoom: zoom }),
 }));
