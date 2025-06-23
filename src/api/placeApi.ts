@@ -7,6 +7,22 @@ export const fetchPlaces = async () => {
   return mockPlaces;
 };
 
+export const getPlacesRegion = async (
+  regionName: string,
+  userLat: number,
+  userLng: number,
+  category?: string,
+  cursorId?: number,
+  cursorDist?: number,
+  limit: number = 5
+) => {
+  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_REGION(regionName), {
+    params: { userLat, userLng, category, cursorId, cursorDist, limit },
+  });
+
+  return res.data.data;
+};
+
 export const getPlaceDetail = async (id: number) => {
   const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_DETAIL + id);
 

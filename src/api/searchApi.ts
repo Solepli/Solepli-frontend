@@ -14,7 +14,7 @@ export const getRelatedSearchWords = async (
         userLng: userLng,
       },
     });
-    console.log(res);
+
     return res.data.data;
   } catch (e) {
     console.error(e);
