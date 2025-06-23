@@ -6,19 +6,33 @@ import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
+import { useMarkerStore } from '../../store/markerStore';
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { inputValue, setInputValue, relatedSearchList, setRelatedSearchList } =
-    useSearchStore(
+  const {
+    inputValue,
+    setInputValue,
+    relatedSearchList,
+    setRelatedSearchList,
+    setSelectedRegion,
+  } = useSearchStore(
       useShallow((state) => ({
         inputValue: state.inputValue,
         setInputValue: state.setInputValue,
         relatedSearchList: state.relatedSearchList,
         setRelatedSearchList: state.setRelatedSearchList,
+      setSelectedRegion: state.setSelectedRegion,
       }))
     );
+
+  const { setMarkerIdList, setNewMarkerObjectList } = useMarkerStore(
+    useShallow((state) => ({
+      setMarkerIdList: state.setMarkerIdList,
+      setNewMarkerObjectList: state.setNewMarkerObjectList,
+    }))
+  );
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
@@ -37,6 +51,9 @@ const SearchBar: React.FC = () => {
       if (relatedSearchList.length > 0) {
         navigate('/map/list');
       } else {
+        setSelectedRegion('');
+        setMarkerIdList([]);
+        setNewMarkerObjectList([]);
         navigate('/map/not-found');
       }
     }
