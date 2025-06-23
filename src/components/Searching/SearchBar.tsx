@@ -18,14 +18,14 @@ const SearchBar: React.FC = () => {
     setRelatedSearchList,
     setSelectedRegion,
   } = useSearchStore(
-      useShallow((state) => ({
-        inputValue: state.inputValue,
-        setInputValue: state.setInputValue,
-        relatedSearchList: state.relatedSearchList,
-        setRelatedSearchList: state.setRelatedSearchList,
+    useShallow((state) => ({
+      inputValue: state.inputValue,
+      setInputValue: state.setInputValue,
+      relatedSearchList: state.relatedSearchList,
+      setRelatedSearchList: state.setRelatedSearchList,
       setSelectedRegion: state.setSelectedRegion,
-      }))
-    );
+    }))
+  );
 
   const { setMarkerIdList, setNewMarkerObjectList } = useMarkerStore(
     useShallow((state) => ({

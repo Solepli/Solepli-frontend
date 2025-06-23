@@ -195,7 +195,7 @@ const MapSheet = () => {
     const newBounds = map.getBounds();
 
     // 추가할 마커 객체가 없으면 getDisplayMarkers api 호출
-    if (!newMarkerObjectList) {
+    if (newMarkerObjectList === null) {
       getDisplayMarkers(
         newBounds.getMin().x,
         newBounds.getMin().y,
@@ -203,15 +203,9 @@ const MapSheet = () => {
         newBounds.getMax().y
       ).then((res) => {
         const result = createMarkerObjectList(res);
-        if (!result) {
-          setNewMarkerObjectList(null);
-          setMarkerIdList(null);
-          return;
-        } else {
-          const { objectList, idList } = result;
-          setNewMarkerObjectList(objectList);
-          setMarkerIdList(idList);
-        }
+        const { objectList, idList } = result;
+        setNewMarkerObjectList(objectList);
+        setMarkerIdList(idList);
       });
     }
 
