@@ -12,8 +12,7 @@ const PreviewContentEmpty: React.FC = () => {
 
   const { data } = useQuery({
     queryKey: ['placesNearby', userLatLng],
-    queryFn: () => getPlacesNearby(userLatLng!.lat, userLatLng!.lng), // [원본 코드]
-    // queryFn: () => getPlacesNearby(37.51234, 127.060395), // [대체 코드] 만약 본인 주변에 장소가 없다고 나온다면 이것을 주석을 풀어서 사용할 것 / todo : 배포할 때 풀어서 배포하기
+    queryFn: () => getPlacesNearby(userLatLng!.lat, userLatLng!.lng),
     enabled: !!userLatLng,
   });
 
