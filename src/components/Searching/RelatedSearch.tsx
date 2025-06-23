@@ -2,14 +2,7 @@ import React from 'react';
 import { RelatedSearchWord } from '../../types';
 import { iconRelatedSearch } from '../../utils/icon';
 import { useNavigate } from 'react-router-dom';
-import { useMapStore } from '../../store/mapStore';
-import { useShallow } from 'zustand/shallow';
-import { useMarkerStore } from '../../store/markerStore';
-import { getRegionMarkers } from '../../api/mapApi';
-import {
-  createMarkerObjectList,
-  createMarkersBounds,
-} from '../../utils/mapFunc';
+import { useSearchStore } from '../../store/searchStore';
 
 interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
@@ -18,19 +11,7 @@ interface RelatedSearchProps {
 const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
   const navigate = useNavigate();
 
-  const { setIsSearchBounds, setLastBounds } = useMapStore(
-    useShallow((state) => ({
-      setIsSearchBounds: state.setIsSearchBounds,
-      setLastBounds: state.setLastBounds,
-    }))
-  );
-
-  const { setNewMarkerObjectList, setMarkerIdList } = useMarkerStore(
-    useShallow((state) => ({
-      setNewMarkerObjectList: state.setNewMarkerObjectList,
-      setMarkerIdList: state.setMarkerIdList,
-    }))
-  );
+  const { setSelectedRegion } = useSearchStore();
 
   const IconComponent =
     relatedSearchWord.type === 'PLACE'
@@ -41,20 +22,10 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
     if (relatedSearchWord.type === 'PLACE') {
       // todo : 상세정보 api로 마커+디테일뷰 한 번에 불러오기
     } else if (relatedSearchWord.type === 'DISTRICT') {
-      // getRegionMarkers api 호출
-      const newInfo = await getRegionMarkers(relatedSearchWord.name);
-      // 새로운 마커 객체(+ idList) 생성 및 저장
-      const result = createMarkerObjectList(newInfo);
-      const { objectList, idList } = result!;
-      setNewMarkerObjectList(objectList);
-      setMarkerIdList(idList);
-      // 새로운 bounds 생성 및 저장
-      const newBounds = createMarkersBounds(objectList);
-      setIsSearchBounds(true);
-      setLastBounds(newBounds);
-      // todo : 지역정보 api로 장소 리스트 불러오기
+      // 클릭한 지역명 저장
+      setSelectedRegion(relatedSearchWord.name);
+      navigate('/map/list?queryType=region');
     }
-    navigate('/map/list');
   };
 
   return (

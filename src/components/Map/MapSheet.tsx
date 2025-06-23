@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import {
+  NavigateFunction,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import ReloadMarkerButton from '../BottomSheet/ReloadMarkerButton';
-import { getDisplayMarkers } from '../../api/mapApi';
+import { getDisplayMarkers, getRegionMarkers } from '../../api/mapApi';
 import { useMapStore } from '../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
 import { useMarkerStore } from '../../store/markerStore';
-
 import {
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
+  createMarkersBounds,
 } from '../../utils/mapFunc';
+import { useSearchStore } from '../../store/searchStore';
 
 /* 지도 생성 */
 const initMap = (
@@ -113,6 +118,8 @@ const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
 /* MapSheet.tsx */
 const MapSheet = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const queryType = searchParams.get('queryType');
 
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
@@ -153,6 +160,8 @@ const MapSheet = () => {
       setPrevMarkerObjectList: state.setPrevMarkerObjectList,
     }))
   );
+
+  const { selectedRegion } = useSearchStore();
 
   /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
@@ -197,6 +206,7 @@ const MapSheet = () => {
         if (!result) {
           setNewMarkerObjectList(null);
           setMarkerIdList(null);
+          return;
         } else {
           const { objectList, idList } = result;
           setNewMarkerObjectList(objectList);
@@ -210,6 +220,38 @@ const MapSheet = () => {
       map.destroy();
     };
   }, []);
+
+  /* [useEffect] queryType 값에 따른 마커 변경 */
+  useEffect(() => {
+    const fetchMarkers = async () => {
+      if (queryType === 'region') {
+        try {
+          // 지역명 마커 api 호출
+          const newInfo = await getRegionMarkers(selectedRegion);
+          // 새로운 마커 객체(+ idList) 생성 및 저장
+          const result = createMarkerObjectList(newInfo);
+          if (!result) {
+            setNewMarkerObjectList(null);
+            setMarkerIdList(null);
+            return;
+          }
+          const { objectList, idList } = result;
+          setNewMarkerObjectList(objectList);
+          setMarkerIdList(idList);
+          // 새로운 bounds 생성 및 이동
+          const newBounds = createMarkersBounds(objectList);
+          if (!newBounds) return;
+          mapInstance.current?.fitBounds(newBounds, {
+            bottom: 320,
+          });
+        } catch (error) {
+          console.error('지역 마커를 불러오는 중 오류 발생:', error);
+        }
+      }
+    };
+
+    fetchMarkers();
+  }, [queryType, selectedRegion]);
 
   /* [useEffect] prevMarkerObjectList 변경될 때 */
   useEffect(() => {
@@ -240,6 +282,7 @@ const MapSheet = () => {
     if (!result) {
       setNewMarkerObjectList(null);
       setMarkerIdList(null);
+      return;
     } else {
       const { objectList, idList } = result;
       setNewMarkerObjectList(objectList);
