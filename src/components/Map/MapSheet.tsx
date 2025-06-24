@@ -318,12 +318,13 @@ const MapSheet = () => {
   const researchMarker = useCallback(async () => {
     if (!mapInstance.current) return;
 
-    const currentBounds = mapInstance.current.getBounds();
+    console.log('selectedCategory:', selectedCategory);
+
     const data = await getMarkersByDisplay(
-      currentBounds.getMin().y,
-      currentBounds.getMin().x,
-      currentBounds.getMax().y,
-      currentBounds.getMax().x,
+      lastBounds!.getMin().y,
+      lastBounds!.getMin().x,
+      lastBounds!.getMax().y,
+      lastBounds!.getMax().x,
       selectedCategory ?? undefined
     );
 
@@ -331,7 +332,7 @@ const MapSheet = () => {
     const { objectList, idList } = result;
     setNewMarkerObjectList(objectList);
     setMarkerIdList(idList);
-  }, []);
+  }, [lastBounds, selectedCategory]);
 
   /* 실시간 사용자 위치로 지도 이동 */
   const moveToUserLocation = useCallback(async () => {
