@@ -17,9 +17,10 @@ export const ENDPOINT = {
 
   // sollect
   SOLLECT_SEARCH: '/api/sollect/search',
+  SOLLECT_RECOMMEND: '/api/sollect/recommend',
+  SOLLECT_POPULAR: '/api/sollect/popular',
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
 
-  POPULAR_SOLLECT: '/api/sollect/popular',
 };
