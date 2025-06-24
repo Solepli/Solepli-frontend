@@ -13,6 +13,9 @@ interface SearchState {
 
   selectedRegion: string;
   setSelectedRegion: (value: string) => void;
+
+  relatedPlaceIdList: number[];
+  setRelatedPlaceIdList: (list: number[]) => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -27,4 +30,7 @@ export const useSearchStore = create<SearchState>((set) => ({
 
   selectedRegion: '',
   setSelectedRegion: (value) => set({ selectedRegion: value }),
+
+  relatedPlaceIdList: [],
+  setRelatedPlaceIdList: (value) => set({ relatedPlaceIdList: value }),
 }));

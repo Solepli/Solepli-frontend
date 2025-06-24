@@ -14,6 +14,7 @@
     "@tanstack/react-query": "^5.71.1",
     "@tanstack/react-query-devtools": "^5.71.1",
     "axios": "^1.8.4",
+    "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/navermaps": "^3.7.9",
+    "@types/qs": "^6.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",

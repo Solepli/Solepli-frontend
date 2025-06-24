@@ -18,6 +18,7 @@ const SearchBar: React.FC = () => {
     relatedSearchList,
     setRelatedSearchList,
     setSelectedRegion,
+    setRelatedPlaceIdList,
   } = useSearchStore(
     useShallow((state) => ({
       inputValue: state.inputValue,
@@ -25,6 +26,7 @@ const SearchBar: React.FC = () => {
       relatedSearchList: state.relatedSearchList,
       setRelatedSearchList: state.setRelatedSearchList,
       setSelectedRegion: state.setSelectedRegion,
+      setRelatedPlaceIdList: state.setRelatedPlaceIdList,
     }))
   );
 
@@ -60,6 +62,8 @@ const SearchBar: React.FC = () => {
         const anyResult = extractRegionOrPlaceIds(relatedSearchList);
         if (Array.isArray(anyResult)) {
           // 장소 id 리스트 반환시
+          setRelatedPlaceIdList(anyResult);
+          navigate('/map/list?queryType=idList');
         } else {
           // 지역명 반환시
           setSelectedRegion(anyResult);

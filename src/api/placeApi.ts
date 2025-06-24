@@ -1,5 +1,6 @@
 import { Place } from '../types';
 import { publicAxios } from './axios';
+import qs from 'qs';
 import { ENDPOINT } from './urls';
 
 export const fetchPlaces = async () => {
@@ -7,7 +8,7 @@ export const fetchPlaces = async () => {
   return mockPlaces;
 };
 
-export const getPlacesRegion = async (
+export const getPlacesByRegion = async (
   regionName: string,
   userLat: number,
   userLng: number,
@@ -18,6 +19,20 @@ export const getPlacesRegion = async (
 ) => {
   const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_REGION(regionName), {
     params: { userLat, userLng, category, cursorId, cursorDist, limit },
+  });
+
+  return res.data.data;
+};
+
+export const getPlaceByIdList = async (
+  ids: number[],
+  cursorId?: number,
+  limit: number = 5
+) => {
+  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_ID_LIST, {
+    params: { ids, cursorId, limit },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: 'repeat' }),
   });
 
   return res.data.data;
