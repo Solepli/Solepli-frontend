@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SollectList from './SollectList';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSollects } from '../../api/sollectApi';

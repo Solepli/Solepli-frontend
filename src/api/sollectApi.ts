@@ -21,7 +21,6 @@ export const searchSollect = async (
 
   try {
     const res = await publicAxios.get(ENDPOINT.SOLLECT_SEARCH, { params });
-    console.log(res.data.data);
     return res.data.data.contents;
   } catch (e) {
     console.log(e);
