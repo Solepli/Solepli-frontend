@@ -7,11 +7,14 @@ export const ENDPOINT = {
   SOLMAP_MARKERS: '/api/solmap/markers',
   SOLMAP_MARKERS_REGION: (regionName: string) =>
     `/api/solmap/region/${regionName}/markers`,
+  SOLMAP_MARKERS_ID_LIST: '/api/solmap/markers/search/related',
+
   SOLMAP_PLACE_REGION: (regionName: string) =>
     `/api/solmap/region/${regionName}/places`,
   SOLMAP_PLACE_ID_LIST: '/api/solmap/places/search/related',
   SOLMAP_PLACE_DETAIL: '/api/solmap/place/search/',
   SOLMAP_PLACE_NEARBY: '/api/solmap/places/nearby',
+
   RELATED_SEARCH: '/api/solmap/search/related',
 
   // solmap + sollect

@@ -8,7 +8,11 @@ import {
 } from 'react-router-dom';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import ReloadMarkerButton from '../BottomSheet/ReloadMarkerButton';
-import { getDisplayMarkers, getRegionMarkers } from '../../api/mapApi';
+import {
+  getMarkersByDisplay,
+  getMarkersByIdList,
+  getMarkersByRegion,
+} from '../../api/mapApi';
 import { useMapStore } from '../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
 import { useMarkerStore } from '../../store/markerStore';
@@ -171,7 +175,12 @@ const MapSheet = () => {
     }))
   );
 
-  const { selectedRegion } = useSearchStore();
+  const { selectedRegion, relatedPlaceIdList } = useSearchStore(
+    useShallow((state) => ({
+      selectedRegion: state.selectedRegion,
+      relatedPlaceIdList: state.relatedPlaceIdList,
+    }))
+  );
 
   /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
@@ -206,7 +215,7 @@ const MapSheet = () => {
 
     // 초기 마커 추가
     if (newMarkerObjectList === null) {
-      getDisplayMarkers(
+      getMarkersByDisplay(
         newBounds.getMin().x,
         newBounds.getMin().y,
         newBounds.getMax().x,
@@ -230,8 +239,13 @@ const MapSheet = () => {
     const fetchMarkers = async () => {
       try {
         if (queryType === 'region' && selectedRegion) {
-          // 검색창에서 지역명 선택시 마커 표시
-          const newInfo = await getRegionMarkers(selectedRegion);
+          // 검색창에서 지역명 선택/enter시 마커 표시
+          const newInfo = await getMarkersByRegion(selectedRegion);
+          const result = createMarkerObjectList(newInfo);
+          applyMarkerResult(result);
+        } else if (queryType === 'idList' && relatedPlaceIdList) {
+          // 검색창에서 장소 id 리스트 enter시 마커 표시
+          const newInfo = await getMarkersByIdList(relatedPlaceIdList);
           const result = createMarkerObjectList(newInfo);
           applyMarkerResult(result);
         } else if (detailType === 'searching' && placeId) {
@@ -289,7 +303,7 @@ const MapSheet = () => {
     if (!mapInstance.current) return;
 
     const currentBounds = mapInstance.current.getBounds();
-    const data = await getDisplayMarkers(
+    const data = await getMarkersByDisplay(
       currentBounds.getMin().x,
       currentBounds.getMin().y,
       currentBounds.getMax().x,
