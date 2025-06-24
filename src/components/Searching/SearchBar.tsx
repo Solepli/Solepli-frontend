@@ -7,7 +7,8 @@ import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
 import { useMarkerStore } from '../../store/markerStore';
-import { RelatedSearchWord } from '../../types';
+import { extractRegionOrPlaceIds } from '../../utils/placeFunc';
+import { usePlaceStore } from '../../store/placeStore';
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ const SearchBar: React.FC = () => {
     }))
   );
 
+  const { setCategory } = usePlaceStore();
+
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
     : 'solmap';
@@ -50,6 +53,7 @@ const SearchBar: React.FC = () => {
 
     if (mode === 'sollect') {
       navigate('/sollect/search/result');
+      postRecentSearchWord(inputValue, mode);
     } else if (mode === 'solmap') {
       if (!relatedSearchList.length) {
         // 검색 결과가 없을 때
@@ -57,22 +61,41 @@ const SearchBar: React.FC = () => {
         setMarkerIdList([]);
         setNewMarkerObjectList([]);
         navigate('/map/not-found');
+      } else if (
+        relatedSearchList.length === 1 &&
+        relatedSearchList[0].type === 'PLACE'
+      ) {
+        // 결과가 1개이고 PLACE일 때
+        setInputValue(relatedSearchList[0].name);
+        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+        postRecentSearchWord(relatedSearchList[0].name, mode);
+      } else if (
+        relatedSearchList.length === 1 &&
+        relatedSearchList[0].type === 'DISTRICT'
+      ) {
+        // 결과가 1개이고 DISTRICT일 때
+        setSelectedRegion(relatedSearchList[0].name);
+        setInputValue(relatedSearchList[0].name);
+        navigate('/map/list?queryType=region');
+        postRecentSearchWord(relatedSearchList[0].name, mode);
       } else {
-        // 검색어 있을 때 처리
         const anyResult = extractRegionOrPlaceIds(relatedSearchList);
         if (Array.isArray(anyResult)) {
           // 장소 id 리스트 반환시
           setRelatedPlaceIdList(anyResult);
           navigate('/map/list?queryType=idList');
+          postRecentSearchWord(inputValue, mode);
         } else {
           // 지역명 반환시
           setSelectedRegion(anyResult);
+          setInputValue(relatedSearchList[0].name);
           navigate('/map/list?queryType=region');
+          postRecentSearchWord(relatedSearchList[0].name, mode);
         }
       }
     }
 
-    postRecentSearchWord(inputValue, mode);
+    setCategory(null);
   };
 
   const clickXButtonCircle = () => {
@@ -101,28 +124,6 @@ const SearchBar: React.FC = () => {
       {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
     </div>
   );
-};
-
-/* wordList에 '지역명'만 있으면 최상단 지역명 반환,
- * wordList에 '지역명+장소명' or '장소명' 있으면 장소 id 리스트 반환
- */
-const extractRegionOrPlaceIds = (wordList: RelatedSearchWord[]) => {
-  const placeIdList: number[] = [];
-  wordList.filter((word) => {
-    if (word.type === 'PLACE') {
-      placeIdList.push(word.id!);
-    }
-  });
-
-  // 최상단 지역명 반환
-  if (!placeIdList.length) {
-    const index: number = wordList.findIndex((i) => i.type === 'DISTRICT');
-    const firstRegion: string = wordList[index].name;
-    return firstRegion;
-  }
-
-  // 장소 id 리스트 반환
-  return placeIdList;
 };
 
 export default SearchBar;

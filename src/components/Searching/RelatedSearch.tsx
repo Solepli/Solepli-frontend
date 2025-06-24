@@ -3,6 +3,9 @@ import { RelatedSearchWord } from '../../types';
 import { iconRelatedSearch } from '../../utils/icon';
 import { useNavigate } from 'react-router-dom';
 import { useSearchStore } from '../../store/searchStore';
+import { postRecentSearchWord } from '../../api/searchApi';
+import { usePlaceStore } from '../../store/placeStore';
+import { useShallow } from 'zustand/shallow';
 
 interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
@@ -11,12 +14,23 @@ interface RelatedSearchProps {
 const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
   const navigate = useNavigate();
 
-  const { setSelectedRegion } = useSearchStore();
+  const { setSelectedRegion, setInputValue } = useSearchStore(
+    useShallow((state) => ({
+      setSelectedRegion: state.setSelectedRegion,
+      setInputValue: state.setInputValue,
+    }))
+  );
+
+  const { setCategory } = usePlaceStore();
 
   const IconComponent =
     relatedSearchWord.type === 'PLACE'
       ? iconRelatedSearch[relatedSearchWord.category!]
       : iconRelatedSearch['location'];
+
+  const mode = window.location.pathname.includes('/sollect/search')
+    ? 'sollect'
+    : 'solmap';
 
   const clickResult = async () => {
     if (relatedSearchWord.type === 'PLACE') {
@@ -27,6 +41,10 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
       setSelectedRegion(relatedSearchWord.name);
       navigate('/map/list?queryType=region');
     }
+
+    setInputValue(relatedSearchWord.name);
+    postRecentSearchWord(relatedSearchWord.name, mode);
+    setCategory(null);
   };
 
   return (

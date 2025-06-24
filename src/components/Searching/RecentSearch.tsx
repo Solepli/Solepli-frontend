@@ -12,6 +12,7 @@ import { extractRegionOrPlaceIds } from '../../utils/placeFunc';
 import { useNavigate } from 'react-router-dom';
 import { useSearchStore } from '../../store/searchStore';
 import { useShallow } from 'zustand/shallow';
+import { usePlaceStore } from '../../store/placeStore';
 
 interface RecentSearchTextProps {
   text: string;
@@ -24,12 +25,16 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
 
   const { userLatLng } = useMapStore();
 
-  const { setRelatedPlaceIdList, setSelectedRegion } = useSearchStore(
-    useShallow((state) => ({
-      setRelatedPlaceIdList: state.setRelatedPlaceIdList,
-      setSelectedRegion: state.setSelectedRegion,
-    }))
-  );
+  const { setRelatedPlaceIdList, setSelectedRegion, setInputValue } =
+    useSearchStore(
+      useShallow((state) => ({
+        setRelatedPlaceIdList: state.setRelatedPlaceIdList,
+        setSelectedRegion: state.setSelectedRegion,
+        setInputValue: state.setInputValue,
+      }))
+    );
+
+  const { setCategory } = usePlaceStore();
 
   const onClickDeleteRow = async () => {
     await deleteRecentSearchWords(mode, text);
@@ -37,6 +42,8 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   };
 
   const handleClick = async () => {
+    setInputValue(text);
+
     const relatedSearchList = await getRelatedSearchWords(
       text,
       userLatLng!.lat,
@@ -62,6 +69,8 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
         navigate('/map/list?queryType=region');
       }
     }
+
+    setCategory(null);
   };
 
   return (

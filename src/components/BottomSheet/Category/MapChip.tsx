@@ -3,6 +3,7 @@ import { Category } from '../../../types';
 import { usePlaceStore } from '../../../store/placeStore';
 import { iconMap, iconBlackMap } from '../../../utils/icon';
 import { useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/shallow';
 
 interface CategoryButtonProps {
   category: Category;
@@ -11,7 +12,12 @@ interface CategoryButtonProps {
 const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
   const navigate = useNavigate();
 
-  const { selectedCategory, setCategory } = usePlaceStore();
+  const { selectedCategory, setCategory } = usePlaceStore(
+    useShallow((state) => ({
+      selectedCategory: state.selectedCategory,
+      setCategory: state.setCategory,
+    }))
+  );
 
   const isSelected = selectedCategory === category.id;
 
