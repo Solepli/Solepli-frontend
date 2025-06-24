@@ -7,6 +7,7 @@ import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
 import { useMarkerStore } from '../../store/markerStore';
+import { RelatedSearchWord } from '../../types';
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
@@ -45,18 +46,28 @@ const SearchBar: React.FC = () => {
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter') return;
 
-    if (e.key === 'Enter' && mode === 'sollect') {
+    if (mode === 'sollect') {
       navigate('/sollect/search/result');
-    } else if (e.key === 'Enter' && mode === 'solmap') {
-      if (relatedSearchList.length > 0) {
-        navigate('/map/list');
-      } else {
+    } else if (mode === 'solmap') {
+      if (!relatedSearchList.length) {
+        // 검색 결과가 없을 때
         setSelectedRegion('');
         setMarkerIdList([]);
         setNewMarkerObjectList([]);
         navigate('/map/not-found');
+      } else {
+        // 검색어 있을 때 처리
+        const anyResult = extractRegionOrPlaceIds(relatedSearchList);
+        if (Array.isArray(anyResult)) {
+          // 장소 id 리스트 반환시
+        } else {
+          // 지역명 반환시
+          setSelectedRegion(anyResult);
+          navigate('/map/list?queryType=region');
+        }
       }
     }
+
     postRecentSearchWord(inputValue, mode);
   };
 
@@ -86,6 +97,28 @@ const SearchBar: React.FC = () => {
       {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
     </div>
   );
+};
+
+/* wordList에 '지역명'만 있으면 최상단 지역명 반환,
+ * wordList에 '지역명+장소명' or '장소명' 있으면 장소 id 리스트 반환
+ */
+const extractRegionOrPlaceIds = (wordList: RelatedSearchWord[]) => {
+  const placeIdList: number[] = [];
+  wordList.filter((word) => {
+    if (word.type === 'PLACE') {
+      placeIdList.push(word.id!);
+    }
+  });
+
+  // 최상단 지역명 반환
+  if (!placeIdList.length) {
+    const index: number = wordList.findIndex((i) => i.type === 'DISTRICT');
+    const firstRegion: string = wordList[index].name;
+    return firstRegion;
+  }
+
+  // 장소 id 리스트 반환
+  return placeIdList;
 };
 
 export default SearchBar;
