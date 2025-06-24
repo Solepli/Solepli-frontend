@@ -22,6 +22,7 @@ import {
 } from '../../utils/mapFunc';
 import { useSearchStore } from '../../store/searchStore';
 import { getPlaceDetail } from '../../api/placeApi';
+import { usePlaceStore } from '../../store/placeStore';
 
 /* 지도 생성 */
 const initMap = (
@@ -182,6 +183,8 @@ const MapSheet = () => {
     }))
   );
 
+  const { selectedCategory } = usePlaceStore();
+
   /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
     if (!mapElement.current) return;
@@ -238,7 +241,20 @@ const MapSheet = () => {
   useEffect(() => {
     const fetchMarkers = async () => {
       try {
-        if (queryType === 'region' && selectedRegion) {
+        if (queryType === 'category') {
+          // 카테고리 선택시 마커 표시
+          const newInfo = await getMarkersByDisplay(
+            lastBounds!.getMin().y,
+            lastBounds!.getMin().x,
+            lastBounds!.getMax().y,
+            lastBounds!.getMax().x,
+            selectedCategory ?? undefined
+          );
+          const result = createMarkerObjectList(newInfo);
+          const { objectList, idList } = result;
+          setNewMarkerObjectList(objectList);
+          setMarkerIdList(idList);
+        } else if (queryType === 'region' && selectedRegion) {
           // 검색창에서 지역명 선택/enter시 마커 표시
           const newInfo = await getMarkersByRegion(selectedRegion);
           const result = createMarkerObjectList(newInfo);
@@ -267,7 +283,7 @@ const MapSheet = () => {
     };
 
     fetchMarkers();
-  }, [queryType, selectedRegion, detailType, placeId]);
+  }, [queryType, selectedCategory, selectedRegion, detailType, placeId]);
 
   const applyMarkerResult = (
     result: ReturnType<typeof createMarkerObjectList>
@@ -307,7 +323,8 @@ const MapSheet = () => {
       currentBounds.getMin().y,
       currentBounds.getMin().x,
       currentBounds.getMax().y,
-      currentBounds.getMax().x
+      currentBounds.getMax().x,
+      selectedCategory ?? undefined
     );
 
     const result = createMarkerObjectList(data);
