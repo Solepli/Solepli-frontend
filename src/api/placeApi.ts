@@ -8,6 +8,36 @@ export const fetchPlaces = async () => {
   return mockPlaces;
 };
 
+export const getPlacesByDisplay = async (
+  swLat: number, // swY - min
+  swLng: number, // swX
+  neLat: number, // neY - max
+  neLng: number, // neX
+  userLat: number,
+  userLng: number,
+  category?: string,
+  cursorId?: number,
+  cursorDist?: number,
+  limit: number = 5
+) => {
+  const response = await publicAxios.get(ENDPOINT.SOLMAP_PLACE, {
+    params: {
+      swLat,
+      swLng,
+      neLat,
+      neLng,
+      userLat,
+      userLng,
+      category,
+      cursorId,
+      cursorDist,
+      limit,
+    },
+  });
+
+  return response.data.data;
+};
+
 export const getPlacesByRegion = async (
   regionName: string,
   userLat: number,

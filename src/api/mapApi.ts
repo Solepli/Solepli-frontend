@@ -3,19 +3,19 @@ import { publicAxios } from './axios';
 import { ENDPOINT } from './urls';
 
 export const getMarkersByDisplay = async (
-  swX: number,
-  swY: number,
-  neX: number,
-  neY: number,
+  swLat: number, // swY - min
+  swLng: number, // swX
+  neLat: number, // neY - max
+  neLng: number, // neX
   category?: string
 ) => {
   const response = await publicAxios.get(ENDPOINT.SOLMAP_MARKERS, {
     params: {
-      swLng: swX,
-      swLat: swY,
-      neLng: neX,
-      neLat: neY,
-      category: category,
+      swLat,
+      swLng,
+      neLat,
+      neLng,
+      category,
     },
   });
 

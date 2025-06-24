@@ -9,6 +9,7 @@ export const ENDPOINT = {
     `/api/solmap/region/${regionName}/markers`,
   SOLMAP_MARKERS_ID_LIST: '/api/solmap/markers/search/related',
 
+  SOLMAP_PLACE: '/api/solmap/places',
   SOLMAP_PLACE_REGION: (regionName: string) =>
     `/api/solmap/region/${regionName}/places`,
   SOLMAP_PLACE_ID_LIST: '/api/solmap/places/search/related',

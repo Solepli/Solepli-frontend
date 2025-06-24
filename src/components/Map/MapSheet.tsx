@@ -216,10 +216,10 @@ const MapSheet = () => {
     // 초기 마커 추가
     if (newMarkerObjectList === null) {
       getMarkersByDisplay(
-        newBounds.getMin().x,
         newBounds.getMin().y,
-        newBounds.getMax().x,
-        newBounds.getMax().y
+        newBounds.getMin().x,
+        newBounds.getMax().y,
+        newBounds.getMax().x
       ).then((res) => {
         const result = createMarkerObjectList(res);
         const { objectList, idList } = result;
@@ -304,10 +304,10 @@ const MapSheet = () => {
 
     const currentBounds = mapInstance.current.getBounds();
     const data = await getMarkersByDisplay(
-      currentBounds.getMin().x,
       currentBounds.getMin().y,
-      currentBounds.getMax().x,
-      currentBounds.getMax().y
+      currentBounds.getMin().x,
+      currentBounds.getMax().y,
+      currentBounds.getMax().x
     );
 
     const result = createMarkerObjectList(data);

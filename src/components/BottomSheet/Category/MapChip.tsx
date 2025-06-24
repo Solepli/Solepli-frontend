@@ -2,13 +2,17 @@ import React from 'react';
 import { Category } from '../../../types';
 import { usePlaceStore } from '../../../store/placeStore';
 import { iconMap, iconBlackMap } from '../../../utils/icon';
+import { useNavigate } from 'react-router-dom';
 
 interface CategoryButtonProps {
   category: Category;
 }
 
 const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
+  const navigate = useNavigate();
+
   const { selectedCategory, setCategory } = usePlaceStore();
+
   const isSelected = selectedCategory === category.id;
 
   const style = {
@@ -25,12 +29,17 @@ const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
     ? iconBlackMap[category.id]
     : iconMap[category.id];
 
+  const handleClick = () => {
+    setCategory(category.id);
+    navigate('/map/list?queryType=category');
+  };
+
   return (
     <>
       <button
         className='w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center shrink-0'
         style={style}
-        onClick={() => setCategory(category.id)}>
+        onClick={handleClick}>
         <IconComponent />
         <div className='text-xs font-medium'>{category.title}</div>
       </button>
