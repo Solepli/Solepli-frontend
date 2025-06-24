@@ -8,6 +8,7 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
   const [marked, setMarked] = useState(sollect.isMarked);
 
   const handleClick = () => {
+    // TODO: sollect 조회
     navigate('');
   };
 
@@ -25,7 +26,9 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
       <div className='bg-gradient-to-b from-black/0 to-black/75 absolute top-0 left-0 w-full h-full'></div>
 
       {/* Sollect Mark */}
-      <div className='absolute top-8 right-8'>
+      <div
+        className='absolute top-8 right-8'
+        onClick={(e) => e.stopPropagation()}>
         <SollectMark
           marked={marked}
           setMarked={setMarked}

@@ -2,6 +2,7 @@ import React from 'react';
 import heartFillWhite from '../../assets/heartFillWhite.svg';
 import heartWhite from '../../assets/heartWhite.svg';
 import { deleteSolmarkSollect, postSolmarkSollect } from '../../api/sollectApi';
+import LoginRequiredAction from '../../auth/LoginRequiredAction';
 interface SollectMarkProps {
   marked: boolean;
   id: number;
@@ -10,6 +11,7 @@ interface SollectMarkProps {
 
 const SollectMark: React.FC<SollectMarkProps> = ({ marked, setMarked, id }) => {
   const handleClick = () => {
+    console.log("click")
     setMarked(!marked);
     
     if(marked){
@@ -21,12 +23,14 @@ const SollectMark: React.FC<SollectMarkProps> = ({ marked, setMarked, id }) => {
 
 
 
+
   return (
-    <div
-      className='w-28 h-28 bg-black/10 rounded-lg border-1 border-black/50 backdrop-blur-[2px] flex justify-center items-center'
-      onClick={handleClick}>
-      <img src={marked ? heartFillWhite : heartWhite} alt='heart' />
-    </div>
+    <LoginRequiredAction onAction={handleClick}>
+      <div
+        className='w-28 h-28 bg-black/10 rounded-lg border-1 border-black/50 backdrop-blur-[2px] flex justify-center items-center'>
+        <img src={marked ? heartFillWhite : heartWhite} alt='heart' />
+      </div>
+    </LoginRequiredAction>
   );
 };
 
