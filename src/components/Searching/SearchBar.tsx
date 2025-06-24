@@ -28,7 +28,7 @@ const SearchBar: React.FC = () => {
     setInputValue(e.target.value);
   };
 
-  const handleEnter = (e: React.KeyboardEvent) => {
+  const handleEnter = async (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter') return;
 
     if (e.key === 'Enter' && mode === 'sollect') {
@@ -40,7 +40,7 @@ const SearchBar: React.FC = () => {
         navigate('/map/not-found');
       }
     }
-    postRecentSearchWord(inputValue, mode);
+    await postRecentSearchWord(inputValue, mode);
   };
 
   const clickXButtonCircle = () => {
