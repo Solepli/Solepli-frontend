@@ -29,13 +29,14 @@ const SollectWriteTitle = () => {
 
   return (
     <div
-      className='w-full min-h-[214px] pt-66 pb-8 relative bg-primary-100'
+      className='w-full min-h-[214px] pt-66 pb-8 relative'
       style={{
         backgroundImage: backgroundImage
           ? `url(${backgroundImage})`
           : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        backgroundColor: backgroundImage ? '#18181866' : '#ECEEF2', //이미지 배경색 결정. 이미지가 있을 경우 #18181866, 없을 경우 #ECEEF2(primary-100)
       }}>
       {!backgroundImage && (
         <div className='w-full h-68 py-13 px-12 flex justify-center items-center'>
