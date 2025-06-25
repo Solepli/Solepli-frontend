@@ -332,6 +332,8 @@ const MapSheet = () => {
     const { objectList, idList } = result;
     setNewMarkerObjectList(objectList);
     setMarkerIdList(idList);
+
+    navigate('/map/list?queryType=category');
   }, [lastBounds, selectedCategory]);
 
   /* 실시간 사용자 위치로 지도 이동 */
