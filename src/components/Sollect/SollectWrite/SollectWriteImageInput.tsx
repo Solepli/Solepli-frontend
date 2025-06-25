@@ -18,7 +18,7 @@ const SollectWriteImageInput = () => {
     if (focusTextarea) {
       caret = focusTextarea.selectionStart ?? 0;
     }
-    newFiles.forEach((file) => {
+    newFiles.reverse().forEach((file) => {
       insertImageAtCaret(file, caret);
     })
   };
