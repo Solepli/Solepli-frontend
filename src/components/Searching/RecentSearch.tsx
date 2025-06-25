@@ -23,7 +23,7 @@ interface RecentSearchTextProps {
 const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  
+
   const { clearCategory } = useSollectStore();
 
   const { userLatLng } = useMapStore();
@@ -47,53 +47,44 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const handleClick = async () => {
     setInputValue(text);
 
-    const relatedSearchList = await getRelatedSearchWords(
-      text,
-      userLatLng!.lat,
-      userLatLng!.lng
-    );
-
-    if (
-      relatedSearchList.length === 1 &&
-      relatedSearchList[0].type === 'PLACE'
-    ) {
-      // 디테일 페이지로 이동
-      navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
-    } else {
-      // 프리뷰 리스트 페이지로 이동
-      const anyResult = extractRegionOrPlaceIds(relatedSearchList);
-      if (Array.isArray(anyResult)) {
-        // 장소 id 리스트
-        setRelatedPlaceIdList(anyResult);
-        navigate('/map/list?queryType=idList');
-      } else {
-        // 지역명
-        setSelectedRegion(anyResult);
-        navigate('/map/list?queryType=region');
-      }
-    }
-
-    setCategory(null);
-  };
-
-  const { setInputValue } = useSearchStore();
-  const navigate = useNavigate();
-
-  const handleClick = async () => {
-    setInputValue(text);
-    if(mode === "sollect"){
+    if (mode === 'sollect') {
       clearCategory();
       navigate('/sollect/search/result');
-    }else if(mode === "solmap"){
-      // TODO: list page에서 searchPlace 해야함
-      navigate('/map/list');
+    } else if (mode === 'solmap') {
+      const relatedSearchList = await getRelatedSearchWords(
+        text,
+        userLatLng!.lat,
+        userLatLng!.lng
+      );
+
+      if (
+        relatedSearchList.length === 1 &&
+        relatedSearchList[0].type === 'PLACE'
+      ) {
+        // 디테일 페이지로 이동
+        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+      } else {
+        // 프리뷰 리스트 페이지로 이동
+        const anyResult = extractRegionOrPlaceIds(relatedSearchList);
+        if (Array.isArray(anyResult)) {
+          // 장소 id 리스트
+          setRelatedPlaceIdList(anyResult);
+          navigate('/map/list?queryType=idList');
+        } else {
+          // 지역명
+          setSelectedRegion(anyResult);
+          navigate('/map/list?queryType=region');
+        }
+      }
+
+      setCategory(null);
     }
+
     await postRecentSearchWord(text, mode);
   };
 
   return (
-    <div
-      className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
+    <div className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
       <div className='flex h-36 items-center gap-4 flex-[1_0_0] justify-start'>
         <div
           className='flex items-center gap-4 flex-[1_0_0]'
