@@ -1,45 +1,58 @@
 import React from 'react';
-import food from '../../assets/category-icons/foodFill.svg';
-import cafe from '../../assets/category-icons/cafeFill.svg';
-import drink from '../../assets/category-icons/drinkFill.svg';
-import entertainment from '../../assets/category-icons/entertainmentFill.svg';
-import culture from '../../assets/category-icons/cultureFill.svg';
-import shop from '../../assets/category-icons/shopFill.svg';
-import walk from '../../assets/category-icons/walkFill.svg';
-import work from '../../assets/category-icons/workFill.svg';
-import location from '../../assets/locationFill.svg';
 import { RelatedSearchWord } from '../../types';
-
-const iconMap: Record<string, string> = {
-  food,
-  cafe,
-  drink,
-  entertainment,
-  culture,
-  shop,
-  walk,
-  work,
-  location,
-};
+import { iconRelatedSearch } from '../../utils/icon';
+import { useNavigate } from 'react-router-dom';
+import { useSearchStore } from '../../store/searchStore';
+import { postRecentSearchWord } from '../../api/searchApi';
+import { usePlaceStore } from '../../store/placeStore';
+import { useShallow } from 'zustand/shallow';
 
 interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
 }
 
 const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
-  const icon =
+  const navigate = useNavigate();
+
+  const { setSelectedRegion, setInputValue } = useSearchStore(
+    useShallow((state) => ({
+      setSelectedRegion: state.setSelectedRegion,
+      setInputValue: state.setInputValue,
+    }))
+  );
+
+  const { setCategory } = usePlaceStore();
+
+  const IconComponent =
     relatedSearchWord.type === 'PLACE'
-      ? iconMap[relatedSearchWord.category!]
-      : location;
+      ? iconRelatedSearch[relatedSearchWord.category!]
+      : iconRelatedSearch['location'];
+
+  const mode = window.location.pathname.includes('/sollect/search')
+    ? 'sollect'
+    : 'solmap';
+
+  const clickResult = async () => {
+    if (relatedSearchWord.type === 'PLACE') {
+      // 클릭한 장소 디테일뷰로 이동
+      navigate(`/map/detail/${relatedSearchWord.id}?detailType=searching`);
+    } else if (relatedSearchWord.type === 'DISTRICT') {
+      // 클릭한 지역명 저장
+      setSelectedRegion(relatedSearchWord.name);
+      navigate('/map/list?queryType=region');
+    }
+
+    setInputValue(relatedSearchWord.name);
+    postRecentSearchWord(relatedSearchWord.name, mode);
+    setCategory(null);
+  };
 
   return (
-    <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>
+    <div
+      className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'
+      onClick={clickResult}>
       <div className='flex p-4 items-start rounded-[4px] bg-gray-400/10'>
-        <img
-          className='w-24 h-24'
-          src={icon}
-          alt={relatedSearchWord.type + relatedSearchWord.category}
-        />
+        <IconComponent className='w-24 h-24' />
       </div>
 
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>

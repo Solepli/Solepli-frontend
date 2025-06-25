@@ -7,7 +7,7 @@ interface PlaceStore {
   selectedPlace: Place | null;
   selectedCategory: string | null;
   setPlaces: (places: Place[]) => void;
-  setCategory: (category: string) => void;
+  setCategory: (category: string | null) => void;
   clearCategory: () => void;
   setPlace: (place: Place) => void;
 }
@@ -16,7 +16,7 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   places: [],
   filteredPlaces: [],
   selectedCategory: null,
-  selectedPlace:null,
+  selectedPlace: null,
 
   setPlaces: (places) => set({ places: places, filteredPlaces: places }),
   setCategory: (category) => {
@@ -42,7 +42,7 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
       filteredPlaces: state.places,
     }));
   },
-  setPlace: (place) =>{
-    set({selectedPlace: place});
-  }
+  setPlace: (place) => {
+    set({ selectedPlace: place });
+  },
 }));

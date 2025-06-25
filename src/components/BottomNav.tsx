@@ -16,7 +16,12 @@ const BottomNav = () => {
       icon: <Sollect />,
       activeIcon: <SollectActive />,
     },
-    { name: 'map', path: '/map', icon: <Map />, activeIcon: <MapActive /> },
+    {
+      name: 'map',
+      path: '/map',
+      icon: <Map />,
+      activeIcon: <MapActive />,
+    },
     { name: 'mark', path: '/mark', icon: <Mark />, activeIcon: <MarkActive /> },
     {
       name: 'profile',

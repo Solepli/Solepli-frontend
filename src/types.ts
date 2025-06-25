@@ -52,14 +52,12 @@ export type ReviewType = {
   tags: TagType[];
 };
 
-export type DisplayLatLng = {
-  swY: number;
-  swX: number;
-  neY: number;
-  neX: number;
+export type LatLngType = {
+  lat: number;
+  lng: number;
 };
 
-export type MarkersInfoType = {
+export type MarkerInfoType = {
   id: number;
   category: string;
   latitude: number;
@@ -67,9 +65,11 @@ export type MarkersInfoType = {
 };
 
 export type SollectPhotoType = {
-  id: number;
+  sollectId: number;
   title: string;
-  placeTitle?: string;
-  address: string;
-  imageUrl: string;
+  thumbnailImage: string;
+  district:string;
+  neighborhood:string;
+  isMarked:boolean;
+  placeName:string;
 };

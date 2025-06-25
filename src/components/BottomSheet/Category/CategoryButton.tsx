@@ -34,7 +34,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
 
   const handleClick = () => {
     setCategory(category.id);
-    navigate('list');
+    navigate('/map/list?queryType=category');
   };
 
   return (

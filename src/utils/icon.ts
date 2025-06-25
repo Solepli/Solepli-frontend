@@ -15,6 +15,7 @@ import CultureFill from '../assets/category-icons/cultureFill.svg?react';
 import ShopFill from '../assets/category-icons/shopFill.svg?react';
 import WalkFill from '../assets/category-icons/walkFill.svg?react';
 import WorkFill from '../assets/category-icons/workFill.svg?react';
+import Location from '../assets/locationFill.svg?react';
 
 import FoodBlack from '../assets/category-icons/foodBlack.svg?react';
 import CafeBlack from '../assets/category-icons/cafeBlack.svg?react';
@@ -85,4 +86,19 @@ export const IconMarkerMap: Record<string, string> = {
   shop: ShopMarker,
   walk: WalkMarker,
   work: WorkMarker,
+};
+
+export const iconRelatedSearch: Record<
+  string,
+  React.FC<React.SVGProps<SVGSVGElement>>
+> = {
+  food: FoodFill,
+  cafe: CafeFill,
+  drink: DrinkFill,
+  entertainment: EntertainmentFill,
+  culture: CultureFill,
+  shop: ShopFill,
+  walk: WalkFill,
+  work: WorkFill,
+  location: Location,
 };

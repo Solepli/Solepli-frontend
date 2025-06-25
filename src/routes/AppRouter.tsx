@@ -39,7 +39,6 @@ const AppRouter = () => {
             <Route path='list' element={<PreviewContentList />} />
             <Route path='not-found' element={<PreviewContentEmpty />} />
             <Route path='detail/:placeId' element={<DetailContent />} />
-            <Route path='reviews/:placeId' element={<ReviewsPage />} />
             <Route path='review-write/:placeId' element={<ReviewWrite />} />
           </Route>
 
@@ -51,6 +50,7 @@ const AppRouter = () => {
         </Route>
         <Route path='login' element={<Login />} />
         <Route path='/sollect/write' element={<SollectWritePage />} />
+        <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

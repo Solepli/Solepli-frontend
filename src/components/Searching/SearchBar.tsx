@@ -6,19 +6,43 @@ import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
+import { useMarkerStore } from '../../store/markerStore';
+import { extractRegionOrPlaceIds } from '../../utils/placeFunc';
+import { usePlaceStore } from '../../store/placeStore';
+import { useSollectStore } from '../../store/sollectStore';
+
 
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
+  
+  const { clearCategory } = useSollectStore();
 
-  const { inputValue, setInputValue, relatedSearchList, setRelatedSearchList } =
-    useSearchStore(
-      useShallow((state) => ({
-        inputValue: state.inputValue,
-        setInputValue: state.setInputValue,
-        relatedSearchList: state.relatedSearchList,
-        setRelatedSearchList: state.setRelatedSearchList,
-      }))
-    );
+  const {
+    inputValue,
+    setInputValue,
+    relatedSearchList,
+    setRelatedSearchList,
+    setSelectedRegion,
+    setRelatedPlaceIdList,
+  } = useSearchStore(
+    useShallow((state) => ({
+      inputValue: state.inputValue,
+      setInputValue: state.setInputValue,
+      relatedSearchList: state.relatedSearchList,
+      setRelatedSearchList: state.setRelatedSearchList,
+      setSelectedRegion: state.setSelectedRegion,
+      setRelatedPlaceIdList: state.setRelatedPlaceIdList,
+    }))
+  );
+
+  const { setMarkerIdList, setNewMarkerObjectList } = useMarkerStore(
+    useShallow((state) => ({
+      setMarkerIdList: state.setMarkerIdList,
+      setNewMarkerObjectList: state.setNewMarkerObjectList,
+    }))
+  );
+
+  const { setCategory } = usePlaceStore();
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
@@ -28,19 +52,55 @@ const SearchBar: React.FC = () => {
     setInputValue(e.target.value);
   };
 
-  const handleEnter = (e: React.KeyboardEvent) => {
+  const handleEnter = async (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter') return;
 
-    if (e.key === 'Enter' && mode === 'sollect') {
+    if (mode === 'sollect') {
+      clearCategory();
       navigate('/sollect/search/result');
-    } else if (e.key === 'Enter' && mode === 'solmap') {
-      if (relatedSearchList.length > 0) {
-        navigate('/map/list');
-      } else {
+      await postRecentSearchWord(inputValue, mode);
+    } else if (mode === 'solmap') {
+      if (!relatedSearchList.length) {
+        // 검색 결과가 없을 때
+        setSelectedRegion('');
+        setMarkerIdList([]);
+        setNewMarkerObjectList([]);
         navigate('/map/not-found');
+      } else if (
+        relatedSearchList.length === 1 &&
+        relatedSearchList[0].type === 'PLACE'
+      ) {
+        // 결과가 1개이고 PLACE일 때
+        setInputValue(relatedSearchList[0].name);
+        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+        await postRecentSearchWord(relatedSearchList[0].name, mode);
+      } else if (
+        relatedSearchList.length === 1 &&
+        relatedSearchList[0].type === 'DISTRICT'
+      ) {
+        // 결과가 1개이고 DISTRICT일 때
+        setSelectedRegion(relatedSearchList[0].name);
+        setInputValue(relatedSearchList[0].name);
+        navigate('/map/list?queryType=region');
+        await postRecentSearchWord(relatedSearchList[0].name, mode);
+      } else {
+        const anyResult = extractRegionOrPlaceIds(relatedSearchList);
+        if (Array.isArray(anyResult)) {
+          // 장소 id 리스트 반환시
+          setRelatedPlaceIdList(anyResult);
+          navigate('/map/list?queryType=idList');
+          await postRecentSearchWord(inputValue, mode);
+        } else {
+          // 지역명 반환시
+          setSelectedRegion(anyResult);
+          setInputValue(relatedSearchList[0].name);
+          navigate('/map/list?queryType=region');
+          await postRecentSearchWord(relatedSearchList[0].name, mode);
+        }
       }
     }
-    postRecentSearchWord(inputValue, mode);
+
+    setCategory(null);
   };
 
   const clickXButtonCircle = () => {

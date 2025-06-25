@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SollectList from './SollectList';
 import { useQuery } from '@tanstack/react-query';
-import { fetchSollects } from '../../api/sollectApi';
+import { fetchRecommendSollect } from '../../api/sollectApi';
+import { useSearchStore } from '../../store/searchStore';
+import { useSollectStore } from '../../store/sollectStore';
 
 const SollectNoResult = () => {
+  const {inputValue} = useSearchStore();
+  const {selectedCategory} = useSollectStore();
+
   const { data } = useQuery({
-    queryKey: ['sollects'],
-    queryFn: fetchSollects,
+    queryKey: ['sollects', selectedCategory],
+    queryFn: () => fetchRecommendSollect(inputValue, selectedCategory),
   });
 
   return (

@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import SollectPhoto from './SollectPhoto';
 import { SollectListProps } from '../../interface';
 
-const SollectList: React.FC<SollectListProps> = ({ horizontal, sollects, customStyle }) => {
+const SollectList: React.FC<SollectListProps> = ({ horizontal, sollects, customStyle}) => {
   let style = customStyle;
+  
   if (horizontal) {
-    style += ' px-16 flex overflow-x-scroll flex-row gap-4';
+    style += ' px-16 flex overflow-x-scroll flex-row gap-4 overflow-y-auto';
   } else {
-    style += ' flex flex-wrap gap-12 justify-center';
+    style += ' gap-12 overflow-y-auto grid grid-cols-2';
   }
+
   return (
-    <div className={style}>
-      {sollects.map((sollect) => {
-        return <SollectPhoto sollect={sollect} key={sollect.id} />;
-      })}
+    <div className='flex justify-center'>
+      <div className={style}>
+        {sollects.map((sollect) => {
+          return <SollectPhoto sollect={sollect} key={sollect.sollectId} />;
+        })}
+      </div>
     </div>
   );
 };
