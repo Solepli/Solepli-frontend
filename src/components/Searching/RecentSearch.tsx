@@ -1,5 +1,4 @@
 import React from 'react';
-import xBottonCircle from '../../assets/xButtonCircle.svg';
 import ClockFill from '../../assets/clockFill.svg?react';
 import XButtonCircle from '../XButtonCircle';
 import {
@@ -13,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSearchStore } from '../../store/searchStore';
 import { useShallow } from 'zustand/shallow';
 import { usePlaceStore } from '../../store/placeStore';
+import { postRecentSearchWord } from '../../api/searchApi';
+import { useSollectStore } from '../../store/sollectStore';
 
 interface RecentSearchTextProps {
   text: string;
@@ -22,6 +23,8 @@ interface RecentSearchTextProps {
 const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  
+  const { clearCategory } = useSollectStore();
 
   const { userLatLng } = useMapStore();
 
@@ -73,8 +76,24 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
     setCategory(null);
   };
 
+  const { setInputValue } = useSearchStore();
+  const navigate = useNavigate();
+
+  const handleClick = async () => {
+    setInputValue(text);
+    if(mode === "sollect"){
+      clearCategory();
+      navigate('/sollect/search/result');
+    }else if(mode === "solmap"){
+      // TODO: list page에서 searchPlace 해야함
+      navigate('/map/list');
+    }
+    await postRecentSearchWord(text, mode);
+  };
+
   return (
-    <div className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
+    <div
+      className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
       <div className='flex h-36 items-center gap-4 flex-[1_0_0] justify-start'>
         <div
           className='flex items-center gap-4 flex-[1_0_0]'
