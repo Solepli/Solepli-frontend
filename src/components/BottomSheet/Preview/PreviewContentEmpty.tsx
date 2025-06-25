@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PreviewContent from './PreviewContent';
 import { usePlaceStore } from '../../../store/placeStore';
+import { useQuery } from '@tanstack/react-query';
+import { useMapStore } from '../../../store/mapStore';
+import { getPlacesNearby } from '../../../api/placeApi';
 
 const PreviewContentEmpty: React.FC = () => {
   const filteredPlaces = usePlaceStore((state) => state.filteredPlaces);
+
+  const { userLatLng } = useMapStore();
+
+  const { data } = useQuery({
+    queryKey: ['placesNearby', userLatLng],
+    queryFn: () => getPlacesNearby(userLatLng!.lat, userLatLng!.lng),
+    enabled: !!userLatLng,
+  });
+
+  // complete api: 검색결과 없을 시 유저 위치 기반 거리순 추천 장소 리스트 호출
+  useEffect(() => {
+    console.log('placeRecommanded:', data);
+  }, [data]);
+
   return (
     <div>
       <div className='flex py-80 flex-col items-start'>

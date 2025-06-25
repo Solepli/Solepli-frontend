@@ -7,22 +7,8 @@ import Mark from '../assets/nav/mark.svg?react';
 import MarkActive from '../assets/nav/mark-active.svg?react';
 import Profile from '../assets/nav/profile.svg?react';
 import ProfileActive from '../assets/nav/profile-active.svg?react';
-import { useMapStore } from '../store/mapStore';
-import { useShallow } from 'zustand/shallow';
-import { getUserLocation } from '../utils/geolocation';
 
 const BottomNav = () => {
-  const { setInitCenter } = useMapStore(
-    useShallow((state) => ({
-      setInitCenter: state.setInitCenter,
-    }))
-  );
-
-  // solmap 바텀 메뉴 클릭시 InitCenter를 사용자 실시간 위치로 설정
-  const handleMapClick = async () => {
-    const { lat, lng } = await getUserLocation();
-    setInitCenter({ lat: lat, lng: lng });
-  };
   const menu = [
     {
       name: 'sollect',
@@ -35,7 +21,6 @@ const BottomNav = () => {
       path: '/map',
       icon: <Map />,
       activeIcon: <MapActive />,
-      onClick: handleMapClick,
     },
     { name: 'mark', path: '/mark', icon: <Mark />, activeIcon: <MarkActive /> },
     {
@@ -53,7 +38,6 @@ const BottomNav = () => {
           <NavLink
             key={item.name}
             to={item.path}
-            onClick={item.onClick}
             className='flex flex-col items-center gap-1'>
             {({ isActive }) => (isActive ? item.activeIcon : item.icon)}
           </NavLink>

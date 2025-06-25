@@ -10,6 +10,12 @@ interface SearchState {
 
   relatedSearchList: RelatedSearchWord[];
   setRelatedSearchList: (list: RelatedSearchWord[]) => void;
+
+  selectedRegion: string;
+  setSelectedRegion: (value: string) => void;
+
+  relatedPlaceIdList: number[];
+  setRelatedPlaceIdList: (list: number[]) => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -21,4 +27,10 @@ export const useSearchStore = create<SearchState>((set) => ({
 
   relatedSearchList: [],
   setRelatedSearchList: (list) => set({ relatedSearchList: list }),
+
+  selectedRegion: '',
+  setSelectedRegion: (value) => set({ selectedRegion: value }),
+
+  relatedPlaceIdList: [],
+  setRelatedPlaceIdList: (value) => set({ relatedPlaceIdList: value }),
 }));

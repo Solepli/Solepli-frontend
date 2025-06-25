@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { LatLngType } from '../types';
 
 interface MapState {
-  initCenter: LatLngType;
-  setInitCenter: (center: LatLngType) => void;
+  userLatLng: LatLngType | null;
+  setUserLatLng: (center: LatLngType) => void;
 
   isSearchBounds: boolean;
   setIsSearchBounds: (b: boolean) => void;
@@ -16,11 +16,8 @@ interface MapState {
 }
 
 export const useMapStore = create<MapState>((set) => ({
-  initCenter: {
-    lat: 37.5666805, // 기본 좌표 (서울 시청)
-    lng: 126.9784147,
-  },
-  setInitCenter: (latlng) => set({ initCenter: latlng }),
+  userLatLng: { lat: 37.5666805, lng: 126.9784147 }, // 유저 기본 좌표 : 서울 시청
+  setUserLatLng: (latlng) => set({ userLatLng: latlng }),
 
   isSearchBounds: false,
   setIsSearchBounds: (b) => set({ isSearchBounds: b }),
@@ -28,6 +25,6 @@ export const useMapStore = create<MapState>((set) => ({
   lastBounds: undefined,
   setLastBounds: (bounds) => set({ lastBounds: bounds }),
 
-  lastZoom: 16,
+  lastZoom: 15,
   setLastZoom: (zoom) => set({ lastZoom: zoom }),
 }));
