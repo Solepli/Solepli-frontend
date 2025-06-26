@@ -86,7 +86,7 @@ const SollectWriteContent = () => {
                 }}>
                   <XButton />
                 </div>
-                <img src={para.content} className='w-full' /> 
+                <img src={para.imageUrl} className='w-full' /> 
               </div>
             )
           )}

@@ -34,8 +34,9 @@ const SollectWriteTitle = () => {
     setThumbnail({
       seq: 0,
       type: 'IMAGE',
-      content: URL.createObjectURL(file),
+      content: file.name,
       file: file,
+      imageUrl: URL.createObjectURL(file),
     });
   };
 
@@ -53,14 +54,14 @@ const SollectWriteTitle = () => {
         <div
           className='w-full min-h-[214px] pt-66 pb-8 relative'
           style={{
-            backgroundImage: thumbnail?.content
-              ? `url(${thumbnail.content})`
+            backgroundImage: thumbnail?.imageUrl
+              ? `url(${thumbnail.imageUrl})`
               : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: thumbnail?.content ? '#18181866' : '#ECEEF2',
+            backgroundColor: thumbnail?.imageUrl ? '#18181866' : '#ECEEF2',
           }}>
-          {thumbnail?.content ? (
+          {thumbnail?.imageUrl ? (
             <div
               onClick={open}
               className='absolute bg-white w-81 h-26 top-12 right-12 flex items-center justify-center rounded outline outline-1 outline-offset-[-1px] outline-grayScale-100'

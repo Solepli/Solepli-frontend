@@ -1,13 +1,6 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
-import { RelatedSearchWord, ReleatedSearchPlace } from '../types';
-
-type Paragraph = {
-  seq: number;
-  type: 'TEXT' | 'IMAGE';
-  content?: string;
-  file?: File; // 이미지 파일을 저장할 수 있는 속성 추가
-};
+import { Paragraph, RelatedSearchWord, ReleatedSearchPlace } from '../types';
 
 type SollectWriteState = {
   seq: number;
@@ -71,7 +64,8 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       const newPara: Paragraph = {
         seq: state.seq++,
         type: 'IMAGE',
-        content: URL.createObjectURL(file), // 이미지 URL 생성
+        content: file.name, // 파일 이름을 content에 저장
+        imageUrl: URL.createObjectURL(file), // 이미지 URL 생성
         file: file, // 파일 정보 저장
       };
       if (!afterSeq) return { paragraphs: [...state.paragraphs, newPara] };
@@ -131,7 +125,9 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       const newImage: Paragraph = {
         seq: state.seq++,
         type: 'IMAGE',
-        content: URL.createObjectURL(file), // 이미지 URL 생성
+        content: file.name, // 이미지 URL 생성
+        file: file, // 파일 정보 저장
+        imageUrl: URL.createObjectURL(file), // 이미지 URL 생성
       };
 
       const rebuilt: Paragraph[] = [
