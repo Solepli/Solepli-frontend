@@ -26,6 +26,15 @@ import ShopBlack from '../assets/category-icons/shopBlack.svg?react';
 import WalkBlack from '../assets/category-icons/walkBlack.svg?react';
 import WorkBlack from '../assets/category-icons/workBlack.svg?react';
 
+import FoodSmall from '../assets/category-icons/small/food.svg?react';
+import CafeSmall from '../assets/category-icons/small/cafe.svg?react';
+import DrinkSmall from '../assets/category-icons/small/drink.svg?react';
+import EntertainmentSmall from '../assets/category-icons/small/entertainment.svg?react';
+import CultureSmall from '../assets/category-icons/small/culture.svg?react';
+import ShopSmall from '../assets/category-icons/small/shop.svg?react';
+import WalkSmall from '../assets/category-icons/small/walk.svg?react';
+import WorkSmall from '../assets/category-icons/small/work.svg?react';
+
 import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
 import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
 import DrinkMarker from '../assets/category-icons/mapMarker/drinkMarker.svg?url';
@@ -75,6 +84,21 @@ export const iconBlackMap: Record<
   shop: ShopBlack,
   walk: WalkBlack,
   work: WorkBlack,
+};
+
+//sollect 장소 추가된 곳에 사용되는 아이콘
+export const iconSmallMap: Record<
+  string,
+  React.FC<React.SVGProps<SVGSVGElement>>
+> = {
+  food: FoodSmall,
+  cafe: CafeSmall,
+  drink: DrinkSmall,
+  entertainment: EntertainmentSmall,
+  culture: CultureSmall,
+  shop: ShopSmall,
+  walk: WalkSmall,
+  work: WorkSmall,
 };
 
 export const IconMarkerMap: Record<string, string> = {
