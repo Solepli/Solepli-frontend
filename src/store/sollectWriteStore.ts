@@ -14,10 +14,11 @@ type SollectWriteState = {
   focusSeq: number | null;
   focusTextarea?: HTMLTextAreaElement | null; // 포커스된 텍스트 영역을 저장할 수 있는 속성
   title: string | null;
-  thumbnail: string | null;
+  thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
   places: ReleatedSearchPlace[]; // 장소 ID 목록을 저장하는 속성 추가
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
+  setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
   addTextParagraph: (afterSeq?: number) => void;
   addImageParagraph: (file: File, afterSeq?: number) => void;
   updateParagraphContent: (seq: number, content: string) => void;
@@ -30,7 +31,7 @@ type SollectWriteState = {
 };
 
 export const useSollectWriteStore = create<SollectWriteState>((set) => ({
-  seq: 0,
+  seq: 1, // 시퀀스 0은 썸네일을 의미하기에 1부터 시작
   focusSeq: null, // 초기 포커스 시퀀스는 -1로 설정
   paragraphs: [],
   focusTextarea: null,
@@ -38,9 +39,14 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   thumbnail: null, // 썸네일 이미지 URL을 저장하는 속성
   places: [], // 장소 ID 목록을 저장하는 속성
 
-  setTitle: (title: string | null) =>
+  setTitle: (title) =>
     set(() => ({
       title,
+    })),
+
+  setThumbnail: (thumbnail) =>
+    set(() => ({
+      thumbnail,
     })),
 
   addTextParagraph: (afterSeq) =>
