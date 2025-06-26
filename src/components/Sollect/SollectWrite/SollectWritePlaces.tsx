@@ -26,11 +26,14 @@ const PlaceAddButton = () => {
 };
 
 const SollectWritePlacese = () => {
-  const { places } = useSollectWriteStore(
-    useShallow((state) => ({ places: state.places }))
+  const { places, removePlace } = useSollectWriteStore(
+    useShallow((state) => ({ places: state.places, removePlace: state.removePlace })),
   );
 
-  console.log('places', places);
+  const handleRemove = (placeId: number | null) => {
+    if(placeId === null) return;
+    removePlace(placeId);
+  }
 
   const reorder = (
     list: ReleatedSearchPlace[],
@@ -92,6 +95,7 @@ const SollectWritePlacese = () => {
                       <SollectWriteAddedPlace
                         key={place.id}
                         place={place}
+                        handleRemove={handleRemove}
                         isDragging={snapshot.isDragging}
                       />
                     </div>

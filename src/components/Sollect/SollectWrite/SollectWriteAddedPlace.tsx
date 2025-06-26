@@ -6,8 +6,9 @@ import { iconSmallMap } from '../../../utils/icon';
 
 const SollectWriteAddedPlace: React.FC<{
   place: ReleatedSearchPlace;
+  handleRemove: (placeId: number | null) => void;
   isDragging?: boolean;
-}> = ({ place, isDragging = false }) => {
+}> = ({ place, handleRemove, isDragging = false }) => {
   return (
     <div
       className={`group flex items-center justify-center w-full h-60 py-12 pl-2 pr-6 rounded-lg border gap-2
@@ -45,7 +46,7 @@ const SollectWriteAddedPlace: React.FC<{
           </span>
         </div>
       </div>
-      <div className='p-6'>
+      <div className='p-6' onClick={() => handleRemove(place.id)}>
         <Trash
           className={`w-24 h-24 flex-shrink-0 ${
             isDragging ? 'text-primary-50' : 'text-primary-400'
