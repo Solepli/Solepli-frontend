@@ -1,9 +1,10 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
 import { useShallow } from 'zustand/shallow';
 import useLocationStore from '../store/locationStore';
+import { publicAxios } from '../api/axios';
+import { ENDPOINT } from '../api/urls';
 
 const OAuthCallback = () => {
   const { search } = useLocation();
@@ -30,15 +31,14 @@ const OAuthCallback = () => {
       console.error('Invalid OAuth callback parameters');
       return;
     }
+    if (!loginType) {
+      console.error('Login type is not specified');
+      return;
+    }
 
-    axios
-      .get(`http://3.34.65.130/api/auth/login/${loginType?.toUpperCase()}`, {
-        params: {
-          code: code,
-        },
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    publicAxios
+      .get(ENDPOINT.OAUTH_CALLBACK(loginType.toUpperCase()), {
+        params: { code },
       })
       .then((response) => {
         const accessToken = response.data.data.accessToken;

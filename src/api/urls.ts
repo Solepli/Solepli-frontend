@@ -34,4 +34,6 @@ export const ENDPOINT = {
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
 
+  //login
+  OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`
 };
