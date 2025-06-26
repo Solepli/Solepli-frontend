@@ -1,11 +1,17 @@
 import { useRef, useState } from 'react';
 import Add from '../../../assets/addBlack.svg?react';
+import { useShallow } from 'zustand/shallow';
+import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 
 const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_MAX_FILE_SIZE);
 
 const SollectWriteTitle = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const { title, setTitle } = useSollectWriteStore(useShallow((state) => ({
+    title: state.title,
+    setTitle: state.setTitle,
+  })));
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -59,9 +65,11 @@ const SollectWriteTitle = () => {
       )}
       <input
         type='text'
+        value={title ?? ''}
         placeholder='제목을 입력해주세요.'
         maxLength={25}
         className={`w-full h-60 px-16 pt-16 pb-8  text-2xl font-bold leading-9 focus:outline-none absolute bottom-8 text-white placeholder-primary-400`}
+        onChange={(e) => setTitle(e.target.value)}
       />
     </div>
   );
