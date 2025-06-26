@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from '../../assets/logo.svg';
 import add from '../../assets/add.svg';
 import search from '../../assets/search.svg';
@@ -10,8 +9,8 @@ const SollectGNB = () => {
   const { inputValue, setInputValue } = useSearchStore();
   const navigate = useNavigate();
 
-  const handleAddSollectButton = ()=>{
-    // navigate to write sollect page
+  const handleAddSollectButton = () => {
+    navigate('/sollect/write');
   }
   return (
     <div className='flex px-16 py-12 gap-8 bg-white'>
@@ -37,7 +36,6 @@ const SollectGNB = () => {
       </div>
 
       {/* AddSollectButton */}
-      {/* 나중에 target Source에 sollect write 넣기 */}
       <LoginRequiredAction
         onAction={handleAddSollectButton}
         targetSource='/sollect/write'>
