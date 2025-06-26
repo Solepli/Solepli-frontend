@@ -1,0 +1,69 @@
+name: Deploy to Google Cloud Run
+
+# main 브랜치에 push 이벤트가 발생했을 때 이 워크플로우를 실행
+on:
+  push:
+    branches:
+      - main
+
+# 워크플로우에서 사용할 환경 변수 설정
+env:
+  # GCP 관련 설정
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # GCP 프로젝트 ID
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} # WIF
+  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }} # 접근할 서비스 계정
+
+  # 배포 대상 및 이미지 정보 설정
+  CLOUD_RUN_SERVICE_NAME: ${{ secrets.CLOUD_RUN_SERVICE_NAME }} # Cloud Run 서비스 이름
+  CLOUD_RUN_REGION: ${{ secrets.CLOUD_RUN_REGION }} # Cloud Run 리전
+  ARTIFACT_REGISTRY_REPOSITORY: ${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} # Artifact Registry 서비스 이름
+  ARTIFACT_REGISTRY_LOCATION: asia-northeast3 # Artifact Registry 리전
+  IMAGE_NAME: ${{ secrets.CLOUD_RUN_SERVICE_NAME }} # 이미지 이름은 Cloud Run 서비스 이름과 동일하게 사용
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    # 권한 설정
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      # 1. 소스 코드 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. WIF를 사용하여 GCP에 인증
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+
+      # 3. Docker 로그인 설정
+      # Artifact Registry에 인증하도록 gcloud CLI 설정
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev
+
+      # 4. Docker 이미지 빌드 (+환경변수 설정) 및 Artifact Registry에 푸시
+      - name: Build and Push Docker Image
+        run: |
+          docker build \
+            --build-arg VITE_SOME_KEY=${{ secrets.VITE_SOME_KEY }} \
+            --build-arg VITE_SOME_STRING=${{ secrets.VITE_SOME_STRING }} \
+            -t ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker push ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      # 5. 빌드된 이미지를 사용하여 Google Cloud Run에 배포
+      - name: Deploy to Cloud Run
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: ${{ env.CLOUD_RUN_SERVICE_NAME }}
+          region: ${{ env.CLOUD_RUN_REGION }}
+          image: ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          flags: >-
+            --port=80
+            --allow-unauthenticated
