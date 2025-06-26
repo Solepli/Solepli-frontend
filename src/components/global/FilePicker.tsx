@@ -44,7 +44,7 @@ const FilePicker: React.FC<FilePickerProps> = ({
     if (!selected.length) return;
 
     // 장수 제한
-    if (files.length + selected.length > maxCount) {
+    if (keepFiles ? files.length + selected.length > maxCount : selected.length > maxCount) {
       alert(`사진은 최대 ${maxCount}장까지 추가할 수 있습니다.`);
       selected = selected.slice(0, maxCount - files.length);
     }

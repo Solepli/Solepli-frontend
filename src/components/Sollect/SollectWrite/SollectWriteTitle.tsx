@@ -40,39 +40,49 @@ const SollectWriteTitle = () => {
   };
 
   return (
-    <div
-      className='w-full min-h-[214px] pt-66 pb-8 relative'
-      style={{
-        backgroundImage: thumbnail?.content
-          ? `url(${thumbnail.content})`
-          : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundColor: thumbnail?.content ? '#18181866' : '#ECEEF2', //이미지 배경색 결정. 이미지가 있을 경우 #18181866, 없을 경우 #ECEEF2(primary-100)
-      }}>
-      {!thumbnail?.content && (
-        <div className='w-full h-68 py-13 px-12 flex justify-center items-center'>
-          <FilePicker
-            files={thumbnail?.file ? [thumbnail.file] : []}
-            onChange={handleFileChange}
-            accept='.png, .jpg, .jpeg'
-            multiple={false}
-            maxCount={1}
-            maxSize={MAX_FILE_SIZE}
-            keepFiles={false}>
-            {(open) => <ImageAdd onClick={open} />}
-            </FilePicker>
+    <FilePicker
+      files={thumbnail?.file ? [thumbnail.file] : []}
+      onChange={handleFileChange}
+      accept='.png, .jpg, .jpeg'
+      multiple={false}
+      maxCount={1}
+      maxSize={MAX_FILE_SIZE}
+      keepFiles={false}
+    >
+      {(open) => (
+        <div
+          className='w-full min-h-[214px] pt-66 pb-8 relative'
+          style={{
+            backgroundImage: thumbnail?.content
+              ? `url(${thumbnail.content})`
+              : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundColor: thumbnail?.content ? '#18181866' : '#ECEEF2',
+          }}>
+          {thumbnail?.content ? (
+            <div
+              onClick={open}
+              className='absolute bg-white w-81 h-26 top-12 right-12 flex items-center justify-center rounded outline outline-1 outline-offset-[-1px] outline-grayScale-100'
+            >
+              <span className='text-grayScale-600 text-xs font-normal leading-none'>커버 변경하기</span>
+            </div>
+          ) : (
+            <div className='w-full h-68 py-13 px-12 flex justify-center items-center'>
+              <ImageAdd onClick={open} />
+            </div>
+          )}
+          <input
+            type='text'
+            value={title ?? ''}
+            placeholder='제목을 입력해주세요.'
+            maxLength={25}
+            className={`w-full h-60 px-16 pt-16 pb-8  text-2xl font-bold leading-9 focus:outline-none absolute bottom-8 text-white placeholder-primary-400`}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </div>
       )}
-      <input
-        type='text'
-        value={title ?? ''}
-        placeholder='제목을 입력해주세요.'
-        maxLength={25}
-        className={`w-full h-60 px-16 pt-16 pb-8  text-2xl font-bold leading-9 focus:outline-none absolute bottom-8 text-white placeholder-primary-400`}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-    </div>
+    </FilePicker>
   );
 };
 
