@@ -8,8 +8,31 @@ import shop from '../../assets/category-icons/shopFill.svg';
 import walk from '../../assets/category-icons/walkFill.svg';
 import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
-import Add from '../../assets/addIcon.svg?react';
+import AddSmall from '../../assets/addSmallIcon.svg?react';
+import Check from '../../assets/check.svg?react';
 import { RelatedSearchWord } from '../../types';
+
+const AddButton: React.FC = () => {
+  return (
+      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-700 inline-flex justify-start items-center'>
+        <AddSmall />
+        <div className="text-center justify-start text-primary-700 text-xs font-semibold font-['Pretendard'] leading-none">
+          추가
+        </div>
+      </div>
+  );
+};
+
+const AddedButton: React.FC = () => {
+  return (
+      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl bg-primary-700 inline-flex justify-start items-center'>
+        <Check />
+        <div className="text-center justify-start text-primary-50 text-xs font-semibold font-['Pretendard'] leading-none">
+          추가
+        </div>
+      </div>
+  );
+}
 
 const iconMap: Record<string, string> = {
   food,
@@ -59,12 +82,8 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
           <div className='flex items-center'></div>
         </div>
       </div>
-      <div className='w-49 h-22 pl-4 pr-8 py-3 bg-primary-100 rounded-lg inline-flex justify-start items-center'>
-        <Add className='w-16 h-16 text-primary-600' />
-        <div className="text-center justify-start text-primary-600 text-xs font-semibold font-['Pretendard'] leading-none">
-          추가
-        </div>
-      </div>
+      <AddButton />
+      <AddedButton />
     </div>
   );
 };
