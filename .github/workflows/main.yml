@@ -52,8 +52,18 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build \
-            --build-arg VITE_SOME_KEY=${{ secrets.VITE_SOME_KEY }} \
-            --build-arg VITE_SOME_STRING=${{ secrets.VITE_SOME_STRING }} \
+            --build-arg VITE_MAP_CLIENT_ID=${{ secrets.VITE_MAP_CLIENT_ID }} \
+            --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
+            --build-arg VITE_MAP_STYLE_ID=${{ secrets.VITE_MAP_STYLE_ID }} \
+            --build-arg VITE_IMAGE_UPLOAD_MAX_SIZE=${{ secrets.VITE_IMAGE_UPLOAD_MAX_SIZE }} \
+            --build-arg VITE_KAKAO_REST_API_KEY=${{ secrets.VITE_KAKAO_REST_API_KEY }} \
+            --build-arg VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }} \
+            --build-arg VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }} \
+            --build-arg VITE_NAVER_CLIENT_SECRET=${{ secrets.VITE_NAVER_CLIENT_SECRET }} \
+            --build-arg VITE_NAVER_REDIRECT_URI=${{ secrets.VITE_NAVER_REDIRECT_URI }} \
+            --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }} \
+            --build-arg VITE_GOOGLE_CLIENT_SECRET=${{ secrets.VITE_GOOGLE_CLIENT_SECRET }} \
+            --build-arg VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }} \
             -t ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
           docker push ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
