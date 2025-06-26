@@ -1,5 +1,6 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
+import { RelatedSearchWord, ReleatedSearchPlace } from '../types';
 
 type Paragraph = {
   seq: number;
@@ -13,6 +14,7 @@ type SollectWriteState = {
   focusSeq: number | null;
   focusTextarea?: HTMLTextAreaElement | null; // 포커스된 텍스트 영역을 저장할 수 있는 속성
   paragraphs: Paragraph[];
+  places: ReleatedSearchPlace[]; // 장소 ID 목록을 저장하는 속성 추가
   addTextParagraph: (afterSeq?: number) => void;
   addImageParagraph: (file: File, afterSeq?: number) => void;
   updateParagraphContent: (seq: number, content: string) => void;
@@ -20,6 +22,8 @@ type SollectWriteState = {
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
   insertImageAtCaret: (file: File, caret?: number | null) => void;
+  addPlaces: (places: RelatedSearchWord[]) => void; // 장소 ID 목록을 설정하는 함수
+  removePlace: (id: number | null) => void; // 선택된 place 해제
 };
 
 export const useSollectWriteStore = create<SollectWriteState>((set) => ({
@@ -27,6 +31,7 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   focusSeq: null, // 초기 포커스 시퀀스는 -1로 설정
   paragraphs: [],
   focusTextarea: null,
+  places: [], // 장소 ID 목록을 저장하는 속성
 
   addTextParagraph: (afterSeq) =>
     set((state) => {
@@ -130,4 +135,18 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       };
     });
   },
+
+  addPlaces: (places) =>
+    set((state) => {
+      const existingIds = new Set(state.places.map((p) => p.id));
+      const newPlaces = places
+        .filter((p) => !existingIds.has(p.id))
+        .map((p) => ({ ...p, isAdded: true }));
+      return { places: [...state.places, ...newPlaces] };
+    }),
+
+  removePlace: (id) =>
+    set((state) => ({
+      places: state.places.filter((p) => p.id !== id),
+    })),
 }));

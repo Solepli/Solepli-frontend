@@ -38,6 +38,10 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
+export type ReleatedSearchPlace = RelatedSearchWord & {
+  isAdded: boolean;
+};
+
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
