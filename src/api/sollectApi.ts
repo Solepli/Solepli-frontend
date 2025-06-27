@@ -100,12 +100,22 @@ export const fetchRecommendSollect = async (
 export const fetchSollectDetail = async(sollectId:number)=>{
   try{
     const res = await publicAxios.get(ENDPOINT.SOLLECT.GET(sollectId));
-    console.log(res);
     return res.data.data;
   }catch(e){
     console.log(e);
   }
 };
+
+export const deleteSollect = async(sollectId:number)=>{
+  // test 안해봄
+  try{
+    const res = await publicAxios.get(ENDPOINT.SOLLECT.DELETE(sollectId));
+    console.log(res);
+    return res.data.data;
+  }catch(e){
+    console.log(e);
+  }
+}
 
 const mockSollects: SollectPhotoType[] = [
   {

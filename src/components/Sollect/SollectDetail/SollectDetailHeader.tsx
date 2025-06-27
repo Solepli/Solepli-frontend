@@ -24,6 +24,8 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const onRightClick = ()=>{
     setShowDeleteModal(false);
     // delete
+    // sollect id 응답으로 받아야함
+    // await deleteSollect(id);
   }
 
 
