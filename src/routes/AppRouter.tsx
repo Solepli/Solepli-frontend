@@ -18,6 +18,7 @@ import Login from '../pages/Login';
 import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
+import SollectDetailPage from '../pages/SollectDetailPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const AppRouter = () => {
             path='sollect/search/result'
             element={<SollectSearchResultPage />}
           />
+          <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
 
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
