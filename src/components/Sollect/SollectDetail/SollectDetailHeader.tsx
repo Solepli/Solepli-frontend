@@ -6,14 +6,16 @@ import kebabGray from '../../../assets/kebabGray.svg';
 import edit from '../../../assets/edit.svg';
 import deleteIcon from '../../../assets/delete.svg';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../../global/Modal';
+import { deleteSollect } from '../../../api/sollectApi';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const mySollect = true;
+  const {sollectId} = useParams();
 
   const clickDeleteModal = () => {
     setShowDeleteModal(true);
@@ -25,7 +27,8 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
     setShowDeleteModal(false);
     // delete
     // sollect id 응답으로 받아야함
-    // deleteSollect(id);
+    deleteSollect(Number(sollectId));
+    navigate(-1);
   }
 
 
