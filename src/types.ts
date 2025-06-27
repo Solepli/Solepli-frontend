@@ -90,6 +90,7 @@ export type Paragraph = {
 
 
 export type placeSummary = {
+  PlaceId?:number;
   name:string;
   detailedCategory:string;
   recommendationPercent:number;
