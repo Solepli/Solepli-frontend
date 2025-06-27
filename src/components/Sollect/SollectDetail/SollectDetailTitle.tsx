@@ -6,15 +6,19 @@ const SollectDetailTitle = () => {
   const sollect = useSollectDetailStore();
   console.log(sollect);
   return (
-    <div>
-      <div
-        style={{
-          backgroundImage: `url(${sollect.thumbnailImageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundColor: sollect.thumbnailImageUrl ? '#18181866' : '#373737',
-        }}
-        className='w-full h-232 flex flex-col justify-end p-16 text-white'>
+    <div
+      style={{
+        backgroundImage: `url(${sollect.thumbnailImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundColor: sollect.thumbnailImageUrl ? '#18181866' : '#373737',
+      }}
+      className='w-full h-232 flex flex-col justify-end text-white'>
+        
+      {/* dim */}
+      <div className='absolute bg-black/40 w-full h-full'></div>
+
+      <div className='z-10 relative p-16'>
         <h1 className='text-2xl font-bold'>{sollect.title}</h1>
         <div className='text-xs flex justify-between'>
           <span className='text-xs'>

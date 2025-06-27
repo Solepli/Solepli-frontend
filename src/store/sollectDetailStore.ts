@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { Paragraph, placeSummary } from '../types';
 
 interface SollectDetailStore {
-  thumbnailImageUrl:string|null;
+  thumbnailImageUrl:string|undefined;
   title:string|null;
   placeName:string|null;
   otherPlaceCount:number;
@@ -19,7 +19,7 @@ interface SollectDetailStore {
 }
 
 export const useSollectDetailStore = create<SollectDetailStore>((set) => ({
-  thumbnailImageUrl:null,
+  thumbnailImageUrl:undefined,
   title:null,
   placeName:null,
   otherPlaceCount:0,
