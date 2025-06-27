@@ -25,7 +25,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
     setShowDeleteModal(false);
     // delete
     // sollect id 응답으로 받아야함
-    // await deleteSollect(id);
+    // deleteSollect(id);
   }
 
 

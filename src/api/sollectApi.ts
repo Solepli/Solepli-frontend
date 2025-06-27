@@ -55,7 +55,8 @@ export const postSollectUpload = async (id: number, formData: FormData) => {
 
 export const postSolmarkSollect = async (id: number) => {
   try {
-    await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    const res = await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
@@ -63,7 +64,8 @@ export const postSolmarkSollect = async (id: number) => {
 
 export const deleteSolmarkSollect = async (id: number) => {
   try {
-    await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    const res = await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }

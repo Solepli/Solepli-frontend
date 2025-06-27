@@ -7,9 +7,10 @@ import { useSollectDetailStore } from '../store/sollectDetailStore';
 import SollectDetailTitle from '../components/Sollect/SollectDetail/SollectDetailTitle';
 import SollectDetailProfile from '../components/Sollect/SollectDetail/SollectDetailProfile';
 import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDetailContent';
+import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectDetailBottomBar';
 
 const SollectDetailPage = () => {
-  const {sollectId} = useParams();
+  const { sollectId } = useParams();
 
   const { setSollectDetail } = useSollectDetailStore();
 
@@ -28,9 +29,9 @@ const SollectDetailPage = () => {
   const observerRef = useRef<HTMLDivElement>(null);
   const [isTop, setIsTop] = useState(true);
 
-  useEffect(()=>{
+  useEffect(() => {
     const observerTarget = observerRef.current;
-    if(!observerTarget){
+    if (!observerTarget) {
       return;
     }
     const observer = new IntersectionObserver(
@@ -43,10 +44,10 @@ const SollectDetailPage = () => {
     );
 
     observer.observe(observerTarget);
-    return()=>{
+    return () => {
       observer.disconnect();
-    }
-  },[]);
+    };
+  }, []);
   return (
     <div>
       {/* SollectDetailHeader */}
@@ -63,8 +64,15 @@ const SollectDetailPage = () => {
 
         {/* content */}
         <SollectDetailContent />
+      
+        {/* Bottom Bar */}
+        <SollectDetailBottomBar />
+
+        {/* places */}
+        
       </div>
-      {/* Bottom Bar */}
+
+
     </div>
   );
 };

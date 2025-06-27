@@ -4,7 +4,6 @@ import locationWhite from '../../../assets/locationWhite.svg';
 
 const SollectDetailTitle = () => {
   const sollect = useSollectDetailStore();
-  console.log(sollect);
   return (
     <div
       style={{
