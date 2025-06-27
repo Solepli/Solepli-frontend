@@ -11,10 +11,10 @@ const SollectDetailContent = () => {
           <div key={index} className='pb-16'>
             {paragraph.type === 'TEXT' ? (
               <div className='px-16 text-primary-950 text-sm'>
-                {paragraph.text}
+                {paragraph.content}
               </div>
             ) : (
-              <img src={paragraph.imageUrl} alt='' className='w-full'/>
+              <img src={paragraph.content} alt='' className='w-full'/>
             )}
           </div>
         );
