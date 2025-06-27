@@ -1,10 +1,23 @@
 // src/pages/sollect-write/SollectWriteLayout.tsx
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
+import { useShallow } from 'zustand/shallow';
+import { useSollectWriteStore } from '../store/sollectWriteStore';
+import { toast } from 'react-toastify';
+import Warn from '../components/global/Warn';
+import { postSollect, postSollectUpload } from '../api/sollectApi';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { title, thumbnail, paragraph, places } = useSollectWriteStore(
+    useShallow((state) => ({
+      title: state.title,
+      thumbnail: state.thumbnail,
+      paragraph: state.paragraphs,
+      places: state.places,
+    }))
+  );
 
   const isPlaceStep = pathname.endsWith('/place');
 
@@ -13,13 +26,88 @@ const SollectWriteLayout = () => {
     navigate(-1);
   };
 
-  const handleRight = () => {
+  const validateContent = () => {
+    if (!title && !thumbnail) {
+      toast(
+        <Warn title='썸네일을 사진을 추가하고 제목과 내용을 입력하세요.' />
+      );
+      return false;
+    }
+    if (!title && paragraph.length === 0) {
+      toast(<Warn title='제목과 내용을 입력하세요.' />);
+      return false;
+    }
+    if (!title) {
+      toast(<Warn title='제목을 입력하세요.' />);
+      return false;
+    }
+    if (!thumbnail) {
+      toast(<Warn title='썸네일 사진을 추가해야합니다.' />);
+      return false;
+    }
+    if (paragraph.length === 0) {
+      toast(<Warn title='내용을 입력하세요.' />);
+      return false;
+    }
+    return true;
+  };
+
+  const validatePlace = () => {
+    if (places.length === 0) {
+      toast(<Warn title='아직 장소가 추가되지 않았어요!.' />);
+      return false;
+    }
+    return true;
+  };
+
+  const handleRight = async () => {
     if (isPlaceStep) {
-      //TODO: Sollect 등록 로직
+      if (validatePlace() === false) return;
+      await submitSollect();
     } else {
+      if (validateContent() === false) return;
       // place 스텝으로 이동
       navigate('place');
     }
+  };
+
+  const submitSollect = async () => {
+    // 현재 작성된 paragraphs 순서대로 seq를 재설정 
+    const renumberParagraphs = paragraph.map((p, index) => ({
+      ...p,
+      seq: index + 1, // seq를 1부터 시작하도록 재설정
+    }));
+
+    // 쏠렉트 request payload 생성
+    const payload = {
+      title,
+      contents: [thumbnail, ...renumberParagraphs],
+      placeIds: places.map((place) => place.id),
+    };
+
+    // Sollect 등록
+    const res = await postSollect(payload);
+    console.log('Sollect ID:', res);
+    if (!res) {
+      toast(<Warn title='솔렉트를 등록하는데 실패했습니다.' />);
+      return;
+    }
+
+    // 생성된 쏠렉트의 ID를 이용해 파일 업로드
+    // 기존 contents에서 이미지 파일만 추출하여 FormData 생성
+    const sollectId = res.data.data.sollectId;
+    const formData = new FormData();
+    const files = payload.contents
+      .filter((item) => item?.type === 'IMAGE')
+      .map((item) => (item && item.file ? item.file : null));
+    files.forEach((file) => {
+      if (file) {
+        formData.append('files', file);
+      }
+    });
+    await postSollectUpload(sollectId, formData);
+    // Sollect 등록 후 어디로 가야할지?
+    navigate(`/sollect`);
   };
 
   return (

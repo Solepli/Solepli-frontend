@@ -77,3 +77,11 @@ export type SollectPhotoType = {
   isMarked:boolean;
   placeName:string;
 };
+
+export type Paragraph = {
+  seq: number;
+  type: 'TEXT' | 'IMAGE';
+  content: string;  //IMAGE일 경우 file name을 저장
+  file?: File; // 이미지 파일을 저장할 수 있는 속성 추가
+  imageUrl?: string; // 이미지 URL을 저장할 수 있는 속성 추가
+};

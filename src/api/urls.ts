@@ -30,6 +30,12 @@ export const ENDPOINT = {
   SOLLECT_SEARCH: '/api/sollect/search',
   SOLLECT_RECOMMEND: '/api/sollect/recommend',
   SOLLECT_POPULAR: '/api/sollect/popular',
+  SOLLECT: {
+    POST: 'api/sollect',
+    PUT: (id: number) => `/api/sollect/${id}`,
+    DELETE: (id: number) => `/api/sollect/${id}`,
+  },
+  SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',

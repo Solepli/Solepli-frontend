@@ -4,9 +4,10 @@ import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 import { useRef } from 'react';
 import SollectWriteTitle from './SollectWriteTitle';
 import SollectWriteTextarea from './SollectWriteTextarea';
+import XButton from '../../../assets/xButtonForImage.svg?react';
 
 const SollectWriteContent = () => {
-  const { paragraphs, addTextParagraph } = useSollectWriteStore(
+  const { paragraphs, addTextParagraph, deleteParagraph } = useSollectWriteStore(
     useShallow((state) => ({
       paragraphs: state.paragraphs,
       addTextParagraph: state.addTextParagraph,
@@ -78,7 +79,15 @@ const SollectWriteContent = () => {
                 value={para.content}
               />
             ) : (
-              <img key={para.seq} src={para.content} className='w-full pb' /> // 이미지
+              <div key={para.seq} className='w-full relative'>
+                <div className='absolute top-10 right-10'
+                onClick={() => {
+                  deleteParagraph(para.seq);
+                }}>
+                  <XButton />
+                </div>
+                <img src={para.imageUrl} className='w-full' /> 
+              </div>
             )
           )}
         </div>

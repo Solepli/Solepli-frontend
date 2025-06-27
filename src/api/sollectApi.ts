@@ -1,4 +1,4 @@
-import { SollectPhotoType } from '../types';
+import { Paragraph, SollectPhotoType } from '../types';
 import { privateAxios, publicAxios } from './axios';
 import { ENDPOINT } from './urls';
 
@@ -24,6 +24,32 @@ export const searchSollect = async (
     return res.data.data.contents;
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const postSollect = async (data: {
+  title: string | null;
+  contents: (Paragraph | null)[];
+  placeIds: (number | null)[];
+}) => {
+  try {
+    const res = await privateAxios.post(ENDPOINT.SOLLECT.POST, data);
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const postSollectUpload = async (id: number, formData: FormData) => {
+  try {
+    const res = await privateAxios.post(ENDPOINT.SOLLECT_UPLOAD(id), formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  } catch (e) {
+    console.error(e);
   }
 };
 
@@ -53,19 +79,22 @@ export const fetchPopularSollect = async () => {
   }
 };
 
-export const fetchRecommendSollect = async (keyword:string, categoryName:string)=>{
+export const fetchRecommendSollect = async (
+  keyword: string,
+  categoryName: string
+) => {
   const params = {
-    keyword:keyword,
-    categoryName:categoryName,
-  }
-  try{
-    const res = await publicAxios.get(ENDPOINT.SOLLECT_RECOMMEND,{params});
+    keyword: keyword,
+    categoryName: categoryName,
+  };
+  try {
+    const res = await publicAxios.get(ENDPOINT.SOLLECT_RECOMMEND, { params });
     console.log(res);
     return res.data.data;
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
 const mockSollects: SollectPhotoType[] = [
   {
