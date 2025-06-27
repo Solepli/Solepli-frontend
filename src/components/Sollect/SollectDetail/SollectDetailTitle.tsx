@@ -9,10 +9,9 @@ const SollectDetailTitle = () => {
       style={{
         backgroundImage: `url(${sollect.thumbnailImageUrl})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundColor: sollect.thumbnailImageUrl ? '#18181866' : '#373737',
+        backgroundPosition: 'center'
       }}
-      className='w-full h-232 flex flex-col justify-end text-white'>
+      className='w-full h-232 flex flex-col justify-end text-white relative'>
         
       {/* dim */}
       <div className='absolute bg-black/40 w-full h-full'></div>
