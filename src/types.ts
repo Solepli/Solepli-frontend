@@ -91,7 +91,8 @@ export type Paragraph = {
 
 export type placeSummary = {
   name:string;
-  category:string;
+  detailedCategory:string;
+  recommendationPercent:number;
   tags:string[];
   isMarked?:boolean;
   rating:number;
