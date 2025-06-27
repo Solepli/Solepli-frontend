@@ -8,6 +8,9 @@ import SollectDetailTitle from '../components/Sollect/SollectDetail/SollectDetai
 import SollectDetailProfile from '../components/Sollect/SollectDetail/SollectDetailProfile';
 import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDetailContent';
 import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectDetailBottomBar';
+import PreviewContentSummary from '../components/Place/PreviewContentSummary';
+import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton';
+import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
 
 const SollectDetailPage = () => {
   const { sollectId } = useParams();
@@ -49,7 +52,7 @@ const SollectDetailPage = () => {
     };
   }, []);
   return (
-    <div>
+    <div id='scrollable' className='overflow-y-scroll h-screen'>
       {/* SollectDetailHeader */}
       <SollectDetailHeader isTop={isTop} />
 
@@ -64,15 +67,29 @@ const SollectDetailPage = () => {
 
         {/* content */}
         <SollectDetailContent />
-      
+
         {/* Bottom Bar */}
         <SollectDetailBottomBar />
 
         {/* places */}
-        
+        <div>
+          <div className='flex justify-between pt-32 px-16 pb-8 items-center border-b border-primary-100'>
+            <p className='text-sm font-bold'>장소가 더 궁금하다면?</p>
+            <AddCourseButton />
+          </div>
+
+          <PlaceSummaryList />
+        </div>
+
+        <div
+          className='py-12 text-center text-xs text-primary-500'
+          onClick={() => {
+            const container = document.getElementById('scrollable');
+            container?.scrollTo({ top: 0, behavior: 'smooth' });
+          }}>
+          맨 위로 올라가기
+        </div>
       </div>
-
-
     </div>
   );
 };
