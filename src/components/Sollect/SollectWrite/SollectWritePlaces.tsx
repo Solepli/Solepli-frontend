@@ -25,7 +25,7 @@ const PlaceAddButton = () => {
   );
 };
 
-const SollectWritePlacese = () => {
+const SollectWritePlaces = () => {
   const { places, removePlace } = useSollectWriteStore(
     useShallow((state) => ({ places: state.places, removePlace: state.removePlace })),
   );
@@ -113,4 +113,4 @@ const SollectWritePlacese = () => {
   );
 };
 
-export default SollectWritePlacese;
+export default SollectWritePlaces;
