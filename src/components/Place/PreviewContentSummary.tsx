@@ -1,17 +1,16 @@
 import React from 'react';
 import { useSollectDetailStore } from '../../store/sollectDetailStore';
-import ContentTitle from '../BottomSheet/ContentTitle';
-import { Place, placeSummary, TagType } from '../../types';
 import SolmarkChip from '../BottomSheet/SolmarkChip';
 import ReviewRange from '../BottomSheet/ReviewRange';
 import TagList from '../BottomSheet/TagList';
+import { placeSummary } from '../../types';
+
+interface SummaryProps{
+  place:placeSummary
+}
 
 // { place }: placeSummary
-const PreviewContentSummary = () => {
-  const { placeSummaries } = useSollectDetailStore();
-  console.log(placeSummaries[0]);
-  const place = placeSummaries[0];
-
+const PreviewContentSummary:React.FC<SummaryProps> = ({place}) => {
 
   if (!place) {
     return;
