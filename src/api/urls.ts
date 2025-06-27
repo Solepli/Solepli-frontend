@@ -34,6 +34,7 @@ export const ENDPOINT = {
     POST: 'api/sollect',
     PUT: (id: number) => `/api/sollect/${id}`,
     DELETE: (id: number) => `/api/sollect/${id}`,
+    GET: (id:number) => `/api/sollect/${id}`
   },
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
 
