@@ -16,6 +16,8 @@ import OAuthCallback from '../auth/OAuthCallback';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 import SollectWritePage from '../pages/SollectWritePage';
+import SollectWriteLayout from '../layout/SollectWriteLayout';
+import SollectWritePlacePage from '../pages/SollectWritePlacePage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -49,8 +51,12 @@ const AppRouter = () => {
           <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
         <Route path='login' element={<Login />} />
-        <Route path='/sollect/write' element={<SollectWritePage />} />
+        <Route path='/sollect/write/*' element={<SollectWriteLayout />}>
+          <Route index element={<SollectWritePage />} />
+          <Route path='place' element={<SollectWritePlacePage />} />
+        </Route>
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
+        <Route path='/sollect/write/search' element={<SearchPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

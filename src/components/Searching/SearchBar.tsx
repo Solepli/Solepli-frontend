@@ -44,8 +44,11 @@ const SearchBar: React.FC = () => {
 
   const { setCategory } = usePlaceStore();
 
-  const mode = window.location.pathname.includes('/sollect/search')
-    ? 'sollect'
+  const pathname = window.location.pathname;
+  const mode = pathname.includes('/sollect')
+    ? pathname.includes('/write')
+      ? 'place' //sollect/write/search
+      : 'sollect'
     : 'solmap';
 
   const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +57,7 @@ const SearchBar: React.FC = () => {
 
   const handleEnter = async (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter') return;
+    if (mode === 'place') return;
 
     if (mode === 'sollect') {
       clearCategory();
