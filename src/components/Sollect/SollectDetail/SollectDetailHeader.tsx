@@ -7,11 +7,25 @@ import edit from '../../../assets/edit.svg';
 import deleteIcon from '../../../assets/delete.svg';
 
 import { useNavigate } from 'react-router-dom';
+import Modal from '../../global/Modal';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const mySollect = true;
+
+  const clickDeleteModal = () => {
+    setShowDeleteModal(true);
+  }
+  const onLeftClick = () =>{
+    setShowDeleteModal(false);
+  }
+  const onRightClick = ()=>{
+    setShowDeleteModal(false);
+    // delete
+  }
+
 
   return (
     <div
@@ -44,10 +58,23 @@ text-sm'>
                 수정
               </div>
               {/* 삭제 */}
-              <div className='p-12 flex gap-8 items-center'>
+              <div
+                className='p-12 flex gap-8 items-center'
+                onClick={clickDeleteModal}>
                 <img src={deleteIcon} alt='delete' />
                 삭제
               </div>
+
+              {showDeleteModal && (
+                <Modal
+                  title='정말 삭제하시겠습니까?'
+                  subtitle='삭제하면 복구할 수 없어요!'
+                  leftText='취소'
+                  rightText='삭제'
+                  onLeftClick={onLeftClick}
+                  onRightClick={onRightClick}
+                />
+              )}
             </div>
           )}
         </div>
