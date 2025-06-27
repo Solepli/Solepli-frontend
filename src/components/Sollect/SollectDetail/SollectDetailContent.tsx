@@ -3,7 +3,7 @@ import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailContent = () => {
   const { contents } = useSollectDetailStore();
-  console.log(contents);
+  
   return (
     <div className='flex flex-col'>
       {contents.map((paragraph, index) => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SollectDetailHeader from '../components/Sollect/SollectDetail/SollectDetailHeader';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -10,7 +10,6 @@ import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDet
 
 const SollectDetailPage = () => {
   const {sollectId} = useParams();
-
 
   const { setSollectDetail } = useSollectDetailStore();
 
@@ -25,13 +24,38 @@ const SollectDetailPage = () => {
       setSollectDetail(sollect.data);
     }
   }, [sollect.data, setSollectDetail]);
+
+  const observerRef = useRef<HTMLDivElement>(null);
+  const [isTop, setIsTop] = useState(true);
+
+  useEffect(()=>{
+    const observerTarget = observerRef.current;
+    if(!observerTarget){
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsTop(entry.isIntersecting); // 화면 안에 있으면 isTop = true
+      },
+      {
+        threshold: 0, // 살짝이라도 벗어나면 false
+      }
+    );
+
+    observer.observe(observerTarget);
+    return()=>{
+      observer.disconnect();
+    }
+  },[]);
   return (
     <div>
       {/* SollectDetailHeader */}
-      <SollectDetailHeader />
+      <SollectDetailHeader isTop={isTop} />
 
       {/* Title */}
-      <SollectDetailTitle />
+      <div ref={observerRef}>
+        <SollectDetailTitle />
+      </div>
 
       <div className='flex flex-col'>
         {/* Profile */}
