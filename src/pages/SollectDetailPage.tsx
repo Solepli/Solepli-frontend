@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import SollectDetailHeader from '../components/Sollect/SollectDetail/SollectDetailHeader';
 import { useQuery } from '@tanstack/react-query';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchSollectDetail } from '../api/sollectApi';
 import { useSollectDetailStore } from '../store/sollectDetailStore';
 import SollectDetailTitle from '../components/Sollect/SollectDetail/SollectDetailTitle';
@@ -9,12 +9,14 @@ import SollectDetailProfile from '../components/Sollect/SollectDetail/SollectDet
 import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDetailContent';
 
 const SollectDetailPage = () => {
-  const sollectId = 4;
+  const {sollectId} = useParams();
+
+
   const { setSollectDetail } = useSollectDetailStore();
 
   const sollect = useQuery({
     queryKey: ['sollectDetail', sollectId],
-    queryFn: () => fetchSollectDetail(sollectId),
+    queryFn: () => fetchSollectDetail(Number(sollectId)),
     enabled: !!sollectId,
   });
 
