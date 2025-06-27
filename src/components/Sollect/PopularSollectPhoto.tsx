@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import locationWhite from '../../assets/locationWhite.svg';
 import SollectMark from './SollectMark';
 import { SollectPhotoType } from '../../types';
+import { useNavigate } from 'react-router-dom';
 
 interface PopularSollectProps {
   sollect: SollectPhotoType;
@@ -12,7 +13,12 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
   sollect,
   center,
 }) => {
+  const navigate = useNavigate();
   const [marked, setMarked] = useState(false);
+
+  const handleClick = () =>{
+       navigate(`/sollect/${sollect.sollectId}`);
+  }
   return (
     // TODO: onClick 조회 이벤트 필요
     <div
@@ -22,7 +28,9 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
-      }}>
+      }}
+      onClick={handleClick}
+      >
       {/* background */}
       <div className='bg-gradient-to-b from-black/0 to-black/75 absolute top-0 left-0 w-full h-full'></div>
 

@@ -8,8 +8,7 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
   const [marked, setMarked] = useState(sollect.isMarked);
 
   const handleClick = () => {
-    // TODO: sollect 조회
-    navigate('');
+    navigate(`/sollect/${sollect.sollectId}`);
   };
 
   return (
