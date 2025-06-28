@@ -38,7 +38,7 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
-export type ReleatedSearchPlace = RelatedSearchWord & {
+export type RelatedSearchPlace = RelatedSearchWord & {
   isAdded: boolean;
 };
 
