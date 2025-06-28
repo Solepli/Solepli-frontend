@@ -42,6 +42,12 @@ export type RelatedSearchPlace = RelatedSearchWord & {
   isAdded: boolean;
 };
 
+export type SolroutePlace = RelatedSearchPlace & {
+  memo: string;
+  latitude: number;
+  longitude: number;
+};
+
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
