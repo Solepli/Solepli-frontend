@@ -4,7 +4,7 @@ import ReviewRange from './ReviewRange';
 import TagList from './TagList';
 import ReviewPhotos from './ReviewPhotos';
 import ReviewList from './Review/ReviewList';
-import { fetchPlaceById, getPlaceByIdList, getPlaceDetail } from '../../api/placeApi';
+import { getPlaceByIdList, getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { Link, useParams } from 'react-router-dom';
 import arrow from '../../assets/arrow.svg';
@@ -12,6 +12,8 @@ import { useQuery } from '@tanstack/react-query';
 
 const DetailContent: React.FC = () => {
   const { placeId } = useParams<{ placeId: string }>();
+    const { selectedPlace, setPlace } = usePlaceStore();
+
 
   const { data } = useQuery({
     queryKey: ['placeDetail', placeId],
@@ -28,9 +30,7 @@ const DetailContent: React.FC = () => {
     }
   }, [data]);
 
-  const { selectedPlace } = usePlaceStore();
 
-  const { setPlace } = usePlaceStore();
 
   const images = [
     'https://images.ctfassets.net/rric2f17v78a/1ql70crfzaiw9nFd58CZ7p/04652a19ab2fe5a5370d92c7957eb016/open-a-bakery-header.jpg',
@@ -57,11 +57,11 @@ const DetailContent: React.FC = () => {
       <div className='pb-12'>
         <TagList
           headerName='분위기'
-          detailTags={selectedPlace.mood}
+          detailTags={selectedPlace.tags.mood}
         />
         <TagList
           headerName='1인 이용'
-          detailTags={selectedPlace.solo}
+          detailTags={selectedPlace.tags.solo}
         />
       </div>
 
