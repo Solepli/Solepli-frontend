@@ -4,7 +4,7 @@ import ReviewRange from './ReviewRange';
 import TagList from './TagList';
 import ReviewPhotos from './ReviewPhotos';
 import ReviewList from './Review/ReviewList';
-import { fetchPlaceById, getPlaceDetail } from '../../api/placeApi';
+import { fetchPlaceById, getPlaceByIdList, getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { Link, useParams } from 'react-router-dom';
 import arrow from '../../assets/arrow.svg';
@@ -22,11 +22,13 @@ const DetailContent: React.FC = () => {
   // complete api: 마커 클릭시 해당 장소 상세정보 호출
   // complete api: 검색 결과에서 특정 장소 클릭시 상세 정보 호출
   useEffect(() => {
-    console.log('placeDetail:', data);
+    if(data){
+      console.log('placeDetail:', data);
+      setPlace(data.place);
+    }
   }, [data]);
 
   const { selectedPlace } = usePlaceStore();
-  const counts = [2, 3, 1];
 
   const { setPlace } = usePlaceStore();
 
@@ -37,13 +39,7 @@ const DetailContent: React.FC = () => {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
   ];
 
-  useEffect(() => {
-    if (placeId) {
-      fetchPlaceById(parseInt(placeId)).then((fetchedPlace) => {
-        setPlace(fetchedPlace);
-      });
-    }
-  }, [placeId]);
+
 
   if (!selectedPlace) {
     return null;
@@ -55,19 +51,17 @@ const DetailContent: React.FC = () => {
       <ContentTitle place={selectedPlace} property='detail' />
 
       {/* ReviewRange */}
-      <ReviewRange rating={selectedPlace.rating} recommend={90} />
+      <ReviewRange rating={selectedPlace.rating} recommend={selectedPlace.isSoloRecommended} />
 
       {/* tags */}
       <div className='pb-12'>
         <TagList
           headerName='분위기'
-          tags={selectedPlace.tags}
-          counts={counts}
+          detailTags={selectedPlace.mood}
         />
         <TagList
           headerName='1인 이용'
-          tags={selectedPlace.tags}
-          counts={counts}
+          detailTags={selectedPlace.solo}
         />
       </div>
 
@@ -82,12 +76,13 @@ const DetailContent: React.FC = () => {
       </Link>
 
       {/* ReviewList */}
-      {placeId && (
+      
+      {/* {placeId && (
         <ReviewList
           placeId={parseInt(placeId)}
-          placeName={selectedPlace.title}
+          placeName={selectedPlace.name}
         />
-      )}
+      )} */}
     </div>
   );
 };
