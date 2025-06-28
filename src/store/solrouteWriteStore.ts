@@ -2,8 +2,10 @@ import { create } from 'zustand';
 import { MarkerInfoType, SolroutePlacePreview } from '../types';
 
 interface SolrouteWriteState {
+  icon: number | null;
   iconId: number | null;
   name: string | null;
+  title: string | null;
   status: boolean;
   placeInfos: SolroutePlacePreview[]; // 정보 목록 저장
   placeCoords: MarkerInfoType[]; // 좌표 목록 저장
@@ -18,10 +20,13 @@ interface SolrouteWriteState {
   addPlaceCoords: (placeCoords: MarkerInfoType) => void;
   deletePlaceCoords: (ids: number) => void;
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
+  setTitle: (title: string | null) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   iconId: null,
+  icon: null,
+  title: null,
   name: null,
   status: false,
   placeInfos: [],
@@ -29,6 +34,8 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   nextMarkers: [],
   prevMarkers: [],
 
+  setIcon: (icon: number) => set({ icon }),
+  setTitle: (title: string | null ) => set({ title }),
   setIconId: (iconId: number) => set({ iconId }),
   setName: (name: string | null) => set({ name }),
   setStatus: (status: boolean) => set({ status }),
