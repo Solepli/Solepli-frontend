@@ -18,6 +18,11 @@ export const ENDPOINT = {
 
   RELATED_SEARCH: '/api/solmap/search/related',
 
+  // solmap review
+  SOLMAP_REVIEW: {
+    POST: '/api/review',
+  },
+
   // solmap + sollect
   RECENT_SEARCH: {
     GET: (mode: string) => `/api/${mode}/search/recent`,

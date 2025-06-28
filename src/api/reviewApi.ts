@@ -1,4 +1,6 @@
 import { ReviewType } from '../types';
+import { privateAxios } from './axios';
+import { ENDPOINT } from './urls';
 
 export const fetchReviews = async (placeId: number) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -13,6 +15,19 @@ export const addReview = async (newReview: ReviewType) => {
 
   // Mock adding the review to the database
   mockReviews.push(newReview);
+};
+
+export const postReview = async (formData: FormData) => {
+  try {
+    const res = await privateAxios.post(ENDPOINT.SOLMAP_REVIEW.POST, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  } catch (e) {
+    console.error('Error posting review:', e);
+  }
 };
 
 const mockReviews: ReviewType[] = [

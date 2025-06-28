@@ -10,7 +10,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
 import ReviewWriteButton from './ReviewWriteButton';
-import { addReview } from '../../../api/reviewApi';
+import { postReview } from '../../../api/reviewApi';
 import ReviewPhotosInput from './ReviewPhotosInput';
 import TitleHeader from '../../global/TitleHeader';
 
@@ -57,19 +57,39 @@ const ReviewWrite: React.FC = () => {
   const placeName = location.state?.place;
 
   const reviewWrite = async () => {
-    const newReview: ReviewType = {
-      id: 0,
-      username: 'eoksdjeos',
-      profileImage: 'https://i.pravatar.cc/50?img=1', // 샘플 이미지 URL
-      date: new Date().toLocaleDateString('ko-KR').slice(2),
-      rating,
-      emoji,
-      content: text,
-      images: files.map((file) => URL.createObjectURL(file)),
-      tags: [...moodTags, ...singleTags],
-    };
+    // const newReview: ReviewType = {
+    //   id: 0,
+    //   username: 'eoksdjeos',
+    //   profileImage: 'https://i.pravatar.cc/50?img=1', // 샘플 이미지 URL
+    //   date: new Date().toLocaleDateString('ko-KR').slice(2),
+    //   rating,
+    //   emoji,
+    //   content: text,
+    //   images: files.map((file) => URL.createObjectURL(file)),
+    //   tags: [...moodTags, ...singleTags],
+    // };
 
-    await addReview(newReview);
+    // review 데이터를 request로 만들어 FormData에 추가
+    const formData = new FormData();
+    const request = {
+      placeId: placeId,
+      recommendation: emoji === 'good' ? true : false,
+      rating: rating,
+      moodTag: moodTags.map((tag) => tag.text),
+      soloTag: singleTags.map((tag) => tag.text),
+      content: text,
+    };
+    formData.append('request', JSON.stringify(request));
+
+    // 파일들을 FormData에 추가
+    files.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    // 서버에 리뷰 등록 요청
+    await postReview(formData);
+
+    // await addReview(newReview);
     reset();
     navigateToDetail();
   };
