@@ -62,6 +62,7 @@ const PreviewContentList: React.FC = () => {
     enabled: queryType === 'category',
   });
 
+  // TODO: 무한스크롤
   // complete api: 지역 이름으로 프리뷰 리스트 호출 api
   useEffect(() => {
     if (placesRegionQuery.data) {
