@@ -78,7 +78,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         {/* detail */}
         {isDetail && (
           <div className='flex gap-8'>
-            <SolmarkChip label markCount={place.markedCount}/>
+            <SolmarkChip label markCount={place.markedCount} />
             <div
               className={`${buttonStyle} border border-primary-400`}
               onClick={copyUrl}>
@@ -100,8 +100,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
           <div className='flex items-center' onClick={handleShowHoursInfo}>
             <img src={clock} alt='clock' />
             <p>
-              {place.isOpen ? '영업 중' : '영업 종료'} ·{' '}
-              {place.isOpen && place.closingTime && place.closingTime} 영업 종료
+              {place.isOpen ? '영업 중' : '영업 종료'}
+              {place.isOpen && <span> ·{' '}{place.closingTime}영업 종료</span>}
             </p>
             <img
               src={arrow}
