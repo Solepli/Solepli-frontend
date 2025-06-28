@@ -10,7 +10,7 @@ import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
 import AddSmall from '../../assets/addSmallIcon.svg?react';
 import Check from '../../assets/check.svg?react';
-import { ReleatedSearchPlace } from '../../types';
+import type { RelatedSearchPlace } from '../../types';
 import { useSollectWriteStore } from '../../store/sollectWriteStore';
 import { useShallow } from 'zustand/shallow';
 
@@ -49,7 +49,7 @@ const iconMap: Record<string, string> = {
 };
 
 interface RelatedSearchPlaceProps {
-  relatedSearchPlace: ReleatedSearchPlace;
+  relatedSearchPlace: RelatedSearchPlace;
 }
 
 const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
