@@ -31,16 +31,6 @@ const DetailContent: React.FC = () => {
   }, [data]);
 
 
-
-  const images = [
-    'https://images.ctfassets.net/rric2f17v78a/1ql70crfzaiw9nFd58CZ7p/04652a19ab2fe5a5370d92c7957eb016/open-a-bakery-header.jpg',
-    'https://i.namu.wiki/i/PgSYmu9y55E5YicKvIK14P0ttQUQG4ioSn-Fd6u27a0r2Jeu02fJAYRkmf2qtOb6fHLBnlrLeXu_gSESQbmykg.webp',
-    'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
-  ];
-
-
-
   if (!selectedPlace) {
     return null;
   }
@@ -66,7 +56,7 @@ const DetailContent: React.FC = () => {
       </div>
 
       {/* ReviewPhotoList */}
-      <ReviewPhotos images={images} more />
+      <ReviewPhotos images={selectedPlace.thumbnailUrl} more />
 
       {/* 관련 쏠렉트 보기 */}
       <Link
@@ -77,12 +67,12 @@ const DetailContent: React.FC = () => {
 
       {/* ReviewList */}
       
-      {/* {placeId && (
+      {placeId && (
         <ReviewList
           placeId={parseInt(placeId)}
           placeName={selectedPlace.name}
         />
-      )} */}
+      )}
     </div>
   );
 };

@@ -64,8 +64,8 @@ const PreviewContentList: React.FC = () => {
 
   // complete api: 지역 이름으로 프리뷰 리스트 호출 api
   useEffect(() => {
-    console.log('places[Region]Query:', placesRegionQuery.data);
     if (placesRegionQuery.data) {
+      console.log('places[Region]Query:', placesRegionQuery.data.places);
       setPlaces(placesRegionQuery.data.places);
     }
   }, [placesRegionQuery.data, setPlaces]);
