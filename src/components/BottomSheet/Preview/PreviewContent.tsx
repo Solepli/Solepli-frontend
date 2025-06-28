@@ -29,7 +29,7 @@ const PreviewContent:React.FC<PreviewContentProps> = ({place}) => {
       <ContentTitle place={place} property='preview'/>
 
       {/* review range */}
-      <ReviewRange rating={place.rating} recommend={90}/>
+      <ReviewRange rating={place.rating} recommend={place.isSoloRecommended}/>
 
       {/* tag list */}
       <TagList tags={place.tags}/>
