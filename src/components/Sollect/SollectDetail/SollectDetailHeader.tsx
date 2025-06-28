@@ -9,13 +9,19 @@ import deleteIcon from '../../../assets/delete.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../../global/Modal';
 import { deleteSollect } from '../../../api/sollectApi';
+import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const mySollect = true;
   const {sollectId} = useParams();
+
+  // TODO: 내 글인지 확인
+  // const userId = localStorage.getItem('userId');
+  // const {authorId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
+  // const mySollect = userId === authorId;
+  const mySollect = true;
 
   const clickDeleteModal = () => {
     setShowDeleteModal(true);
