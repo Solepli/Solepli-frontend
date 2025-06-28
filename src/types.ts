@@ -31,7 +31,7 @@ type BasePlace = {
   detailedCategory: string;
   isSoloRecommended: number;
   rating: number;
-  thumbnailUrls: string[];
+
 };
 
 export type DetailPlace = BasePlace & {
@@ -45,10 +45,12 @@ export type DetailPlace = BasePlace & {
   longitude: number;
   category:string;
   address: string;
+  thumbnailUrl: string[];
 };
 
 export type PreviewPlace = BasePlace & {
   tags: string[];
+  thumbnailUrls: string[];
 };
 
 
