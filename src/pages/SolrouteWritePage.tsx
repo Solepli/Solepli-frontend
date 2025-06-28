@@ -1,7 +1,7 @@
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
 import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
-import SolrouteTile from '../components/Solroute/SolrouteTitle';
+import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 
 const SollectWritePage = () => {
   return (
@@ -15,7 +15,7 @@ const SollectWritePage = () => {
         />
       </div>
       <div className='flex-1 overflow-y-auto mt-50'>
-        <SolrouteTile />
+        <SolrouteTitle />
         <SolrouteMap />
         <div className='pt-24 pb-48 px-16'>
           <SolroutePlaceAddButton />

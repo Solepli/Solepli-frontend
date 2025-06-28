@@ -7,7 +7,7 @@ interface SolrouteWriteState {
   places: SolroutePlace[]; // 장소 ID 목록을 저장하는 속성
 }
 
-export const useSollectWriteStore = create<SolrouteWriteState>((set) => ({
+export const useSolrouteWriteStore = create<SolrouteWriteState>((set) => ({
   title: null, // 제목을 저장하는 속성
   places: [], // 장소 ID 목록을 저장하는 속성
   icon: null, // 아이콘 번호를 저장하는 속성

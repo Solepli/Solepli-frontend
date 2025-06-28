@@ -1,6 +1,6 @@
 import React from "react";
 
-const SolrouteTile: React.FC = () => {
+const SolrouteTitle: React.FC = () => {
   return (
     <div className="w-full h-50 py-4 flex justify-between items-center text-primary-950 text-sm font-normal leading-tight">
       <div className="w-42 h-42 pl-16 inline-flex justify-start items-center">
@@ -13,4 +13,4 @@ const SolrouteTile: React.FC = () => {
   );
 };
 
-export default SolrouteTile;
+export default SolrouteTitle;
