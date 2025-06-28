@@ -35,7 +35,7 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
       <div className='bg-gradient-to-b from-black/0 to-black/75 absolute top-0 left-0 w-full h-full'></div>
 
       {/* Sollect Mark */}
-      <div className='absolute top-12 right-12'>
+      <div className='absolute top-12 right-12' onClick={(e) => e.stopPropagation()}>
         <SollectMark marked={marked} setMarked={setMarked} id={sollect.sollectId} />
       </div>
 
