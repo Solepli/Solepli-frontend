@@ -4,9 +4,11 @@ import { Place } from '../types';
 interface PlaceStore {
   places: Place[];
   filteredPlaces: Place[];
+  recommendedPlaces: Place[];
   selectedPlace: Place | null;
   selectedCategory: string | null;
   setPlaces: (places: Place[]) => void;
+  setRecommendedPlaces: (recommendedPlaces: Place[]) => void;
   setCategory: (category: string | null) => void;
   clearCategory: () => void;
   setPlace: (place: Place) => void;
@@ -15,6 +17,7 @@ interface PlaceStore {
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
   places: [],
   filteredPlaces: [],
+  recommendedPlaces: [],
   selectedCategory: null,
   selectedPlace: null,
 
@@ -31,11 +34,12 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
       set({
         selectedCategory: category,
         filteredPlaces: places.filter(
-          (place) => place.category.id === category
+          (place) => place.detailedCategory === category
         ),
       });
     }
   },
+  setRecommendedPlaces:(recommendedPlaces)=>set({recommendedPlaces:recommendedPlaces}),
   clearCategory: () => {
     set((state) => ({
       selectedCategory: null,
