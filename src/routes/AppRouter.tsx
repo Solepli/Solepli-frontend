@@ -19,6 +19,7 @@ import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
 import SollectDetailPage from '../pages/SollectDetailPage';
+import SolrouteWritePage from '../pages/SolrouteWritePage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -59,6 +60,8 @@ const AppRouter = () => {
         </Route>
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
+
+        <Route path='/solroute/write' element={<SolrouteWritePage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

@@ -1,6 +1,6 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
-import { Paragraph, RelatedSearchWord, ReleatedSearchPlace } from '../types';
+import { Paragraph, RelatedSearchWord, RelatedSearchPlace } from '../types';
 
 type SollectWriteState = {
   seq: number;
@@ -9,7 +9,7 @@ type SollectWriteState = {
   title: string | null;
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
-  places: ReleatedSearchPlace[]; // 장소 ID 목록을 저장하는 속성 추가
+  places: RelatedSearchPlace[]; // 장소 ID 목록을 저장하는 속성 추가
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
   setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
   addTextParagraph: (afterSeq?: number) => void;
