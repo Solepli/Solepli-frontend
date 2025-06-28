@@ -18,49 +18,12 @@ import { useShallow } from 'zustand/shallow';
 import { useMarkerStore } from '../../store/markerStore';
 import {
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
-  createMarkersBounds,
+  createMarkersBounds, // 마커 객체 바운드 생성 후 반환 함수
+  initMap, // 지도 생성
 } from '../../utils/mapFunc';
 import { useSearchStore } from '../../store/searchStore';
 import { getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
-
-/* 지도 생성 */
-const initMap = (
-  divRef: React.RefObject<HTMLDivElement | null>,
-  mapRef: React.RefObject<naver.maps.Map | null>,
-  center: naver.maps.LatLng | null,
-  isSearchBounds: boolean,
-  lastBounds: naver.maps.Bounds | undefined,
-  lastZoom: number
-) => {
-  if (!divRef.current) return;
-
-  const MapOptions = {
-    zoom: lastZoom,
-    center: lastBounds?.getCenter() || center,
-    gl: true,
-    customStyleId: import.meta.env.VITE_MAP_STYLE_ID,
-    scaleControl: false,
-    mapDataControl: false,
-    logoControl: false,
-    keyboardShortcuts: false,
-    disableKineticPan: false,
-  } as naver.maps.MapOptions & {
-    bounds?: naver.maps.Bounds;
-  };
-
-  // 조건부로 bounds 추가 (center, zoom 무시)
-  if (isSearchBounds && lastBounds) {
-    MapOptions.bounds = lastBounds;
-  }
-
-  // divRef에 지도를 생성
-  const map = new naver.maps.Map(divRef.current!, MapOptions);
-  // mapRef에 객체 지정
-  mapRef.current = map;
-
-  return map;
-};
 
 /* 마커 추가 함수 */
 const addMarkers = (
@@ -190,17 +153,18 @@ const MapSheet = () => {
     if (!mapElement.current) return;
 
     // 지도 생성
-    let center = null;
+    let center;
     if (userLatLng) {
       center = new naver.maps.LatLng(userLatLng.lat, userLatLng.lng);
     }
     const map = initMap(
       mapElement,
       mapInstance,
-      center,
+      true,
       isSearchBounds,
       lastBounds,
-      lastZoom
+      lastZoom,
+      center
     );
 
     if (!map) return;
