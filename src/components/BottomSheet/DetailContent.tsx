@@ -61,7 +61,7 @@ const DetailContent: React.FC = () => {
       {/* 관련 쏠렉트 보기 */}
       <Link
         className='flex text-primary-950 text-xs pl-16 mb-12'
-        to='/related-sollect'>
+        to={`/related-sollect/${placeId}`}>
         관련 쏠렉트 보기 <img src={arrow} alt='arrow' />
       </Link>
 
