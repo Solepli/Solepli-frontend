@@ -73,7 +73,7 @@ const SollectDetailPage = () => {
 
         {/* places */}
         <div>
-          <div className='flex justify-between pt-32 px-16 pb-8 items-center border-b border-primary-100'>
+          <div className='flex justify-between pt-32 px-16 pb-8 items-center border-b border-primary-100 border-t-10'>
             <p className='text-sm font-bold'>장소가 더 궁금하다면?</p>
             <AddCourseButton />
           </div>

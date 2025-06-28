@@ -39,10 +39,9 @@ const SollectDetailBottomBar = () => {
     }
   };
 
-  // fixed bottom-0 border-t border-primary-100 z-60 inset-x-0
   return (
     
-    <div className='bg-whitew-full h-52 px-12 pb-8 flex justify-between items-center border-b-10 border-primary-100'>
+    <div className='sticky bottom-0 z-60 inset-x-0 bg-white w-full h-52 px-12 pb-8 flex justify-between items-center'>
       <div className='flex text-chip-bg-mark items-center text-sm'>
         {isMarked ? (
           <img
