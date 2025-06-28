@@ -90,7 +90,7 @@ export type ReviewType = {
   emoji: Emoji;
   content: string;
   images: string[];
-  tags: TagType[];
+  tags: string[];
 };
 
 export type LatLngType = {
