@@ -1,17 +1,17 @@
 import { create } from 'zustand';
-import { Place } from '../types';
+import { DetailPlace, PreviewPlace } from '../types';
 
 interface PlaceStore {
-  places: Place[];
-  filteredPlaces: Place[];
-  recommendedPlaces: Place[];
-  selectedPlace: Place | null;
+  places: PreviewPlace[];
+  filteredPlaces: PreviewPlace[];
+  recommendedPlaces: PreviewPlace[];
+  selectedPlace: DetailPlace | null;
   selectedCategory: string | null;
-  setPlaces: (places: Place[]) => void;
-  setRecommendedPlaces: (recommendedPlaces: Place[]) => void;
+  setPlaces: (places: PreviewPlace[]) => void;
+  setRecommendedPlaces: (recommendedPlaces: PreviewPlace[]) => void;
   setCategory: (category: string | null) => void;
   clearCategory: () => void;
-  setPlace: (place: Place) => void;
+  setPlace: (place: DetailPlace) => void;
 }
 
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
@@ -49,4 +49,5 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   setPlace: (place) => {
     set({ selectedPlace: place });
   },
+
 }));
