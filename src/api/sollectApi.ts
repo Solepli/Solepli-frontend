@@ -55,7 +55,8 @@ export const postSollectUpload = async (id: number, formData: FormData) => {
 
 export const postSolmarkSollect = async (id: number) => {
   try {
-    await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    const res = await privateAxios.post(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
@@ -63,7 +64,8 @@ export const postSolmarkSollect = async (id: number) => {
 
 export const deleteSolmarkSollect = async (id: number) => {
   try {
-    await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    const res = await privateAxios.delete(ENDPOINT.SOLMARK_SOLLECT + `/${id}`);
+    console.log(res);
   } catch (e) {
     console.log(e);
   }
@@ -95,6 +97,27 @@ export const fetchRecommendSollect = async (
     console.log(e);
   }
 };
+
+
+export const fetchSollectDetail = async(sollectId:number)=>{
+  try{
+    const res = await publicAxios.get(ENDPOINT.SOLLECT.GET(sollectId));
+    return res.data.data;
+  }catch(e){
+    console.log(e);
+  }
+};
+
+export const deleteSollect = async(sollectId:number)=>{
+  // test 안해봄
+  try{
+    const res = await privateAxios.get(ENDPOINT.SOLLECT.DELETE(sollectId));
+    console.log(res);
+    return res.data.data;
+  }catch(e){
+    console.log(e);
+  }
+}
 
 const mockSollects: SollectPhotoType[] = [
   {

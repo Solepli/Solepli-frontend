@@ -87,7 +87,20 @@ export type SollectPhotoType = {
 export type Paragraph = {
   seq: number;
   type: 'TEXT' | 'IMAGE';
-  content: string;  //IMAGE일 경우 file name을 저장
+  // content: 등록용   text: 조회용
+  content?: string;  // IMAGE일 경우 file name을 저장
+  text?:string;      // 쏠렉트 등록에서는 content인데, 쏠렉트 조회에서는 text라 optional로 필드 추가
   file?: File; // 이미지 파일을 저장할 수 있는 속성 추가
   imageUrl?: string; // 이미지 URL을 저장할 수 있는 속성 추가
 };
+
+
+export type placeSummary = {
+  PlaceId?:number;
+  name:string;
+  detailedCategory:string;
+  recommendationPercent:number;
+  tags:string[];
+  isMarked?:boolean;
+  rating:number;
+}
