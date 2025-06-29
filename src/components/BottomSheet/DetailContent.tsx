@@ -4,7 +4,7 @@ import ReviewRange from './ReviewRange';
 import TagList from './TagList';
 import ReviewPhotos from './ReviewPhotos';
 import ReviewList from './Review/ReviewList';
-import { getPlaceByIdList, getPlaceDetail } from '../../api/placeApi';
+import { getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { Link, useParams } from 'react-router-dom';
 import arrow from '../../assets/arrow.svg';
