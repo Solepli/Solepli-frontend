@@ -1,11 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import {
-  NavigateFunction,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import CurrentLocationButton from '../BottomSheet/CurrentLocationButton';
 import ReloadMarkerButton from '../BottomSheet/ReloadMarkerButton';
 import {
@@ -17,58 +12,15 @@ import { useMapStore } from '../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
 import { useMarkerStore } from '../../store/markerStore';
 import {
+  addMarkers, // 마커 추가 함수
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
   createMarkersBounds, // 마커 객체 바운드 생성 후 반환 함수
+  deleteMarkers, // 마커 제거 함수
   initMap, // 지도 생성
 } from '../../utils/mapFunc';
 import { useSearchStore } from '../../store/searchStore';
 import { getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
-
-/* 마커 추가 함수 */
-const addMarkers = (
-  mapRef: React.RefObject<naver.maps.Map | null>,
-  objectList: naver.maps.Marker[] | null,
-  markerIdList: number[] | null,
-  navigate: NavigateFunction
-) => {
-  if (!mapRef.current || !objectList || !markerIdList) return;
-
-  objectList.forEach((m: naver.maps.Marker, index: number) => {
-    // 지도에 마커 객체 설정
-    m.setMap(mapRef.current);
-
-    // 이벤트 리스너 (마커 클릭)
-    naver.maps.Event.addListener(m, 'click', () => {
-      mapRef.current?.morph(m.getPosition(), 18, {
-        duration: 1000,
-        easing: 'easeOutCubic',
-      });
-
-      const isSame = window.location.pathname.includes(
-        `/map/detail/${markerIdList[index]}`
-      );
-
-      if (!isSame) {
-        navigate(`/map/detail/${markerIdList[index]}`);
-      }
-    });
-  });
-
-  // const clustering = initCluster(markerObjectList, mapRef.current!);
-  /* todo : naver cloud api map forum에서 클러스터별 최상단 마커의 종류에 따른 (클러스터 아이콘) 설정이 가능하다고 답변받을시
-   * clustering.setIcons([clusterIconList[카테고리]])를 사용하여 클러스터 아이콘 지정 구현
-   */
-};
-
-/* 마커 제거 함수 */
-const deleteMarkers = (objectList: naver.maps.Marker[] | null) => {
-  if (!objectList) return;
-
-  objectList.forEach((m) => {
-    m.setMap(null);
-  });
-};
 
 /* // 클러스터 생성 함수
 const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
@@ -275,7 +227,7 @@ const MapSheet = () => {
     if (!mapInstance.current) return;
 
     // 지도에 마커 추가
-    addMarkers(mapInstance, newMarkerObjectList, markerIdList, navigate);
+    addMarkers(mapInstance, newMarkerObjectList, true, markerIdList, navigate);
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
