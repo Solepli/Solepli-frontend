@@ -37,13 +37,6 @@ const PreviewContentList: React.FC = () => {
 
   // 무한 스크롤 적용
 
-  // const placesRegionQuery = useQuery({
-  //   queryKey: ['placesRegion', selectedCategory],
-  //   queryFn: () =>
-  //     getPlacesByRegion(selectedRegion, userLatLng!.lat, userLatLng!.lng),
-  //   enabled: queryType === 'region',
-  // });
-
   const placesRegionQuery = useInfiniteQuery({
     queryKey: ['placesRegion', selectedCategory, refreshTrigger],
     queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
@@ -67,13 +60,6 @@ const PreviewContentList: React.FC = () => {
     initialPageParam: {cursorId:undefined, cursorDist:undefined},
   });
 
-
-  // const placesIdListQuery = useQuery({
-  //   queryKey: ['placesIdList'],
-  //   queryFn: () => getPlaceByIdList(relatedPlaceIdList),
-  //   enabled: queryType === 'idList',
-  // });
-
 const placesIdListQuery = useInfiniteQuery({
   queryKey: ['placesIdList', selectedCategory, refreshTrigger],
   queryFn: ({ pageParam = undefined }) =>
@@ -84,21 +70,6 @@ const placesIdListQuery = useInfiniteQuery({
   },
     initialPageParam: undefined,
 });
-
-  // const placesDisplayQuery = useQuery({
-  //   queryKey: ['placesDisplay', selectedCategory],
-  //   queryFn: () =>
-  //     getPlacesByDisplay(
-  //       lastBounds!.getMin().y,
-  //       lastBounds!.getMin().x,
-  //       lastBounds!.getMax().y,
-  //       lastBounds!.getMax().x,
-  //       userLatLng!.lat,
-  //       userLatLng!.lng,
-  //       selectedCategory ?? undefined
-  //     ),
-  //   enabled: queryType === 'category',
-  // });
 
   const placesDisplayQuery = useInfiniteQuery({
     queryKey: ['placesDisplay', selectedCategory, refreshTrigger],
@@ -143,7 +114,6 @@ const placesIdListQuery = useInfiniteQuery({
     isFetchingNextPage: activeQuery?.isFetchingNextPage ?? false,
   });
 
-  // TODO: 무한스크롤
   // complete api: 지역 이름으로 프리뷰 리스트 호출 api
   // useEffect(() => {
   //   if (placesRegionQuery.data) {
