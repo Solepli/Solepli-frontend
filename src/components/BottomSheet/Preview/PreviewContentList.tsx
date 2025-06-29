@@ -19,7 +19,7 @@ const PreviewContentList: React.FC = () => {
   const [searchParams] = useSearchParams();
   const queryType = searchParams.get('queryType');
 
-  const { filteredPlaces, selectedCategory, setPlaces } = usePlaceStore();
+  const { filteredPlaces, selectedCategory, setPlaces, refreshTrigger } = usePlaceStore();
 
   const { userLatLng, lastBounds } = useMapStore(
     useShallow((state) => ({
@@ -45,7 +45,7 @@ const PreviewContentList: React.FC = () => {
   // });
 
   const placesRegionQuery = useInfiniteQuery({
-    queryKey: ['placesRegion', selectedCategory],
+    queryKey: ['placesRegion', selectedCategory, refreshTrigger],
     queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
       getPlacesByRegion(
         selectedRegion,
@@ -75,7 +75,7 @@ const PreviewContentList: React.FC = () => {
   // });
 
 const placesIdListQuery = useInfiniteQuery({
-  queryKey: ['placesIdList', selectedCategory],
+  queryKey: ['placesIdList', selectedCategory, refreshTrigger],
   queryFn: ({ pageParam = undefined }) =>
     getPlaceByIdList(relatedPlaceIdList, pageParam),
   enabled: queryType === 'idList',
@@ -101,7 +101,7 @@ const placesIdListQuery = useInfiniteQuery({
   // });
 
   const placesDisplayQuery = useInfiniteQuery({
-    queryKey: ['placesDisplay', selectedCategory],
+    queryKey: ['placesDisplay', selectedCategory, refreshTrigger],
     queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
       getPlacesByDisplay(
         lastBounds!.getMin().y,
