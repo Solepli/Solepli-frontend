@@ -46,21 +46,25 @@ const PreviewContentList: React.FC = () => {
 
   const placesRegionQuery = useInfiniteQuery({
     queryKey: ['placesRegion', selectedCategory],
-    queryFn: ({ pageParam = undefined }) =>
+    queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
       getPlacesByRegion(
         selectedRegion,
         userLatLng!.lat,
         userLatLng!.lng,
         undefined,
-        pageParam,
-        undefined,
+        pageParam.cursorId,
+        pageParam.cursorDist,
         undefined
       ),
     enabled: queryType === 'region',
     getNextPageParam: (lastPage) => {
-      return lastPage.nextCursor;
+       if (!lastPage?.nextCursor) return undefined;
+      return {
+        cursorId: lastPage.nextCursor,
+        cursorDist: lastPage.nextCursorDist,
+      };
     },
-    initialPageParam: undefined,
+    initialPageParam: {cursorId:undefined, cursorDist:undefined},
   });
 
 
@@ -71,7 +75,7 @@ const PreviewContentList: React.FC = () => {
   // });
 
 const placesIdListQuery = useInfiniteQuery({
-  queryKey: ['placesIdList'],
+  queryKey: ['placesIdList', selectedCategory],
   queryFn: ({ pageParam = undefined }) =>
     getPlaceByIdList(relatedPlaceIdList, pageParam),
   enabled: queryType === 'idList',
@@ -98,7 +102,7 @@ const placesIdListQuery = useInfiniteQuery({
 
   const placesDisplayQuery = useInfiniteQuery({
     queryKey: ['placesDisplay', selectedCategory],
-    queryFn: ({ pageParam = undefined }) =>
+    queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
       getPlacesByDisplay(
         lastBounds!.getMin().y,
         lastBounds!.getMin().x,
@@ -107,15 +111,19 @@ const placesIdListQuery = useInfiniteQuery({
         userLatLng!.lat,
         userLatLng!.lng,
         selectedCategory ?? undefined,
-        pageParam,
-        undefined,
+        pageParam.cursorId,
+        pageParam.cursorDist,
         undefined
       ),
     enabled: queryType === 'category',
     getNextPageParam: (lastPage) => {
-      return lastPage.nextCursor;
+       if (!lastPage?.nextCursor) return undefined;
+      return {
+        cursorId: lastPage.nextCursor,
+        cursorDist: lastPage.nextCursorDist,
+      };
     },
-    initialPageParam: undefined,
+    initialPageParam: {cursorId:undefined, cursorDist:undefined},
   });
 
 
