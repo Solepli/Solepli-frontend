@@ -7,11 +7,13 @@ interface PlaceStore {
   recommendedPlaces: PreviewPlace[];
   selectedPlace: DetailPlace | null;
   selectedCategory: string | null;
+  refreshTrigger: number;
   setPlaces: (places: PreviewPlace[]) => void;
   setRecommendedPlaces: (recommendedPlaces: PreviewPlace[]) => void;
   setCategory: (category: string | null) => void;
   clearCategory: () => void;
   setPlace: (place: DetailPlace) => void;
+  increaseRefreshTrigger: () => void;
 }
 
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
@@ -20,6 +22,7 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   recommendedPlaces: [],
   selectedCategory: null,
   selectedPlace: null,
+  refreshTrigger:0,
 
   setPlaces: (places) => set({ places: places, filteredPlaces: places }),
   setCategory: (category) => {
@@ -49,5 +52,8 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   setPlace: (place) => {
     set({ selectedPlace: place });
   },
-
+  
+  increaseRefreshTrigger:()=>{
+    set((state) => ({ refreshTrigger: state.refreshTrigger + 1 }));
+  }
 }));
