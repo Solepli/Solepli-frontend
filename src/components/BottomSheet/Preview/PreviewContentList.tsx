@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { act, useEffect } from 'react';
 import PreviewContent from './PreviewContent';
 import { usePlaceStore } from '../../../store/placeStore';
 import { useMapStore } from '../../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSearchStore } from '../../../store/searchStore';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   getPlaceByIdList,
   getPlacesByDisplay,
   getPlacesByRegion,
 } from '../../../api/placeApi';
 import PreviewContentEmpty from './PreviewContentEmpty';
+import { useScrollSentinel } from '../../../hooks/useInfiniteScrollQuery';
 
 const PreviewContentList: React.FC = () => {
   const navigate = useNavigate();
@@ -34,22 +35,70 @@ const PreviewContentList: React.FC = () => {
     }))
   );
 
-  const placesRegionQuery = useQuery({
+  // 무한 스크롤 적용
+
+  // const placesRegionQuery = useQuery({
+  //   queryKey: ['placesRegion', selectedCategory],
+  //   queryFn: () =>
+  //     getPlacesByRegion(selectedRegion, userLatLng!.lat, userLatLng!.lng),
+  //   enabled: queryType === 'region',
+  // });
+
+  const placesRegionQuery = useInfiniteQuery({
     queryKey: ['placesRegion', selectedCategory],
-    queryFn: () =>
-      getPlacesByRegion(selectedRegion, userLatLng!.lat, userLatLng!.lng),
+    queryFn: ({ pageParam = undefined }) =>
+      getPlacesByRegion(
+        selectedRegion,
+        userLatLng!.lat,
+        userLatLng!.lng,
+        undefined,
+        pageParam,
+        undefined,
+        undefined
+      ),
     enabled: queryType === 'region',
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextCursor;
+    },
+    initialPageParam: undefined,
   });
 
-  const placesIdListQuery = useQuery({
-    queryKey: ['placesIdList'],
-    queryFn: () => getPlaceByIdList(relatedPlaceIdList),
-    enabled: queryType === 'idList',
-  });
 
-  const placesDisplayQuery = useQuery({
+  // const placesIdListQuery = useQuery({
+  //   queryKey: ['placesIdList'],
+  //   queryFn: () => getPlaceByIdList(relatedPlaceIdList),
+  //   enabled: queryType === 'idList',
+  // });
+
+const placesIdListQuery = useInfiniteQuery({
+  queryKey: ['placesIdList'],
+  queryFn: ({ pageParam = undefined }) =>
+    getPlaceByIdList(relatedPlaceIdList, pageParam),
+  enabled: queryType === 'idList',
+  getNextPageParam: (lastPage) => {
+      return lastPage.nextCursor;
+  },
+    initialPageParam: undefined,
+});
+
+  // const placesDisplayQuery = useQuery({
+  //   queryKey: ['placesDisplay', selectedCategory],
+  //   queryFn: () =>
+  //     getPlacesByDisplay(
+  //       lastBounds!.getMin().y,
+  //       lastBounds!.getMin().x,
+  //       lastBounds!.getMax().y,
+  //       lastBounds!.getMax().x,
+  //       userLatLng!.lat,
+  //       userLatLng!.lng,
+  //       selectedCategory ?? undefined
+  //     ),
+  //   enabled: queryType === 'category',
+  // });
+
+  const placesDisplayQuery = useInfiniteQuery({
     queryKey: ['placesDisplay', selectedCategory],
-    queryFn: () =>
+    queryFn: ({ pageParam = undefined }) =>
       getPlacesByDisplay(
         lastBounds!.getMin().y,
         lastBounds!.getMin().x,
@@ -57,54 +106,85 @@ const PreviewContentList: React.FC = () => {
         lastBounds!.getMax().x,
         userLatLng!.lat,
         userLatLng!.lng,
-        selectedCategory ?? undefined
+        selectedCategory ?? undefined,
+        pageParam,
+        undefined,
+        undefined
       ),
     enabled: queryType === 'category',
+    getNextPageParam: (lastPage) => {
+      return lastPage.nextCursor;
+    },
+    initialPageParam: undefined,
+  });
+
+
+  const activeQuery =
+    queryType === 'region'
+    ? placesRegionQuery
+    : queryType === 'idList'
+    ? placesIdListQuery
+    : queryType === 'category'
+    ? placesDisplayQuery
+    : null;
+
+  // 스크롤 끝까지 했는지 sentinel 감시
+  const sentinelRef = useScrollSentinel({
+    hasNextPage: activeQuery?.hasNextPage ?? false,
+    fetchNextPage: activeQuery?.fetchNextPage ?? (() => {}),
+    isFetchingNextPage: activeQuery?.isFetchingNextPage ?? false,
   });
 
   // TODO: 무한스크롤
   // complete api: 지역 이름으로 프리뷰 리스트 호출 api
-  useEffect(() => {
-    if (placesRegionQuery.data) {
-      console.log('places[Region]Query:', placesRegionQuery.data.places);
-      setPlaces(placesRegionQuery.data.places);
-    }
-  }, [placesRegionQuery.data, setPlaces]);
+  // useEffect(() => {
+  //   if (placesRegionQuery.data) {
+  //     console.log('places[Region]Query:', placesRegionQuery);
+  //     // setPlaces(placesRegionQuery);
+  //   }
+  // }, [placesRegionQuery.data, setPlaces]);
 
-  // complete api: 검색창에서 enter시 연관검색어에서 추출한 장소 id 리스트로 프리뷰 리스트 호출 api
-  useEffect(() => {
-    if (placesIdListQuery.data) {
-      console.log('places[IdList]Query:', placesIdListQuery.data.places);
-      setPlaces(placesIdListQuery.data.places);
-    }
-  }, [placesIdListQuery.data, setPlaces]);
+  // // complete api: 검색창에서 enter시 연관검색어에서 추출한 장소 id 리스트로 프리뷰 리스트 호출 api
+  // useEffect(() => {
+  //   if (placesIdListQuery.data) {
+  //     console.log('places[IdList]Query:', placesIdListQuery);
+  //     // setPlaces(placesIdListQuery.data.places);
+  //   }
+  // }, [placesIdListQuery.data, setPlaces]);
 
-  // complete api: 카테고리 선택시 현재 화면 기준으로 프리뷰 리스트 호출 api
-  useEffect(() => {
-    if (placesDisplayQuery.data) {
-      console.log('places[Display]Query:', placesDisplayQuery.data.places);
-      setPlaces(placesDisplayQuery.data.places);
-    }
-  }, [placesDisplayQuery.data, setPlaces]);
+  // // complete api: 카테고리 선택시 현재 화면 기준으로 프리뷰 리스트 호출 api
+  // useEffect(() => {
+  //   if (placesDisplayQuery.data) {
+  //     console.log('places[Display]Query:', placesDisplayQuery);
+  //     // setPlaces(placesDisplayQuery);
+  //   }
+  // }, [placesDisplayQuery.data, setPlaces]);
 
-  const isLoading =  (queryType === 'region' && placesRegionQuery.isLoading) ||
-  (queryType === 'idList' && placesIdListQuery.isLoading) ||
-  (queryType === 'category' && placesDisplayQuery.isLoading);
 
-  if(isLoading){
-    return <div></div>
+  useEffect(()=>{
+    if (!activeQuery?.data) return;
+    console.log(activeQuery.data.pages);
+    const places = activeQuery.data.pages.flatMap((page)=>page.places);
+    setPlaces(places);
+  },[activeQuery?.data, setPlaces]);
+
+  // const isLoading =  (queryType === 'region' && placesRegionQuery.isLoading) ||
+  // (queryType === 'idList' && placesIdListQuery.isLoading) ||
+  // (queryType === 'category' && placesDisplayQuery.isLoading);
+
+  if(activeQuery?.isLoading){
+    return <div>로딩</div>
   }
 
   return (
     <div>
       <div>
         {filteredPlaces.map((place) => (
-            <PreviewContent key={place.name} place={place} />
-          ))}
+          <PreviewContent key={place.id} place={place} />
+        ))}
 
-          {filteredPlaces.length == 0 && 
-          <PreviewContentEmpty/>
-          }
+        {filteredPlaces.length == 0 && <PreviewContentEmpty />}
+        <div ref={sentinelRef}></div>
       </div>
     </div>
   );
