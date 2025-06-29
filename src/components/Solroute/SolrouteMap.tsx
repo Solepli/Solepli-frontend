@@ -4,36 +4,16 @@ import {
   createMarkersBounds,
   initMap,
 } from '../../utils/mapFunc';
+import { MarkerInfoType } from '../../types';
 
-const markerInfoList = [
-  {
-    id: 1,
-    latitude: 37.4969474,
-    longitude: 127.0285793,
-    category: 'cafe',
-    isMarked: false,
-  },
-  {
-    id: 2,
-    latitude: 37.5039947,
-    longitude: 127.0259367,
-    category: 'entertainment',
-    isMarked: false,
-  },
-  {
-    id: 3,
-    latitude: 37.4997641,
-    longitude: 127.027458,
-    category: 'entertainment',
-    isMarked: false,
-  },
-];
+interface SolrouteMapProps {
+  markerInfoList: MarkerInfoType[];
+}
 
-// interface SolrouteMapProps {}
-
-const SolrouteMap: React.FC = () => {
+const SolrouteMap: React.FC<SolrouteMapProps> = ({ markerInfoList }) => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
+
   useEffect(() => {
     if (!mapElement.current) return;
 
