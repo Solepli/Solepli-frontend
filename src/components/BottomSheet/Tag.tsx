@@ -1,4 +1,5 @@
 import React from 'react';
+import { TagType } from '../../types';
 
 interface TagProps {
   name: string;
@@ -21,7 +22,7 @@ const Tag: React.FC<TagProps> = ({ name, header, number }) => {
       {number && (
         <div className={`${style} flex gap-4 bg-primary-100 py-6 text-primary-700`}>
           <p>{name}</p>
-          <span className='font-medium text-primary-900 font-semibold'>{number}</span>
+          <span className='text-primary-900 font-semibold'>{number}</span>
         </div>
       )}
 

@@ -50,7 +50,7 @@ const AppRouter = () => {
           <Route path='map/search' element={<SearchPage />} />
           <Route path='mark' element={<></>} />
           <Route path='profile' element={<Profile />} />
-          <Route path='related-sollect' element={<RelatedSollect />} />
+          <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
         <Route path='login' element={<Login />} />

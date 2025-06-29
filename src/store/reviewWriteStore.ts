@@ -9,11 +9,12 @@ interface ReviewWriteState {
   rating: number;
   setRating: (value: number) => void;
 
-  moodTags: TagType[];
-  setMoodTags: (tags: TagType[]) => void;
+  // TagType -> string으로 수정했습니다.
+  moodTags: string[];
+  setMoodTags: (tags: string[]) => void;
 
-  singleTags: TagType[];
-  setSingleTags: (tags: TagType[]) => void;
+  singleTags: string[];
+  setSingleTags: (tags: string[]) => void;
 
   text: string;
   setText: (value: string) => void;

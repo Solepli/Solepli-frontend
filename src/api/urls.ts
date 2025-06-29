@@ -34,13 +34,14 @@ export const ENDPOINT = {
     POST: 'api/sollect',
     PUT: (id: number) => `/api/sollect/${id}`,
     DELETE: (id: number) => `/api/sollect/${id}`,
-    GET: (id:number) => `/api/sollect/${id}`
+    GET: (id: number) => `/api/sollect/${id}`,
   },
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
+  SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
 
   //login
-  OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`
+  OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
 };

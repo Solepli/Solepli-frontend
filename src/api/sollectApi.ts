@@ -98,6 +98,19 @@ export const fetchRecommendSollect = async (
   }
 };
 
+export const fetchRelatedSollect = async(placeId:number, cursorId:number)=>{
+try{
+  const params = {
+    cursorId:cursorId
+  }
+  const res = await publicAxios.get(ENDPOINT.SOLLECT_RELATED(placeId),{params});
+
+  return res.data.data.contents;
+}catch(e){
+  console.log(e);
+}
+};
+
 
 export const fetchSollectDetail = async(sollectId:number)=>{
   try{

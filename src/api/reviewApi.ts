@@ -13,7 +13,7 @@ export const addReview = async (newReview: ReviewType) => {
 
   // Mock adding the review to the database
   mockReviews.push(newReview);
-}
+};
 
 const mockReviews: ReviewType[] = [
   {
@@ -28,11 +28,11 @@ const mockReviews: ReviewType[] = [
   혼자 온 사람들도 많아서 눈치 안 보고 오래 있을 수 있었어요 앞으로도…`,
     images: [],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'luxurious', text: '고급스러운' },
-      { id: 'nature-friendly', text: '자연친화적인' },
-      { id: 'single-seat', text: '1인 좌석이 있는' },
-      { id: 'single-menu', text: '1인 메뉴가 있는' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -51,11 +51,11 @@ const mockReviews: ReviewType[] = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'luxurious', text: '고급스러운' },
-      { id: 'single-seat', text: '1인 좌석이 있는' },
-      { id: 'single-menu', text: '1인 메뉴가 있는' },
-      { id: 'no-tag', text: '태그 없음' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -68,10 +68,11 @@ const mockReviews: ReviewType[] = [
     content: '',
     images: [],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'luxurious', text: '고급스러운' },
-      { id: 'trendy', text: '트렌디한' },
-      { id: 'no-tag', text: '태그 없음' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -87,9 +88,11 @@ const mockReviews: ReviewType[] = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'nature-friendly', text: '자연친화적인' },
-      { id: 'single-seat', text: '1인 좌석이 있는' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -104,8 +107,11 @@ const mockReviews: ReviewType[] = [
       'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/5b/8f/various-breads.jpg?w=800&h=-1&s=1',
     ],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'luxurious', text: '고급스러운' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -123,9 +129,11 @@ const mockReviews: ReviewType[] = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'good-for-work', text: '작업하기 좋은' },
-      { id: 'single-menu', text: '1인 메뉴가 있는' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -138,9 +146,11 @@ const mockReviews: ReviewType[] = [
     content: `완전 제 취향의 카페였어요. 음악도 잔잔하고 인테리어도 깔끔!`,
     images: [],
     tags: [
-      { id: 'quiet', text: '조용한' },
-      { id: 'luxurious', text: '고급스러운' },
-      { id: 'trendy', text: '트렌디한' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
   {
@@ -157,9 +167,11 @@ const mockReviews: ReviewType[] = [
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvcP45F8yq6R7WMSjpuU0JAOh0foZEOSPr9g&s',
     ],
     tags: [
-      { id: 'trendy', text: '트렌디한' },
-      { id: 'crowded', text: '사람이 많은' },
-      { id: 'no-tag', text: '태그 없음' },
+      '색다른',
+      '힙한',
+      '가볍게 들르기 좋은',
+      '1인 메뉴가 있는',
+      '낮에 가기 좋은',
     ],
   },
 ];

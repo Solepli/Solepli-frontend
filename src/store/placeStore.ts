@@ -1,22 +1,28 @@
 import { create } from 'zustand';
-import { Place } from '../types';
+import { DetailPlace, PreviewPlace } from '../types';
 
 interface PlaceStore {
-  places: Place[];
-  filteredPlaces: Place[];
-  selectedPlace: Place | null;
+  places: PreviewPlace[];
+  filteredPlaces: PreviewPlace[];
+  recommendedPlaces: PreviewPlace[];
+  selectedPlace: DetailPlace | null;
   selectedCategory: string | null;
-  setPlaces: (places: Place[]) => void;
+  refreshTrigger: number;
+  setPlaces: (places: PreviewPlace[]) => void;
+  setRecommendedPlaces: (recommendedPlaces: PreviewPlace[]) => void;
   setCategory: (category: string | null) => void;
   clearCategory: () => void;
-  setPlace: (place: Place) => void;
+  setPlace: (place: DetailPlace) => void;
+  increaseRefreshTrigger: () => void;
 }
 
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
   places: [],
   filteredPlaces: [],
+  recommendedPlaces: [],
   selectedCategory: null,
   selectedPlace: null,
+  refreshTrigger:0,
 
   setPlaces: (places) => set({ places: places, filteredPlaces: places }),
   setCategory: (category) => {
@@ -31,11 +37,12 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
       set({
         selectedCategory: category,
         filteredPlaces: places.filter(
-          (place) => place.category.id === category
+          (place) => place.detailedCategory === category
         ),
       });
     }
   },
+  setRecommendedPlaces:(recommendedPlaces)=>set({recommendedPlaces:recommendedPlaces}),
   clearCategory: () => {
     set((state) => ({
       selectedCategory: null,
@@ -45,4 +52,8 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   setPlace: (place) => {
     set({ selectedPlace: place });
   },
+  
+  increaseRefreshTrigger:()=>{
+    set((state) => ({ refreshTrigger: state.refreshTrigger + 1 }));
+  }
 }));

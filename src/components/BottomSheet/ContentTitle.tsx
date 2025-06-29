@@ -38,8 +38,6 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
   const buttonStyle = 'w-32 h-32 rounded-lg flex justify-center items-center';
 
   // 하드코딩
-  const isOpen = true;
-  const closingTime = '22:30';
   const [degree, setDegree] = useState(90);
 
   const handleShowHoursInfo = () => {
@@ -61,14 +59,14 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         {/* left */}
         <div className='inline-flex items-center'>
           <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
-            {place.title}
+            {place.name}
           </span>
           <span className='text-sm text-primary-400 pr-12'>
-            {place.category.title}
+            {place.detailedCategory}
           </span>
           {isPreview && (
             <span className='text-sm text-primary-900 font-semibold'>
-              영업 중
+              {place.isOpen ? '영업 중' : '영업 종료'}
             </span>
           )}
         </div>
@@ -80,7 +78,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         {/* detail */}
         {isDetail && (
           <div className='flex gap-8'>
-            <SolmarkChip label />
+            <SolmarkChip label markCount={place.markedCount} />
             <div
               className={`${buttonStyle} border border-primary-400`}
               onClick={copyUrl}>
@@ -102,28 +100,30 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
           <div className='flex items-center' onClick={handleShowHoursInfo}>
             <img src={clock} alt='clock' />
             <p>
-              {isOpen ? '영업 중' : '영업 종료'} · {closingTime} 영업 종료
+              {place.isOpen ? '영업 중' : '영업 종료'}
+              {place.isOpen && <span> ·{' '}{place.closingTime}영업 종료</span>}
             </p>
             <img
               src={arrow}
               alt='arrow'
               className='w-20 h-20'
-              style={{transform:`rotate(${degree}deg)`}}
+              style={{ transform: `rotate(${degree}deg)` }}
             />
           </div>
 
           {showHoursInfo && (
             <div className='px-24 py-6'>
               <ul>
-                {place.hours.map((hour) => {
-                  return (
-                    <p className='text-primary-950 text-sm'>
-                      {days[hour.day]}{' '}
-                      <span className='text-primary-400'>·</span>{' '}
-                      {hour.startTime} ~ {hour.endTime}
-                    </p>
-                  );
-                })}
+                {place.openingHours &&
+                  place.openingHours.map((hour) => {
+                    return (
+                      <p className='text-primary-950 text-sm'>
+                        {days[hour.dayOfWeek]}{' '}
+                        <span className='text-primary-400'>·</span>{' '}
+                        {hour.startTime} ~ {hour.endTime}
+                      </p>
+                    );
+                  })}
               </ul>
             </div>
           )}

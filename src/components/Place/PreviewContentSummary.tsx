@@ -36,7 +36,7 @@ const PreviewContentSummary:React.FC<SummaryProps> = ({place}) => {
 
       <ReviewRange rating={place.rating} recommend={place.recommendationPercent}/>
 
-      <TagList tags={place.tags.map(tag=>({id:tag, text:tag}))}/>
+      <TagList tags={place.tags}/>
     </div>
   );
 };

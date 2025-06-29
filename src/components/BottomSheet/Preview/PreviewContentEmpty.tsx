@@ -6,7 +6,7 @@ import { useMapStore } from '../../../store/mapStore';
 import { getPlacesNearby } from '../../../api/placeApi';
 
 const PreviewContentEmpty: React.FC = () => {
-  const filteredPlaces = usePlaceStore((state) => state.filteredPlaces);
+  const {recommendedPlaces, setRecommendedPlaces} = usePlaceStore();
 
   const { userLatLng } = useMapStore();
 
@@ -19,6 +19,9 @@ const PreviewContentEmpty: React.FC = () => {
   // complete api: 검색결과 없을 시 유저 위치 기반 거리순 추천 장소 리스트 호출
   useEffect(() => {
     console.log('placeRecommanded:', data);
+    if(data){
+      setRecommendedPlaces(data.places);
+    }
   }, [data]);
 
   return (
@@ -40,8 +43,8 @@ const PreviewContentEmpty: React.FC = () => {
       </div>
 
       <div>
-        {filteredPlaces.map((place) => (
-          <PreviewContent key={place.title} place={place} />
+        {recommendedPlaces.map((place) => (
+          <PreviewContent key={place.name} place={place} />
         ))}
       </div>
     </div>
