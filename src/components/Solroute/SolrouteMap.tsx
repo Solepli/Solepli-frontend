@@ -3,6 +3,7 @@ import {
   addMarkers,
   createMarkerObjectList,
   createMarkersBounds,
+  deleteMarkers,
   initMap,
 } from '../../utils/mapFunc';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
@@ -12,11 +13,15 @@ const SolrouteMap: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
 
-  const { placeCoords } = useSolrouteWriteStore(
-    useShallow((state) => ({
-      placeCoords: state.placeCoords,
-    }))
-  );
+  const { placeCoords, nextMarkers, prevMarkers, setMarkers } =
+    useSolrouteWriteStore(
+      useShallow((state) => ({
+        placeCoords: state.placeCoords,
+        nextMarkers: state.nextMarkers,
+        prevMarkers: state.prevMarkers,
+        setMarkers: state.setMarkers,
+      }))
+    );
 
   useEffect(() => {
     if (!mapElement.current) return;
@@ -36,9 +41,7 @@ const SolrouteMap: React.FC = () => {
 
     // 마커 객체 생성
     const { objectList } = createMarkerObjectList(placeCoords);
-
-    // 마커 추가
-    addMarkers(mapInstance, objectList);
+    setMarkers(objectList);
 
     // 지도 이동
     const bounds = createMarkersBounds(objectList);
@@ -50,6 +53,18 @@ const SolrouteMap: React.FC = () => {
       left: 0,
     });
   }, [placeCoords]);
+
+  /* [useEffect] 마커 삭제 */
+  useEffect(() => {
+    deleteMarkers(prevMarkers);
+  }, [prevMarkers]);
+
+  /* [useEffect] 마커 추가 */
+  useEffect(() => {
+    if (!mapInstance.current) return;
+
+    addMarkers(mapInstance, nextMarkers, true);
+  }, [nextMarkers]);
 
   return (
     <div className='self-stretch h-214 bg-primary-100 overflow-hidden'>

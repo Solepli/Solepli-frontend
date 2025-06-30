@@ -7,6 +7,8 @@ interface SolrouteWriteState {
   status: boolean;
   placeInfos: SolroutePlacePreview[]; // 정보 목록 저장
   placeCoords: MarkerInfoType[]; // 좌표 목록 저장
+  nextMarkers: naver.maps.Marker[];
+  prevMarkers: naver.maps.Marker[];
   setIconId: (iconId: number) => void;
   setName: (name: string | null) => void;
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => void;
@@ -15,6 +17,7 @@ interface SolrouteWriteState {
   setPlaceCoords: (placeCoords: MarkerInfoType[]) => void;
   addPlaceCoords: (placeCoords: MarkerInfoType[]) => void;
   deletePlaceCoords: (ids: number) => void;
+  setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
@@ -23,6 +26,8 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   status: false,
   placeInfos: [],
   placeCoords: [],
+  nextMarkers: [],
+  prevMarkers: [],
 
   setIconId: (iconId: number) => set({ iconId }),
   setName: (name: string | null) => set({ name }),
@@ -42,5 +47,10 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
     const originCoords = get().placeCoords;
     const newCoords = originCoords.filter((v) => v.id != ids);
     set({ placeCoords: newCoords });
+  },
+  setMarkers: (nextMarkers: naver.maps.Marker[]) => {
+    const currentMarkers = get().nextMarkers;
+    set({ prevMarkers: currentMarkers });
+    set({ nextMarkers });
   },
 }));
