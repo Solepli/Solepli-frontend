@@ -41,6 +41,9 @@ export const ENDPOINT = {
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
+  SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',
+  SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>
+    `/api/solmark/place/collections/${collectionId}/places`,
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
