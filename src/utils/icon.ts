@@ -19,7 +19,7 @@ import Location from '../assets/locationFill.svg?react';
 
 import FoodBlack from '../assets/category-icons/foodBlack.svg?react';
 import CafeBlack from '../assets/category-icons/cafeBlack.svg?react';
-import DrinkBlack from '../assets/category-icons/DrinkBlack.svg?react';
+import DrinkBlack from '../assets/category-icons/drinkBlack.svg?react';
 import EntertainmentBlack from '../assets/category-icons/entertainmentBlack.svg?react';
 import CultureBlack from '../assets/category-icons/cultureBlack.svg?react';
 import ShopBlack from '../assets/category-icons/shopBlack.svg?react';
