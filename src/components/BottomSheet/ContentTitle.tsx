@@ -1,6 +1,6 @@
 import React from 'react';
 import SolmarkChip from './SolmarkChip';
-import { Place } from '../../types';
+import { DetailPlace, PreviewPlace } from '../../types';
 import location from '../../assets/location.svg';
 import clock from '../../assets/clock.svg';
 import share from '../../assets/share.svg';
@@ -10,15 +10,18 @@ import arrow from '../../assets/arrow.svg';
 import { useState } from 'react';
 
 interface ContentTitleProps {
-  place: Place;
+  previewPlace?: PreviewPlace;
+  detailPlace?: DetailPlace;
   property: 'preview' | 'detail';
 }
 
 const days = ['월', '화', '수', '목', '금', '토', '일'];
 
-const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
+const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, property }) => {
   const isPreview = property === 'preview';
   const isDetail = property === 'detail';
+  const place = isPreview ? previewPlace : detailPlace;
+
 
   const [showHoursInfo, setShowHoursInfo] = useState(false);
 
@@ -52,6 +55,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
       console.log(e);
     }
   };
+  if(!place) return null;
+  if(isPreview && !previewPlace) return null;
+  if(isDetail && !detailPlace) return null;
 
   return (
     <div>
@@ -73,12 +79,12 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
 
         {/* right */}
         {/* preview */}
-        {isPreview && <SolmarkChip />}
+        {isPreview && previewPlace && <SolmarkChip placeId={previewPlace.id} />}
 
         {/* detail */}
-        {isDetail && (
+        {isDetail && detailPlace && (
           <div className='flex gap-8'>
-            <SolmarkChip label markCount={place.markedCount} />
+            <SolmarkChip label markCount={detailPlace.markedCount} placeId={detailPlace.id}/>
             <div
               className={`${buttonStyle} border border-primary-400`}
               onClick={copyUrl}>
@@ -90,18 +96,18 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
       </div>
 
       {/* detail 위치, 영업시간 */}
-      {isDetail && (
+      {isDetail && detailPlace && (
         <div className='text-primary-900 text-sm border-b mb-12 border-primary-100 p-12 pt-0'>
           <div className='flex items-center'>
             <img src={location} alt='location' />
-            <p>{place.address}</p>
+            <p>{detailPlace.address}</p>
           </div>
 
           <div className='flex items-center' onClick={handleShowHoursInfo}>
             <img src={clock} alt='clock' />
             <p>
               {place.isOpen ? '영업 중' : '영업 종료'}
-              {place.isOpen && <span> ·{' '}{place.closingTime}영업 종료</span>}
+              {place.isOpen && <span> · {place.closingTime}영업 종료</span>}
             </p>
             <img
               src={arrow}
@@ -114,8 +120,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
           {showHoursInfo && (
             <div className='px-24 py-6'>
               <ul>
-                {place.openingHours &&
-                  place.openingHours.map((hour) => {
+                {detailPlace.openingHours &&
+                  detailPlace.openingHours.map((hour) => {
                     return (
                       <p className='text-primary-950 text-sm'>
                         {days[hour.dayOfWeek]}{' '}
