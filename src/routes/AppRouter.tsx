@@ -22,6 +22,7 @@ import SollectDetailPage from '../pages/SollectDetailPage';
 import SolrouteWritePage from '../pages/SolrouteWritePage';
 import SolmarkPage from '../pages/SolmarkPage';
 import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
+import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -56,6 +57,8 @@ const AppRouter = () => {
             <Route path='place' element={<SolmarkContentPlace/>}/>
             <Route path='sollect' element={<SolmarkContentPlace/>}/>
           </Route>
+          <Route path='mark/place/list' element={<SolmarkPlacePreviewPage />}/>
+
 
           <Route path='profile' element={<Profile />} />
           <Route path='related-sollect/:placeId' element={<RelatedSollect />} />

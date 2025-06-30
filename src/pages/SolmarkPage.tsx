@@ -4,8 +4,6 @@ import { Outlet, useLocation, useParams } from 'react-router-dom';
 import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
 
 const SolmarkPage = () => {
-  const tab = useLocation().search.substring(5);
-
   return (
     <div>
       {/* 탭바 */}
