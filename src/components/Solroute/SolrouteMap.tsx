@@ -4,20 +4,23 @@ import {
   createMarkersBounds,
   initMap,
 } from '../../utils/mapFunc';
-import { MarkerInfoType } from '../../types';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
+import { useShallow } from 'zustand/shallow';
 
-interface SolrouteMapProps {
-  markerInfoList: MarkerInfoType[];
-}
-
-const SolrouteMap: React.FC<SolrouteMapProps> = ({ markerInfoList }) => {
+const SolrouteMap: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
+
+  const { placeCoords } = useSolrouteWriteStore(
+    useShallow((state) => ({
+      placeCoords: state.placeCoords,
+    }))
+  );
 
   useEffect(() => {
     if (!mapElement.current) return;
 
-    const { objectList } = createMarkerObjectList(markerInfoList);
+    const { objectList } = createMarkerObjectList(placeCoords);
     const bounds = createMarkersBounds(objectList);
 
     // 지도 생성
@@ -30,16 +33,13 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ markerInfoList }) => {
   }, []);
 
   return (
-    <>
+    <div className='self-stretch h-214 bg-primary-100 overflow-hidden'>
       {mapInstance ? (
-        <div
-          ref={mapElement}
-          className='self-stretch h-214 pt-66 pb-8 bg-primary-100'
-        />
+        <div ref={mapElement} className='w-full h-[112%]' />
       ) : (
         <div>지도 로딩중</div>
       )}
-    </>
+    </div>
   );
 };
 
