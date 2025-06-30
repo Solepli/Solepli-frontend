@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailProfile = () => {

@@ -7,19 +7,18 @@ import { usePlaceStore } from '../../store/placeStore';
 
 interface SolmarkChipProps {
   label?: boolean;
-  markCount?:number
+  markCount?: number;
 }
 
-const SolmarkChip: React.FC<SolmarkChipProps> = ({ label, markCount }) => {
-  const {selectedPlace} = usePlaceStore();
+const SolmarkChip: React.FC<SolmarkChipProps> = ({ label }) => {
+  const { selectedPlace } = usePlaceStore();
   const [isSolmark, setIsSolmark] = useState(selectedPlace?.isMarked);
 
-  const handleClick = (e:React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation() // 쏠마크칩 클릭 시 navigate 방지
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation(); // 쏠마크칩 클릭 시 navigate 방지
     setIsSolmark((prev) => !prev);
     // TODO: solmark place api 추가
   };
-
 
   return (
     <div onClick={handleClick}>

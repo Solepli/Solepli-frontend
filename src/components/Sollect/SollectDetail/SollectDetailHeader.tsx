@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import arrowTail from '../../../assets/arrowTail.svg';
 import arrowTailWhite from '../../../assets/arrowTailWhite.svg';
 import kebabWhite from '../../../assets/kebabWhite.svg';
@@ -9,13 +9,12 @@ import deleteIcon from '../../../assets/delete.svg';
 import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../../global/Modal';
 import { deleteSollect } from '../../../api/sollectApi';
-import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const {sollectId} = useParams();
+  const { sollectId } = useParams();
 
   // TODO: 내 글인지 확인
   // const userId = localStorage.getItem('userId');
@@ -25,18 +24,17 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
 
   const clickDeleteModal = () => {
     setShowDeleteModal(true);
-  }
-  const onLeftClick = () =>{
+  };
+  const onLeftClick = () => {
     setShowDeleteModal(false);
-  }
-  const onRightClick = ()=>{
+  };
+  const onRightClick = () => {
     setShowDeleteModal(false);
     // delete
     // sollect id 응답으로 받아야함
     deleteSollect(Number(sollectId));
     navigate(-1);
-  }
-
+  };
 
   return (
     <div

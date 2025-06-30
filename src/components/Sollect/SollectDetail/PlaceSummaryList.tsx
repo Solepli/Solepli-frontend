@@ -1,15 +1,16 @@
-import React from 'react'
-import { useSollectDetailStore } from '../../../store/sollectDetailStore'
+import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 import PreviewContentSummary from '../../Place/PreviewContentSummary';
 
 const PlaceSummaryList = () => {
-    const {placeSummaries} = useSollectDetailStore();
+  const { placeSummaries } = useSollectDetailStore();
 
-  return <div>{placeSummaries.map((place, index)=>{
-    return(
-        <PreviewContentSummary key={index} place={place}/>
-    )
-  })}</div>;
-}
+  return (
+    <div>
+      {placeSummaries.map((place, index) => {
+        return <PreviewContentSummary key={index} place={place} />;
+      })}
+    </div>
+  );
+};
 
-export default PlaceSummaryList
+export default PlaceSummaryList;

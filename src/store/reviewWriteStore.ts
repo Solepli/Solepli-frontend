@@ -1,6 +1,6 @@
 // src/stores/useReviewWriteStore.ts
 import { create } from 'zustand';
-import { Emoji, TagType } from '../types';
+import { Emoji } from '../types';
 
 interface ReviewWriteState {
   emoji: Emoji;
@@ -9,7 +9,6 @@ interface ReviewWriteState {
   rating: number;
   setRating: (value: number) => void;
 
-  // TagType -> string으로 수정했습니다.
   moodTags: string[];
   setMoodTags: (tags: string[]) => void;
 

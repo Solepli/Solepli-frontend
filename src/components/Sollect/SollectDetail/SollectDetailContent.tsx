@@ -1,9 +1,8 @@
-import React from 'react';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailContent = () => {
   const { contents } = useSollectDetailStore();
-  
+
   return (
     <div className='flex flex-col'>
       {contents.map((paragraph, index) => {
@@ -14,7 +13,7 @@ const SollectDetailContent = () => {
                 {paragraph.content}
               </div>
             ) : (
-              <img src={paragraph.content} alt='' className='w-full'/>
+              <img src={paragraph.content} alt='' className='w-full' />
             )}
           </div>
         );

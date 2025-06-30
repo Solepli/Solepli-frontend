@@ -4,17 +4,15 @@ import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
 import { postRecentSearchWord } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
-import { searchSollect } from '../../api/sollectApi';
 import { useNavigate } from 'react-router-dom';
 import { useMarkerStore } from '../../store/markerStore';
 import { extractRegionOrPlaceIds } from '../../utils/placeFunc';
 import { usePlaceStore } from '../../store/placeStore';
 import { useSollectStore } from '../../store/sollectStore';
 
-
 const SearchBar: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const { clearCategory } = useSollectStore();
 
   const {

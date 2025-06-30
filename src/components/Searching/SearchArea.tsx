@@ -1,7 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import XButton from '../XButton';
-import { useSearchStore } from '../../store/searchStore';
 import { useNavigate } from 'react-router-dom';
 
 const SearchArea: React.FC = () => {
