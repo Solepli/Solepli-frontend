@@ -40,7 +40,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
 
   return (
     <div
-      className={`w-full h-54 flex justify-between items-center fixed z-10 px-9 ${isTop ? 'bg-transparent' : 'bg-white'} transition-colors duration-300`}>
+      className={`w-full h-54 flex justify-between items-center fixed z-70 px-9 ${isTop ? 'bg-transparent' : 'bg-white'} transition-colors duration-300`}>
       {/* 뒤로가기 */}
       <img
         src={isTop ? arrowTailWhite : arrowTail}

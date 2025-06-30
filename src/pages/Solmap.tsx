@@ -6,7 +6,7 @@ import SearchPanel from '../components/Searching/SearchPanel';
 import { useSearchStore } from '../store/searchStore';
 import { usePlaceStore } from '../store/placeStore';
 import { useQuery } from '@tanstack/react-query';
-import { fetchPlaces } from '../api/placeApi';
+import { getPlacesByDisplay } from '../api/placeApi';
 import MapSheet from '../components/Map/MapSheet';
 import MapSearchBar from '../components/Searching/MapSearchBar';
 import { watchUserLocation } from '../utils/geolocation';
@@ -18,18 +18,12 @@ const Solmap: React.FC = () => {
 
   const { isFocused } = useSearchStore();
 
-  const setPlaces = usePlaceStore((state) => state.setPlaces);
-
   const { setUserLatLng } = useMapStore(
     useShallow((state) => ({
       setUserLatLng: state.setUserLatLng,
     }))
   );
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['places'],
-    queryFn: fetchPlaces,
-  });
 
   /* [useEffect] 위치 변경 감지 시작 */
   useEffect(() => {
@@ -52,18 +46,6 @@ const Solmap: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      setPlaces(data);
-    }
-  }, [data]);
-
-  if (isLoading) {
-    return <p>로딩 중...</p>;
-  }
-  if (error) {
-    return <p>에러 발생</p>;
-  }
 
   return (
     <div className='h-full'>
