@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SolmarkPlaceListCard from './SolmarkPlaceListCard';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlaceCollections } from '../../api/solmarkApi';
 import { SolmarkPlaceList } from '../../types';
-import { useSolmarkStore } from '../../store/solmarkStore';
 
 const SolmarkContentPlace = () => {
-
   const { data } = useQuery({
     queryKey: ['solmarkPlaceList'],
     queryFn: () => fetchPlaceCollections(),

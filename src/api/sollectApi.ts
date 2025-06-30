@@ -13,14 +13,21 @@ export const searchSollect = async (
   size?: number,
   cursorId?: number
 ) => {
-  const params: any = {};
-  if (keyword) params.keyword = keyword;
-  if (category) params.category = category;
-  if (size !== undefined) params.size = size;
-  if (cursorId !== undefined) params.cursorId = cursorId;
+  // const params: any = {};
+  // if (keyword) params.keyword = keyword;
+  // if (category) params.category = category;
+  // if (size !== undefined) params.size = size;
+  // if (cursorId !== undefined) params.cursorId = cursorId;
 
   try {
-    const res = await publicAxios.get(ENDPOINT.SOLLECT_SEARCH, { params });
+    const res = await publicAxios.get(ENDPOINT.SOLLECT_SEARCH, {
+      params: {
+        keyword,
+        category,
+        size,
+        cursorId,
+      },
+    });
     return res.data.data.contents;
   } catch (e) {
     console.log(e);
@@ -98,39 +105,43 @@ export const fetchRecommendSollect = async (
   }
 };
 
-export const fetchRelatedSollect = async(placeId:number, cursorId:number)=>{
-try{
-  const params = {
-    cursorId:cursorId
-  }
-  const res = await publicAxios.get(ENDPOINT.SOLLECT_RELATED(placeId),{params});
+export const fetchRelatedSollect = async (
+  placeId: number,
+  cursorId: number
+) => {
+  try {
+    const params = {
+      cursorId: cursorId,
+    };
+    const res = await publicAxios.get(ENDPOINT.SOLLECT_RELATED(placeId), {
+      params,
+    });
 
-  return res.data.data.contents;
-}catch(e){
-  console.log(e);
-}
-};
-
-
-export const fetchSollectDetail = async(sollectId:number)=>{
-  try{
-    const res = await publicAxios.get(ENDPOINT.SOLLECT.GET(sollectId));
-    return res.data.data;
-  }catch(e){
+    return res.data.data.contents;
+  } catch (e) {
     console.log(e);
   }
 };
 
-export const deleteSollect = async(sollectId:number)=>{
+export const fetchSollectDetail = async (sollectId: number) => {
+  try {
+    const res = await publicAxios.get(ENDPOINT.SOLLECT.GET(sollectId));
+    return res.data.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteSollect = async (sollectId: number) => {
   // test 안해봄
-  try{
+  try {
     const res = await privateAxios.get(ENDPOINT.SOLLECT.DELETE(sollectId));
     console.log(res);
     return res.data.data;
-  }catch(e){
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
 const mockSollects: SollectPhotoType[] = [
   {

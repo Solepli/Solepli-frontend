@@ -1,7 +1,5 @@
-import React from 'react'
-import SolmarkTab from '../components/Solmark/SolmarkTab'
-import { Outlet, useLocation, useParams } from 'react-router-dom';
-import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
+import SolmarkTab from '../components/Solmark/SolmarkTab';
+import { Outlet } from 'react-router-dom';
 
 const SolmarkPage = () => {
   return (
@@ -11,10 +9,10 @@ const SolmarkPage = () => {
 
       {/* 컨텐츠 */}
       <div>
-          <Outlet />
+        <Outlet />
       </div>
     </div>
   );
-}
+};
 
-export default SolmarkPage
+export default SolmarkPage;

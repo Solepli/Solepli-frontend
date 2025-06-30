@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SolmarkTab = () => {
@@ -20,7 +20,8 @@ const SolmarkTab = () => {
         {tabNames.map((tab, i) => (
           <li
             className={tabStyle + (active === i ? activeStyle : '')}
-            onClick={() => handleClickTab(i)} key={i}>
+            onClick={() => handleClickTab(i)}
+            key={i}>
             {tab}
           </li>
         ))}
