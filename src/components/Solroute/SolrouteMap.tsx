@@ -35,7 +35,7 @@ const SolrouteMap: React.FC = () => {
     if (!mapElement.current) return;
 
     // 지도 생성
-    const map = initMap(mapElement, mapInstance, false);
+    const map = initMap(mapElement, mapInstance, true);
     if (!map) return;
 
     // 폴리라인 설정
