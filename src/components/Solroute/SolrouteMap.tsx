@@ -12,6 +12,14 @@ import { useShallow } from 'zustand/shallow';
 const SolrouteMap: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
+  const polyline = useRef<naver.maps.Polyline>(
+    new naver.maps.Polyline({
+      map: undefined,
+      path: [],
+      strokeColor: '#394C42',
+      strokeWeight: 2,
+    })
+  );
 
   const { placeCoords, nextMarkers, prevMarkers, setMarkers } =
     useSolrouteWriteStore(
@@ -29,6 +37,9 @@ const SolrouteMap: React.FC = () => {
     // 지도 생성
     const map = initMap(mapElement, mapInstance, false);
     if (!map) return;
+
+    // 폴리라인 설정
+    polyline.current.setMap(map);
 
     return () => {
       map.destroy();
@@ -57,6 +68,9 @@ const SolrouteMap: React.FC = () => {
   /* [useEffect] 마커 삭제 */
   useEffect(() => {
     deleteMarkers(prevMarkers);
+
+    // 폴리라인 삭제
+    polyline.current.setPath([]);
   }, [prevMarkers]);
 
   /* [useEffect] 마커 추가 */
@@ -64,6 +78,12 @@ const SolrouteMap: React.FC = () => {
     if (!mapInstance.current) return;
 
     addMarkers(mapInstance, nextMarkers, true);
+
+    // 폴리라인 추가
+    const path = polyline.current.getPath();
+    placeCoords.forEach((coord) => {
+      path.push(new naver.maps.LatLng(coord.latitude, coord.longitude));
+    });
   }, [nextMarkers]);
 
   return (
