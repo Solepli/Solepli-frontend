@@ -12,7 +12,6 @@ const SolmarkPage = () => {
       <SolmarkTab />
 
       {/* 컨텐츠 */}
-
       <div>
           <Outlet />
       </div>
