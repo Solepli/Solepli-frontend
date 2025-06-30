@@ -4,22 +4,36 @@ import { useState } from 'react';
 import heart from '../../assets/heart.svg';
 import heartFill from '../../assets/heartFill.svg';
 import { usePlaceStore } from '../../store/placeStore';
+import { patchSolmark } from '../../api/solmarkApi';
 
 interface SolmarkChipProps {
   label?: boolean;
-  markCount?:number
+  markCount?:number;
+  placeId: number;
 }
 
-const SolmarkChip: React.FC<SolmarkChipProps> = ({ label, markCount }) => {
-  const {selectedPlace} = usePlaceStore();
+const SolmarkChip: React.FC<SolmarkChipProps> = ({
+  placeId,
+  label,
+  markCount,
+}) => {
+  const { selectedPlace } = usePlaceStore();
   const [isSolmark, setIsSolmark] = useState(selectedPlace?.isMarked);
 
-  const handleClick = (e:React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation() // 쏠마크칩 클릭 시 navigate 방지
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation(); // 쏠마크칩 클릭 시 navigate 방지
     setIsSolmark((prev) => !prev);
     // TODO: solmark place api 추가
-  };
+    const array = [1];
+    const empty = [];
 
+    if (isSolmark) {
+      patchSolmark(placeId, array, empty);
+    }else{
+      patchSolmark(placeId, empty, array);
+
+    }
+  };
 
   return (
     <div onClick={handleClick}>
@@ -34,7 +48,7 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({ label, markCount }) => {
           />
           <p
             className={`w-30 text-center text-xs ${isSolmark ? 'text-chip-mark' : 'text-chip-bg-mark'}`}>
-            {1}
+            {markCount}
           </p>
         </div>
       ) : (

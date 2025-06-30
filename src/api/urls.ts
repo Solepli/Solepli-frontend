@@ -41,9 +41,11 @@ export const ENDPOINT = {
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
-  SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',
+  
+  SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',                     // 리스트 조회
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>
-    `/api/solmark/place/collections/${collectionId}/places`,
+    `/api/solmark/place/collections/${collectionId}/places`,                      // 특정 컬렉션의 장소 리스트 조회
+  SOLMARK_PLACE: (placeId:number)=>`/api/solmark/place/${placeId}/collections`,   // 장소 쏠마크 추가
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,

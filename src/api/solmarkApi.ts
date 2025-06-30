@@ -20,3 +20,16 @@ export const fetchPlacesByCollectionId = async (collectionId: number) => {
     console.log(e);
   }
 };
+
+export const patchSolmark = async (placeId:number, addCollectionIds:number[], removeCollectionIds:number[])  => {
+    try {
+    const res = await privateAxios.patch(ENDPOINT.SOLMARK_PLACE(placeId), {
+      addCollectionIds,
+      removeCollectionIds,
+    });
+    console.log(res);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
