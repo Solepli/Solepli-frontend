@@ -58,10 +58,10 @@ const SolrouteMap: React.FC = () => {
     const bounds = createMarkersBounds(objectList);
     if (!bounds) return;
     mapInstance.current.fitBounds(bounds, {
-      top: 24,
-      right: 0,
+      top: 48,
+      right: 24,
       bottom: 24,
-      left: 0,
+      left: 24,
     });
   }, [placeCoords]);
 
@@ -87,13 +87,13 @@ const SolrouteMap: React.FC = () => {
   }, [nextMarkers]);
 
   return (
-    <div className='self-stretch h-214 bg-primary-100 overflow-hidden'>
+    <>
       {mapInstance ? (
-        <div ref={mapElement} className='w-full h-[112%]' />
+        <div ref={mapElement} className='self-stretch h-214 bg-primary-100' />
       ) : (
         <div>지도 로딩중</div>
       )}
-    </div>
+    </>
   );
 };
 
