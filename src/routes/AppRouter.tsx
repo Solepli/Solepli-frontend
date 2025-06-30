@@ -57,7 +57,7 @@ const AppRouter = () => {
             <Route path='place' element={<SolmarkContentPlace/>}/>
             <Route path='sollect' element={<SolmarkContentPlace/>}/>
           </Route>
-          <Route path='mark/place/list' element={<SolmarkPlacePreviewPage />}/>
+          <Route path='mark/place/list/:collectionId' element={<SolmarkPlacePreviewPage />}/>
 
 
           <Route path='profile' element={<Profile />} />
