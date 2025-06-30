@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SollectDetailHeader from '../components/Sollect/SollectDetail/SollectDetailHeader';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
@@ -8,7 +8,6 @@ import SollectDetailTitle from '../components/Sollect/SollectDetail/SollectDetai
 import SollectDetailProfile from '../components/Sollect/SollectDetail/SollectDetailProfile';
 import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDetailContent';
 import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectDetailBottomBar';
-import PreviewContentSummary from '../components/Place/PreviewContentSummary';
 import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton';
 import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
 

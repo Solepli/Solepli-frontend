@@ -1,5 +1,4 @@
 import React from 'react';
-import { TagType } from '../../types';
 
 interface TagProps {
   name: string;
@@ -20,7 +19,8 @@ const Tag: React.FC<TagProps> = ({ name, header, number }) => {
 
       {/* text + number */}
       {number && (
-        <div className={`${style} flex gap-4 bg-primary-100 py-6 text-primary-700`}>
+        <div
+          className={`${style} flex gap-4 bg-primary-100 py-6 text-primary-700`}>
           <p>{name}</p>
           <span className='text-primary-900 font-semibold'>{number}</span>
         </div>
@@ -28,7 +28,8 @@ const Tag: React.FC<TagProps> = ({ name, header, number }) => {
 
       {/* green header */}
       {header && (
-        <div className={`${style} w-60 py-6 bg-secondary-700 text-secondary-50`}>
+        <div
+          className={`${style} w-60 py-6 bg-secondary-700 text-secondary-50`}>
           <p>{name}</p>
         </div>
       )}

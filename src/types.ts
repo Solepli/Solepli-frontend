@@ -31,31 +31,29 @@ type BasePlace = {
   detailedCategory: string;
   isSoloRecommended: number;
   rating: number;
-
 };
 
 export type DetailPlace = BasePlace & {
-  tags:{
+  tags: {
     mood: TagType[];
     solo: TagType[];
-  }
+  };
   markedCount: number;
-  openingHours:Hours[];
+  openingHours: Hours[];
   latitude: number;
   longitude: number;
-  category:string;
+  category: string;
   address: string;
   thumbnailUrl: string[];
 
   // 디테일에서 쏠마크 되었는지 확인. 나중에 백엔드에서 받아옴
-  isMarked:boolean;
+  isMarked: boolean;
 };
 
 export type PreviewPlace = BasePlace & {
   tags: string[];
   thumbnailUrls: string[];
 };
-
 
 type Hours = {
   dayOfWeek: number;
@@ -137,7 +135,7 @@ export type Paragraph = {
 };
 
 export type placeSummary = {
-  PlaceId?: number;
+  PlaceId: number;
   name: string;
   detailedCategory: string;
   recommendationPercent: number;
@@ -145,7 +143,6 @@ export type placeSummary = {
   isMarked?: boolean;
   rating: number;
 };
-
 
 export type SolmarkPlaceList = {
   collectionName: string;

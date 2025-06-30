@@ -8,7 +8,7 @@ import { patchSolmark } from '../../api/solmarkApi';
 
 interface SolmarkChipProps {
   label?: boolean;
-  markCount?:number;
+  markCount?: number;
   placeId: number;
 }
 
@@ -18,21 +18,22 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   markCount,
 }) => {
   const { selectedPlace } = usePlaceStore();
-  const [isSolmark, setIsSolmark] = useState(label?selectedPlace?.isMarked:false);
+  const [isSolmark, setIsSolmark] = useState(
+    label ? selectedPlace?.isMarked : false
+  );
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation(); // 쏠마크칩 클릭 시 navigate 방지
     setIsSolmark((prev) => !prev);
     // TODO: solmark place api 추가
-    const array = [1];
-    const empty = [];
+    const array: number[] = [1];
+    const empty: number[] = [];
     console.log(isSolmark);
 
     if (isSolmark) {
       patchSolmark(placeId, empty, array);
-    }else{
+    } else {
       patchSolmark(placeId, array, empty);
-
     }
   };
 

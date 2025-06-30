@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import SollectGNB from '../components/Sollect/SollectGNB'
+import { useEffect } from 'react';
+import SollectGNB from '../components/Sollect/SollectGNB';
 import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupList';
 import { useSearchStore } from '../store/searchStore';
@@ -7,14 +7,14 @@ import PopularSollectSlider from '../components/Sollect/PopularSollectSlider';
 import { useSollectStore } from '../store/sollectStore';
 
 const SollectPage = () => {
-  const {setInputValue} = useSearchStore();
-  const {clearCategory} = useSollectStore();
+  const { setInputValue } = useSearchStore();
+  const { clearCategory } = useSollectStore();
 
-  useEffect(()=>{
-    setInputValue("");
+  useEffect(() => {
+    setInputValue('');
     clearCategory();
-  },[]);
-  
+  }, []);
+
   return (
     <div className='touch-pan-y'>
       {/* GNB */}
@@ -23,12 +23,13 @@ const SollectPage = () => {
       </div>
 
       {/* popular Sollect */}
-      <h1 className='text-primary-950 text-xl font-bold pt-64 px-20 pb-8'>인기 많은 쏠렉트</h1>
+      <h1 className='text-primary-950 text-xl font-bold pt-64 px-20 pb-8'>
+        인기 많은 쏠렉트
+      </h1>
       <div className='flex justify-center'>
         {/* <PopularSollectList /> */}
         <PopularSollectSlider />
       </div>
-
 
       {/* Sollect Chip List */}
       <SollectChipList />
@@ -37,6 +38,6 @@ const SollectPage = () => {
       <SollectGroupList />
     </div>
   );
-}
+};
 
-export default SollectPage
+export default SollectPage;

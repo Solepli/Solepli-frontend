@@ -14,7 +14,7 @@ export const getRelatedSearchWords = async (
         userLng: userLng,
       },
     });
-    
+
     return res.data.data;
   } catch (e) {
     console.error(e);
@@ -26,9 +26,7 @@ export const deleteRecentSearchWords = async (
   keyword: string
 ) => {
   try {
-    const res = await privateAxios.delete(
-      ENDPOINT.RECENT_SEARCH.DELETE(mode, keyword)
-    );
+    await privateAxios.delete(ENDPOINT.RECENT_SEARCH.DELETE(mode, keyword));
   } catch (e) {
     console.log(e);
   }
@@ -48,7 +46,6 @@ export const postRecentSearchWord = async (
   inputValue: string,
   mode: string
 ) => {
-
   const accessToken = localStorage.getItem('accessToken');
   if (!accessToken) return;
 

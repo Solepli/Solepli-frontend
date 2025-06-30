@@ -1,12 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import BottomSheet from '../components/BottomSheet/BottomSheet';
 import { Outlet } from 'react-router-dom';
-import SearchArea from '../components/Searching/SearchArea';
 import SearchPanel from '../components/Searching/SearchPanel';
 import { useSearchStore } from '../store/searchStore';
-import { usePlaceStore } from '../store/placeStore';
-import { useQuery } from '@tanstack/react-query';
-import { getPlacesByDisplay } from '../api/placeApi';
 import MapSheet from '../components/Map/MapSheet';
 import MapSearchBar from '../components/Searching/MapSearchBar';
 import { watchUserLocation } from '../utils/geolocation';
@@ -24,12 +20,11 @@ const Solmap: React.FC = () => {
     }))
   );
 
-
   /* [useEffect] 위치 변경 감지 시작 */
   useEffect(() => {
     watchIdRef.current = watchUserLocation(
-      (position) => {
-        const { latitude, longitude } = position.coords;
+      (/*position*/) => {
+        // const { latitude, longitude } = position.coords;
         // setUserLatLng({ lat: latitude, lng: longitude }); // [원본 코드]
         setUserLatLng({ lat: 37.51234, lng: 127.060395 }); // [대체 코드] 만약 본인 주변에 장소가 없다고 나온다면 이것을 주석을 풀어서 사용할 것 / todo : 배포할 때 풀어서 배포하기
       },
@@ -45,7 +40,6 @@ const Solmap: React.FC = () => {
       }
     };
   }, []);
-
 
   return (
     <div className='h-full'>

@@ -1,17 +1,15 @@
 import React from 'react';
-import { useSollectDetailStore } from '../../store/sollectDetailStore';
 import SolmarkChip from '../BottomSheet/SolmarkChip';
 import ReviewRange from '../BottomSheet/ReviewRange';
 import TagList from '../BottomSheet/TagList';
 import { placeSummary } from '../../types';
 
-interface SummaryProps{
-  place:placeSummary
+interface SummaryProps {
+  place: placeSummary;
 }
 
 // { place }: placeSummary
-const PreviewContentSummary:React.FC<SummaryProps> = ({place}) => {
-
+const PreviewContentSummary: React.FC<SummaryProps> = ({ place }) => {
   if (!place) {
     return;
   }
@@ -31,12 +29,15 @@ const PreviewContentSummary:React.FC<SummaryProps> = ({place}) => {
 
         {/* right */}
         {/* preview */}
-        <SolmarkChip />
+        <SolmarkChip placeId={place.PlaceId} />
       </div>
 
-      <ReviewRange rating={place.rating} recommend={place.recommendationPercent}/>
+      <ReviewRange
+        rating={place.rating}
+        recommend={place.recommendationPercent}
+      />
 
-      <TagList tags={place.tags}/>
+      <TagList tags={place.tags} />
     </div>
   );
 };

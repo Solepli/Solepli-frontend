@@ -1,9 +1,6 @@
-import { Place } from '../types';
 import { publicAxios } from './axios';
 import qs from 'qs';
 import { ENDPOINT } from './urls';
-
-
 
 export const getPlacesByDisplay = async (
   swLat: number, // swY - min
@@ -67,7 +64,7 @@ export const getPlaceByIdList = async (
 
 export const getPlaceDetail = async (id: number) => {
   const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_DETAIL + id);
-  
+
   return res.data.data;
 };
 
@@ -84,4 +81,3 @@ export const getPlacesNearby = async (
 
   return res.data.data;
 };
-

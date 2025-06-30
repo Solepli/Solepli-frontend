@@ -1,11 +1,11 @@
-import React, { act, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PreviewContent from './PreviewContent';
 import { usePlaceStore } from '../../../store/placeStore';
 import { useMapStore } from '../../../store/mapStore';
 import { useShallow } from 'zustand/shallow';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useSearchStore } from '../../../store/searchStore';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   getPlaceByIdList,
   getPlacesByDisplay,
@@ -15,11 +15,11 @@ import PreviewContentEmpty from './PreviewContentEmpty';
 import { useScrollSentinel } from '../../../hooks/useInfiniteScrollQuery';
 
 const PreviewContentList: React.FC = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryType = searchParams.get('queryType');
 
-  const { filteredPlaces, selectedCategory, setPlaces, refreshTrigger } = usePlaceStore();
+  const { filteredPlaces, selectedCategory, setPlaces, refreshTrigger } =
+    usePlaceStore();
 
   const { userLatLng, lastBounds } = useMapStore(
     useShallow((state) => ({
@@ -39,7 +39,7 @@ const PreviewContentList: React.FC = () => {
 
   const placesRegionQuery = useInfiniteQuery({
     queryKey: ['placesRegion', selectedCategory, refreshTrigger],
-    queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
+    queryFn: ({ pageParam = { cursorId: undefined, cursorDist: undefined } }) =>
       getPlacesByRegion(
         selectedRegion,
         userLatLng!.lat,
@@ -51,29 +51,29 @@ const PreviewContentList: React.FC = () => {
       ),
     enabled: queryType === 'region',
     getNextPageParam: (lastPage) => {
-       if (!lastPage?.nextCursor) return undefined;
+      if (!lastPage?.nextCursor) return undefined;
       return {
         cursorId: lastPage.nextCursor,
         cursorDist: lastPage.nextCursorDist,
       };
     },
-    initialPageParam: {cursorId:undefined, cursorDist:undefined},
+    initialPageParam: { cursorId: undefined, cursorDist: undefined },
   });
 
-const placesIdListQuery = useInfiniteQuery({
-  queryKey: ['placesIdList', selectedCategory, refreshTrigger],
-  queryFn: ({ pageParam = undefined }) =>
-    getPlaceByIdList(relatedPlaceIdList, pageParam),
-  enabled: queryType === 'idList',
-  getNextPageParam: (lastPage) => {
+  const placesIdListQuery = useInfiniteQuery({
+    queryKey: ['placesIdList', selectedCategory, refreshTrigger],
+    queryFn: ({ pageParam = undefined }) =>
+      getPlaceByIdList(relatedPlaceIdList, pageParam),
+    enabled: queryType === 'idList',
+    getNextPageParam: (lastPage) => {
       return lastPage.nextCursor;
-  },
+    },
     initialPageParam: undefined,
-});
+  });
 
   const placesDisplayQuery = useInfiniteQuery({
     queryKey: ['placesDisplay', selectedCategory, refreshTrigger],
-    queryFn: ({ pageParam = {cursorId:undefined, cursorDist:undefined} }) =>
+    queryFn: ({ pageParam = { cursorId: undefined, cursorDist: undefined } }) =>
       getPlacesByDisplay(
         lastBounds!.getMin().y,
         lastBounds!.getMin().x,
@@ -88,24 +88,23 @@ const placesIdListQuery = useInfiniteQuery({
       ),
     enabled: queryType === 'category',
     getNextPageParam: (lastPage) => {
-       if (!lastPage?.nextCursor) return undefined;
+      if (!lastPage?.nextCursor) return undefined;
       return {
         cursorId: lastPage.nextCursor,
         cursorDist: lastPage.nextCursorDist,
       };
     },
-    initialPageParam: {cursorId:undefined, cursorDist:undefined},
+    initialPageParam: { cursorId: undefined, cursorDist: undefined },
   });
-
 
   const activeQuery =
     queryType === 'region'
-    ? placesRegionQuery
-    : queryType === 'idList'
-    ? placesIdListQuery
-    : queryType === 'category'
-    ? placesDisplayQuery
-    : null;
+      ? placesRegionQuery
+      : queryType === 'idList'
+        ? placesIdListQuery
+        : queryType === 'category'
+          ? placesDisplayQuery
+          : null;
 
   // 스크롤 끝까지 했는지 sentinel 감시
   const sentinelRef = useScrollSentinel({
@@ -138,20 +137,19 @@ const placesIdListQuery = useInfiniteQuery({
   //   }
   // }, [placesDisplayQuery.data, setPlaces]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (!activeQuery?.data) return;
     console.log(activeQuery.data.pages);
-    const places = activeQuery.data.pages.flatMap((page)=>page.places);
+    const places = activeQuery.data.pages.flatMap((page) => page.places);
     setPlaces(places);
-  },[activeQuery?.data, setPlaces]);
+  }, [activeQuery?.data, setPlaces]);
 
   // const isLoading =  (queryType === 'region' && placesRegionQuery.isLoading) ||
   // (queryType === 'idList' && placesIdListQuery.isLoading) ||
   // (queryType === 'category' && placesDisplayQuery.isLoading);
 
-  if(activeQuery?.isLoading){
-    return <div>로딩</div>
+  if (activeQuery?.isLoading) {
+    return <div>로딩</div>;
   }
 
   return (

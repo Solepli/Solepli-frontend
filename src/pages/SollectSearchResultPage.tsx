@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SollectGNB from '../components/Sollect/SollectGNB';
 import SollectChipList from '../components/Sollect/SollectChip/SollectChipList';
 import SollectList from '../components/Sollect/SollectList';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { fetchSollects, searchSollect } from '../api/sollectApi';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { searchSollect } from '../api/sollectApi';
 import SollectNoResult from '../components/Sollect/SollectNoResult';
 import { useSearchStore } from '../store/searchStore';
 import { useSollectStore } from '../store/sollectStore';
@@ -44,12 +44,11 @@ const SollectSearchResultPage = () => {
   // 검색 결과 데이터가 처음에 있었으면 (한번이라도 존재했으면) hasResult true
   // 검색 결과 데이터가 처음부터 없었으면 (한 번도 존재 안했으면) hasResult false
   // hasResult로 SollectChipList 띄울지 말지 결정
-  useEffect(()=>{
+  useEffect(() => {
     if (sollects && sollects.length !== 0) {
       setHasResult(true);
     }
-  },[data]);
-
+  }, [data]);
 
   return (
     <div>
