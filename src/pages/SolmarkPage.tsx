@@ -6,9 +6,11 @@ const SolmarkPage = () => {
     <div>
       {/* 탭바 */}
       <SolmarkTab />
+
       {/* 컨텐츠 */}
+      
     </div>
-  )
+  );
 }
 
 export default SolmarkPage
