@@ -20,6 +20,7 @@ import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
 import SollectDetailPage from '../pages/SollectDetailPage';
 import SolrouteWritePage from '../pages/SolrouteWritePage';
+import SolmarkPage from '../pages/SolmarkPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -48,7 +49,7 @@ const AppRouter = () => {
           </Route>
 
           <Route path='map/search' element={<SearchPage />} />
-          <Route path='mark' element={<></>} />
+          <Route path='mark' element={<SolmarkPage/>} />
           <Route path='profile' element={<Profile />} />
           <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
