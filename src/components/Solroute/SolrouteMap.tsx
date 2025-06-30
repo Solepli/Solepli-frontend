@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
+  addMarkers,
   createMarkerObjectList,
   createMarkersBounds,
   initMap,
@@ -20,17 +21,35 @@ const SolrouteMap: React.FC = () => {
   useEffect(() => {
     if (!mapElement.current) return;
 
-    const { objectList } = createMarkerObjectList(placeCoords);
-    const bounds = createMarkersBounds(objectList);
-
     // 지도 생성
-    const map = initMap(mapElement, mapInstance, false, true, bounds);
+    const map = initMap(mapElement, mapInstance, false);
     if (!map) return;
 
     return () => {
       map.destroy();
     };
   }, []);
+
+  /* [useEffect] placeCoords 변경될 때 */
+  useEffect(() => {
+    if (!mapInstance.current) return;
+
+    // 마커 객체 생성
+    const { objectList } = createMarkerObjectList(placeCoords);
+
+    // 마커 추가
+    addMarkers(mapInstance, objectList);
+
+    // 지도 이동
+    const bounds = createMarkersBounds(objectList);
+    if (!bounds) return;
+    mapInstance.current.fitBounds(bounds, {
+      top: 24,
+      right: 0,
+      bottom: 24,
+      left: 0,
+    });
+  }, [placeCoords]);
 
   return (
     <div className='self-stretch h-214 bg-primary-100 overflow-hidden'>
