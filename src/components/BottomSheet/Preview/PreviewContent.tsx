@@ -20,7 +20,7 @@ const PreviewContent: React.FC<PreviewContentProps> = ({ place }) => {
   return (
     <div className='border-b border-primary-100 pt-12' onClick={handleClick}>
       {/* content title */}
-      <ContentTitle place={place} property='preview' />
+      <ContentTitle previewPlace={place} property='preview' />
 
       {/* review range */}
       <ReviewRange rating={place.rating} recommend={place.isSoloRecommended} />

@@ -38,7 +38,7 @@ const DetailContent: React.FC = () => {
   return (
     <div>
       {/* ContentTitle */}
-      <ContentTitle place={selectedPlace} property='detail' />
+      <ContentTitle detailPlace={selectedPlace} property='detail' />
 
       {/* ReviewRange */}
       <ReviewRange rating={selectedPlace.rating} recommend={selectedPlace.isSoloRecommended} />

@@ -145,3 +145,11 @@ export type placeSummary = {
   isMarked?: boolean;
   rating: number;
 };
+
+
+export type SolmarkPlaceList = {
+  collectionName: string;
+  collectionId: number;
+  iconId: number;
+  placeCount: number;
+};
