@@ -1,7 +1,7 @@
 {
-  "name": "solpli",
+  "name": "solepli",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,18 +10,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@tailwindcss/vite": "^4.0.17",
     "@tanstack/react-query": "^5.71.1",
     "@tanstack/react-query-devtools": "^5.71.1",
     "axios": "^1.8.4",
+    "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
+    "react-toastify": "^11.0.5",
     "tailwindcss": "^4.0.17",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/navermaps": "^3.7.9",
+    "@types/qs": "^6.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",
@@ -32,6 +37,7 @@
     "prettier": "^3.5.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }
