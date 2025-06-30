@@ -1,5 +1,4 @@
 import { useShallow } from 'zustand/shallow';
-import SelectableIconSet from '../components/global/SelectableIconSet';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
 import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
@@ -85,7 +84,6 @@ const SollectWritePage = () => {
       </div>
       <div className='flex-1 overflow-y-auto mt-50'>
         <SolrouteTitle />
-        <SelectableIconSet />
         <SolrouteMap />
         <div className='pt-24 pb-48 px-16'>
           <SolroutePlaceAddButton />

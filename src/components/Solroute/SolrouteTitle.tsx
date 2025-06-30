@@ -1,7 +1,7 @@
 import React from 'react';
-import AddButton from '../../assets/addGray.svg?react';
 import { useShallow } from 'zustand/shallow';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
+import IconAddButton from '../global/selectableIconSet/IconAddButton';
 const SolrouteTitle: React.FC = () => {
   const { setTitle } = useSolrouteWriteStore(
     useShallow((state) => ({
@@ -10,9 +10,7 @@ const SolrouteTitle: React.FC = () => {
   );
   return (
     <div className='w-full h-50 pt-8 pb-16 px-16 flex items-center gap-10'>
-      <div className='w-28 h-28 p-2 bg-primary-50 rounded justify-center items-center'>
-        <AddButton />
-      </div>
+      <IconAddButton />
       <input
         type='text'
         onChange={(e) => setTitle(e.target.value)}
