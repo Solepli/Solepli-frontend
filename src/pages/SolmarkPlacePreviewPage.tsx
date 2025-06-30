@@ -19,10 +19,12 @@ const SolmarkPlacePreviewPage = () => {
 
   return (
     <div>
-        <TitleHeader title='성수동 모음' center onClick={handleClick}/>
-        <p>장소 </p>
+      <TitleHeader title='저장 리스트' center onClick={handleClick} />
+      <div className='pt-58'>
+        <p className='text-primary-950 text-sm py-24 px-16 pb-8'>장소 {}</p>
+      </div>
     </div>
-  )
+  );
 }
 
 export default SolmarkPlacePreviewPage

@@ -148,8 +148,8 @@ export type placeSummary = {
 
 
 export type SolmarkPlaceList = {
-    collectionName:string;
-  collectionId:number;
-  iconId:number,
-  placeCount:number;
-}
+  collectionName: string;
+  collectionId: number;
+  iconId: number;
+  placeCount: number;
+};
