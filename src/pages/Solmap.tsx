@@ -23,10 +23,10 @@ const Solmap: React.FC = () => {
   /* [useEffect] 위치 변경 감지 시작 */
   useEffect(() => {
     watchIdRef.current = watchUserLocation(
-      (/*position*/) => {
-        // const { latitude, longitude } = position.coords;
-        // setUserLatLng({ lat: latitude, lng: longitude }); // [원본 코드]
-        setUserLatLng({ lat: 37.51234, lng: 127.060395 }); // [대체 코드] 만약 본인 주변에 장소가 없다고 나온다면 이것을 주석을 풀어서 사용할 것 / todo : 배포할 때 풀어서 배포하기
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLatLng({ lat: latitude, lng: longitude }); // [원본 코드]
+        // setUserLatLng({ lat: 37.51234, lng: 127.060395 }); // [대체 코드] 만약 본인 주변에 장소가 없다고 나온다면 이것을 주석을 풀어서 사용할 것 / todo : 배포할 때 풀어서 배포하기
       },
       (error) => {
         alert('사용자의 현재 위치를 불러올 수 없습니다.');
