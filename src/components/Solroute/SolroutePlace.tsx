@@ -8,12 +8,16 @@ const SolroutePlace = () => {
   const [memo, setMemo] = useState('');
 
   const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMemo(e.target.value);
+    const newValue = e.target.value;
+    if (newValue.length > 100) return;
+
+    setMemo(newValue);
     if (textareaRef.current) {
       textareaRef.current.style.height = `auto`;
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   };
+
   return (
     <div className='flex items-start self-stretch'>
       <div className='flex pl-20 items-start gap-16 grow'>
