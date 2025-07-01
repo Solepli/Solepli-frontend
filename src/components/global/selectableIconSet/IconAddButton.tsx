@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AddButton from '../../../assets/addGray.svg?react';
 import SelectableIconSet from './SelectableIconSet';
 import { selectableIconMap } from '../../../utils/icon';
@@ -8,10 +8,19 @@ const SelectedIcon: React.FC<{ icon: number }> = ({ icon }) => {
   return IconComponent ? <IconComponent /> : null;
 };
 
-const IconAddButton: React.FC = () => {
+interface IconAddButtonProps {
+  setSelectedIcon: (icon: number) => void;
+}
+
+const IconAddButton: React.FC<IconAddButtonProps> = ({ setSelectedIcon }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [icon, setIcon] = useState<number | null>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!icon) return;
+    setSelectedIcon(icon);
+  }, [icon, setSelectedIcon]);
 
   return (
     <>
