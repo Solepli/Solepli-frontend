@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SolmarkTab = () => {
@@ -13,6 +13,17 @@ const SolmarkTab = () => {
     setActive(i);
     navigate(`/mark/${tabs[i]}`);
   };
+
+  useEffect(()=>{
+    const path = location.pathname
+    if(path.includes("place")){
+      setActive(0);
+    }else if(path.includes("sollect")){
+      setActive(1);
+    }else if(path.includes("my")){
+      setActive(2);
+    }
+  },[])
 
   return (
     <div className='border-b border-primary-100 w-full mt-24 px-16'>
