@@ -4,8 +4,10 @@ import { fetchSolmarkSollect } from '../../api/solmarkApi';
 import SollectList from '../Sollect/SollectList';
 import { SollectPhotoType } from '../../types';
 import arrow from '../../assets/arrow.svg';
+import { useNavigate } from 'react-router-dom';
 
 const SolmarkContentSollect = () => {
+  const navigate = useNavigate();
   const { data } = useQuery({
     queryKey: ['solmarkSollects'],
     queryFn: () => fetchSolmarkSollect(),
@@ -29,7 +31,9 @@ const SolmarkContentSollect = () => {
             <p className='font-bold text-primary-950'>
               아직 저장된 쏠렉트가 없어요!
             </p>
-            <p className='flex text-center justify-center'>
+            <p
+              className='flex text-center justify-center'
+              onClick={() => navigate('/sollect')}>
               쏠렉트 보러 가기
               <img src={arrow} alt='' className='w-24 h-24' />{' '}
             </p>
