@@ -72,12 +72,14 @@ export const initMap = (
     scaleControl: false,
     mapDataControl: false,
     logoControl: false,
+    logoControlOptions: {
+      position: naver.maps.Position.RIGHT_TOP,
+    },
     keyboardShortcuts: false,
     disableKineticPan: false,
   } as naver.maps.MapOptions & {
     bounds?: naver.maps.Bounds;
   };
-
   // 조건부로 bounds 추가 (center, zoom 무시)
   if (isBounds && lastBounds) {
     MapOptions.bounds = lastBounds;
