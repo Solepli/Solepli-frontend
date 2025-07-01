@@ -1,10 +1,14 @@
 import React from 'react';
 import { selectableIconMap } from '../../../utils/icon';
 
-const SelectableIconSet: React.FC = () => {
+interface SelectableIconSetProps {
+  setIcon: (iconKey: number) => void;
+}
+
+const SelectableIconSet: React.FC<SelectableIconSetProps> = ({ setIcon }) => {
   const onClickIcon = (iconKey: string) => {
-    console.log(iconKey);
-    return parseInt(iconKey);
+    const iconNumber = parseInt(iconKey);
+    setIcon(iconNumber);
   };
   return (
     <div

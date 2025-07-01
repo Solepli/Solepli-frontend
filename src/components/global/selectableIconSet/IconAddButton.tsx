@@ -1,9 +1,16 @@
 import { useRef, useState } from 'react';
 import AddButton from '../../../assets/addGray.svg?react';
 import SelectableIconSet from './SelectableIconSet';
+import { selectableIconMap } from '../../../utils/icon';
+
+const SelectedIcon: React.FC<{ icon: number }> = ({ icon }) => {
+  const IconComponent = selectableIconMap[icon];
+  return IconComponent ? <IconComponent /> : null;
+};
 
 const IconAddButton: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [icon, setIcon] = useState<number | null>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -12,7 +19,7 @@ const IconAddButton: React.FC = () => {
         className='w-28 h-28 p-2 bg-primary-50 rounded justify-center items-center'
         onClick={() => setModalOpen(true)}
         ref={buttonRef}>
-        <AddButton />
+        {!icon ? <AddButton /> : <SelectedIcon icon={icon} />}
       </div>
 
       {modalOpen && (
@@ -24,7 +31,7 @@ const IconAddButton: React.FC = () => {
               : 0,
           }}
           onClick={() => setModalOpen(false)}>
-          <SelectableIconSet />
+          <SelectableIconSet setIcon={setIcon} />
         </div>
       )}
     </>
