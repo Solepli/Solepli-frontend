@@ -35,8 +35,14 @@ const SolrouteMap: React.FC = () => {
     if (!mapElement.current) return;
 
     // 지도 생성
-    const map = initMap(mapElement, mapInstance, true);
+    const map = initMap(mapElement, mapInstance, false);
     if (!map) return;
+    map.setOptions('padding', {
+      top: 24,
+      right: 0,
+      bottom: 24,
+      left: 0,
+    });
 
     // 폴리라인 설정
     polyline.current.setMap(map);
@@ -58,7 +64,7 @@ const SolrouteMap: React.FC = () => {
     const bounds = createMarkersBounds(objectList);
     if (!bounds) return;
     mapInstance.current.fitBounds(bounds, {
-      top: 48,
+      top: 24,
       right: 24,
       bottom: 24,
       left: 24,
