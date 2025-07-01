@@ -54,3 +54,18 @@ export const fetchSolmarkSollect = async (cursorId?: number) => {
     console.log(e);
   }
 };
+
+export const fetchMySolmarkSollect = async (cursorId?: number) => {
+    try {
+    const res = await privateAxios.get(ENDPOINT.SOLMARK_MY_SOLLECT, {
+      params: {
+        cursorId: cursorId,
+        size: undefined,
+      },
+    });
+    console.log(res.data.data.contents);
+    return res.data.data.contents;
+  } catch (e) {
+    console.log(e);
+  }
+};
