@@ -56,8 +56,18 @@ const SolrouteMap: React.FC = () => {
   useEffect(() => {
     if (!mapInstance.current) return;
 
-    // 마커 객체 생성
+    // 마커 객체 생성 및 아이콘 지정
     const { objectList } = createMarkerObjectList(placeCoords);
+    /* todo : 순서에 맞는 아이콘 지정 */
+    // objectList.forEach((v, i) => {
+    //   v.setIcon({
+    //     url: '', // 01-50 png 파일
+    //     size: new naver.maps.Size(24, 24), // 화면에 나타나는 마커의 크기
+    //     anchor: naver.maps.Position.CENTER,
+    //     origin: new naver.maps.Point(i * 24, 0), // 이 원점 위치로부터 size 속성의 값만큼 화면에 노출 (x: 0, y: 0)
+    //   });
+    //   v.setOptions('clickable', false);
+    // });
     setMarkers(objectList);
 
     // 지도 이동
