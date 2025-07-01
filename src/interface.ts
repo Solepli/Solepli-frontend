@@ -11,6 +11,7 @@ export interface CurrentLocationButtonProps {
 export interface TitleHeaderProps {
   title: string;
   onClick(): void;
+  center?:boolean;
 }
 
 export interface SollectPhotoProps {

@@ -147,6 +147,19 @@ const MapSheet = () => {
       });
     }
 
+    // // 초기 장소들
+    // getPlacesByDisplay(
+    //   newBounds!.getMin().y,
+    //   newBounds!.getMin().x,
+    //   newBounds!.getMax().y,
+    //   newBounds!.getMax().x,
+    //   userLatLng!.lat,
+    //   userLatLng!.lng
+    // ).then((res) => {
+    //   console.log(res);
+    //   setPlaces(res.places);
+    // });
+
     return () => {
       naver.maps.Event.removeListener(idleEventListener);
       map.destroy();
@@ -231,6 +244,7 @@ const MapSheet = () => {
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
+  const { increaseRefreshTrigger } = usePlaceStore();
   const researchMarker = useCallback(async () => {
     if (!mapInstance.current) return;
 
@@ -244,10 +258,15 @@ const MapSheet = () => {
       selectedCategory ?? undefined
     );
 
+    // preview list 재검색을 위해 increase refresh
+    increaseRefreshTrigger();
+
     const result = createMarkerObjectList(data);
+
     const { objectList, idList } = result;
     setNewMarkerObjectList(objectList);
     setMarkerIdList(idList);
+    // setPlaces(preview.places);
 
     navigate('/map/list?queryType=category');
   }, [lastBounds, selectedCategory]);

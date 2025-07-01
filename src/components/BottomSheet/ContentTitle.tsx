@@ -1,6 +1,6 @@
 import React from 'react';
 import SolmarkChip from './SolmarkChip';
-import { Place } from '../../types';
+import { DetailPlace, PreviewPlace } from '../../types';
 import location from '../../assets/location.svg';
 import clock from '../../assets/clock.svg';
 import share from '../../assets/share.svg';
@@ -10,15 +10,18 @@ import arrow from '../../assets/arrow.svg';
 import { useState } from 'react';
 
 interface ContentTitleProps {
-  place: Place;
+  previewPlace?: PreviewPlace;
+  detailPlace?: DetailPlace;
   property: 'preview' | 'detail';
 }
 
 const days = ['월', '화', '수', '목', '금', '토', '일'];
 
-const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
+const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, property }) => {
   const isPreview = property === 'preview';
   const isDetail = property === 'detail';
+  const place = isPreview ? previewPlace : detailPlace;
+
 
   const [showHoursInfo, setShowHoursInfo] = useState(false);
 
@@ -38,8 +41,6 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
   const buttonStyle = 'w-32 h-32 rounded-lg flex justify-center items-center';
 
   // 하드코딩
-  const isOpen = true;
-  const closingTime = '22:30';
   const [degree, setDegree] = useState(90);
 
   const handleShowHoursInfo = () => {
@@ -54,6 +55,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
       console.log(e);
     }
   };
+  if(!place) return null;
+  if(isPreview && !previewPlace) return null;
+  if(isDetail && !detailPlace) return null;
 
   return (
     <div>
@@ -61,26 +65,26 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
         {/* left */}
         <div className='inline-flex items-center'>
           <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
-            {place.title}
+            {place.name}
           </span>
           <span className='text-sm text-primary-400 pr-12'>
-            {place.category.title}
+            {place.detailedCategory}
           </span>
           {isPreview && (
             <span className='text-sm text-primary-900 font-semibold'>
-              영업 중
+              {place.isOpen ? '영업 중' : '영업 종료'}
             </span>
           )}
         </div>
 
         {/* right */}
         {/* preview */}
-        {isPreview && <SolmarkChip />}
+        {isPreview && previewPlace && <SolmarkChip placeId={previewPlace.id} />}
 
         {/* detail */}
-        {isDetail && (
+        {isDetail && detailPlace && (
           <div className='flex gap-8'>
-            <SolmarkChip label />
+            <SolmarkChip label markCount={detailPlace.markedCount} placeId={detailPlace.id}/>
             <div
               className={`${buttonStyle} border border-primary-400`}
               onClick={copyUrl}>
@@ -92,38 +96,40 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ place, property }) => {
       </div>
 
       {/* detail 위치, 영업시간 */}
-      {isDetail && (
+      {isDetail && detailPlace && (
         <div className='text-primary-900 text-sm border-b mb-12 border-primary-100 p-12 pt-0'>
           <div className='flex items-center'>
             <img src={location} alt='location' />
-            <p>{place.address}</p>
+            <p>{detailPlace.address}</p>
           </div>
 
           <div className='flex items-center' onClick={handleShowHoursInfo}>
             <img src={clock} alt='clock' />
             <p>
-              {isOpen ? '영업 중' : '영업 종료'} · {closingTime} 영업 종료
+              {place.isOpen ? '영업 중' : '영업 종료'}
+              {place.isOpen && <span> · {place.closingTime}영업 종료</span>}
             </p>
             <img
               src={arrow}
               alt='arrow'
               className='w-20 h-20'
-              style={{transform:`rotate(${degree}deg)`}}
+              style={{ transform: `rotate(${degree}deg)` }}
             />
           </div>
 
           {showHoursInfo && (
             <div className='px-24 py-6'>
               <ul>
-                {place.hours.map((hour) => {
-                  return (
-                    <p className='text-primary-950 text-sm'>
-                      {days[hour.day]}{' '}
-                      <span className='text-primary-400'>·</span>{' '}
-                      {hour.startTime} ~ {hour.endTime}
-                    </p>
-                  );
-                })}
+                {detailPlace.openingHours &&
+                  detailPlace.openingHours.map((hour) => {
+                    return (
+                      <p className='text-primary-950 text-sm'>
+                        {days[hour.dayOfWeek]}{' '}
+                        <span className='text-primary-400'>·</span>{' '}
+                        {hour.startTime} ~ {hour.endTime}
+                      </p>
+                    );
+                  })}
               </ul>
             </div>
           )}

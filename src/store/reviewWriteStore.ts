@@ -1,6 +1,6 @@
 // src/stores/useReviewWriteStore.ts
 import { create } from 'zustand';
-import { Emoji, TagType } from '../types';
+import { Emoji } from '../types';
 
 interface ReviewWriteState {
   emoji: Emoji;
@@ -9,11 +9,11 @@ interface ReviewWriteState {
   rating: number;
   setRating: (value: number) => void;
 
-  moodTags: TagType[];
-  setMoodTags: (tags: TagType[]) => void;
+  moodTags: string[];
+  setMoodTags: (tags: string[]) => void;
 
-  singleTags: TagType[];
-  setSingleTags: (tags: TagType[]) => void;
+  singleTags: string[];
+  setSingleTags: (tags: string[]) => void;
 
   text: string;
   setText: (value: string) => void;

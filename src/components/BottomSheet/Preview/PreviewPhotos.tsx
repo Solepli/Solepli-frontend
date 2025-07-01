@@ -12,7 +12,7 @@ const PreviewPhotos: React.FC<PreviewPhotosProps> = ({ images }) => {
           <img
             src={image}
             alt=''
-            className={`h-90 object-cover rounded-sm ${i === 0 ? 'rounded-tl-[20px]' : ''} ${i === 2 ? 'rounded-br-[20px]' : ''}`}
+            className={`h-90 w-full object-cover rounded-sm ${i === 0 ? 'rounded-tl-[20px]' : ''} ${i === 2 ? 'rounded-br-[20px]' : ''}`}
             key={i}
           />
         );

@@ -18,7 +18,11 @@ import Login from '../pages/Login';
 import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
+import SollectDetailPage from '../pages/SollectDetailPage';
 import SolrouteWritePage from '../pages/SolrouteWritePage';
+import SolmarkPage from '../pages/SolmarkPage';
+import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
+import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -36,6 +40,7 @@ const AppRouter = () => {
             path='sollect/search/result'
             element={<SollectSearchResultPage />}
           />
+          <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
 
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
@@ -46,9 +51,17 @@ const AppRouter = () => {
           </Route>
 
           <Route path='map/search' element={<SearchPage />} />
-          <Route path='mark' element={<></>} />
+
+          <Route path='mark' element={<SolmarkPage/>} >
+            <Route index element={<SolmarkContentPlace/>}/>
+            <Route path='place' element={<SolmarkContentPlace/>}/>
+            <Route path='sollect' element={<SolmarkContentPlace/>}/>
+          </Route>
+          <Route path='mark/place/list/:collectionId' element={<SolmarkPlacePreviewPage />}/>
+
+
           <Route path='profile' element={<Profile />} />
-          <Route path='related-sollect' element={<RelatedSollect />} />
+          <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
         <Route path='login' element={<Login />} />

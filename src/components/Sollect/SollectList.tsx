@@ -1,10 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import SollectPhoto from './SollectPhoto';
 import { SollectListProps } from '../../interface';
 
-const SollectList: React.FC<SollectListProps> = ({ horizontal, sollects, customStyle}) => {
+const SollectList: React.FC<SollectListProps> = ({
+  horizontal,
+  sollects,
+  customStyle,
+}) => {
   let style = customStyle;
-  
+
   if (horizontal) {
     style += ' px-16 flex overflow-x-scroll flex-row gap-4 overflow-y-auto';
   } else {
