@@ -42,8 +42,10 @@ const OAuthCallback = () => {
       })
       .then((response) => {
         const accessToken = response.data.data.accessToken;
+        const userId = response.data.data.userId;
         // Store tokens in local storage or state management
         localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('userId', userId);
 
         login();
 
