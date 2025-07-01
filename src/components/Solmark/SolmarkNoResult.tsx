@@ -10,7 +10,7 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
     if (type == 'sollect') {
       url = '/sollect';
     } else if (type == 'my') {
-      url = '/solllect/write';
+      url = '/sollect/write';
     }
 
     navigate(url);

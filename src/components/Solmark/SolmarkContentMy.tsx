@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SollectPhotoType } from '../../types';
 import { fetchMySolmarkSollect } from '../../api/solmarkApi';
 import SollectList from '../Sollect/SollectList';
+import SolmarkNoResult from './SolmarkNoResult';
 
 const SolmarkContentMy = () => {
   const { data } = useQuery({
@@ -20,7 +21,11 @@ const SolmarkContentMy = () => {
 
   return (
     <div className='py-16'>
-        <SollectList sollects={sollects} isMine/>
+      {sollects.length != 0 ? (
+        <SollectList sollects={sollects} isMine />
+      ) : (
+        <SolmarkNoResult type='my' />
+      )}
     </div>
   );
 };
