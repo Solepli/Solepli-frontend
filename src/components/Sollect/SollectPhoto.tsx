@@ -3,7 +3,11 @@ import { SollectPhotoProps } from '../../interface';
 import { useNavigate } from 'react-router-dom';
 import SollectMark from './SollectMark';
 
-const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
+type Props = SollectPhotoProps &{
+  isMine?:boolean;
+}
+
+const SollectPhoto: React.FC<Props> = ({ sollect, isMine }) => {
   const navigate = useNavigate();
   const [marked, setMarked] = useState(sollect.isMarked);
 
@@ -28,11 +32,15 @@ const SollectPhoto: React.FC<SollectPhotoProps> = ({ sollect }) => {
       <div
         className='absolute top-8 right-8'
         onClick={(e) => e.stopPropagation()}>
-        <SollectMark
-          marked={marked}
-          setMarked={setMarked}
-          id={sollect.sollectId}
-        />
+        {isMine ? (
+          <></>
+        ) : (
+          <SollectMark
+            marked={marked}
+            setMarked={setMarked}
+            id={sollect.sollectId}
+          />
+        )}
       </div>
 
       <div className='p-20 z-1 text-white'>

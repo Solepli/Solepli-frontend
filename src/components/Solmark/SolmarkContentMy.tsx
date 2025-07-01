@@ -14,16 +14,13 @@ const SolmarkContentMy = () => {
 
   useEffect(() => {
     if (data) {
-      data.map((sollect: SollectPhotoType) => {
-        sollect.isMarked = false;
-      });
       setSollects(data);
     }
   }, [data]);
 
   return (
     <div className='py-16'>
-        <SollectList sollects={sollects} />
+        <SollectList sollects={sollects} isMine/>
     </div>
   );
 };
