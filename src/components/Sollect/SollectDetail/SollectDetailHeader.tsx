@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../../global/Modal';
 import { deleteSollect } from '../../../api/sollectApi';
 import EditDeletePopover from '../../global/EditDeletePopover';
+import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
@@ -16,11 +17,10 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { sollectId } = useParams();
 
-  // TODO: 내 글인지 확인
-  // const userId = localStorage.getItem('userId');
-  // const {authorId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
-  // const mySollect = userId === authorId;
-  const mySollect = true;
+  // 내 글인지 확인
+  const userId = localStorage.getItem('userId');
+  const {writerId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
+  const mySollect = Number(userId) === writerId;
 
   const clickDeleteModal = () => {
     setShowDeleteModal(true);
