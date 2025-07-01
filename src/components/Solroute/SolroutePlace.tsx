@@ -1,7 +1,19 @@
+import { useRef, useState } from 'react';
 import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
 
 const SolroutePlace = () => {
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const [memo, setMemo] = useState('');
+
+  const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMemo(e.target.value);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = `auto`;
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
   return (
     <div className='flex items-start self-stretch'>
       <div className='flex pl-20 items-start gap-16 grow'>
@@ -41,6 +53,24 @@ const SolroutePlace = () => {
           </div>
 
           {/* memo */}
+          <div className='flex w-full flex-col items-start'>
+            <div className='flex py-8 px-12 flex-col items-start gap-4 self-stretch rounded-xl border-1 border-solid border-secondary-100 bg-secondary-50'>
+              <textarea
+                spellCheck={false}
+                ref={textareaRef}
+                value={memo}
+                onChange={handleChangeText}
+                placeholder='메모를 남겨보세요.'
+                rows={1}
+                className='text-primary-950 placeholder:text-secondary-500
+                focus:outline-none focus:ring-0 resize-none 
+                self-stretch text-sm not-italic font-normal leading-[150%] tracking-[-0.35px]'
+              />
+              <div className='self-stretch text-secondary-500 text-right text-xs not-italic font-normal leading-[120%] tracking-[-0.18px]'>
+                ({memo.length}/100)
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
