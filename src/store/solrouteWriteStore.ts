@@ -21,6 +21,7 @@ interface SolrouteWriteState {
   deletePlaceCoords: (ids: number) => void;
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
   setTitle: (title: string | null) => void;
+  setIcon: (icon: number) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({

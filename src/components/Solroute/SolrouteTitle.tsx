@@ -3,14 +3,15 @@ import { useShallow } from 'zustand/shallow';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import IconAddButton from '../global/selectableIconSet/IconAddButton';
 const SolrouteTitle: React.FC = () => {
-  const { setTitle } = useSolrouteWriteStore(
+  const { setTitle, setIcon } = useSolrouteWriteStore(
     useShallow((state) => ({
       setTitle: state.setTitle,
+      setIcon: state.setIcon,
     })),
   );
   return (
     <div className='w-full h-50 pt-8 pb-16 px-16 flex items-center gap-10'>
-      <IconAddButton />
+      <IconAddButton setSelectedIcon={setIcon} />
       <input
         type='text'
         onChange={(e) => setTitle(e.target.value)}
