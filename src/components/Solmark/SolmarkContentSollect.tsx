@@ -23,21 +23,24 @@ const SolmarkContentSollect = () => {
 
   return (
     <div className='py-16'>
-      {sollects.length !== 1 ? (
-        <SollectList sollects={data} />
+      {sollects.length !== 0 ? (
+        <SollectList
+          sollects={sollects.map((sollect) => {
+            sollect.isMarked = true;
+            return sollect;
+          })}
+        />
       ) : (
-        <div className='flex justify-center items-center h-full text-center'>
-          <div className='pt-240'>
-            <p className='font-bold text-primary-950'>
-              아직 저장된 쏠렉트가 없어요!
-            </p>
-            <p
-              className='flex text-center justify-center'
-              onClick={() => navigate('/sollect')}>
-              쏠렉트 보러 가기
-              <img src={arrow} alt='' className='w-24 h-24' />{' '}
-            </p>
-          </div>
+        <div className='text-center py-250'>
+          <p className='font-bold text-primary-950 mb-5'>
+            아직 저장된 쏠렉트가 없어요!
+          </p>
+          <p
+            className='flex justify-center text-sm text-primary-700 underline items-center'
+            onClick={() => navigate('/sollect')}>
+            쏠렉트 보러 가기
+            <img src={arrow} alt='' className='w-24 h-24' />{' '}
+          </p>
         </div>
       )}
     </div>

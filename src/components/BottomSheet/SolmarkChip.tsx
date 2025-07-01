@@ -35,10 +35,8 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation(); // 쏠마크칩 클릭 시 navigate 방지
     setIsSolmark((prev) => !prev);
-    // TODO: solmark place api 추가
     const array: number[] = [1];
     const empty: number[] = [];
-    console.log(isSolmark);
 
     if (isSolmark) {
       patchSolmark(placeId, empty, array);
