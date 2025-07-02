@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ReviewEmoji from './ReviewEmoji';
 
 import ReviewRatio from './ReviewRatio';
 import ReviewTagList from './ReviewTagList';
-import { ReviewType } from '../../../types';
 import ReviewInput from './ReviewInput';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import useReviewWriteStore from '../../../store/reviewWriteStore';
@@ -15,12 +14,10 @@ import ReviewPhotosInput from './ReviewPhotosInput';
 import TitleHeader from '../../global/TitleHeader';
 
 const ReviewWrite: React.FC = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   const navigate = useNavigate();
   const { placeId } = useParams();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
 
   //리렌더링을 방지하기 위해 useShallow 사용
   const {
@@ -47,6 +44,10 @@ const ReviewWrite: React.FC = () => {
     }))
   );
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // 리뷰 작성 버튼 활성화 조건
   const isWrittenable =
     moodTags !== null &&
@@ -57,69 +58,41 @@ const ReviewWrite: React.FC = () => {
   const placeName = location.state?.place;
 
   const reviewWrite = async () => {
-    // const newReview: ReviewType = {
-    //   id: 0,
-    //   username: 'eoksdjeos',
-    //   profileImage: 'https://i.pravatar.cc/50?img=1', // 샘플 이미지 URL
-    //   date: new Date().toLocaleDateString('ko-KR').slice(2),
-    //   rating,
-    //   emoji,
-    //   content: text,
-    //   images: files.map((file) => URL.createObjectURL(file)),
-    //   tags: [...moodTags, ...singleTags],
-    // };
+    setIsLoading(true);
+    try {
+      // review 데이터를 request로 만들어 FormData에 추가
+      const formData = new FormData();
+      const payload = {
+        placeId: placeId,
+        recommendation: emoji === 'good' ? true : false,
+        rating: rating,
+        moodTag: moodTags,
+        soloTag: singleTags,
+        content: text,
+      };
+      formData.append('request', JSON.stringify(payload));
 
-    // review 데이터를 request로 만들어 FormData에 추가
-    const formData = new FormData();
-    const payload = {
-      placeId: placeId,
-      recommendation: emoji === 'good' ? true : false,
-      rating: rating,
-      moodTag: moodTags,
-      soloTag: singleTags,
-      content: text,
-    };
-    formData.append('request', JSON.stringify(payload));
+      // 파일들을 FormData에 추가
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
 
-    // 파일들을 FormData에 추가
-    files.forEach((file) => {
-      formData.append('files', file);
-    });
+      // 서버에 리뷰 등록 요청
+      await postReview(formData);
 
-    // 서버에 리뷰 등록 요청
-    await postReview(formData);
-
-    // await addReview(newReview);
-    reset();
-    navigateToDetail();
+      // 성공할 때만 store를 초기화하고, Detail page로 돌아간다
+      reset();
+      navigateToDetail();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   const navigateToDetail = () => {
     navigate(`/map/detail/${placeId}`, { state: { placeName } });
   };
-
-  const mood: string[] = [
-    '조용한',
-    '시끌벅적한',
-    '편안한',
-    '고급스러운',
-    '색다른',
-    '힙한',
-    '트렌디한',
-    '자연친화적인',
-    '사진 찍기 좋은',
-    '뷰가 좋은',
-  ];
-  const single: string[] = [
-    '1인 좌석이 있는',
-    '1인 메뉴가 있는',
-    '콘센트가 많은',
-    '오래 머물기 좋은',
-    '가볍게 들르기 좋은',
-    '낮에 가기 좋은',
-    '밤에 가기 좋은',
-    '넓은',
-    '좁은',
-  ];
 
   return (
     <div className='flex flex-col items-start justify-start pb-30'>
@@ -159,9 +132,36 @@ const ReviewWrite: React.FC = () => {
       <ReviewPhotosInput />
 
       {/* 리뷰 작성 완료 버튼 */}
-      <ReviewWriteButton onClickFunc={reviewWrite} disabled={!isWrittenable} />
+      <ReviewWriteButton
+        onClickFunc={reviewWrite}
+        disabled={!isWrittenable || isLoading}
+      />
     </div>
   );
 };
 
 export default ReviewWrite;
+
+const mood: string[] = [
+  '조용한',
+  '시끌벅적한',
+  '편안한',
+  '고급스러운',
+  '색다른',
+  '힙한',
+  '트렌디한',
+  '자연친화적인',
+  '사진 찍기 좋은',
+  '뷰가 좋은',
+];
+const single: string[] = [
+  '1인 좌석이 있는',
+  '1인 메뉴가 있는',
+  '콘센트가 많은',
+  '오래 머물기 좋은',
+  '가볍게 들르기 좋은',
+  '낮에 가기 좋은',
+  '밤에 가기 좋은',
+  '넓은',
+  '좁은',
+];
