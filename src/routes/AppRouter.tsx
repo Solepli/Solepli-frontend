@@ -73,6 +73,7 @@ const AppRouter = () => {
         <Route path='/sollect/write/search' element={<SearchPage />} />
 
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
+        <Route path='/solroute/write/search' element={<SearchPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { MarkerInfoType, SolroutePlacePreview } from '../types';
+import { MarkerInfoType, SolroutePlace, SolroutePlacePreview } from '../types';
 
 interface SolrouteWriteState {
   icon: number | null;
@@ -18,6 +18,8 @@ interface SolrouteWriteState {
   addPlaceCoords: (placeCoords: MarkerInfoType) => void;
   deletePlaceCoords: (ids: number) => void;
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
+  //장소 검색에서 사용하는 함수
+  addPlace: (place: SolroutePlace) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
@@ -32,7 +34,7 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   prevMarkers: [],
 
   setIcon: (icon: number) => set({ icon }),
-  setTitle: (title: string | null ) => set({ title }),
+  setTitle: (title: string | null) => set({ title }),
   setStatus: (status: boolean) => set({ status }),
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => set({ placeInfos }),
   addPlaceInfos: (placeInfos: SolroutePlacePreview) =>
@@ -54,5 +56,14 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
     const currentMarkers = get().nextMarkers;
     set({ prevMarkers: currentMarkers });
     set({ nextMarkers });
+  },
+
+  addPlace: (place) => {
+    const seq = get().placeInfos.length + 1;
+    const isExisted = get().placeInfos.some((p) => p.id == place.id);
+    if (isExisted) return;
+    set({
+      placeInfos: [...get().placeInfos, { ...place, seq, memo: '' }],
+    });
   },
 }));

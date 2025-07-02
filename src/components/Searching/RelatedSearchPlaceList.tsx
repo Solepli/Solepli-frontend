@@ -8,6 +8,7 @@ import { useShallow } from 'zustand/shallow';
 import RelatedSearchPlace from './RelatedSearchPlace';
 import { useSollectWriteStore } from '../../store/sollectWriteStore';
 import { useLocation } from 'react-router-dom';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 
 const RelatedSearchPlaceList: React.FC = () => {
   //search와 관련된 store
@@ -75,7 +76,13 @@ function useWriteStoreByPath() {
     }))
   );
 
-  //TODO:: Solroute에도 places, addPlace, removePlace 추가할 것
+  const solroute = useSolrouteWriteStore(
+    useShallow((state) => ({
+      places: state.placeInfos,
+      addPlace: state.addPlace,
+      removePlace: state.deletePlaceInfo,
+    }))
+  )
 
-  return path.includes('sollect') ? sollect : sollect;
+  return path.includes('sollect') ? sollect : solroute;
 }
