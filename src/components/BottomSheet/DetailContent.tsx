@@ -9,6 +9,7 @@ import { usePlaceStore } from '../../store/placeStore';
 import { Link, useParams } from 'react-router-dom';
 import arrow from '../../assets/arrow.svg';
 import { useQuery } from '@tanstack/react-query';
+import ReviewWriteTriggerEmoji from './ReviewWrite/ReviewWriteTriggerEmoji';
 
 const DetailContent: React.FC = () => {
   const { placeId } = useParams<{ placeId: string }>();
@@ -64,6 +65,12 @@ const DetailContent: React.FC = () => {
         to={`/related-sollect/${placeId}`}>
         관련 쏠렉트 보기 <img src={arrow} alt='arrow' />
       </Link>
+
+      {/* 이모지 컴포넌트 클릭시 리뷰 작성으로 넘어감*/}
+      <ReviewWriteTriggerEmoji
+        placeId={selectedPlace.id}
+        placeName={selectedPlace.name}
+      />
 
       {/* ReviewList */}
       
