@@ -33,7 +33,8 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({ setSelectedIcon }) => {
 
       {modalOpen && (
         <div
-          className='fixed inset-0 z-50 flex justify-center'
+        // 네이버 마커가 z-100이라 z-101로 설정해 마크를 가림
+          className='fixed inset-0 z-101 flex justify-center' 
           style={{
             top: buttonRef.current
               ? buttonRef.current.getBoundingClientRect().bottom + 10
