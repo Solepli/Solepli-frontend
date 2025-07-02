@@ -71,15 +71,15 @@ const ReviewWrite: React.FC = () => {
 
     // review 데이터를 request로 만들어 FormData에 추가
     const formData = new FormData();
-    const request = {
+    const payload = {
       placeId: placeId,
       recommendation: emoji === 'good' ? true : false,
       rating: rating,
-      moodTag: moodTags.map((tag) => tag.text),
-      soloTag: singleTags.map((tag) => tag.text),
+      moodTag: moodTags,
+      soloTag: singleTags,
       content: text,
     };
-    formData.append('request', JSON.stringify(request));
+    formData.append('request', JSON.stringify(payload));
 
     // 파일들을 FormData에 추가
     files.forEach((file) => {
