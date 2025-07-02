@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
-import { SCALE_16_14 } from '../../constants';
+import { useAutoResize } from '../../hooks/useAutoResize';
 
 const SolroutePlace = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -9,52 +9,7 @@ const SolroutePlace = () => {
 
   const [memo, setMemo] = useState('');
 
-  // 메모 변경 및 높이 자동 조절
-  const handleChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    if (newValue.length > 100) return;
-
-    setMemo(newValue);
-
-    if (textareaRef.current) {
-      // textarea 높이 조절
-      textareaRef.current.style.height = `auto`;
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-
-      // 스케일링 적용된 높이 계산 후 조절
-      const emptySpace = textareaRef.current.scrollHeight * (1 - SCALE_16_14);
-      textareaRef.current.style.marginBottom = `-${emptySpace}px`;
-    }
-  };
-
-  // textarea의 크기 변경 감지시 스크롤 처리
-  useEffect(() => {
-    const textareaElement = textareaRef.current;
-    const containerElement = containerRef.current;
-    const visualViewport = window.visualViewport;
-
-    if (!textareaElement || !containerElement || !visualViewport) return;
-
-    const observer = new ResizeObserver(() => {
-      const rect = containerElement.getBoundingClientRect();
-
-      // (컨테이너 높이 <= 보이는 화면 높이) : 컨테이너가 화면에 완전히 보임
-      if (rect.bottom <= visualViewport.height) return;
-
-      const scrollAmount = window.scrollY + rect.bottom - visualViewport.height;
-
-      window.scrollTo({
-        top: scrollAmount,
-        behavior: 'smooth',
-      });
-    });
-
-    observer.observe(textareaElement);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  useAutoResize(textareaRef);
 
   return (
     <div ref={containerRef} className='flex items-start self-stretch'>
@@ -101,9 +56,10 @@ const SolroutePlace = () => {
                 spellCheck={false}
                 ref={textareaRef}
                 value={memo}
-                onChange={handleChangeText}
+                onChange={(e) => setMemo(e.target.value)}
                 placeholder='메모를 남겨보세요.'
                 rows={1}
+                maxLength={100}
                 className='text-primary-950 placeholder:text-secondary-500
                 focus:outline-none focus:ring-0 resize-none
                 self-stretch not-italic font-normal leading-[150%] tracking-[-0.35px]
