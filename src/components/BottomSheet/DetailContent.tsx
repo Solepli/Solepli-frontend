@@ -36,12 +36,11 @@ const DetailContent: React.FC = () => {
   // complete api: 마커 클릭시 해당 장소 상세정보 호출
   // complete api: 검색 결과에서 특정 장소 클릭시 상세 정보 호출
   useEffect(() => {
-    if(data){
+    if (data) {
       console.log('placeDetail:', data);
       setPlace(data.place);
     }
   }, [data]);
-
 
   if (!selectedPlace) {
     return null;
@@ -60,7 +59,11 @@ const DetailContent: React.FC = () => {
       <ContentTitle detailPlace={selectedPlace} property='detail' />
 
       {/* ReviewRange */}
-      <ReviewRange rating={selectedPlace.rating} recommend={selectedPlace.isSoloRecommended} />
+      <ReviewRange
+        rating={selectedPlace.rating}
+        recommend={selectedPlace.isSoloRecommended}
+        hasReviews={hasReviews}
+      />
 
       {/* tags */}
       <div className='pb-12'>

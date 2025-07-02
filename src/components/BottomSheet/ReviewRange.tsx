@@ -4,15 +4,20 @@ import star from '../../assets/starFill.svg';
 interface ReviewRangeProps {
   rating: number;
   recommend: number;
+  hasReviews: boolean;
 }
 
-const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
+const ReviewRange: React.FC<ReviewRangeProps> = ({
+  rating,
+  recommend,
+  hasReviews,
+}) => {
   return (
     <div className='px-16 pb-8'>
       <div className='flex justify-between items-center'>
         <div>
           <p className='text-xs text-primary-900 font-medium mb-2'>
-            {recommend}% 추천
+            {hasReviews ? `${recommend}% 추천` : '리뷰 없음'}
           </p>
 
           {/* 바 */}
@@ -26,7 +31,9 @@ const ReviewRange: React.FC<ReviewRangeProps> = ({ rating, recommend }) => {
         {/* 별점 */}
         <div className='flex items-center pt-4'>
           <img src={star} alt='star' className='w-20 h-20' />
-          <p className='text-xs text-primary-900 font-medium'>{rating}</p>
+          <p className='text-xs text-primary-900 font-medium'>
+            {hasReviews ? rating : '0.0'}
+          </p>
         </div>
       </div>
     </div>
