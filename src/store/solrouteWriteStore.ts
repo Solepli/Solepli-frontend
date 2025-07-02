@@ -13,7 +13,7 @@ interface SolrouteWriteState {
   setTitle: (title: string | null) => void;
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => void;
   addPlaceInfos: (placeInfos: SolroutePlacePreview) => void;
-  deletePlaceInfos: (ids: number) => void;
+  deletePlaceInfo: (id: number) => void;
   setPlaceCoords: (placeCoords: MarkerInfoType[]) => void;
   addPlaceCoords: (placeCoords: MarkerInfoType) => void;
   deletePlaceCoords: (ids: number) => void;
@@ -37,9 +37,9 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => set({ placeInfos }),
   addPlaceInfos: (placeInfos: SolroutePlacePreview) =>
     set({ placeInfos: [...get().placeInfos, placeInfos] }),
-  deletePlaceInfos: (ids: number) => {
+  deletePlaceInfo: (id: number) => {
     const originInfos = get().placeInfos;
-    const newInfos = originInfos.filter((v) => v.placeId != ids);
+    const newInfos = originInfos.filter((v) => v.id != id);
     set({ placeInfos: newInfos });
   },
   setPlaceCoords: (placeCoords: MarkerInfoType[]) => set({ placeCoords }),

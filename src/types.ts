@@ -95,8 +95,8 @@ export type RelatedSearchPlace = {
 export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
 
 export type SolroutePlace = {
-  placeId: number;
-  placeName: string;
+  id: number;
+  name: string;
   detailedCategory: string;
   address: string;
   category: string;
