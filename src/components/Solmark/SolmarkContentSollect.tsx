@@ -1,9 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchSolmarkSollect } from '../../api/solmarkApi';
 import SollectList from '../Sollect/SollectList';
 import { SollectPhotoType } from '../../types';
-import { useNavigate } from 'react-router-dom';
 import SolmarkNoResult from './SolmarkNoResult';
 
 const SolmarkContentSollect = () => {
