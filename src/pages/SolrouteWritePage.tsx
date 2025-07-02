@@ -1,11 +1,12 @@
 import { useShallow } from 'zustand/shallow';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
-import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
 import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
 import { useEffect } from 'react';
 import { MarkerInfoType, SolroutePlacePreview } from '../types';
+import { useNavigate } from 'react-router-dom';
+import LargeButton from '../components/global/LargeButton';
 
 const placeInfos: SolroutePlacePreview[] = [
   {
@@ -59,6 +60,7 @@ const makePlaceCoord = (
 };
 
 const SollectWritePage = () => {
+  const navigate = useNavigate();
   const { setPlaceInfos, setPlaceCoords } = useSolrouteWriteStore(
     useShallow((state) => ({
       setPlaceInfos: state.setPlaceInfos,
@@ -86,7 +88,8 @@ const SollectWritePage = () => {
         <SolrouteTitle />
         <SolrouteMap />
         <div className='pt-24 pb-48 px-16'>
-          <SolroutePlaceAddButton />
+          {/* TODD:: solmark 페이지로 이동 */}
+          <LargeButton text='장소 추가' onClick={() => {navigate('/solroute/write/search')}} />
         </div>
       </div>
     </div>
