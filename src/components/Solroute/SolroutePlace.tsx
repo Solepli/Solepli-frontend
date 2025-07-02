@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
 
 const SolroutePlace = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [memo, setMemo] = useState('');
 
@@ -18,8 +19,37 @@ const SolroutePlace = () => {
     }
   };
 
+  // textarea의 크기 변경 감지시 스크롤 처리
+  useEffect(() => {
+    const textareaElement = textareaRef.current;
+    const containerElement = containerRef.current;
+    const visualViewport = window.visualViewport;
+
+    if (!textareaElement || !containerElement || !visualViewport) return;
+
+    const observer = new ResizeObserver(() => {
+      const rect = containerElement.getBoundingClientRect();
+
+      // (컨테이너 높이 <= 보이는 화면 높이) : 컨테이너가 화면에 완전히 보임
+      if (rect.bottom <= visualViewport.height) return;
+
+      const scrollAmount = window.scrollY + rect.bottom - visualViewport.height;
+
+      window.scrollTo({
+        top: scrollAmount,
+        behavior: 'smooth',
+      });
+    });
+
+    observer.observe(textareaElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className='flex items-start self-stretch'>
+    <div ref={containerRef} className='flex items-start self-stretch'>
       <div className='flex pl-20 items-start gap-16 grow'>
         {/* line */}
         <div className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
