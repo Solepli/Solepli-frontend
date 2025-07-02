@@ -9,14 +9,21 @@ const SelectedIcon: React.FC<{ icon: number }> = ({ icon }) => {
 };
 
 interface IconAddButtonProps {
+  initIcon: number | null;
   setSelectedIcon: (icon: number) => void;
 }
 
-const IconAddButton: React.FC<IconAddButtonProps> = ({ setSelectedIcon }) => {
+const IconAddButton: React.FC<IconAddButtonProps> = ({ initIcon, setSelectedIcon }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [icon, setIcon] = useState<number | null>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
+  //초기 아이콘 값 설정
+  useEffect(() => {
+    setIcon(initIcon);
+  }, [initIcon]);
+
+  //아이콘이 변경될 경우
   useEffect(() => {
     if (!icon) return;
     setSelectedIcon(icon);
