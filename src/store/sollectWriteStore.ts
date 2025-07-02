@@ -1,6 +1,6 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
-import { Paragraph, SearchedPlace, } from '../types';
+import { Paragraph, RelatedSearchPlace, } from '../types';
 
 type SollectWriteState = {
   seq: number;
@@ -9,7 +9,7 @@ type SollectWriteState = {
   title: string | null;
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
-  places: SearchedPlace[]; // 장소 ID 목록을 저장하는 속성을 집합으로 추가해 중복된 Id가 없도록 만듦
+  places: RelatedSearchPlace[]; 
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
   setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
   addTextParagraph: (afterSeq?: number) => void;
@@ -19,7 +19,7 @@ type SollectWriteState = {
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
   insertImageAtCaret: (file: File, caret?: number | null) => void;
-  addPlace: (place: SearchedPlace) => void; // 장소 ID 목록을 설정하는 함수
+  addPlace: (place: RelatedSearchPlace) => void; // 장소 ID 목록을 설정하는 함수
   removePlace: (id: number | null) => void; // 선택된 place 해제
 };
 
