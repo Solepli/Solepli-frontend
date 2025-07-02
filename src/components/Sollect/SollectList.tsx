@@ -1,13 +1,14 @@
 import React from 'react';
 import SollectPhoto from './SollectPhoto';
 import { SollectListProps } from '../../interface';
+import { useSollectStore } from '../../store/sollectStore';
 
 const SollectList: React.FC<SollectListProps> = ({
   horizontal,
-  sollects,
   customStyle,
   isMine
 }) => {
+  const { sollects } = useSollectStore();
   let style = customStyle;
 
   if (horizontal) {
