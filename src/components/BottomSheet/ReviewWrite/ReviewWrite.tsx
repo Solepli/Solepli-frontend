@@ -12,6 +12,8 @@ import ReviewWriteButton from './ReviewWriteButton';
 import { postReview } from '../../../api/reviewApi';
 import ReviewPhotosInput from './ReviewPhotosInput';
 import TitleHeader from '../../global/TitleHeader';
+import { toast } from 'react-toastify';
+import Warn from '../../global/Warn';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();
@@ -85,6 +87,9 @@ const ReviewWrite: React.FC = () => {
       navigateToDetail();
     } catch (e) {
       console.error(e);
+      const message =
+        e instanceof Error ? e.message : '알 수 없는 오류가 발생했습니다.';
+      toast(<Warn title={message} />);
     } finally {
       setIsLoading(false);
     }
