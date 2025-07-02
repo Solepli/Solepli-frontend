@@ -82,10 +82,19 @@ export type RelatedSearchPlace = RelatedSearchWord & {
   isAdded: boolean;
 };
 
-export type SolroutePlace = RelatedSearchPlace & {
-  memo: string;
+export type SolroutePlace = {
+  placeId: number;
+  placeName: string;
+  detailedCategory: string;
+  address: string;
+  category: string;
   latitude: number;
   longitude: number;
+};
+
+export type SolroutePlacePreview = SolroutePlace & {
+  seq: number;
+  memo: string;
 };
 
 export type Emoji = 'good' | 'bad' | null;

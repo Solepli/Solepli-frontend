@@ -1,18 +1,56 @@
 import { create } from 'zustand';
-import { SolroutePlace } from '../types';
+import { MarkerInfoType, SolroutePlacePreview } from '../types';
 
 interface SolrouteWriteState {
-  title: string | null;
-  icon: number | null;
-  places: SolroutePlace[]; // 장소 ID 목록을 저장하는 속성
+  iconId: number | null;
+  name: string | null;
+  status: boolean;
+  placeInfos: SolroutePlacePreview[]; // 정보 목록 저장
+  placeCoords: MarkerInfoType[]; // 좌표 목록 저장
+  nextMarkers: naver.maps.Marker[];
+  prevMarkers: naver.maps.Marker[];
+  setIconId: (iconId: number) => void;
+  setName: (name: string | null) => void;
+  setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => void;
+  addPlaceInfos: (placeInfos: SolroutePlacePreview) => void;
+  deletePlaceInfos: (ids: number) => void;
+  setPlaceCoords: (placeCoords: MarkerInfoType[]) => void;
+  addPlaceCoords: (placeCoords: MarkerInfoType) => void;
+  deletePlaceCoords: (ids: number) => void;
+  setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
 }
 
-export const useSolrouteWriteStore = create<SolrouteWriteState>((set) => ({
-  title: null, // 제목을 저장하는 속성
-  places: [], // 장소 ID 목록을 저장하는 속성
-  icon: null, // 아이콘 번호를 저장하는 속성
+export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
+  iconId: null,
+  name: null,
+  status: false,
+  placeInfos: [],
+  placeCoords: [],
+  nextMarkers: [],
+  prevMarkers: [],
 
-  setTitle: (title: string | null) => set({ title }),
-  setIcon: (icon: number) => set({ icon }),
-  setPlaces: (places: SolroutePlace[]) => set({ places }),
+  setIconId: (iconId: number) => set({ iconId }),
+  setName: (name: string | null) => set({ name }),
+  setStatus: (status: boolean) => set({ status }),
+  setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => set({ placeInfos }),
+  addPlaceInfos: (placeInfos: SolroutePlacePreview) =>
+    set({ placeInfos: [...get().placeInfos, placeInfos] }),
+  deletePlaceInfos: (ids: number) => {
+    const originInfos = get().placeInfos;
+    const newInfos = originInfos.filter((v) => v.placeId != ids);
+    set({ placeInfos: newInfos });
+  },
+  setPlaceCoords: (placeCoords: MarkerInfoType[]) => set({ placeCoords }),
+  addPlaceCoords: (placeCoords: MarkerInfoType) =>
+    set({ placeCoords: [...get().placeCoords, placeCoords] }),
+  deletePlaceCoords: (ids: number) => {
+    const originCoords = get().placeCoords;
+    const newCoords = originCoords.filter((v) => v.id != ids);
+    set({ placeCoords: newCoords });
+  },
+  setMarkers: (nextMarkers: naver.maps.Marker[]) => {
+    const currentMarkers = get().nextMarkers;
+    set({ prevMarkers: currentMarkers });
+    set({ nextMarkers });
+  },
 }));
