@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
-import { useAutoResize } from '../../hooks/useAutoResize';
+import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 
 const SolroutePlace = () => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -9,7 +9,7 @@ const SolroutePlace = () => {
 
   const [memo, setMemo] = useState('');
 
-  useAutoResize(textareaRef);
+  useAutoResizeAndScroll(textareaRef);
 
   return (
     <div ref={containerRef} className='flex items-start self-stretch'>

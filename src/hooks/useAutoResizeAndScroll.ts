@@ -57,7 +57,7 @@ const getCursorCoordinates = (textarea: HTMLTextAreaElement) => {
   return { y: cursorY };
 };
 
-export const useAutoResize = (
+export const useAutoResizeAndScroll = (
   textareaRef: React.RefObject<HTMLTextAreaElement | null>
 ) => {
   // 길이 자동 조절 함수
