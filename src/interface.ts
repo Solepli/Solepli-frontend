@@ -26,6 +26,7 @@ export interface SollectListProps {
   sollects: SollectPhotoType[];
   horizontal?: boolean;
   customStyle?: string;
+  isMine?:boolean;
 }
 
 export interface SollectGroupProps {

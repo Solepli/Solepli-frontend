@@ -3,12 +3,13 @@ import arrowTail from '../../../assets/arrowTail.svg';
 import arrowTailWhite from '../../../assets/arrowTailWhite.svg';
 import kebabWhite from '../../../assets/kebabWhite.svg';
 import kebabGray from '../../../assets/kebabGray.svg';
-import edit from '../../../assets/edit.svg';
-import deleteIcon from '../../../assets/delete.svg';
+
 
 import { useNavigate, useParams } from 'react-router-dom';
 import Modal from '../../global/Modal';
 import { deleteSollect } from '../../../api/sollectApi';
+import EditDeletePopover from '../../global/EditDeletePopover';
+import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
@@ -16,22 +17,21 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { sollectId } = useParams();
 
-  // TODO: 내 글인지 확인
-  // const userId = localStorage.getItem('userId');
-  // const {authorId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
-  // const mySollect = userId === authorId;
-  const mySollect = true;
+  // 내 글인지 확인
+  const userId = localStorage.getItem('userId');
+  const {writerId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
+  const mySollect = Number(userId) === writerId;
 
   const clickDeleteModal = () => {
     setShowDeleteModal(true);
   };
+
   const onLeftClick = () => {
     setShowDeleteModal(false);
   };
+
   const onRightClick = () => {
     setShowDeleteModal(false);
-    // delete
-    // sollect id 응답으로 받아야함
     deleteSollect(Number(sollectId));
     navigate(-1);
   };
@@ -57,34 +57,17 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
             onClick={() => setShowMenu(!showMenu)}
           />
 
-          {showMenu && (
-            <div
-              className='absolute top-40 right-12 rounded-lg border-1 border-primary-100 bg-white w-136 shadow-[3px_3px_4px_0px_rgba(24,24,24,0.06)] text-primary-950
-text-sm'>
-              {/* 수정 */}
-              <div className='p-12 flex gap-8 items-center border-b border-primary-100'>
-                <img src={edit} alt='edit' />
-                수정
-              </div>
-              {/* 삭제 */}
-              <div
-                className='p-12 flex gap-8 items-center'
-                onClick={clickDeleteModal}>
-                <img src={deleteIcon} alt='delete' />
-                삭제
-              </div>
+          {showMenu && <EditDeletePopover clickDeleteModal={clickDeleteModal}/>}
 
-              {showDeleteModal && (
-                <Modal
-                  title='정말 삭제하시겠습니까?'
-                  subtitle='삭제하면 복구할 수 없어요!'
-                  leftText='취소'
-                  rightText='삭제'
-                  onLeftClick={onLeftClick}
-                  onRightClick={onRightClick}
-                />
-              )}
-            </div>
+          {showDeleteModal && (
+            <Modal
+              title='정말 삭제하시겠습니까?'
+              subtitle='삭제하면 복구할 수 없어요!'
+              leftText='취소'
+              rightText='삭제'
+              onLeftClick={onLeftClick}
+              onRightClick={onRightClick}
+            />
           )}
         </div>
       )}
