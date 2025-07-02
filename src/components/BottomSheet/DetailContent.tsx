@@ -25,7 +25,7 @@ const NoReviewResult: React.FC = () => {
 
 const DetailContent: React.FC = () => {
   const { placeId } = useParams<{ placeId: string }>();
-    const { selectedPlace, setPlace } = usePlaceStore();
+  const { selectedPlace, setPlace } = usePlaceStore();
 
   const { data, isLoading } = useQuery({
     queryKey: ['placeDetail', placeId],
@@ -76,7 +76,7 @@ const DetailContent: React.FC = () => {
 
       {/* 관련 쏠렉트 보기 */}
       <Link
-        className='flex text-primary-950 text-xs pl-16 mb-12'
+        className='flex text-primary-950 text-xs pl-16 pb-12 border-b border-primary-100'
         to={`/related-sollect/${placeId}`}>
         관련 쏠렉트 보기 <img src={arrow} alt='arrow' />
       </Link>
