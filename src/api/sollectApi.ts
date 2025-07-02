@@ -107,7 +107,7 @@ export const fetchRecommendSollect = async (
 
 export const fetchRelatedSollect = async (
   placeId: number,
-  cursorId: number
+  cursorId?: number
 ) => {
   try {
     const params = {
@@ -116,8 +116,7 @@ export const fetchRelatedSollect = async (
     const res = await publicAxios.get(ENDPOINT.SOLLECT_RELATED(placeId), {
       params,
     });
-
-    return res.data.data.contents;
+    return res.data.data;
   } catch (e) {
     console.log(e);
   }
