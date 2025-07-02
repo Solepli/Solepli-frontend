@@ -6,7 +6,8 @@ import { useSollectStore } from '../../store/sollectStore';
 const SollectList: React.FC<SollectListProps> = ({
   horizontal,
   customStyle,
-  isMine
+  isMine,
+  recommendSollect
 }) => {
   const { sollects } = useSollectStore();
   let style = customStyle;
@@ -20,7 +21,10 @@ const SollectList: React.FC<SollectListProps> = ({
   return (
     <div className='flex justify-center'>
       <div className={style}>
-        {sollects.map((sollect) => {
+        {recommendSollect && recommendSollect.map((sollect)=>{
+          return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
+        })}
+        {!recommendSollect && sollects.map((sollect) => {
           return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
         })}
       </div>
