@@ -1,18 +1,21 @@
 import React from 'react';
-import arrow from '../../assets/arrow.svg';
+import Arrow from '../../assets/arrowLeft.svg?react';
 import { TitleHeaderProps } from '../../interface';
 
-const TitleHeader: React.FC<TitleHeaderProps> = ({ title, onClick, center }) => {
+const TitleHeader: React.FC<TitleHeaderProps> = ({
+  title,
+  onClick,
+  center,
+}) => {
   return (
     <header
       className={`w-full flex items-center py-8 fixed z-10 bg-white top-0 ${center ? 'text-center' : ''}`}>
-      <img
-        src={arrow}
-        alt='arrow'
-        className='rotate-180 w-24 h-24 m-9'
-        onClick={onClick}
-      />
-      <p className='text-primary-950 text-lg font-bold w-full pr-42'>{title}</p>
+      <div className='p-9 flex items-center justify-content' onClick={onClick}>
+        <Arrow />
+      </div>
+      <p className='text-primary-950 text-base font-bold leading-normal w-full pr-42'>
+        {title}
+      </p>
     </header>
   );
 };
