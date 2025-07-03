@@ -11,9 +11,13 @@ const SelectedIcon: React.FC<{ icon: number }> = ({ icon }) => {
 interface IconAddButtonProps {
   initIcon: number | null;
   setSelectedIcon: (icon: number) => void;
+  isSolroute?: boolean;
 }
 
-const IconAddButton: React.FC<IconAddButtonProps> = ({ initIcon, setSelectedIcon }) => {
+const IconAddButton: React.FC<IconAddButtonProps> = ({
+  initIcon,
+  setSelectedIcon,
+}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [icon, setIcon] = useState<number | null>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -29,6 +33,8 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({ initIcon, setSelectedIcon
     setSelectedIcon(icon);
   }, [icon, setSelectedIcon]);
 
+  const rect = buttonRef.current?.getBoundingClientRect();
+
   return (
     <>
       <div
@@ -40,12 +46,14 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({ initIcon, setSelectedIcon
 
       {modalOpen && (
         <div
-        // 네이버 마커가 z-100이라 z-101로 설정해 마크를 가림
-          className='fixed inset-0 z-101 flex justify-center' 
+          className={`fixed inset-0 z-101 ${
+            //쏠루트일 때 window.innerWidth가 400px 작을 경우 모달을 가운데에 위치
+            window.innerWidth < 400 ? 'flex justify-center' : ''
+          }`}
           style={{
-            top: buttonRef.current
-              ? buttonRef.current.getBoundingClientRect().bottom + 10
-              : 0,
+            top: (rect?.bottom ?? 0) + 10,
+            //window.innerWidth가  400px보다 클 경우 모달 왼쪽을 + 버튼 왼쪽과  동일하게 설정
+            left: window.innerWidth >= 400 ? rect?.left : undefined,
           }}
           onClick={() => setModalOpen(false)}>
           <SelectableIconSet setIcon={setIcon} />
