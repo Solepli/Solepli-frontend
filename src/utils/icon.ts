@@ -35,14 +35,14 @@ import ShopSmall from '../assets/category-icons/small/shop.svg?react';
 import WalkSmall from '../assets/category-icons/small/walk.svg?react';
 import WorkSmall from '../assets/category-icons/small/work.svg?react';
 
-import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
-import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
-import DrinkMarker from '../assets/category-icons/mapMarker/drinkMarker.svg?url';
-import EntertainmentMarker from '../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
-import FoodMarker from '../assets/category-icons/mapMarker/foodMarker.svg?url';
-import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
-import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
-import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
+import CafeMarker from '../assets/marker/cafeMarker.svg?url';
+import CultureMarker from '../assets/marker/cultureMarker.svg?url';
+import DrinkMarker from '../assets/marker/drinkMarker.svg?url';
+import EntertainmentMarker from '../assets/marker/entertainmentMarker.svg?url';
+import FoodMarker from '../assets/marker/foodMarker.svg?url';
+import ShopMarker from '../assets/marker/shopMarker.svg?url';
+import WalkMarker from '../assets/marker/walkMarker.svg?url';
+import WorkMarker from '../assets/marker/workMarker.svg?url';
 
 export const iconMap: Record<
   string,
