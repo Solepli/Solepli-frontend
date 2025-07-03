@@ -6,10 +6,11 @@ import { placeSummary } from '../../types';
 
 interface SummaryProps {
   place: placeSummary;
+  isMarked?:boolean;
 }
 
 // { place }: placeSummary
-const PreviewContentSummary: React.FC<SummaryProps> = ({ place }) => {
+const PreviewContentSummary: React.FC<SummaryProps> = ({ place, isMarked }) => {
   if (!place) {
     return;
   }
@@ -29,7 +30,7 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({ place }) => {
 
         {/* right */}
         {/* preview */}
-        <SolmarkChip placeId={place.PlaceId} />
+        <SolmarkChip placeId={place.PlaceId} isMarked={isMarked}/>
       </div>
 
       <ReviewRange

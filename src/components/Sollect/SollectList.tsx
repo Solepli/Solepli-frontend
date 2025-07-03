@@ -6,6 +6,7 @@ const SollectList: React.FC<SollectListProps> = ({
   horizontal,
   sollects,
   customStyle,
+  isMine
 }) => {
   let style = customStyle;
 
@@ -19,7 +20,7 @@ const SollectList: React.FC<SollectListProps> = ({
     <div className='flex justify-center'>
       <div className={style}>
         {sollects.map((sollect) => {
-          return <SollectPhoto sollect={sollect} key={sollect.sollectId} />;
+          return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
         })}
       </div>
     </div>

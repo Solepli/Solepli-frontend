@@ -14,6 +14,7 @@ interface SollectDetailStore {
   contents:Paragraph[];
   markedCount:number;
   placeSummaries:placeSummary[];
+  writerId:number;
 
   setSollectDetail:(data:SollectDetailStore)=>void;
 }
@@ -31,6 +32,7 @@ export const useSollectDetailStore = create<SollectDetailStore>((set) => ({
   contents:[],
   markedCount:0,
   placeSummaries:[],
+  writerId:0,
 
   setSollectDetail:(data)=>set(()=>({...data})),
 

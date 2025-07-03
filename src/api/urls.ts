@@ -41,6 +41,7 @@ export const ENDPOINT = {
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
+  SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
   
   SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',                     // 리스트 조회
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesByCollectionId } from '../api/solmarkApi';
 import { useSolmarkStore } from '../store/solmarkStore';
+import PreviewContentSummary from '../components/Place/PreviewContentSummary';
 
 const SolmarkPlacePreviewPage = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const SolmarkPlacePreviewPage = () => {
     if (data) {
       setPlaces(data);
     }
-  }, []);
+  }, [data]);
 
   return (
     <div>
@@ -37,6 +38,13 @@ const SolmarkPlacePreviewPage = () => {
         <p className='text-primary-950 text-sm py-24 px-16 pb-8'>
           장소 {places.length}개
         </p>
+        <div>
+          {places.map((place)=>{
+            return(
+              <PreviewContentSummary place={place} isMarked={true} key={place.PlaceId}/>
+            )
+          })}
+        </div>
       </div>
     </div>
   );
