@@ -59,7 +59,7 @@ const makePlaceCoord = (
   return dataArray;
 };
 
-const SollectWritePage = () => {
+const SolrouteWritePage = () => {
   const navigate = useNavigate();
   const { setPlaceInfos, setPlaceCoords } = useSolrouteWriteStore(
     useShallow((state) => ({
@@ -96,4 +96,4 @@ const SollectWritePage = () => {
   );
 };
 
-export default SollectWritePage;
+export default SolrouteWritePage;
