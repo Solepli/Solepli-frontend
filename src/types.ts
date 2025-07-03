@@ -78,13 +78,25 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
-export type RelatedSearchPlace = RelatedSearchWord & {
-  isAdded: boolean;
-};
+export type SelectablePlace = {
+  isSelected: boolean;
+}
+
+export type RelatedSearchPlace = {
+  id: number;
+  name: string;
+  category: string;
+  detailedCategory: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
+export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
 
 export type SolroutePlace = {
-  placeId: number;
-  placeName: string;
+  id: number;
+  name: string;
   detailedCategory: string;
   address: string;
   category: string;

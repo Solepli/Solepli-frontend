@@ -1,17 +1,18 @@
 import { useShallow } from 'zustand/shallow';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
-import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
 import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
 import { useEffect } from 'react';
 import { MarkerInfoType, SolroutePlacePreview } from '../types';
+import { useNavigate } from 'react-router-dom';
+import LargeButton from '../components/global/LargeButton';
 
 const placeInfos: SolroutePlacePreview[] = [
   {
-    placeId: 1,
+    id: 1,
     seq: 1,
-    placeName: '리퍼크',
+    name: '리퍼크',
     detailedCategory: '카페',
     address: '서울특별시 강남구 강남대로 382 메리츠타워 1층',
     memo: '리퍼크 메모 어쩌구',
@@ -20,9 +21,9 @@ const placeInfos: SolroutePlacePreview[] = [
     longitude: 127.0285793,
   },
   {
-    placeId: 2,
+    id: 2,
     seq: 2,
-    placeName: '양궁카페 로빈훗 강남점',
+    name: '양궁카페 로빈훗 강남점',
     detailedCategory: '양궁장',
     address: '서울특별시 강남구 강남대로110길 13',
     memo: ' 메모 어쩌구',
@@ -31,9 +32,9 @@ const placeInfos: SolroutePlacePreview[] = [
     longitude: 127.0259367,
   },
   {
-    placeId: 20,
+    id: 20,
     seq: 3,
-    placeName: '티틸 카페+바',
+    name: '티틸 카페+바',
     detailedCategory: '카페',
     address: '서울특별시 강북구 노해로 42',
     memo: ' 메모 어쩌구',
@@ -49,7 +50,7 @@ const makePlaceCoord = (
   const dataArray: MarkerInfoType[] = [];
   placeInfos.forEach((v) => {
     dataArray.push({
-      id: v.placeId,
+      id: v.id,
       category: v.category,
       latitude: v.latitude,
       longitude: v.longitude,
@@ -58,7 +59,8 @@ const makePlaceCoord = (
   return dataArray;
 };
 
-const SollectWritePage = () => {
+const SolrouteWritePage = () => {
+  const navigate = useNavigate();
   const { setPlaceInfos, setPlaceCoords } = useSolrouteWriteStore(
     useShallow((state) => ({
       setPlaceInfos: state.setPlaceInfos,
@@ -86,11 +88,12 @@ const SollectWritePage = () => {
         <SolrouteTitle />
         <SolrouteMap />
         <div className='pt-24 pb-48 px-16'>
-          <SolroutePlaceAddButton />
+          {/* TODD:: solmark 페이지로 이동 */}
+          <LargeButton text='장소 추가' onClick={() => {navigate('/solroute/write/search')}} />
         </div>
       </div>
     </div>
   );
 };
 
-export default SollectWritePage;
+export default SolrouteWritePage;
