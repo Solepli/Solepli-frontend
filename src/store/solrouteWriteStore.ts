@@ -23,7 +23,6 @@ interface SolrouteWriteState {
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
-  iconId: null,
   icon: null,
   title: null,
   name: null,
