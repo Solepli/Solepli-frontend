@@ -49,7 +49,6 @@ const AppRouter = () => {
             <Route path='list' element={<PreviewContentList />} />
             <Route path='not-found' element={<PreviewContentEmpty />} />
             <Route path='detail/:placeId' element={<DetailContent />} />
-            <Route path='review-write/:placeId' element={<ReviewWrite />} />
           </Route>
 
           <Route path='map/search' element={<SearchPage />} />
@@ -72,6 +71,8 @@ const AppRouter = () => {
           <Route index element={<SollectWritePage />} />
           <Route path='place' element={<SollectWritePlacePage />} />
         </Route>
+
+        <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
 
