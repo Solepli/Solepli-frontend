@@ -4,7 +4,8 @@ import Trash from '../../assets/trash.svg?react';
 import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 
 const SolroutePlace = () => {
-  const dashUnderRepeatRef = useRef<HTMLDivElement | null>(null);
+  const lineColumnRef = useRef<HTMLDivElement | null>(null);
+  const infoColumnRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -13,30 +14,32 @@ const SolroutePlace = () => {
   useAutoResizeAndScroll(textareaRef);
 
   useEffect(() => {
-    const textareaElement = dashUnderRepeatRef.current;
-    if (!textareaElement) return;
+    const lineElement = lineColumnRef.current;
+    const infoElement = infoColumnRef.current;
+    if (!infoElement || !lineElement) return;
 
     const multiple = 8; // repeat되는 'solroute-dash-under-num-repeat.svg'의 height
 
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (!entry) return;
-      const { height } = entry.contentRect;
-      const newHeight = Math.ceil(height / multiple) * multiple;
-      textareaElement.style.height = `${newHeight}px`;
+    const observer = new ResizeObserver(() => {
+      const infoHeight = infoElement.offsetHeight;
+      const targetHeight = Math.max(90, infoHeight);
+      const newHeight = Math.ceil(targetHeight / multiple) * multiple;
+      lineElement.style.height = `${newHeight}px`;
     });
-    observer.observe(textareaElement);
+    observer.observe(infoElement);
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [textareaRef]);
 
   return (
     <div ref={containerRef} className='flex items-start self-stretch'>
       <div className='flex pl-20 items-start gap-16 grow'>
         {/* line */}
-        <div className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
+        <div
+          ref={lineColumnRef}
+          className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
           <img src={'/solroute-dash-top-num.svg'} alt='solroute-dash-top-num' />
           <div className='flex w-24 h-24 flex-col justify-center items-center gap-10 aspect-square'>
             <DragAndDropLine />
@@ -47,7 +50,6 @@ const SolroutePlace = () => {
               alt='solroute-dash-under-num-start'
             />
             <div
-              ref={dashUnderRepeatRef}
               className={`self-stretch grow bg-repeat-y bg-top bg-[url("/solroute-dash-under-num-repeat.svg")]`}
             />
             <img
@@ -58,7 +60,9 @@ const SolroutePlace = () => {
         </div>
 
         {/* info */}
-        <div className='flex py-12 pr-16 flex-col justify-center items-start gap-8 grow'>
+        <div
+          ref={infoColumnRef}
+          className='flex py-12 pr-16 flex-col justify-center items-start gap-8 grow'>
           {/* place */}
           <div className='flex items-center gap-10 self-stretch'>
             <div className='flex flex-col items-start gap-2 grow'>
