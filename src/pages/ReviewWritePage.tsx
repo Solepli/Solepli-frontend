@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-import ReviewEmoji from './ReviewEmoji';
+import ReviewEmoji from '../components/BottomSheet/ReviewWrite/ReviewEmoji';
 
-import ReviewRatio from './ReviewRatio';
-import ReviewTagList from './ReviewTagList';
-import ReviewInput from './ReviewInput';
+import ReviewRatio from '../components/BottomSheet/ReviewWrite/ReviewRatio';
+import ReviewTagList from '../components/BottomSheet/ReviewWrite/ReviewTagList';
+import ReviewInput from '../components/BottomSheet/ReviewWrite/ReviewInput';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import useReviewWriteStore from '../../../store/reviewWriteStore';
+import useReviewWriteStore from '../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
-import ReviewWriteButton from './ReviewWriteButton';
-import { postReview } from '../../../api/reviewApi';
-import ReviewPhotosInput from './ReviewPhotosInput';
-import TitleHeader from '../../global/TitleHeader';
+import ReviewWriteButton from '../components/BottomSheet/ReviewWrite/ReviewWriteButton';
+import { postReview } from '../api/reviewApi';
+import ReviewPhotosInput from '../components/BottomSheet/ReviewWrite/ReviewPhotosInput';
+import TitleHeader from '../components/global/TitleHeader';
 import { toast } from 'react-toastify';
-import Warn from '../../global/Warn';
+import Warn from '../components/global/Warn';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();

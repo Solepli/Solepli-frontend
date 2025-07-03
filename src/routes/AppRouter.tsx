@@ -6,7 +6,7 @@ import PreviewContentList from '../components/BottomSheet/Preview/PreviewContent
 import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
-import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
+import ReviewWrite from '../pages/ReviewWritePage';
 import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
