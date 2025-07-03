@@ -8,10 +8,10 @@ interface ReviewTagProps {
 
 const ReviewTag: React.FC<ReviewTagProps> = ({ text, selected, onClick }) => {
   const baseStyle =
-    'min-w-[120px] h-40 flex flex-row items-center justify-center py-[10px] px-[8px] border-[1px] border-solid border-primary-100 rounded-[4px]';
+    'min-w-[120px] h-40 flex flex-row items-center justify-center py-[10px] px-[8px] outline outline-[1px] outline-offset-[-1px] rounded-[4px]';
   const selectedStyle = selected
-    ? 'bg-secondary-600 text-secondary-50'
-    : 'text-primary-900';
+    ? 'bg-secondary-600 text-secondary-50 font-medium outline-secondary-600'
+    : 'text-primary-900 outline-primary-100';
 
   return (
     <div className={`${baseStyle} ${selectedStyle}`} onClick={onClick}>
