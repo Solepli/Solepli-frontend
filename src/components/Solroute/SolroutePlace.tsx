@@ -17,7 +17,7 @@ const SolroutePlace = () => {
         {/* line */}
         <div className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
           <img src={'/solrouteLineDash.svg'} alt='SolrouteLineDash' />
-          <div className='flex w-24 h-24 flex-col justify-center items-center gap-10 aspect-square rounded-lg bg-secondary-700'>
+          <div className='flex w-24 h-24 flex-col justify-center items-center gap-10 aspect-square'>
             <DragAndDropLine />
           </div>
           <div
