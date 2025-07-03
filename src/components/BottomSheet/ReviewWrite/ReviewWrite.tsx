@@ -105,8 +105,8 @@ const ReviewWrite: React.FC = () => {
       <TitleHeader title={placeName} onClick={navigateToDetail} />
 
       {/* 방문 의향 체크, pt-78: TitleHeader + 해당 컴포넌트 20 */}
-      <div className='w-full pt-78'>
-        <ReviewEmoji />
+      <div className='w-full pt-58'>
+        <ReviewEmoji pt={20}/>
       </div>
 
       {/* 만족도 체크 */}
