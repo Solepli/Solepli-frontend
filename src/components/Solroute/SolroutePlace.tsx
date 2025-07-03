@@ -87,7 +87,9 @@ const SolroutePlace = () => {
 
           {/* memo */}
           <div className='flex w-full flex-col items-start'>
-            <div className='flex py-8 px-12 flex-col items-start gap-4 self-stretch rounded-xl border-1 border-solid border-secondary-100 bg-secondary-50'>
+            <div
+              className='flex py-8 px-12 flex-col items-start gap-4 self-stretch rounded-xl border-1 border-solid
+             border-secondary-100 focus-within:border-secondary-700 bg-secondary-50'>
               <textarea
                 spellCheck={false}
                 ref={textareaRef}
