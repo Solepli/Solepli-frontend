@@ -22,8 +22,8 @@ const PreviewContent: React.FC<PreviewContentProps> = ({ place }) => {
       {/* content title */}
       <ContentTitle previewPlace={place} property='preview' />
 
-      {/* review range */}
-      <ReviewRange rating={place.rating} recommend={place.isSoloRecommended} />
+      {/* review range, place.rating이 Null이면 리뷰가 없다는 뜻임 */}
+      <ReviewRange rating={place.rating} recommend={place.isSoloRecommended} hasReviews={place.rating !== null} />
 
       {/* tag list */}
       <TagList tags={place.tags} />

@@ -36,6 +36,7 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({ place, isMarked }) => {
       <ReviewRange
         rating={place.rating}
         recommend={place.recommendationPercent}
+        hasReviews={place.rating !== null}
       />
 
       <TagList tags={place.tags} />
