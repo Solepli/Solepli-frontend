@@ -48,9 +48,7 @@ const Review = ({ review }: { review: ReviewType }) => {
         <TagList tags={review.tags} />
       </div>
       {review.photoUrls.length > 0 && (
-        <div className='px-16'>
           <ReviewPhotos images={review.photoUrls} />
-        </div>
       )}
     </div>
   );
