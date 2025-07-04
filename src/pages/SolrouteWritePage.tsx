@@ -2,7 +2,6 @@ import { useShallow } from 'zustand/shallow';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
 import SolroutePlace from '../components/Solroute/SolroutePlace';
-import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
 import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
 import { useEffect } from 'react';
