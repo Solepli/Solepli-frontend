@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { usePlaceStore } from '../store/placeStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getReviews } from '../api/reviewApi';
 import { useScrollSentinel } from '../hooks/useInfiniteScrollQuery';
@@ -9,8 +8,6 @@ import ReviewWriteTriggerEmoji from '../components/BottomSheet/ReviewWrite/Revie
 
 const ReviewsPage = () => {
   const { placeId } = useParams<{ placeId: string }>();
-  //TODO:: 장소 이름 api 받아서 사용할 것
-  const { selectedPlace } = usePlaceStore();
   const navigate = useNavigate();
 
   // useInfiniteQuery를 통한 무한 스크롤 구현
@@ -29,6 +26,8 @@ const ReviewsPage = () => {
   // 데이터 합침
   const reviews = data?.pages.flatMap(page => page.reviews) ?? [];
 
+  const placeName = data?.pages[0]?.placeName ?? '';
+
   // sentinelRef div가 뷰포트에 들어오면 다음 페이지 fetch
   // 스크롤 끝까지 했는지 sentinel 감시
   const sentinelRef = useScrollSentinel({
@@ -40,7 +39,7 @@ const ReviewsPage = () => {
   return (
     <div className='relative'>
       <TitleHeader
-        title={selectedPlace?.name ?? ''}
+        title={placeName}
         onClick={() => {
           navigate(`/map/detail/${placeId}`);
         }}
@@ -48,7 +47,7 @@ const ReviewsPage = () => {
       <div className='mt-58 mb-32'>
         <ReviewWriteTriggerEmoji
           placeId={parseInt(placeId ?? '')}
-          placeName={selectedPlace?.name ?? ''}
+          placeName={placeName}
           pt={20}
         />
         {reviews.map((review) => (
