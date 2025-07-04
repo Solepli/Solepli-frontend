@@ -23,9 +23,12 @@ export const getRelatedSearchWords = async (
 };
 
 export const getRelatedSearchPlaces = async (
+  //추후 keyword를 params로 받는 api 생성 예정
   keyword: string,
 ) => {
   try {
+    //keyword lint 문제로 일단 console 찍음. 추후 변경 예정
+    console.log(keyword);
     return mockRelatedSearchPlaces;
   } catch (e) {
     console.error(e);
