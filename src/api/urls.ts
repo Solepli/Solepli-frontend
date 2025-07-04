@@ -21,7 +21,7 @@ export const ENDPOINT = {
   // solmap review
   SOLMAP_REVIEW: {
     POST: '/api/review',
-    GET: (id: number) => `/api/solmap/place/${id}/reviews`,
+    GET: (id: number) => `/api/review/place/${id}`,
   },
 
   // solmap + sollect
