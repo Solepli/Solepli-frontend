@@ -47,9 +47,15 @@ const ReviewPhotosInput = () => {
   };
 
   return (
-    <div className='self-stretch flex flex-col items-start justify-center px-20'>
+    <div className='self-stretch flex flex-col items-start justify-center'>
+      <div className='w-full py-8'>
+        <ReviewPhotos
+          images={files.map((file) => URL.createObjectURL(file))}
+          onDeleteFunc={handleDelete}
+        />
+      </div>
       <div
-        className='flex flex-row items-center gap-4 py-4'
+        className='flex flex-row items-center gap-4 py-4 px-20'
         onClick={handleClick}>
         <Photo />
         <button className='text-[12px] leading-[120%] tracking-[-0.18px] text-primary-500 whitespace-nowrap'>
@@ -64,10 +70,6 @@ const ReviewPhotosInput = () => {
           className='hidden'
         />
       </div>
-      <ReviewPhotos
-        images={files.map((file) => URL.createObjectURL(file))}
-        onDeleteFunc={handleDelete}
-      />
     </div>
   );
 };
