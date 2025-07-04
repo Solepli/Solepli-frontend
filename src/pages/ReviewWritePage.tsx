@@ -8,12 +8,12 @@ import ReviewInput from '../components/BottomSheet/ReviewWrite/ReviewInput';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import useReviewWriteStore from '../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
-import ReviewWriteButton from '../components/BottomSheet/ReviewWrite/ReviewWriteButton';
 import { postReview } from '../api/reviewApi';
 import ReviewPhotosInput from '../components/BottomSheet/ReviewWrite/ReviewPhotosInput';
 import TitleHeader from '../components/global/TitleHeader';
 import { toast } from 'react-toastify';
 import Warn from '../components/global/Warn';
+import LargeButton from '../components/global/LargeButton';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();
@@ -52,6 +52,7 @@ const ReviewWrite: React.FC = () => {
 
   // 리뷰 작성 버튼 활성화 조건
   const isWrittenable =
+    emoji !== null &&
     moodTags !== null &&
     rating > 0 &&
     moodTags.length > 0 &&
@@ -106,7 +107,7 @@ const ReviewWrite: React.FC = () => {
 
       {/* 방문 의향 체크, pt-78: TitleHeader + 해당 컴포넌트 20 */}
       <div className='w-full pt-58'>
-        <ReviewEmoji pt={20}/>
+        <ReviewEmoji pt={20} />
       </div>
 
       {/* 만족도 체크 */}
@@ -137,10 +138,14 @@ const ReviewWrite: React.FC = () => {
       <ReviewPhotosInput />
 
       {/* 리뷰 작성 완료 버튼 */}
-      <ReviewWriteButton
-        onClickFunc={reviewWrite}
-        disabled={!isWrittenable || isLoading}
-      />
+      <div className='w-full pt-32 px-16 pb-16'>
+        <LargeButton
+          text={'리뷰 등록'}
+          onClick={reviewWrite}
+          disable={!isWrittenable || isLoading}
+          bold={true}
+        />
+      </div>
     </div>
   );
 };
