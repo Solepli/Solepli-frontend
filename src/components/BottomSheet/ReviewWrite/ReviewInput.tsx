@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 
 import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
+import { SCALE_16_14 } from '../../../constants';
 
 const ReviewInput: React.FC = () => {
   const { text, setText } = useReviewWriteStore(
@@ -24,6 +25,9 @@ const ReviewInput: React.FC = () => {
     if (textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
+
+      const emptySpace = textarea.scrollHeight * (1 - SCALE_16_14);
+      textarea.style.marginBottom = `-${emptySpace}px`;
     }
   }, [text]);
 
@@ -36,28 +40,24 @@ const ReviewInput: React.FC = () => {
           </span>
         </div>
 
-        <div className='self-stretch flex flex-col gap-10 items-start justify-start'>
-          <div
-            className='self-stretch flex flex-col items-center justify-center gap-2 px-12 py-8 bg-primary-50 rounded-xl
-              outline outline-1 outline-offset-[-1px] outline-primary-100'>
-            <div className='self-stretch flex flex-row items-center justify-center'>
-              <textarea
-                spellCheck={false}
-                ref={textareaRef}
-                value={text}
-                onChange={handleChangeText}
-                placeholder='리뷰를 남기면 다른 쏠플러에게 도움이 될 수 있어요.'
-                rows={5}
-                className='focus:outline-none focus:ring-0 resize-none placeholder:text-primary-500
-                flex-1 text-sm leading-tight text-primary-900 font-normal'
-                name='review'
-              />
-            </div>
-
-            <div className='self-stretch flex flex-row items-center justify-end pt-[6px]'>
-              <div className='text-xs leading-none font-normal text-primary-500 text-right whitespace-nowrap'>
-                {text.length}/500
-              </div>
+        <div
+          className='w-full flex flex-col items-start justify-start gap-2 px-12 py-8
+          bg-primary-50 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-100'>
+          <textarea
+            spellCheck={false}
+            ref={textareaRef}
+            value={text}
+            onChange={handleChangeText}
+            placeholder='리뷰를 남기면 다른 쏠플러에게 도움이 될 수 있어요.'
+            rows={5}
+            className='focus:outline-none focus:ring-0 resize-none placeholder:text-primary-500
+                self-stretch leading-tight text-primary-900 font-normal
+                text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
+            name='review'
+          />
+          <div className='self-stretch flex flex-row items-center justify-end pt-[6px]'>
+            <div className='text-xs leading-none font-normal text-primary-500 text-right whitespace-nowrap'>
+              {text.length}/500
             </div>
           </div>
         </div>
