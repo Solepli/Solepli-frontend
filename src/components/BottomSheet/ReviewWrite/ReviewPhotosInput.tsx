@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Photo from '../../../assets/photo.svg?react';
+import Photo from '../../../assets/photoAddIcon.svg?react';
 
 import useReviewWriteStore from '../../../store/reviewWriteStore';
 import { useShallow } from 'zustand/shallow';
@@ -14,7 +14,6 @@ const ReviewPhotosInput = () => {
       setFiles: state.setFiles,
     }))
   );
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
