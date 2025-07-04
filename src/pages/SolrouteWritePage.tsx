@@ -81,13 +81,7 @@ const SolrouteWritePage = () => {
         </DragDropContext>
 
         <div className='pt-24 pb-48 px-16'>
-          {/* TODD:: solmark 페이지로 이동 */}
-          <LargeButton
-            text='장소 추가'
-            onClick={() => {
-              navigate('/solroute/write/search');
-            }}
-          />
+          <LargeButton text='장소 추가' onClick={() => {navigate('/solroute/add/place')}} />
         </div>
       </div>
     </div>
