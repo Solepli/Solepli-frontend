@@ -7,9 +7,10 @@ import { useShallow } from 'zustand/shallow';
 
 interface SolmarkPlaceListProps {
   list: SolmarkPlaceList;
+  isSolroute?: boolean;
 }
 
-const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list }) => {
+const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list, isSolroute=false }) => {
   const navigate = useNavigate();
   const { setList } = useSolmarkStore(
     useShallow((state) => ({
@@ -19,7 +20,11 @@ const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list }) => {
 
   const handleClick = () => {
     setList(list);
-    navigate(`/mark/place/list/${list.collectionId}`);
+    if (!isSolroute) {
+      navigate(`/mark/place/list/${list.collectionId}`);
+    } else {
+      navigate(`/solroute/place/list/${list.collectionId}`);
+    }
   };
 
   return (
