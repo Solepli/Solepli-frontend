@@ -27,7 +27,7 @@ const ReviewsPage = () => {
     });
 
   // 데이터 합침
-  const reviews = data ? data.pages.map((page) => page.reviews).flat() : [];
+  const reviews = data?.pages.flatMap(page => page.reviews) ?? [];
 
   // sentinelRef div가 뷰포트에 들어오면 다음 페이지 fetch
   // 스크롤 끝까지 했는지 sentinel 감시
