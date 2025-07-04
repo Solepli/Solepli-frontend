@@ -9,7 +9,11 @@ interface ReviewPhotoProps {
 
 const ReviewPhoto = ({ src, children, isFirst, isLast }: ReviewPhotoProps) => {
   return (
-    <div className='h-160 w-max bg-gray-200 flex items-center justify-center bg-white relative'>
+    <div
+      className={`h-160 w-max bg-gray-200 flex items-center justify-center bg-white relative
+        ${isFirst ? 'ml-16' : ''}
+        ${isLast ? 'mr-16' : ''}
+      `}>
       <img
         src={src}
         alt={`Preview ${src}`}
@@ -43,7 +47,7 @@ const ReviewPhotos = ({ images, onDeleteFunc }: ReviewPhotosProps) => {
               {/* onClickFunc이 있다면 삭제 버튼 추가 */}
               {onDeleteFunc && (
                 <div
-                  className='absolute top-2 right-2 p-6'
+                  className='absolute top-0 right-0 p-6'
                   onClick={() => onDeleteFunc(index)}>
                   <XButton />
                 </div>

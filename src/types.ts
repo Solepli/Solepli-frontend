@@ -112,14 +112,13 @@ export type SolroutePlacePreview = SolroutePlace & {
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
-  id: number;
-  username: string;
-  profileImage: string;
-  date: string;
+  userProfileUrl: string;
+  userNickname: string;
+  createdAt: string;
+  isRecommended: boolean;
   rating: number;
-  emoji: Emoji;
   content: string;
-  images: string[];
+  photoUrls: string[];
   tags: string[];
 };
 

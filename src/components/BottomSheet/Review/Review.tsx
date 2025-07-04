@@ -1,10 +1,10 @@
 import { ReviewType } from '../../../types';
-import ReviewPhotos from './ReviewPhotos';
 import TagList from '../TagList';
 import EmojiGoodSmall from '../../../assets/emojiGoodSmall.svg?react';
 import EmojiBadSmall from '../../../assets/emojiBadSmall.svg?react';
 import Star from '../../../assets/star.svg?react';
 import ExpandableText from './ExpandableText';
+import ReviewPhotos from './ReviewPhotos';
 
 const Review = ({ review }: { review: ReviewType }) => {
   return (
@@ -13,16 +13,16 @@ const Review = ({ review }: { review: ReviewType }) => {
         {/* 왼쪽: 프로필 이미지 + 이름/날짜 */}
         <div className='flex items-center gap-8'>
           <img
-            src={review.profileImage}
+            src={review.userProfileUrl}
             alt='profile'
             className='w-38 h-38 rounded-full object-cover'
           />
           <div className='flex flex-col'>
             <span className='text-primary-900 text-sm font-bold leading-[150%]'>
-              @{review.username}
+              @{review.userNickname}
             </span>
             <span className='text-primary-400 text-xs font-normal leading-[120%]'>
-              {review.date}
+              {formatReviewDate(review.createdAt)}
             </span>
           </div>
         </div>
@@ -30,7 +30,7 @@ const Review = ({ review }: { review: ReviewType }) => {
         {/* 오른쪽: 이모지 + 평점 */}
         <div className='flex items-center gap-6 text-sm text-gray-700'>
           <span>
-            {review.emoji === 'good' ? <EmojiGoodSmall /> : <EmojiBadSmall />}
+            {review.isRecommended ? <EmojiGoodSmall /> : <EmojiBadSmall />}
           </span>
           <div className='h-14 border-l border-primary-400 mx-1' />
           <div className='flex items-center'>
@@ -47,13 +47,20 @@ const Review = ({ review }: { review: ReviewType }) => {
       <div className='pb-4'>
         <TagList tags={review.tags} />
       </div>
-      {review.images.length > 0 && (
-        <div className='px-16'>
-          <ReviewPhotos images={review.images} />
-        </div>
+      {review.photoUrls.length > 0 && (
+          <ReviewPhotos images={review.photoUrls} />
       )}
     </div>
   );
 };
 
 export default Review;
+
+//createAt 포맷을 yy.mm.dd 형식으로 변환함
+function formatReviewDate(createdAt: string) {
+  const date = new Date(createdAt);
+  const year = String(date.getFullYear()).slice(2);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+}
