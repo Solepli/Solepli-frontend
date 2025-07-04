@@ -26,6 +26,7 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine }) => {
     location.reload();
   };
 
+
   return (
     <div
       onClick={handleClick}

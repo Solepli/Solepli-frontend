@@ -7,7 +7,7 @@ const SollectList: React.FC<SollectListProps> = ({
   horizontal,
   customStyle,
   isMine,
-  recommendSollect
+  recommendSollect,
 }) => {
   const { sollects } = useSollectStore();
   let style = customStyle;
@@ -21,12 +21,26 @@ const SollectList: React.FC<SollectListProps> = ({
   return (
     <div className='flex justify-center'>
       <div className={style}>
-        {recommendSollect && recommendSollect.map((sollect)=>{
-          return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
-        })}
-        {!recommendSollect && sollects.map((sollect) => {
-          return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
-        })}
+        {recommendSollect &&
+          recommendSollect.map((sollect) => {
+            return (
+              <SollectPhoto
+                sollect={sollect}
+                key={sollect.sollectId}
+                isMine={isMine}
+              />
+            );
+          })}
+        {!recommendSollect &&
+          sollects.map((sollect) => {
+            return (
+              <SollectPhoto
+                sollect={sollect}
+                key={sollect.sollectId}
+                isMine={isMine}
+              />
+            );
+          })}
       </div>
     </div>
   );
