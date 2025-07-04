@@ -10,31 +10,7 @@ import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
 import AddSmall from '../../assets/addSmallIcon.svg?react';
 import Check from '../../assets/check.svg?react';
-import type { RelatedSearchPlace } from '../../types';
-import { useSollectWriteStore } from '../../store/sollectWriteStore';
-import { useShallow } from 'zustand/shallow';
-
-const AddButton: React.FC<{ onClickFunc: () => void }> = ({ onClickFunc }) => {
-  return (
-      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-700 inline-flex justify-start items-center' onClick={() => {onClickFunc()}}>
-        <AddSmall />
-        <div className="text-center justify-start text-primary-700 text-xs font-semibold font-['Pretendard'] leading-none">
-          추가
-        </div>
-      </div>
-  );
-};
-
-const AddedButton: React.FC<{ onClickFunc: () => void }> = ({ onClickFunc }) => {
-  return (
-      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl bg-primary-700 inline-flex justify-start items-center' onClick={() => {onClickFunc()}}>
-        <Check />
-        <div className="text-center justify-start text-primary-50 text-xs font-semibold font-['Pretendard'] leading-none">
-          추가
-        </div>
-      </div>
-  );
-}
+import type { RelatedSearchPlace, SearchedPlace, } from '../../types';
 
 const iconMap: Record<string, string> = {
   food,
@@ -48,65 +24,84 @@ const iconMap: Record<string, string> = {
   location,
 };
 
-interface RelatedSearchPlaceProps {
-  relatedSearchPlace: RelatedSearchPlace;
+interface RelatedSearchPlaceProps{
+  searchedPlace: SearchedPlace;
+  addPlace: (place: SearchedPlace) => void;
+  removePlace: (id: number) => void;
 }
 
 const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
-  relatedSearchPlace,
+  searchedPlace, addPlace, removePlace
 }) => {
-  const { places, addPlaces, removePlace } = useSollectWriteStore(
-    useShallow((state) => ({
-      places: state.places,
-      addPlaces: state.addPlaces,
-      removePlace: state.removePlace,
-    })),
-  );
 
-  const icon = iconMap[relatedSearchPlace.category!]
-
-  const isAdded = places.some((p) => p.id === relatedSearchPlace.id);
+  const icon = iconMap[searchedPlace.category!]
 
   function handleAdd() {
-    addPlaces([relatedSearchPlace]);
+    addPlace(searchedPlace);
   }
 
   function handleRemove() {
-    removePlace(relatedSearchPlace.id);
+    removePlace(searchedPlace.id);
   }
 
   return (
     <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>
+      {/* 아이콘 */}
       <div className='flex p-4 items-start rounded-[4px] bg-gray-400/10'>
         <img
           className='w-24 h-24'
           src={icon}
-          alt={relatedSearchPlace.type + relatedSearchPlace.category}
+          alt={searchedPlace.category}
         />
       </div>
 
+      {/* 이름 */}
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
         <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
           <div className='text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-950'>
-            {relatedSearchPlace.name}
+            {searchedPlace.name}
           </div>
         </div>
         {/* 위치 */}
         <div className='flex justify-between items-center self-stretch'>
           <div className='text-[12px] leading-[120%] tracking-[-0.18px] text-center text-primary-400'>
-            {relatedSearchPlace.address}
+            {searchedPlace.address}
           </div>
           <div className='flex items-center'></div>
         </div>
       </div>
       {/* 추가 버튼 */}
-      {isAdded ? (
-        <AddedButton onClickFunc={handleRemove} />
+      {searchedPlace.isSelected ? (
+        <SelectededButton onClickFunc={handleRemove} />
       ) : (
-        <AddButton onClickFunc={handleAdd} />
+        <SelectButton onClickFunc={handleAdd} />
       )}
     </div>
   );
 };
 
 export default RelatedSearchPlace;
+
+{/* 추가 됐을 때 보여지는 버튼 */}
+const SelectButton: React.FC<{ onClickFunc: () => void }> = ({ onClickFunc }) => {
+  return (
+      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-700 inline-flex justify-start items-center' onClick={() => {onClickFunc()}}>
+        <AddSmall />
+        <div className="text-center justify-start text-primary-700 text-xs font-semibold font-['Pretendard'] leading-none">
+          추가
+        </div>
+      </div>
+  );
+};
+
+{/* 추가 되기 전 보여지는 버튼 */}
+const SelectededButton: React.FC<{ onClickFunc: () => void }> = ({ onClickFunc }) => {
+  return (
+      <div className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl bg-primary-700 inline-flex justify-start items-center' onClick={() => {onClickFunc()}}>
+        <Check />
+        <div className="text-center justify-start text-primary-50 text-xs font-semibold font-['Pretendard'] leading-none">
+          추가
+        </div>
+      </div>
+  );
+}

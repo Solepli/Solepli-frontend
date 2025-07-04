@@ -1,0 +1,32 @@
+import arrow from '../../assets/arrow.svg';
+import { useNavigate } from 'react-router-dom';
+
+const SolmarkNoResult = ({ type }: { type: string }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    let url = '';
+    if (type == 'sollect') {
+      url = '/sollect';
+    } else if (type == 'my') {
+      url = '/sollect/write';
+    }
+
+    navigate(url);
+  };
+  return (
+    <div className='text-center py-250'>
+      <p className='font-bold text-primary-950 mb-5'>
+        아직 {type === 'sollect' ? '저장된' : '작성된'} 쏠렉트가 없어요!
+      </p>
+      <p
+        className='flex justify-center text-sm text-primary-700 underline items-center'
+        onClick={handleClick}>
+        {type === 'sollect' ? '쏠렉트 보러가기' : '쏠렉트 작성하러 가기'}
+        <img src={arrow} alt='' className='w-24 h-24' />{' '}
+      </p>
+    </div>
+  );
+};
+
+export default SolmarkNoResult;

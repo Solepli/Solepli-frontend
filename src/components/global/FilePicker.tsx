@@ -1,5 +1,7 @@
 // src/components/common/FilePicker.tsx
 import { useRef } from 'react';
+import Warn from './Warn';
+import { toast } from 'react-toastify';
 
 export interface FilePickerProps {
   /** 선택 후 보유 중인 파일 목록 */
@@ -44,16 +46,23 @@ const FilePicker: React.FC<FilePickerProps> = ({
     if (!selected.length) return;
 
     // 장수 제한
-    if (keepFiles ? files.length + selected.length > maxCount : selected.length > maxCount) {
-      alert(`사진은 최대 ${maxCount}장까지 추가할 수 있습니다.`);
+    if (
+      keepFiles
+        ? files.length + selected.length > maxCount
+        : selected.length > maxCount
+    ) {
+      toast(<Warn title={`최대 ${maxCount}개까지 등록 가능해요`} />);
       selected = selected.slice(0, maxCount - files.length);
     }
 
     // 크기 제한
     selected = selected.filter((file) => {
       if (file.size > maxSize) {
-        alert(
-          `파일 크기는 ${(maxSize / 1024 / 1024).toFixed(1)} MB 이하만 가능합니다.`
+        toast(
+          <Warn
+            title='해당 사진은 첨부할 수 없어요.'
+            message={`사진은 ${maxSize / 1024 / 1024}MB 이하만 첨부 가능해요.`}
+          />
         );
         return false;
       }
@@ -66,7 +75,7 @@ const FilePicker: React.FC<FilePickerProps> = ({
       onChange(selected);
     }
 
-    // 同 이벤트에서 같은 파일 다시 고를 수 있도록 value 초기화
+    // 이벤트에서 같은 파일 다시 고를 수 있도록 value 초기화
     e.target.value = '';
   };
 

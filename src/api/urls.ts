@@ -18,6 +18,12 @@ export const ENDPOINT = {
 
   RELATED_SEARCH: '/api/solmap/search/related',
 
+  // solmap review
+  SOLMAP_REVIEW: {
+    POST: '/api/review',
+    GET: (id: number) => `/api/review/place/${id}`,
+  },
+
   // solmap + sollect
   RECENT_SEARCH: {
     GET: (mode: string) => `/api/${mode}/search/recent`,
@@ -41,6 +47,7 @@ export const ENDPOINT = {
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
+  SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
   
   SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',                     // 리스트 조회
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>

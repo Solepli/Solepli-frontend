@@ -6,7 +6,7 @@ import PreviewContentList from '../components/BottomSheet/Preview/PreviewContent
 import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
-import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
+import ReviewWrite from '../pages/ReviewWritePage';
 import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
@@ -23,6 +23,8 @@ import SolrouteWritePage from '../pages/SolrouteWritePage';
 import SolmarkPage from '../pages/SolmarkPage';
 import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
 import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
+import SolmarkContentSollect from '../components/Solmark/SolmarkContentSollect';
+import SolmarkContentMy from '../components/Solmark/SolmarkContentMy';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -47,7 +49,6 @@ const AppRouter = () => {
             <Route path='list' element={<PreviewContentList />} />
             <Route path='not-found' element={<PreviewContentEmpty />} />
             <Route path='detail/:placeId' element={<DetailContent />} />
-            <Route path='review-write/:placeId' element={<ReviewWrite />} />
           </Route>
 
           <Route path='map/search' element={<SearchPage />} />
@@ -55,7 +56,8 @@ const AppRouter = () => {
           <Route path='mark' element={<SolmarkPage/>} >
             <Route index element={<SolmarkContentPlace/>}/>
             <Route path='place' element={<SolmarkContentPlace/>}/>
-            <Route path='sollect' element={<SolmarkContentPlace/>}/>
+            <Route path='sollect' element={<SolmarkContentSollect/>}/>
+            <Route path='my' element={<SolmarkContentMy/>}/>
           </Route>
           <Route path='mark/place/list/:collectionId' element={<SolmarkPlacePreviewPage />}/>
 
@@ -69,10 +71,13 @@ const AppRouter = () => {
           <Route index element={<SollectWritePage />} />
           <Route path='place' element={<SollectWritePlacePage />} />
         </Route>
+
+        <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
 
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
+        <Route path='/solroute/write/search' element={<SearchPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

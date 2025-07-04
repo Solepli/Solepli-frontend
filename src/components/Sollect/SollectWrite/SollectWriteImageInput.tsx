@@ -1,4 +1,4 @@
-import AddLogo from '../../../assets/SollectPhotoAddIcon.svg?react';
+import AddLogo from '../../../assets/photoAddIcon.svg?react';
 import FilePicker from '../../global/FilePicker';
 import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';

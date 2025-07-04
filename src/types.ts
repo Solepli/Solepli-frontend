@@ -78,27 +78,47 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
-export type RelatedSearchPlace = RelatedSearchWord & {
-  isAdded: boolean;
-};
+export type SelectablePlace = {
+  isSelected: boolean;
+}
 
-export type SolroutePlace = RelatedSearchPlace & {
-  memo: string;
+export type RelatedSearchPlace = {
+  id: number;
+  name: string;
+  category: string;
+  detailedCategory: string;
+  address: string;
   latitude: number;
   longitude: number;
+}
+
+export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
+
+export type SolroutePlace = {
+  id: number;
+  name: string;
+  detailedCategory: string;
+  address: string;
+  category: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type SolroutePlacePreview = SolroutePlace & {
+  seq: number;
+  memo: string;
 };
 
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
-  id: number;
-  username: string;
-  profileImage: string;
-  date: string;
+  userProfileUrl: string;
+  userNickname: string;
+  createdAt: string;
+  isRecommended: boolean;
   rating: number;
-  emoji: Emoji;
   content: string;
-  images: string[];
+  photoUrls: string[];
   tags: string[];
 };
 
