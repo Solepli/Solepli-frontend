@@ -53,7 +53,7 @@ const RelatedSearchPlaceList: React.FC = () => {
         const isSelected = Array.from(places).some((p) => p.id === data.id);
         return (
           <RelatedSearchPlace
-            searchedPlace={{ ...data, isSelected }}
+            selectablePlace={{ ...data, isSelected }}
             addPlace={addPlace}
             removePlace={removePlace}
             key={data.id}

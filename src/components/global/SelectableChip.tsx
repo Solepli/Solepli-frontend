@@ -1,13 +1,13 @@
 import { useLocation } from 'react-router-dom';
 import AddSmall from '../../assets/addSmallIcon.svg?react';
 import Check from '../../assets/check.svg?react';
-import { RelatedSearchPlace } from '../../types';
+import { PlaceInfo, } from '../../types';
 import { useSollectWriteStore } from '../../store/sollectWriteStore';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
 
 interface SelectableChipProps {
-  place: RelatedSearchPlace;
+  place: PlaceInfo;
 }
 
 const SelectableChip: React.FC<SelectableChipProps> = ({ place }) => {
