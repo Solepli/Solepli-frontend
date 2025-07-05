@@ -1,4 +1,4 @@
-import { RelatedSearchPlace } from '../types';
+import { PlaceInfo } from '../types';
 import { privateAxios, publicAxios } from './axios';
 import { ENDPOINT } from './urls';
 
@@ -72,7 +72,7 @@ export const postRecentSearchWord = async (
   }
 };
 
-const mockRelatedSearchPlaces: RelatedSearchPlace[] = [
+export const mockRelatedSearchPlaces: PlaceInfo[] = [
   {
     id: 1,
     name: "솔플 카페",

@@ -10,7 +10,7 @@ import work from '../../assets/category-icons/workFill.svg';
 import location from '../../assets/locationFill.svg';
 import AddSmall from '../../assets/addSmallIcon.svg?react';
 import Check from '../../assets/check.svg?react';
-import type { RelatedSearchPlace, SearchedPlace, } from '../../types';
+import type { PlaceInfo, SelectablePlace, } from '../../types';
 
 const iconMap: Record<string, string> = {
   food,
@@ -25,23 +25,23 @@ const iconMap: Record<string, string> = {
 };
 
 interface RelatedSearchPlaceProps{
-  searchedPlace: SearchedPlace;
-  addPlace: (place: SearchedPlace) => void;
+  selectablePlace: SelectablePlace;
+  addPlace: (place: PlaceInfo) => void;
   removePlace: (id: number) => void;
 }
 
 const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
-  searchedPlace, addPlace, removePlace
+  selectablePlace, addPlace, removePlace
 }) => {
 
-  const icon = iconMap[searchedPlace.category!]
+  const icon = iconMap[selectablePlace.category!]
 
   function handleAdd() {
-    addPlace(searchedPlace);
+    addPlace(selectablePlace);
   }
 
   function handleRemove() {
-    removePlace(searchedPlace.id);
+    removePlace(selectablePlace.id);
   }
 
   return (
@@ -51,7 +51,7 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
         <img
           className='w-24 h-24'
           src={icon}
-          alt={searchedPlace.category}
+          alt={selectablePlace.category}
         />
       </div>
 
@@ -59,19 +59,19 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
         <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
           <div className='text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-950'>
-            {searchedPlace.name}
+            {selectablePlace.name}
           </div>
         </div>
         {/* 위치 */}
         <div className='flex justify-between items-center self-stretch'>
           <div className='text-[12px] leading-[120%] tracking-[-0.18px] text-center text-primary-400'>
-            {searchedPlace.address}
+            {selectablePlace.address}
           </div>
           <div className='flex items-center'></div>
         </div>
       </div>
       {/* 추가 버튼 */}
-      {searchedPlace.isSelected ? (
+      {selectablePlace.isSelected ? (
         <SelectededButton onClickFunc={handleRemove} />
       ) : (
         <SelectButton onClickFunc={handleAdd} />

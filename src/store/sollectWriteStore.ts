@@ -1,6 +1,6 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
-import { Paragraph, RelatedSearchPlace, } from '../types';
+import { Paragraph, PlaceInfo, } from '../types';
 
 type SollectWriteState = {
   seq: number;
@@ -9,7 +9,7 @@ type SollectWriteState = {
   title: string | null;
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
-  places: RelatedSearchPlace[]; 
+  places: PlaceInfo[]; 
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
   setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
   addTextParagraph: (afterSeq?: number) => void;
@@ -19,7 +19,7 @@ type SollectWriteState = {
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
   insertImageAtCaret: (file: File, caret?: number | null) => void;
-  addPlace: (place: RelatedSearchPlace) => void; // 장소 ID 목록을 설정하는 함수
+  addPlace: (place: PlaceInfo) => void; // 장소 ID 목록을 설정하는 함수
   removePlace: (id: number | null) => void; // 선택된 place 해제
 };
 
