@@ -11,7 +11,6 @@ interface SollectMarkProps {
 
 const SollectMark: React.FC<SollectMarkProps> = ({ marked, setMarked, id }) => {
   const handleClick = () => {
-    console.log("click")
     setMarked(!marked);
     
     if(marked){

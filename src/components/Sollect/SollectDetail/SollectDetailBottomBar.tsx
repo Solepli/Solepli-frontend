@@ -8,6 +8,7 @@ import {
   postSolmarkSollect,
 } from '../../../api/sollectApi';
 import { useParams } from 'react-router-dom';
+import LoginRequiredAction from '../../../auth/LoginRequiredAction';
 
 const SollectDetailBottomBar = () => {
   // id 받아와야함
@@ -43,19 +44,13 @@ const SollectDetailBottomBar = () => {
     <div className='sticky bottom-0 z-60 inset-x-0 bg-white w-full h-52 px-12 pb-8 flex justify-between items-center'>
       <div className='flex text-chip-bg-mark items-center text-sm'>
         {isMarked ? (
-          <img
-            src={heartFill}
-            alt='heartFill'
-            className='w-32 h-32'
-            onClick={deleteMark}
-          />
+          <LoginRequiredAction onAction={deleteMark}>
+            <img src={heartFill} alt='heartFill' className='w-32 h-32' />
+          </LoginRequiredAction>
         ) : (
-          <img
-            src={heart}
-            alt='heart'
-            className='w-32 h-32'
-            onClick={postMark}
-          />
+          <LoginRequiredAction onAction={postMark}>
+            <img src={heart} alt='heart' className='w-32 h-32' />
+          </LoginRequiredAction>
         )}
         <p>{count}</p>
       </div>

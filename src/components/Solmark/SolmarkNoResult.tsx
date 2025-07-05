@@ -1,5 +1,6 @@
 import arrow from '../../assets/arrow.svg';
 import { useNavigate } from 'react-router-dom';
+import LoginRequiredAction from '../../auth/LoginRequiredAction';
 
 const SolmarkNoResult = ({ type }: { type: string }) => {
   const navigate = useNavigate();
@@ -14,6 +15,10 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
 
     navigate(url);
   };
+
+  const handleAddSollectButton = () => {
+    navigate('/sollect/write');
+  };
   return (
     <div className='text-center py-250'>
       <p className='font-bold text-primary-950 mb-5'>
@@ -22,8 +27,14 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
       <p
         className='flex justify-center text-sm text-primary-700 underline items-center'
         onClick={handleClick}>
-        {type === 'sollect' ? '쏠렉트 보러가기' : '쏠렉트 작성하러 가기'}
-        <img src={arrow} alt='' className='w-24 h-24' />{' '}
+        {type === 'sollect' && '쏠렉트 보러가기'}
+        {type === 'my' && (
+          <LoginRequiredAction onAction={handleAddSollectButton}>
+            {' '}
+            <span>쏠렉트 작성하러 가기</span>
+          </LoginRequiredAction>
+        )}
+        <img src={arrow} alt='arrow' className='w-24 h-24' />{' '}
       </p>
     </div>
   );

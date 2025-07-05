@@ -23,10 +23,10 @@ export interface SollectChipProps {
 }
 
 export interface SollectListProps {
-  sollects: SollectPhotoType[];
   horizontal?: boolean;
   customStyle?: string;
   isMine?:boolean;
+  recommendSollect?:SollectPhotoType[];
 }
 
 export interface SollectGroupProps {

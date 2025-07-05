@@ -1,13 +1,15 @@
 import React from 'react';
 import SollectPhoto from './SollectPhoto';
 import { SollectListProps } from '../../interface';
+import { useSollectStore } from '../../store/sollectStore';
 
 const SollectList: React.FC<SollectListProps> = ({
   horizontal,
-  sollects,
   customStyle,
-  isMine
+  isMine,
+  recommendSollect,
 }) => {
+  const { sollects } = useSollectStore();
   let style = customStyle;
 
   if (horizontal) {
@@ -19,9 +21,26 @@ const SollectList: React.FC<SollectListProps> = ({
   return (
     <div className='flex justify-center'>
       <div className={style}>
-        {sollects.map((sollect) => {
-          return <SollectPhoto sollect={sollect} key={sollect.sollectId} isMine={isMine}/>;
-        })}
+        {recommendSollect &&
+          recommendSollect.map((sollect) => {
+            return (
+              <SollectPhoto
+                sollect={sollect}
+                key={sollect.sollectId}
+                isMine={isMine}
+              />
+            );
+          })}
+        {!recommendSollect &&
+          sollects.map((sollect) => {
+            return (
+              <SollectPhoto
+                sollect={sollect}
+                key={sollect.sollectId}
+                isMine={isMine}
+              />
+            );
+          })}
       </div>
     </div>
   );

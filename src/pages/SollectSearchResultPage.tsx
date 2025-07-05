@@ -11,7 +11,7 @@ import { useScrollSentinel } from '../hooks/useInfiniteScrollQuery';
 
 const SollectSearchResultPage = () => {
   const { inputValue } = useSearchStore();
-  const { selectedCategory } = useSollectStore();
+  const { selectedCategory, setSollects, sollects } = useSollectStore();
   const [hasResult, setHasResult] = useState(false);
 
   // useInfiniteQuery를 통한 무한 스크롤 구현
@@ -29,9 +29,6 @@ const SollectSearchResultPage = () => {
       initialPageParam: undefined,
     });
 
-  // 데이터 합침
-  const sollects = data ? data.pages.flat() : [];
-
   // sentinelRef div가 뷰포트에 들어오면 다음 페이지 fetch
   // 스크롤 끝까지 했는지 sentinel 감시
   const sentinelRef = useScrollSentinel({
@@ -45,10 +42,14 @@ const SollectSearchResultPage = () => {
   // 검색 결과 데이터가 처음부터 없었으면 (한 번도 존재 안했으면) hasResult false
   // hasResult로 SollectChipList 띄울지 말지 결정
   useEffect(() => {
-    if (sollects && sollects.length !== 0) {
+    // 데이터 합침
+    const flattened = data?.pages.flat() ?? [];
+    setSollects(flattened);
+
+    if (flattened.length > 0) {
       setHasResult(true);
     }
-  }, [data]);
+  }, [data, setSollects]);
 
   return (
     <div>
@@ -57,9 +58,9 @@ const SollectSearchResultPage = () => {
         {hasResult && <SollectChipList />}
       </div>
 
-      {sollects && sollects.length !== 0 ? (
+      {sollects.length > 0 ? (
         <div className='pt-133 pb-24'>
-          <SollectList sollects={sollects ? sollects : []} />
+          <SollectList />
           <div ref={sentinelRef} style={{ height: '1px' }} />
           {isFetchingNextPage && (
             <div className='text-center py-4'>로딩 중...</div>
