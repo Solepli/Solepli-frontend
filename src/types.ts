@@ -97,6 +97,12 @@ export type SolroutePlacePreview = PlaceInfo & {
   memo: string;
 };
 
+export type SolroutePreviewSummary = PlaceInfo & {
+  recommendationPercent: number;
+  tags: string[];
+  rating: number;
+};
+
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
