@@ -4,27 +4,12 @@ import SolrouteMap from '../components/Solroute/SolrouteMap';
 import SolroutePlace from '../components/Solroute/SolroutePlace';
 import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
-import { MarkerInfoType, SolroutePlacePreview } from '../types';
 import { useNavigate } from 'react-router-dom';
 import LargeButton from '../components/global/LargeButton';
 
-const makePlaceCoord = (
-  placeInfos: SolroutePlacePreview[]
-): MarkerInfoType[] => {
-  const dataArray: MarkerInfoType[] = [];
-  placeInfos.forEach((v) => {
-    dataArray.push({
-      id: v.id,
-      category: v.category,
-      latitude: v.latitude,
-      longitude: v.longitude,
-    });
-  });
-  return dataArray;
-};
-
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
+
   const { placeInfos } = useSolrouteWriteStore(
     useShallow((state) => ({
       placeInfos: state.placeInfos,
