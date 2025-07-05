@@ -4,6 +4,7 @@ import {
   createMarkerObjectList,
   createMarkersBounds,
   deleteMarkers,
+  expandBounds,
   initMap,
 } from '../../utils/mapFunc';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
@@ -37,12 +38,6 @@ const SolrouteMap: React.FC = () => {
     // 지도 생성
     const map = initMap(mapElement, mapInstance, false);
     if (!map) return;
-    map.setOptions('padding', {
-      top: 24,
-      right: 0,
-      bottom: 24,
-      left: 0,
-    });
 
     // 폴리라인 설정
     polyline.current.setMap(map);
@@ -63,7 +58,7 @@ const SolrouteMap: React.FC = () => {
     if (!mapInstance.current || !placeCoords || placeCoords.length === 0)
       return;
 
-    // 마커 객체 생성 및 아이콘 지정
+    // 1. 마커 객체 생성
     const { objectList } = createMarkerObjectList(placeCoords);
     /* todo : 순서에 맞는 아이콘 지정 */
     // objectList.forEach((v, i) => {
@@ -77,14 +72,38 @@ const SolrouteMap: React.FC = () => {
     // });
     setMarkers(objectList);
 
-    // 지도 이동
+    // 2. 모든 마커를 포함하는 bounds 계산
     const bounds = createMarkersBounds(objectList);
     if (!bounds) return;
-    mapInstance.current.fitBounds(bounds, {
-      top: 24,
-      right: 24,
-      bottom: 24,
-      left: 24,
+
+    // 3. 확장한 bounds 계산
+    const newBounds = expandBounds(bounds, mapInstance);
+    if (!newBounds) return;
+
+    // 4. panToBounds와 padding 옵션을 사용하여 지도 이동 및 확대/축소
+    mapInstance.current.panToBounds(newBounds, {
+      duration: 800,
+      easing: 'easeOutCubic',
+    });
+
+    new naver.maps.Rectangle({
+      map: mapInstance.current,
+      strokeColor: '#0009c6', // 기존 마커 경계 : 파랑
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: '#0009c6',
+      fillOpacity: 0.1,
+      bounds: bounds,
+    });
+
+    new naver.maps.Rectangle({
+      map: mapInstance.current,
+      strokeColor: '#f5725b', // 확장한 마커 경계 : 빨강
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: '#f5725b',
+      fillOpacity: 0.1,
+      bounds: newBounds,
     });
   }, [placeCoords]);
 
