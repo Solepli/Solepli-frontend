@@ -96,10 +96,10 @@ export const fetchRecommendSollect = async (
     keyword: keyword,
     categoryName: categoryName,
   };
+
   try {
-    const res = await publicAxios.get(ENDPOINT.SOLLECT_RECOMMEND, { params });
-    console.log(res.data.data);
-    return res.data.data;
+      const res = await privateAxios.get(ENDPOINT.SOLLECT_RECOMMEND, { params });  
+      return res.data.data;
   } catch (e) {
     console.log(e);
   }
