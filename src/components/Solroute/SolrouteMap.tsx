@@ -33,7 +33,7 @@ const SolrouteMap: React.FC = () => {
     );
 
   useEffect(() => {
-    if (!mapElement.current) return;
+    if (!mapElement.current || !polyline.current) return;
 
     // 지도 생성
     const map = initMap(mapElement, mapInstance, false);
@@ -49,13 +49,20 @@ const SolrouteMap: React.FC = () => {
     polyline.current.setMap(map);
 
     return () => {
-      map.destroy();
+      if (polyline.current) {
+        polyline.current.setMap(null);
+      }
+      if (mapInstance.current) {
+        mapInstance.current.destroy();
+        mapInstance.current = null;
+      }
     };
   }, []);
 
   /* [useEffect] placeCoords 변경될 때 */
   useEffect(() => {
-    if (!mapInstance.current) return;
+    if (!mapInstance.current || !placeCoords || placeCoords.length === 0)
+      return;
 
     // 마커 객체 생성 및 아이콘 지정
     const { objectList } = createMarkerObjectList(placeInfos);
