@@ -22,10 +22,10 @@ const SolrouteMap: React.FC = () => {
     })
   );
 
-  const { placeCoords, nextMarkers, prevMarkers, setMarkers } =
+  const { placeInfos, nextMarkers, prevMarkers, setMarkers } =
     useSolrouteWriteStore(
       useShallow((state) => ({
-        placeCoords: state.placeCoords,
+        placeInfos: state.placeInfos,
         nextMarkers: state.nextMarkers,
         prevMarkers: state.prevMarkers,
         setMarkers: state.setMarkers,
@@ -58,7 +58,7 @@ const SolrouteMap: React.FC = () => {
     if (!mapInstance.current) return;
 
     // 마커 객체 생성 및 아이콘 지정
-    const { objectList } = createMarkerObjectList(placeCoords);
+    const { objectList } = createMarkerObjectList(placeInfos);
     objectList.forEach((v, i) => {
       v.setIcon({
         url: SolrouteNums26, // png 파일
@@ -79,7 +79,7 @@ const SolrouteMap: React.FC = () => {
       bottom: 24,
       left: 24,
     });
-  }, [placeCoords]);
+  }, [placeInfos]);
 
   /* [useEffect] 마커 삭제 */
   useEffect(() => {
@@ -97,7 +97,7 @@ const SolrouteMap: React.FC = () => {
 
     // 폴리라인 추가
     const path = polyline.current.getPath();
-    placeCoords.forEach((coord) => {
+    placeInfos.forEach((coord) => {
       path.push(new naver.maps.LatLng(coord.latitude, coord.longitude));
     });
   }, [nextMarkers]);
