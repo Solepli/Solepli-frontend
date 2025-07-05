@@ -27,7 +27,7 @@ const SolmarkTab = () => {
   },[location.pathname])
 
   return (
-    <div className='border-b border-primary-100 w-full mt-24 px-16'>
+    <div className='border-b border-primary-100 w-full px-16'>
       <ul className='flex justify-stretch text-center'>
         {tabNames.map((tab, i) => (
           <li
