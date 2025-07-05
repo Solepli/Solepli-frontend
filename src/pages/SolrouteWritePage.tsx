@@ -64,11 +64,12 @@ const SolrouteWritePage = () => {
                     index={i}
                     key={place.id}>
                     {(provided) => (
-                      <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}>
-                        <SolroutePlace place={place} key={place.id} />
+                      <div {...provided.draggableProps} ref={provided.innerRef}>
+                        <SolroutePlace
+                          place={place}
+                          key={place.id}
+                          dragHandleProps={provided.dragHandleProps}
+                        />
                       </div>
                     )}
                   </Draggable>

@@ -6,12 +6,17 @@ import { SolroutePlacePreview } from '../../types';
 import useDebounce from '../../hooks/useDebounce';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 interface SolroutePlaceProps {
   place: SolroutePlacePreview;
+  dragHandleProps?: DraggableProvidedDragHandleProps | null;
 }
 
-const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
+const SolroutePlace: React.FC<SolroutePlaceProps> = ({
+  place,
+  dragHandleProps,
+}) => {
   const lineColumnRef = useRef<HTMLDivElement | null>(null);
   const infoColumnRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -64,7 +69,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
           ref={lineColumnRef}
           className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
           <img src={'/solroute-dash-top-num.svg'} alt='solroute-dash-top-num' />
-          <div className='flex w-24 h-24 flex-col justify-center items-center gap-10 aspect-square'>
+          <div
+            {...dragHandleProps}
+            className='flex w-24 h-24 flex-col justify-center items-center gap-10 aspect-square'>
             <DragAndDropLine />
           </div>
           <div className='min-h-90 flex flex-col justify-start items-center self-stretch grow '>
