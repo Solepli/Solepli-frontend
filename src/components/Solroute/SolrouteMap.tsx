@@ -77,34 +77,43 @@ const SolrouteMap: React.FC = () => {
     if (!bounds) return;
 
     // 3. 확장한 bounds 계산
-    const newBounds = expandBounds(bounds, mapInstance);
-    if (!newBounds) return;
+    // const newBounds = expandBounds(bounds, mapInstance);
+    // if (!newBounds) return;
 
     // 4. panToBounds와 padding 옵션을 사용하여 지도 이동 및 확대/축소
-    mapInstance.current.panToBounds(newBounds, {
-      duration: 800,
-      easing: 'easeOutCubic',
-    });
+    mapInstance.current.panToBounds(
+      bounds,
+      {
+        duration: 800,
+        easing: 'easeOutCubic',
+      },
+      {
+        top: 13,
+        right: 13,
+        bottom: 13,
+        left: 13,
+      }
+    );
 
-    new naver.maps.Rectangle({
-      map: mapInstance.current,
-      strokeColor: '#0009c6', // 기존 마커 경계 : 파랑
-      strokeOpacity: 0.8,
-      strokeWeight: 1,
-      fillColor: '#0009c6',
-      fillOpacity: 0.1,
-      bounds: bounds,
-    });
+    // new naver.maps.Rectangle({
+    //   map: mapInstance.current,
+    //   strokeColor: '#0009c6', // 기존 마커 경계 : 파랑
+    //   strokeOpacity: 0.8,
+    //   strokeWeight: 1,
+    //   fillColor: '#0009c6',
+    //   fillOpacity: 0.1,
+    //   bounds: bounds,
+    // });
 
-    new naver.maps.Rectangle({
-      map: mapInstance.current,
-      strokeColor: '#f5725b', // 확장한 마커 경계 : 빨강
-      strokeOpacity: 0.8,
-      strokeWeight: 1,
-      fillColor: '#f5725b',
-      fillOpacity: 0.1,
-      bounds: newBounds,
-    });
+    // new naver.maps.Rectangle({
+    //   map: mapInstance.current,
+    //   strokeColor: '#f5725b', // 확장한 마커 경계 : 빨강
+    //   strokeOpacity: 0.8,
+    //   strokeWeight: 1,
+    //   fillColor: '#f5725b',
+    //   fillOpacity: 0.1,
+    //   bounds: newBounds,
+    // });
   }, [placeCoords]);
 
   /* [useEffect] 마커 삭제 */
