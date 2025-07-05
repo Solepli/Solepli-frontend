@@ -1,4 +1,4 @@
-import { publicAxios } from './axios';
+import { privateAxios, publicAxios } from './axios';
 import qs from 'qs';
 import { ENDPOINT } from './urls';
 
@@ -14,7 +14,7 @@ export const getPlacesByDisplay = async (
   cursorDist?: number,
   limit: number = 5
 ) => {
-  const response = await publicAxios.get(ENDPOINT.SOLMAP_PLACE, {
+  const response = await privateAxios.get(ENDPOINT.SOLMAP_PLACE, {
     params: {
       swLat,
       swLng,
@@ -41,7 +41,7 @@ export const getPlacesByRegion = async (
   cursorDist?: number,
   limit: number = 5
 ) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_REGION(regionName), {
+  const res = await privateAxios.get(ENDPOINT.SOLMAP_PLACE_REGION(regionName), {
     params: { userLat, userLng, category, cursorId, cursorDist, limit },
   });
 
@@ -53,7 +53,7 @@ export const getPlaceByIdList = async (
   cursorId?: number,
   limit: number = 5
 ) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_ID_LIST, {
+  const res = await privateAxios.get(ENDPOINT.SOLMAP_PLACE_ID_LIST, {
     params: { ids, cursorId, limit },
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: 'repeat' }),
@@ -63,7 +63,8 @@ export const getPlaceByIdList = async (
 };
 
 export const getPlaceDetail = async (id: number) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_DETAIL + id);
+  const res = await privateAxios.get(ENDPOINT.SOLMAP_PLACE_DETAIL + id);
+console.log(res);
 
   return res.data.data;
 };
@@ -75,7 +76,7 @@ export const getPlacesNearby = async (
   cursorDist?: number,
   limit: number = 5
 ) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_PLACE_NEARBY, {
+  const res = await privateAxios.get(ENDPOINT.SOLMAP_PLACE_NEARBY, {
     params: { userLat, userLng, cursorId, cursorDist, limit },
   });
 
