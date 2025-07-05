@@ -4,6 +4,7 @@ import { fetchSolmarkSollect } from '../../api/solmarkApi';
 import SollectList from '../Sollect/SollectList';
 import SolmarkNoResult from './SolmarkNoResult';
 import { useSollectStore } from '../../store/sollectStore';
+import { SollectPhotoType } from '../../types';
 
 const SolmarkContentSollect = () => {
   const { data } = useQuery({
@@ -15,7 +16,11 @@ const SolmarkContentSollect = () => {
 
   useEffect(() => {
     if (data) {
-      setSollects(data);
+      const markedSollects = data.map((sollect:SollectPhotoType) => ({
+        ...sollect,
+        isMarked: true,
+      }));
+      setSollects(markedSollects);
     }
   }, [data, setSollects]);
 

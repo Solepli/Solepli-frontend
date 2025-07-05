@@ -1,4 +1,4 @@
-import { privateAxios, publicAxios } from './axios';
+import { privateAxios } from './axios';
 import qs from 'qs';
 import { ENDPOINT } from './urls';
 
