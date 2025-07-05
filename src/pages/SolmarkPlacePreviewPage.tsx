@@ -6,8 +6,8 @@ import { fetchPlacesByCollectionId } from '../api/solmarkApi';
 import { useSolmarkStore } from '../store/solmarkStore';
 import PreviewContentSummary from '../components/Place/PreviewContentSummary';
 import { useShallow } from 'zustand/shallow';
+import { SolroutePreviewSummary } from '../types';
 
-//TODO:: api 적용 후 places와 data 값 적절하게 변경
 const SolmarkPlacePreviewPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +35,7 @@ const SolmarkPlacePreviewPage = () => {
     if (data) {
       setPlaces(data);
     }
-  }, [data]);
+  }, [data, setPlaces]);
 
   return (
     <div>
@@ -49,7 +49,7 @@ const SolmarkPlacePreviewPage = () => {
           장소 {places.length}개
         </p>
         <div>
-          {data && data.map((place)=>{
+          {data && data.map((place: SolroutePreviewSummary)=>{
             return(
               <PreviewContentSummary place={place} isMarked={true} key={place.id} isSolroute={isSolroute}/>
             )
