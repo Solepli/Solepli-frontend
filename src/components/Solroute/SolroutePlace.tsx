@@ -21,8 +21,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
   const debouncedMemo = useDebounce(memo, 300);
   useAutoResizeAndScroll(textareaRef);
 
-  const { setPlaceMemo } = useSolrouteWriteStore(
+  const { deletePlaceInfo, setPlaceMemo } = useSolrouteWriteStore(
     useShallow((state) => ({
+      deletePlaceInfo: state.deletePlaceInfo,
       setPlaceMemo: state.setPlaceMemo,
     }))
   );
@@ -50,6 +51,10 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
       observer.disconnect();
     };
   }, [textareaRef]);
+
+  const onDeleteClick = () => {
+    deletePlaceInfo(place.id);
+  };
 
   return (
     <div ref={containerRef} className='flex items-start self-stretch'>
@@ -97,7 +102,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
               </div>
             </div>
             <div className='flex w-40 h-40 justify-end items-center gap-10'>
-              <div className='flex p-4 items-center rounded-lg border-1 border-solid border-primary-700'>
+              <div
+                onClick={onDeleteClick}
+                className='flex p-4 items-center rounded-lg border-1 border-solid border-primary-700'>
                 <Trash className='text-primary-700' />
               </div>
             </div>
