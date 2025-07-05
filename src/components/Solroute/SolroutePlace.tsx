@@ -2,16 +2,34 @@ import { useEffect, useRef, useState } from 'react';
 import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
 import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
+import { SolroutePlacePreview } from '../../types';
+import useDebounce from '../../hooks/useDebounce';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
+import { useShallow } from 'zustand/shallow';
 
-const SolroutePlace = () => {
+interface SolroutePlaceProps {
+  place: SolroutePlacePreview;
+}
+
+const SolroutePlace: React.FC<SolroutePlaceProps> = ({ place }) => {
   const lineColumnRef = useRef<HTMLDivElement | null>(null);
   const infoColumnRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const [memo, setMemo] = useState('');
-
+  const [memo, setMemo] = useState(place.memo);
+  const debouncedMemo = useDebounce(memo, 300);
   useAutoResizeAndScroll(textareaRef);
+
+  const { setPlaceMemo } = useSolrouteWriteStore(
+    useShallow((state) => ({
+      setPlaceMemo: state.setPlaceMemo,
+    }))
+  );
+
+  useEffect(() => {
+    setPlaceMemo(place.id, memo);
+  }, [debouncedMemo, memo, place.id, setPlaceMemo]);
 
   useEffect(() => {
     const lineElement = lineColumnRef.current;
@@ -68,14 +86,14 @@ const SolroutePlace = () => {
             <div className='flex flex-col items-start gap-2 grow'>
               <div className='flex justify-center items-center gap-8'>
                 <div className='text-primary-950 text-center text-base not-italic font-bold leading-24 tracking-tight'>
-                  성수까망
+                  {place.name}
                 </div>
                 <div className='text-primary-400 text-xs not-italic font-normal leading-18 tracking-[-0.18px]'>
-                  카페
+                  {place.detailedCategory}
                 </div>
               </div>
               <div className='text-primary-400 text-sm not-italic font-normal leading-[120%] tracking-[-0.21px]'>
-                서울 성동구 연무장5가길 20 2층
+                {place.address}
               </div>
             </div>
             <div className='flex w-40 h-40 justify-end items-center gap-10'>

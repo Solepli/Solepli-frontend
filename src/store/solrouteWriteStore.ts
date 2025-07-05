@@ -18,6 +18,7 @@ interface SolrouteWriteState {
   addPlaceCoords: (placeCoords: MarkerInfoType) => void;
   deletePlaceCoords: (ids: number) => void;
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
+  setPlaceMemo: (id: number, str: string) => void;
   //장소 검색에서 사용하는 함수
   addPlace: (place: SolroutePlace) => void;
 }
@@ -55,6 +56,13 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
     const currentMarkers = get().nextMarkers;
     set({ prevMarkers: currentMarkers });
     set({ nextMarkers });
+  },
+  setPlaceMemo: (id: number, str: string) => {
+    set((state) => ({
+      placeInfos: state.placeInfos.map((place) =>
+        place.id === id ? { ...place, memo: str } : place
+      ),
+    }));
   },
 
   addPlace: (place) => {
