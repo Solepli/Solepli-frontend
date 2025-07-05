@@ -4,7 +4,6 @@ import {
   createMarkerObjectList,
   createMarkersBounds,
   deleteMarkers,
-  expandBounds,
   initMap,
 } from '../../utils/mapFunc';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
