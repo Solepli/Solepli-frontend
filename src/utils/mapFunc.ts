@@ -75,12 +75,13 @@ export const checkDistance = (map: naver.maps.Map) => {
  * https://github.com/maplibre/maplibre-gl-js/blob/main/src/geo/mercator_coordinate.ts#L21
  */
 function lngLatToMercator([lng, lat]: [number, number]): [number, number] {
+  const clampedLat = Math.max(-85.0511, Math.min(85.0511, lat));
   const x = (lng + 180) / 360;
   const y =
     0.5 -
     Math.log(
-      (1 + Math.sin((lat * Math.PI) / 180)) /
-        (1 - Math.sin((lat * Math.PI) / 180))
+      (1 + Math.sin((clampedLat * Math.PI) / 180)) /
+        (1 - Math.sin((clampedLat * Math.PI) / 180))
     ) /
       (4 * Math.PI);
   return [x, y];
