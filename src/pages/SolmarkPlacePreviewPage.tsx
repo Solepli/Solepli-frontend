@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
 import TitleHeader from '../components/global/TitleHeader';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesByCollectionId } from '../api/solmarkApi';
 import { useSolmarkStore } from '../store/solmarkStore';
 import PreviewContentSummary from '../components/Place/PreviewContentSummary';
 import { useShallow } from 'zustand/shallow';
 
+//TODO:: api 적용 후 places와 data 값 적절하게 변경
 const SolmarkPlacePreviewPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { collectionId } = useParams();
 
   const { list, places, setPlaces } = useSolmarkStore(
@@ -18,6 +20,7 @@ const SolmarkPlacePreviewPage = () => {
       setPlaces: state.setPlaces,
     }))
   );
+  const isSolroute = location.pathname.includes('solroute');
 
   const handleClick = () => {
     navigate(-1);
@@ -46,9 +49,9 @@ const SolmarkPlacePreviewPage = () => {
           장소 {places.length}개
         </p>
         <div>
-          {places.map((place, i)=>{
+          {data && data.map((place)=>{
             return(
-              <PreviewContentSummary place={place} isMarked={true} key={i}/>
+              <PreviewContentSummary place={place} isMarked={true} key={place.id} isSolroute={isSolroute}/>
             )
           })}
         </div>

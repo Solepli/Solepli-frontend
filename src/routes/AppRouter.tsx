@@ -27,7 +27,6 @@ import SolmarkContentSollect from '../components/Solmark/SolmarkContentSollect';
 import SolmarkContentMy from '../components/Solmark/SolmarkContentMy';
 import SolroutePlaceAddLayout from '../layout/SolroutePlaceAddLayout';
 import SolroutePlaceAddPage from '../pages/SolroutePlaceAddPage';
-import SolroutePlacePreviewPage from '../pages/SolroutePlacePreviewPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -82,7 +81,7 @@ const AppRouter = () => {
         {/* TODO:: 쏠루트 조회 페이지 생성시 중복된 solroute 주소값 제거 */}
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
         <Route path='/solroute/write/search' element={<SearchPage />} />
-        <Route path='/solroute/place/list/:collectionId' element={<SolroutePlacePreviewPage />} />
+        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
