@@ -74,6 +74,7 @@ const SolrouteWritePage = () => {
                     )}
                   </Draggable>
                 ))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
