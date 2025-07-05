@@ -80,7 +80,7 @@ export const deleteSolmarkSollect = async (id: number) => {
 
 export const fetchPopularSollect = async () => {
   try {
-    const res = await publicAxios.get(ENDPOINT.SOLLECT_POPULAR);
+    const res = await privateAxios.get(ENDPOINT.SOLLECT_POPULAR);
     console.log(res);
     return res.data.data;
   } catch (e) {
