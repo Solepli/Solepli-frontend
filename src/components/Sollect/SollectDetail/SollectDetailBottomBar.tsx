@@ -13,8 +13,6 @@ import { toast } from 'react-toastify';
 import Success from '../../global/Success';
 
 const SollectDetailBottomBar = () => {
-  // id 받아와야함
-  //   const { id } = useSollectDetailStore();
   const { markedCount } = useSollectDetailStore();
   const [count, setCount] = useState(markedCount);
 
