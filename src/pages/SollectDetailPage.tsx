@@ -10,6 +10,7 @@ import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDet
 import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectDetailBottomBar';
 import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton';
 import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
+import { placeSummary } from '../types';
 
 const SollectDetailPage = () => {
   const { sollectId } = useParams();
@@ -24,7 +25,7 @@ const SollectDetailPage = () => {
 
   useEffect(() => {
     if (sollect.data) {
-      const sum = sollect.data.placeSummaries.map((place) => {
+      const sum = sollect.data.placeSummaries.map((place:RawPlace) => {
         return {
           ...place,
           id: place.placeId,
@@ -106,3 +107,7 @@ const SollectDetailPage = () => {
 };
 
 export default SollectDetailPage;
+
+type RawPlace = placeSummary & {
+  placeId?:number;
+}
