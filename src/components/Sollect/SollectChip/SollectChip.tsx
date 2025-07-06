@@ -34,7 +34,7 @@ const SollectChip: React.FC<SollectChipProps> = ({ category }) => {
 
   return (
     <div
-      className='w-40 h-40 border-1 flex justify-center items-center rounded-lg shrink-0'
+      className='w-48 h-48 border-1 flex justify-center items-center rounded-lg shrink-0'
       style={style}
       onClick={handleClick}>
       <IconComponent />
