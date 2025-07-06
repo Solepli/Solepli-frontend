@@ -9,9 +9,10 @@ import { transformSollectDetailToWrite } from '../../utils/transformDetailToWrit
 
 type Props = SollectPhotoProps & {
   isMine?: boolean;
+  horizontal?: boolean;
 };
 
-const SollectPhoto: React.FC<Props> = ({ sollect, isMine }) => {
+const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
   const navigate = useNavigate();
   const [marked, setMarked] = useState(sollect.isMarked);
   const [showMenu, setShowMenu] = useState(false);
@@ -35,12 +36,13 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine }) => {
   return (
     <div
       onClick={handleClick}
-      className='relative w-174 h-220 rounded-lg overflow-hidden flex flex-col justify-end shrink-0'
+      className='relative h-220 rounded-lg overflow-hidden flex flex-col justify-end shrink-0'
       style={{
         backgroundImage: `url(${sollect.thumbnailImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
+        width: horizontal ? '174px' : '',
       }}>
       {/* background */}
       <div className='bg-gradient-to-b from-black/0 to-black/75 absolute top-0 left-0 w-full h-full'></div>
