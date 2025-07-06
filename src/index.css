@@ -22,7 +22,7 @@ body {
 
   --color-black: #181818;
   --color-chip-bg-cafe: #c1d9c9;
-  --color-chip-bg-culture-art: #e9af97;
+  --color-chip-bg-culture: #e9af97;
   --color-chip-bg-drink: #d5cae0;
   --color-chip-bg-entertainment: #e4a9cf;
   --color-chip-bg-food: #d2d2e8;
@@ -31,12 +31,12 @@ body {
   --color-chip-bg-walk: #abccc2;
   --color-chip-bg-work: #e59fb0;
   --color-chip-cafe: #4b6b55;
-  --color-chip-culture-art: #ae5c3c;
+  --color-chip-culture: #ae5c3c;
   --color-chip-drink: #594070;
   --color-chip-entertainment: #8f3973;
   --color-chip-food: #444574;
   --color-chip-light-bg-cafe: rgba(75, 107, 85, 0.1);
-  --color-chip-light-bg-culture-art: rgba(182, 107, 77, 0.1);
+  --color-chip-light-bg-culture: rgba(182, 107, 77, 0.1);
   --color-chip-light-bg-drink: rgba(89, 64, 112, 0.1);
   --color-chip-light-bg-entertainment: rgba(143, 57, 115, 0.1);
   --color-chip-light-bg-food: rgba(68, 69, 116, 0.1);
@@ -88,7 +88,7 @@ body {
   :root {
     --color-black: #181818;
     --color-chip-bg-cafe: #c1d9c9;
-    --color-chip-bg-culture-art: #e9af97;
+    --color-chip-bg-culture: #e9af97;
     --color-chip-bg-drink: #d5cae0;
     --color-chip-bg-entertainment: #e4a9cf;
     --color-chip-bg-food: #d2d2e8;
@@ -97,12 +97,12 @@ body {
     --color-chip-bg-walk: #abccc2;
     --color-chip-bg-work: #e59fb0;
     --color-chip-cafe: #4b6b55;
-    --color-chip-culture-art: #ae5c3c;
+    --color-chip-culture: #ae5c3c;
     --color-chip-drink: #594070;
     --color-chip-entertainment: #8f3973;
     --color-chip-food: #444574;
     --color-chip-light-bg-cafe: rgba(75, 107, 85, 0.1);
-    --color-chip-light-bg-culture-art: rgba(182, 107, 77, 0.1);
+    --color-chip-light-bg-culture: rgba(182, 107, 77, 0.1);
     --color-chip-light-bg-drink: rgba(89, 64, 112, 0.1);
     --color-chip-light-bg-entertainment: rgba(143, 57, 115, 0.1);
     --color-chip-light-bg-food: rgba(68, 69, 116, 0.1);
