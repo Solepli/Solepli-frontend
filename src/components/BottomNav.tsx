@@ -3,6 +3,8 @@ import Sollect from '../assets/nav/sollect.svg?react';
 import SollectActive from '../assets/nav/sollect-active.svg?react';
 import Map from '../assets/nav/map.svg?react';
 import MapActive from '../assets/nav/map-active.svg?react';
+import Solroute from '../assets/nav/solroute.svg?react';
+import SolrouteActive from '../assets/nav/solroute-active.svg?react';
 import Mark from '../assets/nav/mark.svg?react';
 import MarkActive from '../assets/nav/mark-active.svg?react';
 import Profile from '../assets/nav/profile.svg?react';
@@ -21,6 +23,12 @@ const BottomNav = () => {
       path: '/map',
       icon: <Map />,
       activeIcon: <MapActive />,
+    },
+    {
+      name: 'solroute',
+      path: '/solroute',
+      icon: <Solroute />,
+      activeIcon: <SolrouteActive />,
     },
     { name: 'mark', path: '/mark', icon: <Mark />, activeIcon: <MarkActive /> },
     {
