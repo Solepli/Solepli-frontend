@@ -42,7 +42,6 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, 
 
   const buttonStyle = 'w-32 h-32 rounded-lg flex justify-center items-center';
 
-  // 하드코딩
   const [degree, setDegree] = useState(90);
 
   const handleShowHoursInfo = () => {
