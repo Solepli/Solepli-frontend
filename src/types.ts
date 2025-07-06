@@ -76,6 +76,7 @@ export type RelatedSearchWord = {
   id: number | null;
   name: string;
   type: 'DISTRICT' | 'PLACE';
+  isMarked: boolean | null;
 };
 
 export type SelectablePlace = {
