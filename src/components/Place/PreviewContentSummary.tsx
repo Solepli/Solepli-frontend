@@ -4,6 +4,7 @@ import ReviewRange from '../BottomSheet/ReviewRange';
 import TagList from '../BottomSheet/TagList';
 import { placeSummary, SolroutePreviewSummary } from '../../types';
 import SelectableChip from '../global/SelectableChip';
+import { useNavigate } from 'react-router-dom';
 
 interface SummaryProps {
   place: SolroutePreviewSummary | placeSummary;
@@ -17,12 +18,19 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
   isMarked,
   isSolroute = false,
 }) => {
+  const navigate = useNavigate();
+
   if (!place) {
     return;
   }
 
+  const handleClick =()=>{
+    navigate(`/map/detail/${place.id}`);
+  }
   return (
-    <div className='w-full bg-white pt-12 pb-8 border-b border-primary-100'>
+    <div
+      className='w-full bg-white pt-12 pb-8 border-b border-primary-100'
+      onClick={handleClick}>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
