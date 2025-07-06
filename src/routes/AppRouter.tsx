@@ -44,7 +44,6 @@ const AppRouter = () => {
             path='sollect/search/result'
             element={<SollectSearchResultPage />}
           />
-          <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
 
           <Route path='map' element={<Solmap />}>
             <Route index element={<CategoryButtonList />} />
@@ -55,25 +54,26 @@ const AppRouter = () => {
 
           <Route path='map/search' element={<SearchPage />} />
 
-          <Route path='mark' element={<SolmarkPage/>} >
-            <Route index element={<SolmarkContentPlace/>}/>
-            <Route path='place' element={<SolmarkContentPlace/>}/>
-            <Route path='sollect' element={<SolmarkContentSollect/>}/>
-            <Route path='my' element={<SolmarkContentMy/>}/>
+          <Route path='mark' element={<SolmarkPage />}>
+            <Route index element={<SolmarkContentPlace />} />
+            <Route path='place' element={<SolmarkContentPlace />} />
+            <Route path='sollect' element={<SolmarkContentSollect />} />
+            <Route path='my' element={<SolmarkContentMy />} />
           </Route>
-          <Route path='mark/place/list/:collectionId' element={<SolmarkPlacePreviewPage />}/>
-
 
           <Route path='profile' element={<Profile />} />
-          <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
         </Route>
+
+        {/* BottomNav 없어야 하는 곳 */}
         <Route path='login' element={<Login />} />
         <Route path='/sollect/write/*' element={<SollectWriteLayout />}>
           <Route index element={<SollectWritePage />} />
           <Route path='place' element={<SollectWritePlacePage />} />
         </Route>
 
+        <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
+        <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
         <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
@@ -86,6 +86,11 @@ const AppRouter = () => {
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
 
+        
+        <Route
+          path='mark/place/list/:collectionId'
+          element={<SolmarkPlacePreviewPage />}
+        />
       </Routes>
       {/* Modal Routes */}
       {modal && (
