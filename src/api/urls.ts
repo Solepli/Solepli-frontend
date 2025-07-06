@@ -45,6 +45,9 @@ export const ENDPOINT = {
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
   SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
+  //solroute
+  SOLROUTE_PLACE: (id: number) => `/api/solroute/place/${id}`,  //쏠렉트 수정시 장소 정보를 가져올 때 사용, 리팩토링 필요
+
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
   SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
