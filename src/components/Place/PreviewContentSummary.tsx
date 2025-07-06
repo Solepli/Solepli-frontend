@@ -30,7 +30,7 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({ place, isMarked }) => {
 
         {/* right */}
         {/* preview */}
-        <SolmarkChip placeId={place.PlaceId} isMarked={isMarked}/>
+        <SolmarkChip placeId={place.id} isMarked={isMarked}/>
       </div>
 
       <ReviewRange
