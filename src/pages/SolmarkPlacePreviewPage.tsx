@@ -5,12 +5,19 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPlacesByCollectionId } from '../api/solmarkApi';
 import { useSolmarkStore } from '../store/solmarkStore';
 import PreviewContentSummary from '../components/Place/PreviewContentSummary';
+import { useShallow } from 'zustand/shallow';
 
 const SolmarkPlacePreviewPage = () => {
   const navigate = useNavigate();
   const { collectionId } = useParams();
 
-  const { list, places, setPlaces } = useSolmarkStore();
+  const { list, places, setPlaces } = useSolmarkStore(
+    useShallow((state) => ({
+      list: state.list,
+      places: state.places,
+      setPlaces: state.setPlaces,
+    }))
+  );
 
   const handleClick = () => {
     navigate(-1);
@@ -39,9 +46,9 @@ const SolmarkPlacePreviewPage = () => {
           장소 {places.length}개
         </p>
         <div>
-          {places.map((place)=>{
+          {places.map((place, i)=>{
             return(
-              <PreviewContentSummary place={place} isMarked={true} key={place.PlaceId}/>
+              <PreviewContentSummary place={place} isMarked={true} key={i}/>
             )
           })}
         </div>

@@ -157,7 +157,7 @@ export type Paragraph = {
 };
 
 export type placeSummary = {
-  PlaceId: number;
+  id: number;
   name: string;
   detailedCategory: string;
   recommendationPercent: number;
