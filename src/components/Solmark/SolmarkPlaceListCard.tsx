@@ -3,6 +3,7 @@ import heartFill from '../../assets/heartFill.svg';
 import { useNavigate } from 'react-router-dom';
 import { SolmarkPlaceList } from '../../types';
 import { useSolmarkStore } from '../../store/solmarkStore';
+import { useShallow } from 'zustand/shallow';
 
 interface SolmarkPlaceListProps {
   list: SolmarkPlaceList;
@@ -10,7 +11,11 @@ interface SolmarkPlaceListProps {
 
 const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list }) => {
   const navigate = useNavigate();
-  const { setList } = useSolmarkStore();
+  const { setList } = useSolmarkStore(
+    useShallow((state) => ({
+      setList: state.setList,
+    }))
+  );
 
   const handleClick = () => {
     setList(list);
