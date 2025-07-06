@@ -35,6 +35,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, 
       navigate('/map/list');
     } else if (from == 'search') {
       navigate('/map');
+    } else{
+      navigate(-1);
     }
   };
 
