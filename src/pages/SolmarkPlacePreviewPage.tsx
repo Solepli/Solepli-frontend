@@ -49,11 +49,17 @@ const SolmarkPlacePreviewPage = () => {
           장소 {places.length}개
         </p>
         <div>
-          {data && data.map((place: SolroutePreviewSummary)=>{
-            return(
-              <PreviewContentSummary place={place} isMarked={true} key={place.id} isSolroute={isSolroute}/>
-            )
-          })}
+          {data &&
+            data.map((place: SolroutePreviewSummary) => {
+              return (
+                <PreviewContentSummary
+                  place={place}
+                  isMarked={true}
+                  key={place.id}
+                  isSolroute={isSolroute}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

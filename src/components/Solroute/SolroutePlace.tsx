@@ -59,6 +59,10 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
     };
   }, [textareaRef]);
 
+  const onDeleteClick = () => {
+    deletePlaceInfo(place.id);
+  };
+
   return (
     <>
       <div

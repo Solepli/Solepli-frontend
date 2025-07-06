@@ -24,11 +24,11 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
     return;
   }
 
-  const handleClick =()=>{
+  const handleClick = () => {
     //쏠루트일 경우는 detail로 이동하지 않음
     if (isSolroute) return;
     navigate(`/map/detail/${place.id}`);
-  }
+  };
   return (
     <div
       className='w-full bg-white pt-12 pb-8 border-b border-primary-100'
