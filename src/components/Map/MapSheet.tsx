@@ -202,6 +202,7 @@ const MapSheet = () => {
               category: placeDetail.place.category,
               latitude: placeDetail.place.latitude,
               longitude: placeDetail.place.longitude,
+              isMarked: placeDetail.place.isMarked,
             },
           ]);
           applyMarkerResult(result);
