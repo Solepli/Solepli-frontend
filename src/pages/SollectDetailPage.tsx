@@ -24,7 +24,17 @@ const SollectDetailPage = () => {
 
   useEffect(() => {
     if (sollect.data) {
-      setSollectDetail(sollect.data);
+      const sum = sollect.data.placeSummaries.map((place) => {
+        return {
+          ...place,
+          id: place.placeId,
+        };
+      });
+      const updatedData = {
+        ...sollect.data,
+        placeSummaries: sum,
+      };
+      setSollectDetail(updatedData);
     }
   }, [sollect.data, setSollectDetail]);
 
