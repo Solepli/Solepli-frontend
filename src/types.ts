@@ -80,7 +80,7 @@ export type RelatedSearchWord = {
 
 export type SelectablePlace = {
   isSelected: boolean;
-}
+};
 
 export type RelatedSearchPlace = {
   id: number;
@@ -90,7 +90,7 @@ export type RelatedSearchPlace = {
   address: string;
   latitude: number;
   longitude: number;
-}
+};
 
 export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
 
@@ -132,6 +132,7 @@ export type MarkerInfoType = {
   category: string;
   latitude: number;
   longitude: number;
+  isMarked: boolean;
 };
 
 export type SollectPhotoType = {
