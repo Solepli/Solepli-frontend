@@ -41,7 +41,7 @@ const BottomNav = () => {
 
   return (
     <nav>
-      <div className='w-full shadow-[0px_-4px_20px_rgba(18,_18,_18,_0.08)] px-30 pt-5 bg-white flex inline-flex justify-between items-center z-150'>
+      <div className='w-full shadow-[0px_-4px_20px_0px_rgba(18,18,18,0.08)] border-t border-grayScale-50 px-24 pt-12 pb-4 bg-white flex inline-flex justify-between items-center z-150'>
         {menu.map((item) => (
           <NavLink
             key={item.name}
