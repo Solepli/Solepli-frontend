@@ -1,13 +1,13 @@
 import { getPlaceInfo } from '../api/solrouteApi';
-import { useSollectDetailStore } from '../store/sollectDetailStore';
 import { useSollectWriteStore } from '../store/sollectWriteStore';
-import { Paragraph } from '../types';
+import { Paragraph, SolroutePlace } from '../types';
+import { fetchSollectDetail } from '../api/sollectApi';
 
 const CLOUDFRONT_URL: string = import.meta.env.VITE_CLOUDFRONT_URL;
 
 //detailStore에 저장된 sollect 값을 writeStore로 변환
 export const transformSollectDetailToWrite = async (id: number) => {
-  const detail = useSollectDetailStore.getState();
+  const detail = await fetchSollectDetail(Number(id));
 
   useSollectWriteStore.setState({
     id: id, //수정할 id를 부여해 작성이 아닌 수정임을 명시
@@ -17,12 +17,12 @@ export const transformSollectDetailToWrite = async (id: number) => {
     paragraphs: await Promise.all(
       detail.contents.map(
         //thumbnail의 seq가 0이기에 seq를 1부터 부여함
-        async (content, index) => await makeParagraph(content, index + 1)
+        async (content: Paragraph , index: number) => await makeParagraph(content, index + 1)
       )
     ),
     //TODO:: 쏠루트 장소 한번에 가져오는 api 생성해 대체할 것
     places: await Promise.all(
-      detail.placeSummaries.map(async (place) => await getPlaceInfo(place.id))
+      detail.placeSummaries.map(async (place: SolroutePlace) => await getPlaceInfo(place.id))
     ),
   });
 };
