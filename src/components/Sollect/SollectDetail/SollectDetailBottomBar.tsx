@@ -9,6 +9,8 @@ import {
 } from '../../../api/sollectApi';
 import { useParams } from 'react-router-dom';
 import LoginRequiredAction from '../../../auth/LoginRequiredAction';
+import { toast } from 'react-toastify';
+import Success from '../../global/Success';
 
 const SollectDetailBottomBar = () => {
   // id 받아와야함
@@ -38,6 +40,11 @@ const SollectDetailBottomBar = () => {
     } catch (e) {
       console.log(e);
     }
+
+    toast(
+        <Success title='링크가 복사되었습니다' />
+      );
+    
   };
 
   return (
