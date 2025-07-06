@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SolmarkTab = () => {
   const navigate = useNavigate();
@@ -8,25 +8,26 @@ const SolmarkTab = () => {
   const [active, setActive] = useState(0);
   const tabs = ['place', 'sollect', 'my'];
   const tabNames = ['장소', '쏠렉트', '마이'];
-
+  
   const handleClickTab = (i: number) => {
     setActive(i);
     navigate(`/mark/${tabs[i]}`);
   };
-
+  
+  // window.location은 경로가 바뀌어도 리액트 컴포넌트가 감지를 못해서 리렌더링이 일어나지 않음 -> useLocation() 사용
+  const location = useLocation();
   useEffect(()=>{
-    const path = location.pathname
-    if(path.includes("place")){
+    if(location.pathname === '/mark' || location.pathname === '/mark/place'){
       setActive(0);
-    }else if(path.includes("sollect")){
+    }else if(location.pathname === '/mark/sollect'){
       setActive(1);
-    }else if(path.includes("my")){
+    }else if(location.pathname === '/mark/my'){
       setActive(2);
     }
-  },[])
+  },[location.pathname])
 
   return (
-    <div className='border-b border-primary-100 w-full mt-24 px-16'>
+    <div className='border-b border-primary-100 w-full px-16'>
       <ul className='flex justify-stretch text-center'>
         {tabNames.map((tab, i) => (
           <li

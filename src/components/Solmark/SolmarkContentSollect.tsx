@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchSolmarkSollect } from '../../api/solmarkApi';
 import SollectList from '../Sollect/SollectList';
-import { SollectPhotoType } from '../../types';
 import SolmarkNoResult from './SolmarkNoResult';
+import { useSollectStore } from '../../store/sollectStore';
+import { SollectPhotoType } from '../../types';
 
 const SolmarkContentSollect = () => {
   const { data } = useQuery({
@@ -11,23 +12,22 @@ const SolmarkContentSollect = () => {
     queryFn: () => fetchSolmarkSollect(),
   });
 
-  const [sollects, setSollects] = useState<SollectPhotoType[]>([]);
+  const { sollects, setSollects } = useSollectStore();
 
   useEffect(() => {
     if (data) {
-      setSollects(data);
+      const markedSollects = data.map((sollect:SollectPhotoType) => ({
+        ...sollect,
+        isMarked: true,
+      }));
+      setSollects(markedSollects);
     }
-  }, [data]);
+  }, [data, setSollects]);
 
   return (
     <div className='py-16'>
       {sollects.length !== 0 ? (
-        <SollectList
-          sollects={sollects.map((sollect) => {
-            sollect.isMarked = true;
-            return sollect;
-          })}
-        />
+        <SollectList />
       ) : (
         <SolmarkNoResult type='sollect' />
       )}
