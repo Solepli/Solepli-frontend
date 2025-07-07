@@ -172,3 +172,9 @@ export type SolroutePreview = {
   placeCount: number;
   status: boolean;
 };
+
+export type SolroutePayload = {
+  iconId: number;
+  name: string;
+  placeInfos: { id: number; seq: number; memo: string }[];
+};

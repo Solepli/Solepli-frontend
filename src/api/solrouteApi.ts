@@ -1,3 +1,4 @@
+import { SolroutePayload } from '../types';
 import { publicAxios } from './axios';
 import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
@@ -35,13 +36,13 @@ export const fetchSolroute = async (id: number) => {
   }
 };
 
-// export const postSolroute = async (payload) => {
-//   try {
-//     await privateAxios.post(ENDPOINT.SOLROUTE.POST, {payload});
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+export const postSolroute = async (payload: SolroutePayload) => {
+  try {
+    await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 export const deleteSolroute = async (id: number) => {
   try {
