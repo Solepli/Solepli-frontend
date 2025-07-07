@@ -1,6 +1,6 @@
 import React from 'react';
-import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
-import LargeButtonInverted from '../components/global/LargeButtonInverted';
+import SolmarkContentPlace from '../../components/Solmark/SolmarkContentPlace';
+import LargeButtonInverted from '../../components/global/LargeButtonInverted';
 import { useNavigate } from 'react-router-dom';
 
 const SolroutePlaceAddPage: React.FC = () => {

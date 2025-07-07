@@ -1,11 +1,11 @@
 import { useShallow } from 'zustand/shallow';
-import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
-import SolrouteMap from '../components/Solroute/SolrouteMap';
-import SolroutePlace from '../components/Solroute/SolroutePlace';
-import SolrouteTitle from '../components/Solroute/SolrouteTitle';
-import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
+import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader';
+import SolrouteMap from '../../components/Solroute/SolrouteMap';
+import SolroutePlace from '../../components/Solroute/SolroutePlace';
+import SolrouteTitle from '../../components/Solroute/SolrouteTitle';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useNavigate } from 'react-router-dom';
-import LargeButton from '../components/global/LargeButton';
+import LargeButton from '../../components/global/LargeButton';
 import {
   DragDropContext,
   Draggable,
