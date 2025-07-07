@@ -81,7 +81,11 @@ const AppRouter = () => {
         {/* TODO:: 쏠루트 조회 페이지 생성시 중복된 solroute 주소값 제거 */}
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
         <Route path='/solroute/write/search' element={<SearchPage />} />
-
+        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
+        <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
+          <Route index element={<SolroutePlaceAddPage />} />
+        </Route>
+        
         <Route
           path='mark/place/list/:collectionId'
           element={<SolmarkPlacePreviewPage />}
@@ -90,7 +94,6 @@ const AppRouter = () => {
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
-
       </Routes>
       {/* Modal Routes */}
       {modal && (

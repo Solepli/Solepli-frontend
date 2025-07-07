@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { Paragraph, PlaceInfo, } from '../types';
 
 type SollectWriteState = {
+  id?: number; //수정일 경우에만 id가 존재
   seq: number;
   focusSeq: number | null;
   focusTextarea?: HTMLTextAreaElement | null; // 포커스된 텍스트 영역을 저장할 수 있는 속성
@@ -31,6 +32,8 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   title: null, // 제목을 저장하는 속성
   thumbnail: null, // 썸네일 이미지 URL을 저장하는 속성
   places: [], // 장소 ID 목록을 저장하는 속성
+
+  setId: (id: number) => set(() => ({ id })),
 
   setTitle: (title) =>
     set(() => ({
@@ -157,6 +160,6 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
 
   removePlace: (id) =>
     set((state) => ({
-        places: [...state.places].filter((p) => p.id !== id)
+      places: [...state.places].filter((p) => p.id !== id),
     })),
 }));

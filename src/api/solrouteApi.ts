@@ -1,0 +1,17 @@
+import { publicAxios } from './axios';
+import { ENDPOINT } from './urls';
+
+//쏠렉트 수정시 장소 값을 가져오기 위해 사용됨
+//추후 쏠렉트 장소 리스트 가져오는 api 생성 후 이로 대체할 예정
+export const getPlaceInfo = async (id: number) => {
+  const res = await publicAxios.get(ENDPOINT.SOLROUTE_PLACE(id));
+  const place = res.data.data;
+
+  const placeInfo = {
+    ...place,
+    id: place.placeId,
+    name: place.placeName,
+  };
+
+  return placeInfo;
+};
