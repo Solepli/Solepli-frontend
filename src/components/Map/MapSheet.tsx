@@ -168,15 +168,17 @@ const MapSheet = () => {
 
   /* [useEffect] queryType 값에 따른 마커 변경 */
   useEffect(() => {
+    if (!lastBounds) return;
+
     const fetchMarkers = async () => {
       try {
         if (queryType === 'category') {
           // 카테고리 선택시 마커 표시
           const newInfo = await getMarkersByDisplay(
-            lastBounds!.getMin().y,
-            lastBounds!.getMin().x,
-            lastBounds!.getMax().y,
-            lastBounds!.getMax().x,
+            lastBounds.getMin().y,
+            lastBounds.getMin().x,
+            lastBounds.getMax().y,
+            lastBounds.getMax().x,
             selectedCategory ?? undefined
           );
           const result = createMarkerObjectList(newInfo);
@@ -202,6 +204,7 @@ const MapSheet = () => {
               category: placeDetail.place.category,
               latitude: placeDetail.place.latitude,
               longitude: placeDetail.place.longitude,
+              isMarked: placeDetail.place.isMarked,
             },
           ]);
           applyMarkerResult(result);

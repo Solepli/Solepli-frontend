@@ -31,6 +31,7 @@ type BasePlace = {
   detailedCategory: string;
   isSoloRecommended: number;
   rating: number;
+  isMarked: boolean;
 };
 
 export type DetailPlace = BasePlace & {
@@ -45,9 +46,6 @@ export type DetailPlace = BasePlace & {
   category: string;
   address: string;
   thumbnailUrl: string[];
-
-  // 디테일에서 쏠마크 되었는지 확인. 나중에 백엔드에서 받아옴
-  isMarked: boolean;
 };
 
 export type PreviewPlace = BasePlace & {
@@ -76,7 +74,24 @@ export type RelatedSearchWord = {
   id: number | null;
   name: string;
   type: 'DISTRICT' | 'PLACE';
+  isMarked: boolean | null;
 };
+
+export type SelectablePlace = {
+  isSelected: boolean;
+};
+
+export type RelatedSearchPlace = {
+  id: number;
+  name: string;
+  category: string;
+  detailedCategory: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+};
+
+export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
 
 export type PlaceInfo = {
   id: number;
@@ -126,6 +141,7 @@ export type MarkerInfoType = {
   category: string;
   latitude: number;
   longitude: number;
+  isMarked: boolean;
 };
 
 export type SollectPhotoType = {

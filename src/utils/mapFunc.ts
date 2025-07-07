@@ -1,6 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
 import { MarkerInfoType } from '../types';
 import { IconMarkerMap } from './icon';
+import MarkedMarker from '../assets/marker/markedMarker.svg?url';
 
 // 마커를 객체로 생성 후 반환 (마커의 id List도 별도로 반환)
 export const createMarkerObjectList = (
@@ -20,7 +21,8 @@ export const createMarkerObjectList = (
     const marker = new naver.maps.Marker({
       position: position,
       icon: {
-        url: icon,
+        url: m.isMarked ? MarkedMarker : icon,
+        anchor: naver.maps.Position.CENTER,
       },
     });
     objectList.push(marker);
