@@ -2,6 +2,7 @@ import React from 'react';
 import SolmarkChip from '../BottomSheet/SolmarkChip';
 import ReviewRange from '../BottomSheet/ReviewRange';
 import TagList from '../BottomSheet/TagList';
+import { useNavigate } from 'react-router-dom';
 import { placeSummary, SolroutePreviewSummary } from '../../types';
 import SelectableChip from '../global/SelectableChip';
 
@@ -17,12 +18,18 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
   isMarked,
   isSolroute = false,
 }) => {
+
   if (!place) {
     return;
   }
 
+  const handleClick =()=>{
+    navigate(`/map/detail/${place.id}`);
+  }
   return (
-    <div className='w-full bg-white pt-12 pb-8 border-b border-primary-100'>
+    <div
+      className='w-full bg-white pt-12 pb-8 border-b border-primary-100'
+      onClick={handleClick}>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
@@ -36,12 +43,14 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
 
         {/* right */}
         {/* preview */}
+
         {!isSolroute ? (
           <SolmarkChip placeId={place.id} isMarked={isMarked} />
         ) : (
           //쏠루트에서 해당 컴포넌트를 호출할 때는 항상 SolroutePreviewSummary type을 받아야 함
           <SelectableChip place={place as SolroutePreviewSummary} />
         )}
+
       </div>
 
       <ReviewRange
