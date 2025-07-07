@@ -5,13 +5,14 @@ import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../store/sollectWriteStore';
 import { toast } from 'react-toastify';
 import Warn from '../components/global/Warn';
-import { postSollect, postSollectUpload } from '../api/sollectApi';
+import { postSollect, postSollectUpload, putSollect } from '../api/sollectApi';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { title, thumbnail, paragraph, places } = useSollectWriteStore(
+  const { id, title, thumbnail, paragraph, places } = useSollectWriteStore(
     useShallow((state) => ({
+      id: state.id,
       title: state.title,
       thumbnail: state.thumbnail,
       paragraph: state.paragraphs,
@@ -85,17 +86,19 @@ const SollectWriteLayout = () => {
       placeIds: places.map((place) => place.id),
     };
 
-    // Sollect 등록
-    const res = await postSollect(payload);
+    // id가 있으면 sollect 수정
+    // id가 없으면 sollect 등록
+    const res = id ? await putSollect(id, payload) : await postSollect(payload);
     console.log('Sollect ID:', res);
     if (!res) {
       toast(<Warn title='솔렉트를 등록하는데 실패했습니다.' />);
       return;
     }
 
+    // 기존 id가 있다면 id를, 없다면 응답 값을 가져와 사용
     // 생성된 쏠렉트의 ID를 이용해 파일 업로드
     // 기존 contents에서 이미지 파일만 추출하여 FormData 생성
-    const sollectId = res.data.data.sollectId;
+    const sollectId = id ?? res.data.data.sollectId;
     const formData = new FormData();
     const files = payload.contents
       .filter((item) => item?.type === 'IMAGE')

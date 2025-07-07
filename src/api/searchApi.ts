@@ -22,14 +22,15 @@ export const getRelatedSearchWords = async (
   }
 };
 
-export const getRelatedSearchPlaces = async (
-  //추후 keyword를 params로 받는 api 생성 예정
-  keyword: string
-) => {
+export const getRelatedSearchPlaces = async (keyword: string) => {
   try {
-    //keyword lint 문제로 일단 console 찍음. 추후 변경 예정
-    console.log(keyword);
-    return mockRelatedSearchPlaces;
+    const res = await publicAxios.get(ENDPOINT.PLACE_SEARCH, {
+      params: {
+        keyword: keyword,
+      },
+    });
+
+    return res.data.data;
   } catch (e) {
     console.error(e);
   }
@@ -72,7 +73,7 @@ export const postRecentSearchWord = async (
   }
 };
 
-const mockRelatedSearchPlaces: RelatedSearchPlace[] = [
+export const mockRelatedSearchPlaces: PlaceInfo[] = [
   {
     id: 1,
     name: '솔플 카페',

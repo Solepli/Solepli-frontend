@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { deleteSollect } from '../../../api/sollectApi';
 import EditDeletePopover from '../../global/EditDeletePopover';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
+import { transformSollectDetailToWrite } from '../../../utils/transformDetailToWrite';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
@@ -24,6 +25,11 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
     deleteSollect(Number(sollectId));
     navigate(-1);
   };
+
+  const onEditClick = () => {
+    transformSollectDetailToWrite(Number(sollectId));
+    navigate('/sollect/write/');
+  }
 
   return (
     <div
@@ -46,7 +52,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
             onClick={() => setShowMenu(!showMenu)}
           />
 
-          {showMenu && <EditDeletePopover funcDelete={funcDelete}/>}
+          {showMenu && <EditDeletePopover funcDelete={funcDelete} onEditClick={onEditClick}/>}
 
         </div>
       )}

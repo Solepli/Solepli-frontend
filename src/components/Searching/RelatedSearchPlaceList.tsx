@@ -6,9 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getRelatedSearchPlaces } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import RelatedSearchPlace from './RelatedSearchPlace';
-import { useSollectWriteStore } from '../../store/sollectWriteStore';
-import { useLocation } from 'react-router-dom';
-import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 
 const RelatedSearchPlaceList: React.FC = () => {
   //search와 관련된 store
@@ -20,9 +17,6 @@ const RelatedSearchPlaceList: React.FC = () => {
         setRelatedSearchPlaceList: state.setRelatedSearchPlaceList,
       }))
     );
-
-  //place가 저장된는 곳과 관련된 것
-  const { places, addPlace, removePlace } = useWriteStoreByPath();
 
   const debouncedInput = useDebounce(inputValue, 500);
 
@@ -49,40 +43,11 @@ const RelatedSearchPlaceList: React.FC = () => {
     <div className='flex flex-col items-start'>
       <SearchTitle title={'검색 결과'} />
 
-      {relatedSearchPlaceList.map((data) => {
-        const isSelected = Array.from(places).some((p) => p.id === data.id);
-        return (
-          <RelatedSearchPlace
-            searchedPlace={{ ...data, isSelected }}
-            addPlace={addPlace}
-            removePlace={removePlace}
-            key={data.id}
-          />
-        );
+      {relatedSearchPlaceList.map((place) => {
+        return <RelatedSearchPlace place={place} key={place.id} />;
       })}
     </div>
   );
 };
 
 export default RelatedSearchPlaceList;
-
-function useWriteStoreByPath() {
-  const path = useLocation().pathname;
-  const sollect = useSollectWriteStore(
-    useShallow((state) => ({
-      places: state.places,
-      addPlace: state.addPlace,
-      removePlace: state.removePlace,
-    }))
-  );
-
-  const solroute = useSolrouteWriteStore(
-    useShallow((state) => ({
-      places: state.placeInfos,
-      addPlace: state.addPlace,
-      removePlace: state.deletePlaceInfo,
-    }))
-  )
-
-  return path.includes('sollect') ? sollect : solroute;
-}

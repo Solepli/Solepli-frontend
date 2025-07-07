@@ -93,7 +93,7 @@ export type RelatedSearchPlace = {
 
 export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
 
-export type SolroutePlace = {
+export type PlaceInfo = {
   id: number;
   name: string;
   detailedCategory: string;
@@ -103,9 +103,19 @@ export type SolroutePlace = {
   longitude: number;
 };
 
-export type SolroutePlacePreview = SolroutePlace & {
+export type SelectablePlace = PlaceInfo & {
+  isSelected: boolean;
+};
+
+export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
   memo: string;
+};
+
+export type SolroutePreviewSummary = PlaceInfo & {
+  recommendationPercent: number;
+  tags: string[];
+  rating: number;
 };
 
 export type Emoji = 'good' | 'bad' | null;
@@ -169,4 +179,18 @@ export type SolmarkPlaceList = {
   collectionId: number;
   iconId: number;
   placeCount: number;
+};
+
+export type SolroutePreview = {
+  id: number;
+  iconId: number;
+  name: string;
+  placeCount: number;
+  status: boolean;
+};
+
+export type SolroutePayload = {
+  iconId: number;
+  name: string;
+  placeInfos: { id: number; seq: number; memo: string }[];
 };
