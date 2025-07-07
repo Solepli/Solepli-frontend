@@ -55,8 +55,7 @@ const SolrouteMap: React.FC = () => {
 
   /* [useEffect] placeCoords 변경될 때 */
   useEffect(() => {
-    if (!mapInstance.current || !placeCoords || placeCoords.length === 0)
-      return;
+    if (!mapInstance.current || !placeInfos || placeInfos.length === 0) return;
 
     // 마커 객체 생성 및 아이콘 지정
     const { objectList } = createMarkerObjectList(placeInfos);
@@ -113,7 +112,7 @@ const SolrouteMap: React.FC = () => {
     //   fillOpacity: 0.1,
     //   bounds: newBounds,
     // });
-  }, [placeCoords]);
+  }, [placeInfos, setMarkers]);
 
   /* [useEffect] 마커 삭제 */
   useEffect(() => {
