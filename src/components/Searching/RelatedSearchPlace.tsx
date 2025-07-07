@@ -1,14 +1,14 @@
 import React from 'react';
 import type { PlaceInfo } from '../../types';
 import SelectableChip from '../global/SelectableChip';
-import { iconRelatedSearch } from '../../utils/icon';
+import { iconNonlabelSearch } from '../../utils/icon';
 
 interface RelatedSearchPlaceProps {
   place: PlaceInfo;
 }
 
 const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
-  const Icon = iconRelatedSearch[place.category!];
+  const Icon = iconNonlabelSearch[place.category!];
 
   return (
     <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>

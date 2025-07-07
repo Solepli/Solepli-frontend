@@ -62,7 +62,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
   };
 
   return (
-    <div ref={containerRef} className='flex items-start self-stretch'>
+    <div
+      ref={containerRef}
+      className='flex items-start self-stretch rounded-lg bg-white'>
       <div className='flex pl-20 items-start gap-16 grow'>
         {/* line */}
         <div
