@@ -85,12 +85,15 @@ const AppRouter = () => {
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
-
         
         <Route
           path='mark/place/list/:collectionId'
           element={<SolmarkPlacePreviewPage />}
         />
+        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
+        <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
+          <Route index element={<SolroutePlaceAddPage />} />
+        </Route>
       </Routes>
       {/* Modal Routes */}
       {modal && (

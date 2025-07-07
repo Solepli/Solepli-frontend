@@ -28,11 +28,11 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
     location.reload();
   };
 
-    const onEditClick = () => {
+  const onEditClick = () => {
     transformSollectDetailToWrite(Number(sollect.sollectId));
     navigate('/sollect/write/');
   }
-
+  
   return (
     <div
       onClick={handleClick}
