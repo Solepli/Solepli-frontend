@@ -1,4 +1,4 @@
-import { RelatedSearchPlace } from '../types';
+import { PlaceInfo } from '../types';
 import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
 
@@ -24,7 +24,7 @@ export const getRelatedSearchWords = async (
 
 export const getRelatedSearchPlaces = async (keyword: string) => {
   try {
-    const res = await publicAxios.get(ENDPOINT.PLACE_SEARCH, {
+    const res = await privateAxios.get(ENDPOINT.PLACE_SEARCH, {
       params: {
         keyword: keyword,
       },
