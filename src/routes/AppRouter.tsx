@@ -19,14 +19,16 @@ import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
 import SollectDetailPage from '../pages/SollectDetailPage';
-import SolrouteWritePage from '../pages/SolrouteWritePage';
+import SolrouteWritePage from '../pages/solroute/SolrouteWritePage';
 import SolmarkPage from '../pages/SolmarkPage';
 import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
 import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
 import SolmarkContentSollect from '../components/Solmark/SolmarkContentSollect';
 import SolmarkContentMy from '../components/Solmark/SolmarkContentMy';
 import SolroutePlaceAddLayout from '../layout/SolroutePlaceAddLayout';
-import SolroutePlaceAddPage from '../pages/SolroutePlaceAddPage';
+import SolroutePlaceAddPage from '../pages/solroute/SolroutePlaceAddPage';
+import SolroutePage from '../pages/solroute/SolroutePage';
+import SolrouteDetailPage from '../pages/solroute/SolrouteDetailPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -54,6 +56,8 @@ const AppRouter = () => {
 
           <Route path='map/search' element={<SearchPage />} />
 
+          <Route path='solroute' element={<SolroutePage />} />
+
           <Route path='mark' element={<SolmarkPage />}>
             <Route index element={<SolmarkContentPlace />} />
             <Route path='place' element={<SolmarkContentPlace />} />
@@ -78,19 +82,25 @@ const AppRouter = () => {
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
 
-        {/* TODO:: 쏠루트 조회 페이지 생성시 중복된 solroute 주소값 제거 */}
+        <Route path='/solroute/:solrouteId' element={<SolrouteDetailPage />} />
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
         <Route path='/solroute/write/search' element={<SearchPage />} />
-        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
+        <Route
+          path='/solroute/place/list/:collectionId'
+          element={<SolmarkPlacePreviewPage />}
+        />
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
-        
+
         <Route
           path='mark/place/list/:collectionId'
           element={<SolmarkPlacePreviewPage />}
         />
-        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
+        <Route
+          path='/solroute/place/list/:collectionId'
+          element={<SolmarkPlacePreviewPage />}
+        />
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
