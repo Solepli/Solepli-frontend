@@ -8,9 +8,13 @@ import { fetchSolroute } from '../../api/solrouteApi';
 import { SolroutePlacePreview } from '../../types';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
+import EditDeletePopover from '../../components/global/EditDeletePopover';
+import { useState } from 'react';
+import Kebab from '../../assets/kebabGray.svg?react';
 
 const SolrouteDetailPage = () => {
   const navigate = useNavigate();
+  const [showMenu, setShowMenu] = useState(false);
   const { solrouteId } = useParams();
   const { setPlaceInfos } = useSolrouteWriteStore(
     useShallow((state) => ({
@@ -26,6 +30,18 @@ const SolrouteDetailPage = () => {
     return <>로딩 중...</>;
   }
 
+  // 쏠루트 삭제
+  const funcDelete = async () => {
+    // await deleteSollect(Number(sollect.sollectId));
+    setShowMenu(false);
+    // location.reload();
+  };
+
+  // 쏠루트 수정
+  //   const funcEdit = () => {
+  //     navigate('/solroute/write');
+  //   }
+
   //여기 이후부턴 data에 값이 존재
 
   //map에 마커를 표시하기 위해 setPalceInfos를 설정
@@ -34,7 +50,19 @@ const SolrouteDetailPage = () => {
   return (
     <>
       <div>
-        <TitleHeader title='dd' onClick={() => navigate(-1)} center />
+        <TitleHeader
+          title={data.name}
+          onClick={() => navigate(-1)}
+          center
+          iconId={data.iconId}>
+          {/* 케밥 아이콘 */}
+          <div
+            className='w-42 h-42 flex justify-center items-center'
+            onClick={() => setShowMenu(!showMenu)}>
+            <Kebab />
+          </div>
+        </TitleHeader>
+        {showMenu && <EditDeletePopover funcDelete={funcDelete} />}
       </div>
       <div className='mt-58'>
         <SolrouteMap />
