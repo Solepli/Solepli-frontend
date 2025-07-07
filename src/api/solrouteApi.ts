@@ -1,4 +1,5 @@
 import { publicAxios } from './axios';
+import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
 
 //쏠렉트 수정시 장소 값을 가져오기 위해 사용됨
@@ -14,4 +15,21 @@ export const getPlaceInfo = async (id: number) => {
   };
 
   return placeInfo;
+};
+
+export const fetchSolroutes = async () => {
+  try {
+    const res = await privateAxios.get(ENDPOINT.SOLROUTE.GET);
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const patchStatus = async (id: number) => {
+  try {
+    await privateAxios.patch(ENDPOINT.SOLROUTE_STATUS(id));
+  } catch (e) {
+    console.error(e);
+  }
 };

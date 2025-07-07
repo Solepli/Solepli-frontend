@@ -164,3 +164,11 @@ export type SolmarkPlaceList = {
   iconId: number;
   placeCount: number;
 };
+
+export type SolroutePreview = {
+  id: number;
+  iconId: number;
+  name: string;
+  placeCount: number;
+  status: boolean;
+};

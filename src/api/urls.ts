@@ -57,6 +57,16 @@ export const ENDPOINT = {
     `/api/solmark/place/collections/${collectionId}/places`,                      // 특정 컬렉션의 장소 리스트 조회
   SOLMARK_PLACE: (placeId:number)=>`/api/solmark/place/${placeId}/collections`,   // 장소 쏠마크 추가
 
+  // solroute
+  SOLROUTE: {
+    GET: '/api/solroute',
+    POST: '/api/solroute',
+    PATCH: (id: number) => `/api/solroute/${id}`,
+    DELETE: (id: number) => `/api/solroute/${id}`,
+  },
+
+  SOLROUTE_STATUS: (id: number) => `/api/solroute/${id}/status`,
+
   //place
   PLACE_SEARCH: '/api/place/search',
 
