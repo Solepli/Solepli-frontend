@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { publicAxios } from './axios';
+import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
 
 export const getMarkersByDisplay = async (
@@ -9,7 +9,7 @@ export const getMarkersByDisplay = async (
   neLng: number, // neX
   category?: string
 ) => {
-  const response = await publicAxios.get(ENDPOINT.SOLMAP_MARKERS, {
+  const response = await privateAxios.get(ENDPOINT.SOLMAP_MARKERS, {
     params: {
       swLat,
       swLng,
@@ -23,13 +23,15 @@ export const getMarkersByDisplay = async (
 };
 
 export const getMarkersByRegion = async (regionName: string) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_MARKERS_REGION(regionName));
+  const res = await privateAxios.get(
+    ENDPOINT.SOLMAP_MARKERS_REGION(regionName)
+  );
 
   return res.data.data;
 };
 
 export const getMarkersByIdList = async (ids: number[]) => {
-  const res = await publicAxios.get(ENDPOINT.SOLMAP_MARKERS_ID_LIST, {
+  const res = await privateAxios.get(ENDPOINT.SOLMAP_MARKERS_ID_LIST, {
     params: { ids },
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: 'repeat' }),
