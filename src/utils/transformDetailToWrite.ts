@@ -1,9 +1,7 @@
 import { getPlaceInfo } from '../api/solrouteApi';
 import { useSollectWriteStore } from '../store/sollectWriteStore';
-import { Paragraph, SolroutePlace } from '../types';
+import { Paragraph, PlaceInfo, } from '../types';
 import { fetchSollectDetail } from '../api/sollectApi';
-
-const CLOUDFRONT_URL: string = import.meta.env.VITE_CLOUDFRONT_URL;
 
 //detailStore에 저장된 sollect 값을 writeStore로 변환
 export const transformSollectDetailToWrite = async (id: number) => {
@@ -22,7 +20,7 @@ export const transformSollectDetailToWrite = async (id: number) => {
     ),
     //TODO:: 쏠루트 장소 한번에 가져오는 api 생성해 대체할 것
     places: await Promise.all(
-      detail.placeSummaries.map(async (place: SolroutePlace) => await getPlaceInfo(place.id))
+      detail.placeSummaries.map(async (place: PlaceInfo) => await getPlaceInfo(place.id))
     ),
   });
 };
@@ -59,11 +57,12 @@ async function makeParagraph(
 }
 
 //S3에 업로드된 이미지 url을 File 객체로 반환
-//S3의 CORS 정책과, 크롬의 ORIGIN 전송 안함 문제로 S3 주소의 ORIGIN을 CLOUDFRONT 주소로 변환
+//Chromium 엔진을 이용하는 브라우저는 이미지를 캐싱할 때 cors 헤더를 저장하지 않음.
+//fetch할 때 캐싱된 이미지를 사용하면 Cors 오류가 뜸
+//?not-from-cache-please를 이용해 캐싱된 이미지를 이용하지 않음
 async function urlToFile(url: string, filename: string): Promise<File> {
   try {
-    const pathname = new URL(url, CLOUDFRONT_URL).pathname;
-    const response = await fetch(CLOUDFRONT_URL + pathname);
+    const response = await fetch(url + '?not-from-cache-please');
     if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
 
     const blob = await response.blob();
