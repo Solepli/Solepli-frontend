@@ -140,6 +140,7 @@ const SearchBar: React.FC = () => {
           placeholder='오늘은 어디서 시간을 보내나요?'
           autoFocus
           onKeyDown={(e) => handleEnter(e)}
+          maxLength={50}
         />
       </div>
       {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
