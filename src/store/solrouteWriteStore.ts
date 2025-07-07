@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { MarkerInfoType, SolroutePlace, SolroutePlacePreview } from '../types';
+import { MarkerInfoType, PlaceInfo, SolroutePlacePreview } from '../types';
 
 interface SolrouteWriteState {
   icon: number | null;
@@ -20,7 +20,7 @@ interface SolrouteWriteState {
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
   setPlaceMemo: (id: number, str: string) => void;
   //장소 검색에서 사용하는 함수
-  addPlace: (place: SolroutePlace) => void;
+  addPlace: (place: PlaceInfo) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({

@@ -1,11 +1,11 @@
 import React from 'react';
 import DragAndDrap from '../../../assets/dragAndDrop.svg?react';
 import Trash from '../../../assets/trash.svg?react';
-import { RelatedSearchPlace } from '../../../types';
+import { PlaceInfo } from '../../../types';
 import { iconSmallMap } from '../../../utils/icon';
 
 const SollectWriteAddedPlace: React.FC<{
-  place: RelatedSearchPlace;
+  place: PlaceInfo;
   handleRemove: (placeId: number | null) => void;
   isDragging?: boolean;
 }> = ({ place, handleRemove, isDragging = false }) => {

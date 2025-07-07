@@ -78,23 +78,7 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
-export type SelectablePlace = {
-  isSelected: boolean;
-}
-
-export type RelatedSearchPlace = {
-  id: number;
-  name: string;
-  category: string;
-  detailedCategory: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-}
-
-export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
-
-export type SolroutePlace = {
+export type PlaceInfo = {
   id: number;
   name: string;
   detailedCategory: string;
@@ -104,9 +88,19 @@ export type SolroutePlace = {
   longitude: number;
 };
 
-export type SolroutePlacePreview = SolroutePlace & {
+export type SelectablePlace = PlaceInfo & {
+  isSelected: boolean;
+};
+
+export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
   memo: string;
+};
+
+export type SolroutePreviewSummary = PlaceInfo & {
+  recommendationPercent: number;
+  tags: string[];
+  rating: number;
 };
 
 export type Emoji = 'good' | 'bad' | null;

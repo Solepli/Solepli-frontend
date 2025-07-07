@@ -9,7 +9,7 @@ import {
   DraggableStyle,
 } from '@hello-pangea/dnd';
 import SollectWriteAddedPlace from './SollectWriteAddedPlace';
-import { RelatedSearchPlace } from '../../../types';
+import { PlaceInfo } from '../../../types';
 import LargeButton from '../../global/LargeButton';
 
 const SollectWritePlaces = () => {
@@ -27,7 +27,7 @@ const SollectWritePlaces = () => {
   };
 
   const reorder = (
-    list: RelatedSearchPlace[],
+    list: PlaceInfo[],
     startIndex: number,
     endIndex: number
   ) => {
