@@ -1,76 +1,37 @@
 import { useShallow } from 'zustand/shallow';
 import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
 import SolrouteMap from '../components/Solroute/SolrouteMap';
-import SolroutePlaceAddButton from '../components/Solroute/SolroutePlaceAddButton';
+import SolroutePlace from '../components/Solroute/SolroutePlace';
 import SolrouteTitle from '../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
-import { useEffect } from 'react';
-import { MarkerInfoType, SolroutePlacePreview } from '../types';
+import { useNavigate } from 'react-router-dom';
+import LargeButton from '../components/global/LargeButton';
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from '@hello-pangea/dnd';
 
-const placeInfos: SolroutePlacePreview[] = [
-  {
-    placeId: 1,
-    seq: 1,
-    placeName: '리퍼크',
-    detailedCategory: '카페',
-    address: '서울특별시 강남구 강남대로 382 메리츠타워 1층',
-    memo: '리퍼크 메모 어쩌구',
-    category: 'cafe',
-    latitude: 37.4969474,
-    longitude: 127.0285793,
-  },
-  {
-    placeId: 2,
-    seq: 2,
-    placeName: '양궁카페 로빈훗 강남점',
-    detailedCategory: '양궁장',
-    address: '서울특별시 강남구 강남대로110길 13',
-    memo: ' 메모 어쩌구',
-    category: 'entertainment',
-    latitude: 37.5039947,
-    longitude: 127.0259367,
-  },
-  {
-    placeId: 20,
-    seq: 3,
-    placeName: '티틸 카페+바',
-    detailedCategory: '카페',
-    address: '서울특별시 강북구 노해로 42',
-    memo: ' 메모 어쩌구',
-    category: 'cafe',
-    latitude: 37.6391587,
-    longitude: 127.0229204,
-  },
-];
+const SolrouteWritePage = () => {
+  const navigate = useNavigate();
 
-const makePlaceCoord = (
-  placeInfos: SolroutePlacePreview[]
-): MarkerInfoType[] => {
-  const dataArray: MarkerInfoType[] = [];
-  placeInfos.forEach((v) => {
-    dataArray.push({
-      id: v.placeId,
-      category: v.category,
-      latitude: v.latitude,
-      longitude: v.longitude,
-    });
-  });
-  return dataArray;
-};
-
-const SollectWritePage = () => {
-  const { setPlaceInfos, setPlaceCoords } = useSolrouteWriteStore(
+  const { placeInfos, setPlaceInfos } = useSolrouteWriteStore(
     useShallow((state) => ({
+      placeInfos: state.placeInfos,
       setPlaceInfos: state.setPlaceInfos,
-      setPlaceCoords: state.setPlaceCoords,
     }))
   );
 
-  // 쏠루트 코스 상세조회 api로 데이터 받아 왔을 때
-  useEffect(() => {
-    setPlaceInfos(placeInfos);
-    setPlaceCoords(makePlaceCoord(placeInfos));
-  }, []);
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) return;
+
+    const items = Array.from(placeInfos);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setPlaceInfos(items);
+  };
 
   return (
     <div className='w-full h-full flex flex-col relative overflow-hidden'>
@@ -85,12 +46,46 @@ const SollectWritePage = () => {
       <div className='flex-1 overflow-y-auto mt-50'>
         <SolrouteTitle />
         <SolrouteMap />
+        <div className='flex pt-24 pb-8 pl-16 items-center gap-10 self-stretch'>
+          <p className='text-primary-950 text-sm not-italic font-normal leading-[150%] tracking-[-0.35px]'>
+            장소 {placeInfos.length}개
+          </p>
+        </div>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId='placeList' direction='vertical'>
+            {(provided) => (
+              <div
+                className='placeList'
+                {...provided.droppableProps}
+                ref={provided.innerRef}>
+                {placeInfos.map((place, i) => (
+                  <Draggable
+                    draggableId={place.id.toString()}
+                    index={i}
+                    key={place.id}>
+                    {(provided) => (
+                      <div {...provided.draggableProps} ref={provided.innerRef}>
+                        <SolroutePlace
+                          place={place}
+                          key={place.id}
+                          dragHandleProps={provided.dragHandleProps}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
         <div className='pt-24 pb-48 px-16'>
-          <SolroutePlaceAddButton />
+          <LargeButton text='장소 추가' onClick={() => {navigate('/solroute/add/place')}} />
         </div>
       </div>
     </div>
   );
 };
 
-export default SollectWritePage;
+export default SolrouteWritePage;

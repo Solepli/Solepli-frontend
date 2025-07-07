@@ -78,13 +78,9 @@ export type RelatedSearchWord = {
   type: 'DISTRICT' | 'PLACE';
 };
 
-export type RelatedSearchPlace = RelatedSearchWord & {
-  isAdded: boolean;
-};
-
-export type SolroutePlace = {
-  placeId: number;
-  placeName: string;
+export type PlaceInfo = {
+  id: number;
+  name: string;
   detailedCategory: string;
   address: string;
   category: string;
@@ -92,22 +88,31 @@ export type SolroutePlace = {
   longitude: number;
 };
 
-export type SolroutePlacePreview = SolroutePlace & {
+export type SelectablePlace = PlaceInfo & {
+  isSelected: boolean;
+};
+
+export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
   memo: string;
+};
+
+export type SolroutePreviewSummary = PlaceInfo & {
+  recommendationPercent: number;
+  tags: string[];
+  rating: number;
 };
 
 export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
-  id: number;
-  username: string;
-  profileImage: string;
-  date: string;
+  userProfileUrl: string;
+  userNickname: string;
+  createdAt: string;
+  isRecommended: boolean;
   rating: number;
-  emoji: Emoji;
   content: string;
-  images: string[];
+  photoUrls: string[];
   tags: string[];
 };
 
@@ -144,7 +149,7 @@ export type Paragraph = {
 };
 
 export type placeSummary = {
-  PlaceId: number;
+  id: number;
   name: string;
   detailedCategory: string;
   recommendationPercent: number;

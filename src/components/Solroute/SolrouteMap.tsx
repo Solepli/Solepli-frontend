@@ -8,6 +8,7 @@ import {
 } from '../../utils/mapFunc';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
+import SolrouteNums26 from '../../assets/marker/solroute-nums-26.png';
 
 const SolrouteMap: React.FC = () => {
   const mapElement = useRef<HTMLDivElement | null>(null);
@@ -21,10 +22,10 @@ const SolrouteMap: React.FC = () => {
     })
   );
 
-  const { placeCoords, nextMarkers, prevMarkers, setMarkers } =
+  const { placeInfos, nextMarkers, prevMarkers, setMarkers } =
     useSolrouteWriteStore(
       useShallow((state) => ({
-        placeCoords: state.placeCoords,
+        placeInfos: state.placeInfos,
         nextMarkers: state.nextMarkers,
         prevMarkers: state.prevMarkers,
         setMarkers: state.setMarkers,
@@ -54,21 +55,19 @@ const SolrouteMap: React.FC = () => {
 
   /* [useEffect] placeCoords 변경될 때 */
   useEffect(() => {
-    if (!mapInstance.current || !placeCoords || placeCoords.length === 0)
-      return;
+    if (!mapInstance.current || !placeInfos || placeInfos.length === 0) return;
 
-    // 1. 마커 객체 생성
-    const { objectList } = createMarkerObjectList(placeCoords);
-    /* todo : 순서에 맞는 아이콘 지정 */
-    // objectList.forEach((v, i) => {
-    //   v.setIcon({
-    //     url: '', // 01-50 png 파일
-    //     size: new naver.maps.Size(24, 24), // 화면에 나타나는 마커의 크기
-    //     anchor: naver.maps.Position.CENTER,
-    //     origin: new naver.maps.Point(i * 24, 0), // 이 원점 위치로부터 size 속성의 값만큼 화면에 노출 (x: 0, y: 0)
-    //   });
-    //   v.setOptions('clickable', false);
-    // });
+    // 마커 객체 생성 및 아이콘 지정
+    const { objectList } = createMarkerObjectList(placeInfos);
+    objectList.forEach((v, i) => {
+      v.setIcon({
+        url: SolrouteNums26, // png 파일
+        size: new naver.maps.Size(26, 26), // 화면에 나타나는 마커의 크기
+        anchor: naver.maps.Position.CENTER, // 마커 중심 설정
+        origin: new naver.maps.Point(i * 26, 0), // 이 원점 위치로부터 size 속성의 값만큼 화면에 노출 (x: 0, y: 0)
+      });
+      v.setOptions('clickable', false);
+    });
     setMarkers(objectList);
 
     // 2. 모든 마커를 포함하는 bounds 계산
@@ -113,7 +112,7 @@ const SolrouteMap: React.FC = () => {
     //   fillOpacity: 0.1,
     //   bounds: newBounds,
     // });
-  }, [placeCoords]);
+  }, [placeInfos, setMarkers]);
 
   /* [useEffect] 마커 삭제 */
   useEffect(() => {
@@ -131,7 +130,7 @@ const SolrouteMap: React.FC = () => {
 
     // 폴리라인 추가
     const path = polyline.current.getPath();
-    placeCoords.forEach((coord) => {
+    placeInfos.forEach((coord) => {
       path.push(new naver.maps.LatLng(coord.latitude, coord.longitude));
     });
   }, [nextMarkers]);

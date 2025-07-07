@@ -1,27 +1,31 @@
 import { create } from 'zustand';
-import { MarkerInfoType, SolroutePlacePreview } from '../types';
+import { MarkerInfoType, PlaceInfo, SolroutePlacePreview } from '../types';
 
 interface SolrouteWriteState {
-  iconId: number | null;
-  name: string | null;
+  icon: number | null;
+  title: string | null;
   status: boolean;
   placeInfos: SolroutePlacePreview[]; // 정보 목록 저장
   placeCoords: MarkerInfoType[]; // 좌표 목록 저장
   nextMarkers: naver.maps.Marker[];
   prevMarkers: naver.maps.Marker[];
-  setIconId: (iconId: number) => void;
-  setName: (name: string | null) => void;
+  setIcon: (icon: number) => void;
+  setTitle: (title: string | null) => void;
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => void;
   addPlaceInfos: (placeInfos: SolroutePlacePreview) => void;
-  deletePlaceInfos: (ids: number) => void;
+  deletePlaceInfo: (id: number) => void;
   setPlaceCoords: (placeCoords: MarkerInfoType[]) => void;
   addPlaceCoords: (placeCoords: MarkerInfoType) => void;
   deletePlaceCoords: (ids: number) => void;
   setMarkers: (nextMarkers: naver.maps.Marker[]) => void;
+  setPlaceMemo: (id: number, str: string) => void;
+  //장소 검색에서 사용하는 함수
+  addPlace: (place: PlaceInfo) => void;
 }
 
 export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
-  iconId: null,
+  icon: null,
+  title: null,
   name: null,
   status: false,
   placeInfos: [],
@@ -29,15 +33,15 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
   nextMarkers: [],
   prevMarkers: [],
 
-  setIconId: (iconId: number) => set({ iconId }),
-  setName: (name: string | null) => set({ name }),
+  setIcon: (icon: number) => set({ icon }),
+  setTitle: (title: string | null) => set({ title }),
   setStatus: (status: boolean) => set({ status }),
   setPlaceInfos: (placeInfos: SolroutePlacePreview[]) => set({ placeInfos }),
   addPlaceInfos: (placeInfos: SolroutePlacePreview) =>
     set({ placeInfos: [...get().placeInfos, placeInfos] }),
-  deletePlaceInfos: (ids: number) => {
+  deletePlaceInfo: (id: number) => {
     const originInfos = get().placeInfos;
-    const newInfos = originInfos.filter((v) => v.placeId != ids);
+    const newInfos = originInfos.filter((v) => v.id != id);
     set({ placeInfos: newInfos });
   },
   setPlaceCoords: (placeCoords: MarkerInfoType[]) => set({ placeCoords }),
@@ -52,5 +56,21 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
     const currentMarkers = get().nextMarkers;
     set({ prevMarkers: currentMarkers });
     set({ nextMarkers });
+  },
+  setPlaceMemo: (id: number, str: string) => {
+    set((state) => ({
+      placeInfos: state.placeInfos.map((place) =>
+        place.id === id ? { ...place, memo: str } : place
+      ),
+    }));
+  },
+
+  addPlace: (place) => {
+    const seq = get().placeInfos.length + 1;
+    const isExisted = get().placeInfos.some((p) => p.id == place.id);
+    if (isExisted) return;
+    set({
+      placeInfos: [...get().placeInfos, { ...place, seq, memo: '' }],
+    });
   },
 }));

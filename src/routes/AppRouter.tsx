@@ -6,7 +6,7 @@ import PreviewContentList from '../components/BottomSheet/Preview/PreviewContent
 import DetailContent from '../components/BottomSheet/DetailContent';
 import ReviewsPage from '../pages/ReviewsPage';
 import PreviewContentEmpty from '../components/BottomSheet/Preview/PreviewContentEmpty';
-import ReviewWrite from '../components/BottomSheet/ReviewWrite/ReviewWrite';
+import ReviewWrite from '../pages/ReviewWritePage';
 import LoginModal from '../auth/LoginModal';
 import RelatedSollect from '../pages/RelatedSollect';
 import SollectPage from '../pages/SollectPage';
@@ -25,6 +25,8 @@ import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
 import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
 import SolmarkContentSollect from '../components/Solmark/SolmarkContentSollect';
 import SolmarkContentMy from '../components/Solmark/SolmarkContentMy';
+import SolroutePlaceAddLayout from '../layout/SolroutePlaceAddLayout';
+import SolroutePlaceAddPage from '../pages/SolroutePlaceAddPage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -49,7 +51,6 @@ const AppRouter = () => {
             <Route path='list' element={<PreviewContentList />} />
             <Route path='not-found' element={<PreviewContentEmpty />} />
             <Route path='detail/:placeId' element={<DetailContent />} />
-            <Route path='review-write/:placeId' element={<ReviewWrite />} />
           </Route>
 
           <Route path='map/search' element={<SearchPage />} />
@@ -72,10 +73,19 @@ const AppRouter = () => {
           <Route index element={<SollectWritePage />} />
           <Route path='place' element={<SollectWritePlacePage />} />
         </Route>
+
+        <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
         <Route path='/sollect/write/search' element={<SearchPage />} />
 
+        {/* TODO:: 쏠루트 조회 페이지 생성시 중복된 solroute 주소값 제거 */}
         <Route path='/solroute/write' element={<SolrouteWritePage />} />
+        <Route path='/solroute/write/search' element={<SearchPage />} />
+        <Route path='/solroute/place/list/:collectionId' element={<SolmarkPlacePreviewPage />} />
+        <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
+          <Route index element={<SolroutePlaceAddPage />} />
+        </Route>
+
       </Routes>
       {/* Modal Routes */}
       {modal && (

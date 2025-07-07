@@ -3,30 +3,28 @@ import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
 import useDebounce from '../../hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
-import { getRelatedSearchWords } from '../../api/searchApi';
+import { getRelatedSearchPlaces } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import RelatedSearchPlace from './RelatedSearchPlace';
-import { useSollectWriteStore } from '../../store/sollectWriteStore';
 
 const RelatedSearchPlaceList: React.FC = () => {
-  const { inputValue, relatedSearchList, setRelatedSearchList } =
+  //search와 관련된 store
+  const { inputValue, relatedSearchPlaceList, setRelatedSearchPlaceList } =
     useSearchStore(
       useShallow((state) => ({
         inputValue: state.inputValue,
-        relatedSearchList: state.relatedSearchList,
-        setRelatedSearchList: state.setRelatedSearchList,
+        relatedSearchPlaceList: state.relatedSearchPlaceList,
+        setRelatedSearchPlaceList: state.setRelatedSearchPlaceList,
       }))
     );
-  const { places } = useSollectWriteStore(
-    useShallow((state) => ({ places: state.places }))
-  );
 
   const debouncedInput = useDebounce(inputValue, 500);
 
+  // 입력값과 관련된 장소들을 RelatedSearchPlace type으로 가져옴
   const { data, isSuccess, error } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
-      return getRelatedSearchWords(debouncedInput, 0, 0);
+      return getRelatedSearchPlaces(debouncedInput);
     },
     enabled: debouncedInput !== '',
   });
@@ -36,28 +34,18 @@ const RelatedSearchPlaceList: React.FC = () => {
   }
 
   useEffect(() => {
-    if (isSuccess) {
-      setRelatedSearchList(data);
+    if (isSuccess && data !== undefined) {
+      setRelatedSearchPlaceList(data);
     }
-  }, [isSuccess, data, setRelatedSearchList]);
+  }, [isSuccess, data, setRelatedSearchPlaceList]);
 
   return (
     <div className='flex flex-col items-start'>
       <SearchTitle title={'검색 결과'} />
 
-      {/* relatedSearchList의 relatedSearchWord 객체를
-      isAdded 필드를 추가한 relatedSearchPlace로 변환해줌 */}
-      {relatedSearchList
-        ?.filter((data) => data.type === 'PLACE')
-        .map((data) => {
-          const isAdded = places.some((p) => p.id === data.id);
-          return (
-            <RelatedSearchPlace
-              relatedSearchPlace={{ ...data, isAdded }}
-              key={data.id}
-            />
-          );
-        })}
+      {relatedSearchPlaceList.map((place) => {
+        return <RelatedSearchPlace place={place} key={place.id} />;
+      })}
     </div>
   );
 };

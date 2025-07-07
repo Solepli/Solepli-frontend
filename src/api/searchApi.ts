@@ -21,6 +21,20 @@ export const getRelatedSearchWords = async (
   }
 };
 
+export const getRelatedSearchPlaces = async (keyword: string) => {
+  try {
+    const res = await publicAxios.get(ENDPOINT.PLACE_SEARCH, {
+      params: {
+        keyword: keyword,
+      },
+    });
+
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const deleteRecentSearchWords = async (
   mode: string,
   keyword: string

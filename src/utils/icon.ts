@@ -35,14 +35,29 @@ import ShopSmall from '../assets/category-icons/small/shop.svg?react';
 import WalkSmall from '../assets/category-icons/small/walk.svg?react';
 import WorkSmall from '../assets/category-icons/small/work.svg?react';
 
-import CafeMarker from '../assets/category-icons/mapMarker/cafeMarker.svg?url';
-import CultureMarker from '../assets/category-icons/mapMarker/cultureMarker.svg?url';
-import DrinkMarker from '../assets/category-icons/mapMarker/drinkMarker.svg?url';
-import EntertainmentMarker from '../assets/category-icons/mapMarker/entertainmentMarker.svg?url';
-import FoodMarker from '../assets/category-icons/mapMarker/foodMarker.svg?url';
-import ShopMarker from '../assets/category-icons/mapMarker/shopMarker.svg?url';
-import WalkMarker from '../assets/category-icons/mapMarker/walkMarker.svg?url';
-import WorkMarker from '../assets/category-icons/mapMarker/workMarker.svg?url';
+import CafeMarker from '../assets/marker/cafeMarker.svg?url';
+import CultureMarker from '../assets/marker/cultureMarker.svg?url';
+import DrinkMarker from '../assets/marker/drinkMarker.svg?url';
+import EntertainmentMarker from '../assets/marker/entertainmentMarker.svg?url';
+import FoodMarker from '../assets/marker/foodMarker.svg?url';
+import ShopMarker from '../assets/marker/shopMarker.svg?url';
+import WalkMarker from '../assets/marker/walkMarker.svg?url';
+import WorkMarker from '../assets/marker/workMarker.svg?url';
+
+import Version1 from '../assets/selectableIconSet/version1.svg?react';
+import Version2 from '../assets/selectableIconSet/version2.svg?react';
+import Version3 from '../assets/selectableIconSet/version3.svg?react';
+import Version4 from '../assets/selectableIconSet/version4.svg?react';
+import Version5 from '../assets/selectableIconSet/version5.svg?react';
+import Version6 from '../assets/selectableIconSet/version6.svg?react';
+import Version7 from '../assets/selectableIconSet/version7.svg?react';
+import Version8 from '../assets/selectableIconSet/version8.svg?react';
+import Version9 from '../assets/selectableIconSet/version9.svg?react';
+import Version10 from '../assets/selectableIconSet/version10.svg?react';
+import Version11 from '../assets/selectableIconSet/version11.svg?react';
+import Version12 from '../assets/selectableIconSet/version12.svg?react';
+import Version13 from '../assets/selectableIconSet/version13.svg?react';
+import Version14 from '../assets/selectableIconSet/version14.svg?react';
 
 export const iconMap: Record<
   string,
@@ -125,4 +140,24 @@ export const iconRelatedSearch: Record<
   walk: WalkFill,
   work: WorkFill,
   location: Location,
+};
+
+export const selectableIconMap: Record<
+  number,
+  React.FC<React.SVGProps<SVGSVGElement>>
+> = {
+  1: Version1,
+  2: Version2,
+  3: Version3,
+  4: Version4,
+  5: Version5,
+  6: Version6,
+  7: Version7,
+  8: Version8,
+  9: Version9,
+  10: Version10,
+  11: Version11,
+  12: Version12,
+  13: Version13,
+  14: Version14,
 };

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { RelatedSearchWord } from '../types';
+import { PlaceInfo, RelatedSearchWord } from '../types';
 
 interface SearchState {
   isFocused: boolean;
@@ -10,6 +10,9 @@ interface SearchState {
 
   relatedSearchList: RelatedSearchWord[];
   setRelatedSearchList: (list: RelatedSearchWord[]) => void;
+
+  relatedSearchPlaceList: PlaceInfo[];
+  setRelatedSearchPlaceList: (list: PlaceInfo[]) => void;
 
   selectedRegion: string;
   setSelectedRegion: (value: string) => void;
@@ -27,6 +30,9 @@ export const useSearchStore = create<SearchState>((set) => ({
 
   relatedSearchList: [],
   setRelatedSearchList: (list) => set({ relatedSearchList: list }),
+
+  relatedSearchPlaceList: [],
+  setRelatedSearchPlaceList: (list) => set({ relatedSearchPlaceList: list}),
 
   selectedRegion: '',
   setSelectedRegion: (value) => set({ selectedRegion: value }),

@@ -2,15 +2,21 @@ import React from 'react';
 import SolmarkChip from '../BottomSheet/SolmarkChip';
 import ReviewRange from '../BottomSheet/ReviewRange';
 import TagList from '../BottomSheet/TagList';
-import { placeSummary } from '../../types';
+import { placeSummary, SolroutePreviewSummary } from '../../types';
+import SelectableChip from '../global/SelectableChip';
 
 interface SummaryProps {
-  place: placeSummary;
-  isMarked?:boolean;
+  place: SolroutePreviewSummary | placeSummary;
+  isMarked?: boolean;
+  isSolroute?: boolean;
 }
 
 // { place }: placeSummary
-const PreviewContentSummary: React.FC<SummaryProps> = ({ place, isMarked }) => {
+const PreviewContentSummary: React.FC<SummaryProps> = ({
+  place,
+  isMarked,
+  isSolroute = false,
+}) => {
   if (!place) {
     return;
   }
@@ -30,12 +36,18 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({ place, isMarked }) => {
 
         {/* right */}
         {/* preview */}
-        <SolmarkChip placeId={place.PlaceId} isMarked={isMarked}/>
+        {!isSolroute ? (
+          <SolmarkChip placeId={place.id} isMarked={isMarked} />
+        ) : (
+          //쏠루트에서 해당 컴포넌트를 호출할 때는 항상 SolroutePreviewSummary type을 받아야 함
+          <SelectableChip place={place as SolroutePreviewSummary} />
+        )}
       </div>
 
       <ReviewRange
         rating={place.rating}
         recommend={place.recommendationPercent}
+        hasReviews={place.rating !== null}
       />
 
       <TagList tags={place.tags} />

@@ -6,7 +6,6 @@ import kebabGray from '../../../assets/kebabGray.svg';
 
 
 import { useNavigate, useParams } from 'react-router-dom';
-import Modal from '../../global/Modal';
 import { deleteSollect } from '../../../api/sollectApi';
 import EditDeletePopover from '../../global/EditDeletePopover';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
@@ -14,7 +13,6 @@ import { useSollectDetailStore } from '../../../store/sollectDetailStore';
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { sollectId } = useParams();
 
   // 내 글인지 확인
@@ -22,16 +20,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const {writerId} = useSollectDetailStore(); // 쏠렉트 상세 조회에서 받아오기
   const mySollect = Number(userId) === writerId;
 
-  const clickDeleteModal = () => {
-    setShowDeleteModal(true);
-  };
-
-  const onLeftClick = () => {
-    setShowDeleteModal(false);
-  };
-
-  const onRightClick = () => {
-    setShowDeleteModal(false);
+  const funcDelete = () => {
     deleteSollect(Number(sollectId));
     navigate(-1);
   };
@@ -57,18 +46,8 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
             onClick={() => setShowMenu(!showMenu)}
           />
 
-          {showMenu && <EditDeletePopover clickDeleteModal={clickDeleteModal}/>}
+          {showMenu && <EditDeletePopover funcDelete={funcDelete}/>}
 
-          {showDeleteModal && (
-            <Modal
-              title='정말 삭제하시겠습니까?'
-              subtitle='삭제하면 복구할 수 없어요!'
-              leftText='취소'
-              rightText='삭제'
-              onLeftClick={onLeftClick}
-              onRightClick={onRightClick}
-            />
-          )}
         </div>
       )}
     </div>

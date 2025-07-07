@@ -3,18 +3,28 @@ import heartFill from '../../assets/heartFill.svg';
 import { useNavigate } from 'react-router-dom';
 import { SolmarkPlaceList } from '../../types';
 import { useSolmarkStore } from '../../store/solmarkStore';
+import { useShallow } from 'zustand/shallow';
 
 interface SolmarkPlaceListProps {
   list: SolmarkPlaceList;
+  isSolroute?: boolean;
 }
 
-const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list }) => {
+const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list, isSolroute=false }) => {
   const navigate = useNavigate();
-  const { setList } = useSolmarkStore();
+  const { setList } = useSolmarkStore(
+    useShallow((state) => ({
+      setList: state.setList,
+    }))
+  );
 
   const handleClick = () => {
     setList(list);
-    navigate(`/mark/place/list/${list.collectionId}`);
+    if (!isSolroute) {
+      navigate(`/mark/place/list/${list.collectionId}`);
+    } else {
+      navigate(`/solroute/place/list/${list.collectionId}`);
+    }
   };
 
   return (

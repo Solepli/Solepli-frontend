@@ -9,34 +9,25 @@ import {
   DraggableStyle,
 } from '@hello-pangea/dnd';
 import SollectWriteAddedPlace from './SollectWriteAddedPlace';
-import { RelatedSearchPlace } from '../../../types';
-
-const PlaceAddButton = () => {
-  const navigate = useNavigate();
-
-  return (
-    <div
-      className='w-full h-48 flex-shrink-0 rounded-lg bg-primary-700 flex justify-center items-center text-primary-50 text-sm font-normal leading-tight'
-      onClick={() => {
-        navigate('/sollect/write/search');
-      }}>
-      장소 추가
-    </div>
-  );
-};
+import { PlaceInfo } from '../../../types';
+import LargeButton from '../../global/LargeButton';
 
 const SollectWritePlaces = () => {
+  const navigate = useNavigate();
   const { places, removePlace } = useSollectWriteStore(
-    useShallow((state) => ({ places: state.places, removePlace: state.removePlace })),
+    useShallow((state) => ({
+      places: state.places,
+      removePlace: state.removePlace,
+    }))
   );
 
   const handleRemove = (placeId: number | null) => {
-    if(placeId === null) return;
+    if (placeId === null) return;
     removePlace(placeId);
-  }
+  };
 
   const reorder = (
-    list: RelatedSearchPlace[],
+    list: PlaceInfo[],
     startIndex: number,
     endIndex: number
   ) => {
@@ -108,7 +99,12 @@ const SollectWritePlaces = () => {
         </Droppable>
       </DragDropContext>
       <div className='pt-12'></div>
-      <PlaceAddButton />
+      <LargeButton
+        text='장소 추가'
+        onClick={() => {
+          navigate('/sollect/write/search');
+        }}
+      />
     </div>
   );
 };

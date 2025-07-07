@@ -18,6 +18,12 @@ export const ENDPOINT = {
 
   RELATED_SEARCH: '/api/solmap/search/related',
 
+  // solmap review
+  SOLMAP_REVIEW: {
+    POST: '/api/review',
+    GET: (id: number) => `/api/review/place/${id}`,
+  },
+
   // solmap + sollect
   RECENT_SEARCH: {
     GET: (mode: string) => `/api/${mode}/search/recent`,
@@ -47,6 +53,9 @@ export const ENDPOINT = {
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>
     `/api/solmark/place/collections/${collectionId}/places`,                      // 특정 컬렉션의 장소 리스트 조회
   SOLMARK_PLACE: (placeId:number)=>`/api/solmark/place/${placeId}/collections`,   // 장소 쏠마크 추가
+
+  //place
+  PLACE_SEARCH: '/api/place/search',
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
