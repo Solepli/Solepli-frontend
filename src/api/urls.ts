@@ -60,10 +60,12 @@ export const ENDPOINT = {
   // solroute
   SOLROUTE: {
     GET: '/api/solroute',
+    GET_DETAIL: (id: number) => `/api/solroute/${id}`,
     POST: '/api/solroute',
     PATCH: (id: number) => `/api/solroute/${id}`,
     DELETE: (id: number) => `/api/solroute/${id}`,
   },
+
 
   SOLROUTE_STATUS: (id: number) => `/api/solroute/${id}/status`,
 

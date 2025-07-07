@@ -26,6 +26,15 @@ export const fetchSolroutes = async () => {
   }
 };
 
+export const fetchSolroute = async (id: number) => {
+  try {
+    const res = await privateAxios.get(ENDPOINT.SOLROUTE.GET_DETAIL(id));
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const patchStatus = async (id: number) => {
   try {
     await privateAxios.patch(ENDPOINT.SOLROUTE_STATUS(id));
