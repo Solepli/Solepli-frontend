@@ -17,11 +17,14 @@ interface ContentTitleProps {
 
 const days = ['월', '화', '수', '목', '금', '토', '일'];
 
-const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, property }) => {
+const ContentTitle: React.FC<ContentTitleProps> = ({
+  previewPlace,
+  detailPlace,
+  property,
+}) => {
   const isPreview = property === 'preview';
   const isDetail = property === 'detail';
   const place = isPreview ? previewPlace : detailPlace;
-
 
   const [showHoursInfo, setShowHoursInfo] = useState(false);
 
@@ -55,9 +58,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, 
       console.log(e);
     }
   };
-  if(!place) return null;
-  if(isPreview && !previewPlace) return null;
-  if(isDetail && !detailPlace) return null;
+  if (!place) return null;
+  if (isPreview && !previewPlace) return null;
+  if (isDetail && !detailPlace) return null;
 
   return (
     <div>
@@ -84,7 +87,12 @@ const ContentTitle: React.FC<ContentTitleProps> = ({ previewPlace, detailPlace, 
         {/* detail */}
         {isDetail && detailPlace && (
           <div className='flex gap-8'>
-            <SolmarkChip label markCount={detailPlace.markedCount} placeId={detailPlace.id}/>
+            <SolmarkChip
+              label
+              markCount={detailPlace.markedCount}
+              placeId={detailPlace.id}
+              isMarked={detailPlace.isMarked}
+            />
             <div
               className={`${buttonStyle} border border-primary-400`}
               onClick={copyUrl}>
