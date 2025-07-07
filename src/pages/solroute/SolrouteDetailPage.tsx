@@ -3,14 +3,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import SolrouteMap from '../../components/Solroute/SolrouteMap';
 import StatusChip from '../../components/Solroute/StatusChip';
 import SolrouteDetailPlace from '../../components/Solroute/SolrouteDetailPlace';
-import { useQuery } from '@tanstack/react-query';
-import { fetchSolroute } from '../../api/solrouteApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { deleteSolroute, fetchSolroute } from '../../api/solrouteApi';
 import { SolroutePlacePreview } from '../../types';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
 import EditDeletePopover from '../../components/global/EditDeletePopover';
 import { useState } from 'react';
 import Kebab from '../../assets/kebabGray.svg?react';
+import { queryClient } from '../../main';
 
 const SolrouteDetailPage = () => {
   const navigate = useNavigate();
@@ -26,21 +27,29 @@ const SolrouteDetailPage = () => {
     queryFn: () => fetchSolroute(Number(solrouteId)),
   });
 
+  const mutation = useMutation({
+  mutationFn: () => deleteSolroute(Number(solrouteId)),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+  },
+});
+
   if (isLoading) {
     return <>로딩 중...</>;
   }
 
   // 쏠루트 삭제
   const funcDelete = async () => {
-    // await deleteSollect(Number(sollect.sollectId));
+    await mutation.mutateAsync();
     setShowMenu(false);
-    // location.reload();
+    navigate('/solroute');
   };
 
   // 쏠루트 수정
-  //   const funcEdit = () => {
-  //     navigate('/solroute/write');
-  //   }
+    const funcEdit = () => {
+      console.log('쏠루트 수정입니다.');
+      navigate('/solroute/write');
+    }
 
   //여기 이후부턴 data에 값이 존재
 
@@ -62,7 +71,7 @@ const SolrouteDetailPage = () => {
             <Kebab />
           </div>
         </TitleHeader>
-        {showMenu && <EditDeletePopover funcDelete={funcDelete} />}
+        {showMenu && <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />}
       </div>
       <div className='mt-58'>
         <SolrouteMap />

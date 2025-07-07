@@ -35,6 +35,22 @@ export const fetchSolroute = async (id: number) => {
   }
 };
 
+// export const postSolroute = async (payload) => {
+//   try {
+//     await privateAxios.post(ENDPOINT.SOLROUTE.POST, {payload});
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
+
+export const deleteSolroute = async (id: number) => {
+  try {
+    await privateAxios.delete(ENDPOINT.SOLROUTE.DELETE(id));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const patchStatus = async (id: number) => {
   try {
     await privateAxios.patch(ENDPOINT.SOLROUTE_STATUS(id));
