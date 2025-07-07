@@ -19,15 +19,15 @@ import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
 import SollectWritePlacePage from '../pages/SollectWritePlacePage';
 import SollectDetailPage from '../pages/SollectDetailPage';
-import SolrouteWritePage from '../pages/SolrouteWritePage';
+import SolrouteWritePage from '../pages/solroute/SolrouteWritePage';
 import SolmarkPage from '../pages/SolmarkPage';
 import SolmarkContentPlace from '../components/Solmark/SolmarkContentPlace';
 import SolmarkPlacePreviewPage from '../pages/SolmarkPlacePreviewPage';
 import SolmarkContentSollect from '../components/Solmark/SolmarkContentSollect';
 import SolmarkContentMy from '../components/Solmark/SolmarkContentMy';
 import SolroutePlaceAddLayout from '../layout/SolroutePlaceAddLayout';
-import SolroutePlaceAddPage from '../pages/SolroutePlaceAddPage';
-import SolroutePage from '../pages/SolroutePage';
+import SolroutePlaceAddPage from '../pages/solroute/SolroutePlaceAddPage';
+import SolroutePage from '../pages/solroute/SolroutePage';
 
 const AppRouter = () => {
   const location = useLocation();
