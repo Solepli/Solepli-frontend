@@ -13,6 +13,7 @@ const mutation = useMutation({
   mutationFn: () => patchStatus(id),
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+    queryClient.invalidateQueries({ queryKey: ['solroute'] });
   },
 });
 
