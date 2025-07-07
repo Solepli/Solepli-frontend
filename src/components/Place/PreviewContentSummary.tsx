@@ -25,6 +25,8 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
   }
 
   const handleClick =()=>{
+    //쏠루트일 경우는 detail로 이동하지 않음
+    if (isSolroute) return;
     navigate(`/map/detail/${place.id}`);
   }
   return (
