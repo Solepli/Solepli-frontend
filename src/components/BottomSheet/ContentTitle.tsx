@@ -8,6 +8,8 @@ import XButton from '../XButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import arrow from '../../assets/arrow.svg';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import Success from '../global/Success';
 
 interface ContentTitleProps {
   previewPlace?: PreviewPlace;
@@ -59,6 +61,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
     } catch (e) {
       console.log(e);
     }
+
+    toast(<Success title='링크가 복사되었습니다' />);
   };
 
   const [hours, setHours] = useState<Hours[]>([]);

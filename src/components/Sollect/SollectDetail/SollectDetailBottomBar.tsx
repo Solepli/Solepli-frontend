@@ -39,10 +39,7 @@ const SollectDetailBottomBar = () => {
       console.log(e);
     }
 
-    toast(
-        <Success title='링크가 복사되었습니다' />
-      );
-    
+    toast(<Success title='링크가 복사되었습니다' />);
   };
 
   return (
