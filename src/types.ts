@@ -113,9 +113,9 @@ export type SolroutePlacePreview = PlaceInfo & {
 };
 
 export type SolroutePreviewSummary = PlaceInfo & {
-  recommendationPercent: number;
+  recommendationPercent: number | null; // 리뷰 없을시 null
+  rating: number | null; // 리뷰 없을시 null;
   tags: string[];
-  rating: number;
 };
 
 export type Emoji = 'good' | 'bad' | null;
