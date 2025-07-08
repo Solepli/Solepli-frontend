@@ -2,8 +2,8 @@ import React from 'react';
 import star from '../../assets/starFill.svg';
 
 interface ReviewRangeProps {
-  rating: number;
-  recommend: number;
+  rating: number | null;
+  recommend: number | null;
   hasReviews: boolean;
 }
 
