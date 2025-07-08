@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import heart from '../../assets/heart.svg';
 import heartFillWhite from '../../assets/heartFillWhite.svg';
-import { usePlaceStore } from '../../store/placeStore';
-import { patchSolmark } from '../../api/solmarkApi';
+import { fetchPlaceCollections, patchSolmark } from '../../api/solmarkApi';
 import LoginRequiredAction from '../../auth/LoginRequiredAction';
+import { useQuery } from '@tanstack/react-query';
 
 interface SolmarkChipProps {
   label?: boolean;
@@ -17,13 +15,24 @@ interface SolmarkChipProps {
 const SolmarkChip: React.FC<SolmarkChipProps> = ({
   placeId,
   label,
-  markCount,
-  isMarked,
+  markCount = 0, // 기본값 설정
+  isMarked = false, // 기본값 설정
 }) => {
+
   const { selectedPlace } = usePlaceStore();
   const [isSolmark, setIsSolmark] = useState(() =>
   label ? !!selectedPlace?.isMarked : !!isMarked);
   const [count, setCount] = useState(markCount ? markCount : 0);
+    
+  const { data } = useQuery({
+    queryKey: ['collections'],
+    queryFn: () => fetchPlaceCollections(),
+  });
+
+
+  useEffect(() => {
+    setCount(markCount);
+  }, [markCount]);
 
   useEffect(() => {
     if (label) {
@@ -34,16 +43,23 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   }, [label, selectedPlace?.isMarked, isMarked]);
 
   const handleClick = () => {
-    setIsSolmark((prev) => !prev);
-    const array: number[] = [1];
-    const empty: number[] = [];
-    
-    if (isSolmark) {
-      patchSolmark(placeId, empty, array);
-      setCount(count - 1);
-    } else {
-      patchSolmark(placeId, array, empty);
-      setCount(count + 1);
+ 
+    try {
+      // todo : 추후 장소 쏠마크시 폴더 선택 기능 생기면 수정 필요
+      const array: number[] = [data[0].collectionId];
+      const empty: number[] = [];
+
+      if (isSolmark) {
+        await patchSolmark(placeId, empty, array);
+        setCount(count - 1);
+        setIsSolmark((prev) => !prev);
+      } else {
+        await patchSolmark(placeId, array, empty);
+        setCount(count + 1);
+        setIsSolmark((prev) => !prev);
+      }
+    } catch (error) {
+      console.error('Failed to update solmark:', error);
     }
   };
 

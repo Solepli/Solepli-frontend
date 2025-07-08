@@ -1,15 +1,16 @@
 // src/stores/useSollectWriteStore.ts
 import { create } from 'zustand';
-import { Paragraph, RelatedSearchPlace, } from '../types';
+import { Paragraph, PlaceInfo, } from '../types';
 
 type SollectWriteState = {
+  id?: number; //수정일 경우에만 id가 존재
   seq: number;
   focusSeq: number | null;
   focusTextarea?: HTMLTextAreaElement | null; // 포커스된 텍스트 영역을 저장할 수 있는 속성
   title: string | null;
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
-  places: RelatedSearchPlace[]; 
+  places: PlaceInfo[]; 
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
   setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
   addTextParagraph: (afterSeq?: number) => void;
@@ -19,7 +20,7 @@ type SollectWriteState = {
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
   insertImageAtCaret: (file: File, caret?: number | null) => void;
-  addPlace: (place: RelatedSearchPlace) => void; // 장소 ID 목록을 설정하는 함수
+  addPlace: (place: PlaceInfo) => void; // 장소 ID 목록을 설정하는 함수
   removePlace: (id: number | null) => void; // 선택된 place 해제
 };
 
@@ -31,6 +32,8 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   title: null, // 제목을 저장하는 속성
   thumbnail: null, // 썸네일 이미지 URL을 저장하는 속성
   places: [], // 장소 ID 목록을 저장하는 속성
+
+  setId: (id: number) => set(() => ({ id })),
 
   setTitle: (title) =>
     set(() => ({
@@ -157,6 +160,6 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
 
   removePlace: (id) =>
     set((state) => ({
-        places: [...state.places].filter((p) => p.id !== id)
+      places: [...state.places].filter((p) => p.id !== id),
     })),
 }));

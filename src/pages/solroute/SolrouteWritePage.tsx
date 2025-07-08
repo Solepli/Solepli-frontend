@@ -1,11 +1,11 @@
 import { useShallow } from 'zustand/shallow';
-import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
-import SolrouteMap from '../components/Solroute/SolrouteMap';
-import SolroutePlace from '../components/Solroute/SolroutePlace';
-import SolrouteTitle from '../components/Solroute/SolrouteTitle';
-import { useSolrouteWriteStore } from '../store/solrouteWriteStore';
+import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader';
+import SolrouteMap from '../../components/Solroute/SolrouteMap';
+import SolroutePlace from '../../components/Solroute/SolroutePlace';
+import SolrouteTitle from '../../components/Solroute/SolrouteTitle';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useNavigate } from 'react-router-dom';
-import LargeButton from '../components/global/LargeButton';
+import LargeButton from '../../components/global/LargeButton';
 import {
   DragDropContext,
   Draggable,
@@ -81,13 +81,7 @@ const SolrouteWritePage = () => {
         </DragDropContext>
 
         <div className='pt-24 pb-48 px-16'>
-          {/* TODD:: solmark 페이지로 이동 */}
-          <LargeButton
-            text='장소 추가'
-            onClick={() => {
-              navigate('/solroute/write/search');
-            }}
-          />
+          <LargeButton text='장소 추가' onClick={() => {navigate('/solroute/add/place')}} />
         </div>
       </div>
     </div>

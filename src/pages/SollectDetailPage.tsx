@@ -28,7 +28,7 @@ const SollectDetailPage = () => {
       const sum = sollect.data.placeSummaries.map((place:RawPlace) => {
         return {
           ...place,
-          id: place.placeId,
+          // id: place.placeId,
         };
       });
       const updatedData = {

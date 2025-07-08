@@ -5,6 +5,7 @@ import SollectMark from './SollectMark';
 import kebabWhite from '../../assets/kebabWhite.svg';
 import EditDeletePopover from '../global/EditDeletePopover';
 import { deleteSollect } from '../../api/sollectApi';
+import { transformSollectDetailToWrite } from '../../utils/transformDetailToWrite';
 
 type Props = SollectPhotoProps & {
   isMine?: boolean;
@@ -27,6 +28,11 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
     location.reload();
   };
 
+  const onEditClick = () => {
+    transformSollectDetailToWrite(Number(sollect.sollectId));
+    navigate('/sollect/write/');
+  }
+  
   return (
     <div
       onClick={handleClick}
@@ -53,7 +59,12 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
               className='w-24 h-24'
               onClick={() => setShowMenu(!showMenu)}
             />
-            {showMenu && <EditDeletePopover funcDelete={funcDelete} />}
+            {showMenu && (
+              <EditDeletePopover
+                funcDelete={funcDelete}
+                onEditClick={onEditClick}
+              />
+            )}
           </div>
         ) : (
           <SollectMark

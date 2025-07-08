@@ -1,11 +1,34 @@
 import React from 'react';
 import { RelatedSearchWord } from '../../types';
-import { iconRelatedSearch } from '../../utils/icon';
+import { iconNonlabelSearch } from '../../utils/icon';
 import { useNavigate } from 'react-router-dom';
 import { useSearchStore } from '../../store/searchStore';
 import { postRecentSearchWord } from '../../api/searchApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { useShallow } from 'zustand/shallow';
+
+const ResultIcon: React.FC<{
+  isMarked: boolean | null;
+  category: string;
+}> = ({ isMarked, category }) => {
+  const style = {
+    backgroundColor: `var(--color-chip-light-bg-${category})`,
+    color: `var(--color-chip-${category})`,
+  };
+  const Icon =
+    isMarked === null
+      ? iconNonlabelSearch['city'] // null === 지역명
+      : isMarked
+        ? iconNonlabelSearch['mark'] // true === 장소 추가 O
+        : iconNonlabelSearch[category]; // true === 장소 추가 X
+  return (
+    <div
+      className='inline-flex p-4 items-center gap-6 rounded-sm'
+      style={style}>
+      <Icon />
+    </div>
+  );
+};
 
 interface RelatedSearchProps {
   relatedSearchWord: RelatedSearchWord;
@@ -22,11 +45,6 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
   );
 
   const { setCategory } = usePlaceStore();
-
-  const IconComponent =
-    relatedSearchWord.type === 'PLACE'
-      ? iconRelatedSearch[relatedSearchWord.category!]
-      : iconRelatedSearch['location'];
 
   const mode = window.location.pathname.includes('/sollect/search')
     ? 'sollect'
@@ -51,9 +69,10 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
     <div
       className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'
       onClick={clickResult}>
-      <div className='flex p-4 items-start rounded-[4px] bg-gray-400/10'>
-        <IconComponent className='w-24 h-24' />
-      </div>
+      <ResultIcon
+        isMarked={relatedSearchWord.isMarked}
+        category={relatedSearchWord.category!}
+      />
 
       <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
         <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>

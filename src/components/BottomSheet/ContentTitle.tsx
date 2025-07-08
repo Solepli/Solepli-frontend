@@ -127,6 +127,8 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
               label
               markCount={detailPlace.markedCount}
               placeId={detailPlace.id}
+              isMarked={detailPlace.isMarked}
+
             />
             <div
               className={`${buttonStyle} border border-primary-400`}

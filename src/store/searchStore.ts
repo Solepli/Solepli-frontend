@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { RelatedSearchPlace, RelatedSearchWord } from '../types';
+import { PlaceInfo, RelatedSearchWord } from '../types';
 
 interface SearchState {
   isFocused: boolean;
@@ -11,8 +11,8 @@ interface SearchState {
   relatedSearchList: RelatedSearchWord[];
   setRelatedSearchList: (list: RelatedSearchWord[]) => void;
 
-  relatedSearchPlaceList: RelatedSearchPlace[];
-  setRelatedSearchPlaceList: (list: RelatedSearchPlace[]) => void;
+  relatedSearchPlaceList: PlaceInfo[];
+  setRelatedSearchPlaceList: (list: PlaceInfo[]) => void;
 
   selectedRegion: string;
   setSelectedRegion: (value: string) => void;
