@@ -67,7 +67,7 @@ const ReviewWrite: React.FC = () => {
       const formData = new FormData();
       const payload = {
         placeId: placeId,
-        recommendation: emoji === 'good' ? true : false,
+        recommendation: emoji, 
         rating: rating,
         moodTag: moodTags,
         soloTag: singleTags,

@@ -27,13 +27,13 @@ const ReviewEmoji: React.FC<ReviewEmojiProps> = ({ pt = 40 }) => {
       </div>
       <div className='self-stretch flex flex-row items-center justify-center gap-[12px]'>
         <div className='flex flex-row items-center justify-center p-[4px]'>
-          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji('good')}>
-            {selectedEmoji === 'good' ? <EmojiCheckedGood /> : <EmojiGood />}
+          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji(true)}>
+            {selectedEmoji === true ? <EmojiCheckedGood /> : <EmojiGood />}
           </div>
         </div>
         <div className='flex flex-row items-center justify-center p-[4px]'>
-          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji('bad')}>
-            {selectedEmoji === 'bad' ? <EmojiCheckedBad /> : <EmojiBad />}
+          <div className='p-[2px] w-[32px] h-[32px]' onClick={() => selectEmoji(false)}>
+            {selectedEmoji === false ? <EmojiCheckedBad /> : <EmojiBad />}
           </div>
         </div>
       </div>

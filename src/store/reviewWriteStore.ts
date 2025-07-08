@@ -1,10 +1,9 @@
 // src/stores/useReviewWriteStore.ts
 import { create } from 'zustand';
-import { Emoji } from '../types';
 
 interface ReviewWriteState {
-  emoji: Emoji;
-  setEmoji: (emoji: Emoji) => void;
+  emoji: boolean | null;
+  setEmoji: (emoji: boolean) => void;
 
   rating: number;
   setRating: (value: number) => void;

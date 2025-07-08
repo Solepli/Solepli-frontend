@@ -114,8 +114,6 @@ export type SolroutePreviewSummary = PlaceInfo & {
   rating: number;
 };
 
-export type Emoji = 'good' | 'bad' | null;
-
 export type ReviewType = {
   userProfileUrl: string;
   userNickname: string;
