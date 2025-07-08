@@ -21,22 +21,23 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   isMarked,
 }) => {
   const { selectedPlace } = usePlaceStore();
-  const [isSolmark, setIsSolmark] = useState(
-    label ? selectedPlace?.isMarked : false
-  );
+  const [isSolmark, setIsSolmark] = useState(() =>
+  label ? !!selectedPlace?.isMarked : !!isMarked);
   const [count, setCount] = useState(markCount ? markCount : 0);
 
   useEffect(() => {
-    if (isMarked) {
-      setIsSolmark(true);
+    if (label) {
+      setIsSolmark(!!selectedPlace?.isMarked);
+    }else{
+      setIsSolmark(!!isMarked);
     }
-  }, []);
+  }, [label, selectedPlace?.isMarked, isMarked]);
 
   const handleClick = () => {
     setIsSolmark((prev) => !prev);
     const array: number[] = [1];
     const empty: number[] = [];
-
+    
     if (isSolmark) {
       patchSolmark(placeId, empty, array);
       setCount(count - 1);

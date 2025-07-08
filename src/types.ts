@@ -31,6 +31,9 @@ type BasePlace = {
   detailedCategory: string;
   isSoloRecommended: number;
   rating: number;
+
+  // 디테일에서 쏠마크 되었는지 확인. 나중에 백엔드에서 받아옴
+  isMarked: boolean;
 };
 
 export type DetailPlace = BasePlace & {
@@ -46,8 +49,6 @@ export type DetailPlace = BasePlace & {
   address: string;
   thumbnailUrl: string[];
 
-  // 디테일에서 쏠마크 되었는지 확인. 나중에 백엔드에서 받아옴
-  isMarked: boolean;
 };
 
 export type PreviewPlace = BasePlace & {

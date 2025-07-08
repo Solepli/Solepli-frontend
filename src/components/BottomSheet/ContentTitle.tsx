@@ -113,7 +113,12 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
 
         {/* right */}
         {/* preview */}
-        {isPreview && previewPlace && <SolmarkChip placeId={previewPlace.id} />}
+        {isPreview && previewPlace && (
+          <SolmarkChip
+            placeId={previewPlace.id}
+            isMarked={previewPlace.isMarked}
+          />
+        )}
 
         {/* detail */}
         {isDetail && detailPlace && (
