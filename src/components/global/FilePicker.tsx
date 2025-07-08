@@ -23,7 +23,7 @@ export interface FilePickerProps {
 }
 
 const DEFAULT_MAX_COUNT = 5;
-const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_MAX_FILE_SIZE);
+const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_IMAGE_UPLOAD_MAX_SIZE);
 
 const FilePicker: React.FC<FilePickerProps> = ({
   files,
