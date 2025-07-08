@@ -14,12 +14,14 @@ import TitleHeader from '../components/global/TitleHeader';
 import { toast } from 'react-toastify';
 import Warn from '../components/global/Warn';
 import LargeButton from '../components/global/LargeButton';
+import Modal from '../components/global/Modal';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();
   const { placeId } = useParams();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   //리렌더링을 방지하기 위해 useShallow 사용
   const {
@@ -50,6 +52,10 @@ const ReviewWrite: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const onBackClick = () => {
+    setShowDeleteModal(true);
+  }
+
   // 리뷰 작성 버튼 활성화 조건
   const isWrittenable =
     emoji !== null &&
@@ -67,7 +73,7 @@ const ReviewWrite: React.FC = () => {
       const formData = new FormData();
       const payload = {
         placeId: placeId,
-        recommendation: emoji, 
+        recommendation: emoji,
         rating: rating,
         moodTag: moodTags,
         soloTag: singleTags,
@@ -102,9 +108,9 @@ const ReviewWrite: React.FC = () => {
   };
 
   return (
-    <div className='flex flex-col items-start justify-start pb-30'>
+    <div className='flex flex-col items-start justify-start pb-30 relative'>
       {/* 뒤로가기 */}
-      <TitleHeader title={placeName} onClick={navigateToDetail} />
+      <TitleHeader title={placeName} onClick={onBackClick} />
 
       {/* 방문 의향 체크, pt-78: TitleHeader + 해당 컴포넌트 20 */}
       <div className='w-full pt-58'>
@@ -147,6 +153,16 @@ const ReviewWrite: React.FC = () => {
           bold={true}
         />
       </div>
+      {showDeleteModal && (
+        <Modal
+          title='아직 작성 중인 내용이 있어요!'
+          subtitle={'페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'}
+          leftText='취소'
+          rightText='나가기'
+          onLeftClick={() => setShowDeleteModal(false)}
+          onRightClick={navigateToDetail}
+        />
+      )}
     </div>
   );
 };
