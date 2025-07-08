@@ -103,9 +103,10 @@ export type PlaceInfo = {
   longitude: number;
 };
 
-export type SelectablePlace = PlaceInfo & {
-  isSelected: boolean;
-};
+// 쓰이는 곳이 없음
+// export type SelectablePlace = PlaceInfo & {
+//   isSelected: boolean;
+// };
 
 export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
