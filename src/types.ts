@@ -55,8 +55,8 @@ export type PreviewPlace = BasePlace & {
 
 export type Hours = {
   dayOfWeek: number;
-  startTime: string|null;
-  endTime: string|null;
+  startTime: string | null;
+  endTime: string | null;
 };
 
 export type TagType = {
@@ -75,10 +75,6 @@ export type RelatedSearchWord = {
   name: string;
   type: 'DISTRICT' | 'PLACE';
   isMarked: boolean | null;
-};
-
-export type SelectablePlace = {
-  isSelected: boolean;
 };
 
 export type RelatedSearchPlace = {
@@ -117,8 +113,6 @@ export type SolroutePreviewSummary = PlaceInfo & {
   tags: string[];
   rating: number;
 };
-
-export type Emoji = 'good' | 'bad' | null;
 
 export type ReviewType = {
   userProfileUrl: string;
