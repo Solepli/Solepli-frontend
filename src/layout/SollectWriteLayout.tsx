@@ -6,10 +6,13 @@ import { useSollectWriteStore } from '../store/sollectWriteStore';
 import { toast } from 'react-toastify';
 import Warn from '../components/global/Warn';
 import { postSollect, postSollectUpload, putSollect } from '../api/sollectApi';
+import { useState } from 'react';
+import Modal from '../components/global/Modal';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { id, title, thumbnail, paragraph, places, reset } =
     useSollectWriteStore(
       useShallow((state) => ({
@@ -25,10 +28,17 @@ const SollectWriteLayout = () => {
   const isPlaceStep = pathname.endsWith('/place');
 
   const handleLeft = () => {
-    // 임시저장 or 정말 나갈지 모달 띄우기 등을 여기서 처리
-    if (!isPlaceStep) { //쏠렉트 내용 작성일  경우
-      reset();
+    if (isPlaceStep) {
+      navigate(-1);
+    } else {
+      //쏠렉트 내용 작성일  경우
+      setShowDeleteModal(true);
     }
+  };
+
+  //모달 나가기 버튼 클릭시
+  const onLeftClick = () => {
+    reset();
     navigate(-1);
   };
 
@@ -133,6 +143,20 @@ const SollectWriteLayout = () => {
       <div className='flex-1 overflow-y-auto'>
         <Outlet /> {/* editor, place … */}
       </div>
+
+      {/* modal */}
+      {showDeleteModal && (
+        <Modal
+          title='아직 작성 중인 내용이 있어요!'
+          subtitle={
+            '페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'
+          }
+          leftText='취소'
+          rightText='나가기'
+          onLeftClick={() => setShowDeleteModal(false)}
+          onRightClick={onLeftClick}
+        />
+      )}
     </div>
   );
 };
