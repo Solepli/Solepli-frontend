@@ -10,20 +10,25 @@ import { postSollect, postSollectUpload, putSollect } from '../api/sollectApi';
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { id, title, thumbnail, paragraph, places } = useSollectWriteStore(
-    useShallow((state) => ({
-      id: state.id,
-      title: state.title,
-      thumbnail: state.thumbnail,
-      paragraph: state.paragraphs,
-      places: state.places,
-    }))
-  );
+  const { id, title, thumbnail, paragraph, places, reset } =
+    useSollectWriteStore(
+      useShallow((state) => ({
+        id: state.id,
+        title: state.title,
+        thumbnail: state.thumbnail,
+        paragraph: state.paragraphs,
+        places: state.places,
+        reset: state.reset,
+      }))
+    );
 
   const isPlaceStep = pathname.endsWith('/place');
 
   const handleLeft = () => {
     // 임시저장 or 정말 나갈지 모달 띄우기 등을 여기서 처리
+    if (!isPlaceStep) { //쏠렉트 내용 작성일  경우
+      reset();
+    }
     navigate(-1);
   };
 
@@ -73,7 +78,7 @@ const SollectWriteLayout = () => {
   };
 
   const submitSollect = async () => {
-    // 현재 작성된 paragraphs 순서대로 seq를 재설정 
+    // 현재 작성된 paragraphs 순서대로 seq를 재설정
     const renumberParagraphs = paragraph.map((p, index) => ({
       ...p,
       seq: index + 1, // seq를 1부터 시작하도록 재설정
@@ -109,6 +114,7 @@ const SollectWriteLayout = () => {
       }
     });
     await postSollectUpload(sollectId, formData);
+    reset();
     // Sollect 등록 후 어디로 가야할지?
     navigate(`/sollect`);
   };
