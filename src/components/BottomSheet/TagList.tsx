@@ -30,6 +30,7 @@ const TagList: React.FC<TagListProps> = ({
         detailTags.map((tag, i) => {
           return <Tag name={tag.tagName} number={tag.tagTotal} key={i} />;
         })}
+      {detailTags?.length == 0 && <Tag name='태그 없음'/>}
     </div>
   );
 };
