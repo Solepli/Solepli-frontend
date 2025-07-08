@@ -35,6 +35,7 @@ const SollectDetailPage = () => {
         ...sollect.data,
         placeSummaries: sum,
       };
+      console.log(updatedData);
       setSollectDetail(updatedData);
     }
   }, [sollect.data, setSollectDetail]);

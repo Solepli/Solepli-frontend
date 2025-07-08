@@ -43,7 +43,7 @@ const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
   return (
     <>
       <button
-        className='w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center shrink-0'
+        className='w-fit bg-white py-2 pl-8 pr-12 h-28 rounded-full border flex items-center justify-center shrink-0 gap-4'
         style={style}
         onClick={handleClick}>
         <IconComponent />

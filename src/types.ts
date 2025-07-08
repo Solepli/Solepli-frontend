@@ -53,10 +53,10 @@ export type PreviewPlace = BasePlace & {
   thumbnailUrls: string[];
 };
 
-type Hours = {
+export type Hours = {
   dayOfWeek: number;
-  startTime: string;
-  endTime: string;
+  startTime: string|null;
+  endTime: string|null;
 };
 
 export type TagType = {

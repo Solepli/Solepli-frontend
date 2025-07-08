@@ -18,23 +18,32 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   markCount = 0, // 기본값 설정
   isMarked = false, // 기본값 설정
 }) => {
-  const [isSolmark, setIsSolmark] = useState(isMarked);
-  const [count, setCount] = useState(markCount);
 
+  const { selectedPlace } = usePlaceStore();
+  const [isSolmark, setIsSolmark] = useState(() =>
+  label ? !!selectedPlace?.isMarked : !!isMarked);
+  const [count, setCount] = useState(markCount ? markCount : 0);
+    
   const { data } = useQuery({
     queryKey: ['collections'],
     queryFn: () => fetchPlaceCollections(),
   });
 
-  useEffect(() => {
-    setIsSolmark(isMarked);
-  }, [isMarked]);
 
   useEffect(() => {
     setCount(markCount);
   }, [markCount]);
 
-  const handleClick = async () => {
+  useEffect(() => {
+    if (label) {
+      setIsSolmark(!!selectedPlace?.isMarked);
+    }else{
+      setIsSolmark(!!isMarked);
+    }
+  }, [label, selectedPlace?.isMarked, isMarked]);
+
+  const handleClick = () => {
+ 
     try {
       // todo : 추후 장소 쏠마크시 폴더 선택 기능 생기면 수정 필요
       const array: number[] = [data[0].collectionId];
