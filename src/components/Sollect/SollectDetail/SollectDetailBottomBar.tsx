@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import heart from '../../../assets/heart.svg';
 import heartFill from '../../../assets/heartFill.svg';
 import share from '../../../assets/share.svg';
@@ -13,21 +13,21 @@ import { toast } from 'react-toastify';
 import Success from '../../global/Success';
 
 const SollectDetailBottomBar = () => {
-  const { markedCount } = useSollectDetailStore();
+  const { markedCount, isMarked } = useSollectDetailStore();
   const [count, setCount] = useState(markedCount);
 
   const { sollectId } = useParams();
 
-  const [isMarked, setIsMakred] = useState(false);
+  const [marked, setMakred] = useState(isMarked);
 
   const postMark = () => {
-    setIsMakred(!isMarked);
+    setMakred(!marked);
     postSolmarkSollect(Number(sollectId));
     setCount(count + 1);
   };
 
   const deleteMark = () => {
-    setIsMakred(!isMarked);
+    setMakred(!marked);
     deleteSolmarkSollect(Number(sollectId));
     setCount(count - 1);
   };
@@ -42,10 +42,15 @@ const SollectDetailBottomBar = () => {
     toast(<Success title='링크가 복사되었습니다' />);
   };
 
+  useEffect(()=>{
+    setMakred(isMarked);
+    setCount(markedCount);
+  },[isMarked, markedCount]);
+
   return (
     <div className='sticky bottom-0 z-60 inset-x-0 bg-white w-full h-52 px-12 pb-8 flex justify-between items-center'>
       <div className='flex text-chip-bg-mark items-center text-sm'>
-        {isMarked ? (
+        {marked ? (
           <LoginRequiredAction onAction={deleteMark}>
             <img src={heartFill} alt='heartFill' className='w-32 h-32' />
           </LoginRequiredAction>
