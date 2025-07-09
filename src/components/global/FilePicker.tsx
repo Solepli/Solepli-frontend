@@ -65,6 +65,7 @@ const FilePicker: React.FC<FilePickerProps> = ({
 
     // 크기 제한
     let tooLargeFileExists = false;
+    const isSingle = selected.length === 1;
 
     //이미지 크기 큰 파일 필터링
     selected = selected.filter((file) => {
@@ -78,7 +79,11 @@ const FilePicker: React.FC<FilePickerProps> = ({
     if (tooLargeFileExists) {
       toast(
         <Warn
-          title='해당 사진은 첨부할 수 없어요.'
+          title={
+            isSingle
+              ? '해당 사진은 첨부할 수 없어요.'
+              : '일부 사진은 첨부되지 않았어요.'
+          }
           message={`사진은 ${maxSize / 1024 / 1024}MB 이하만 첨부 가능해요.`}
         />
       );

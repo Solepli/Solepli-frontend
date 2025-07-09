@@ -50,6 +50,7 @@ export const postSolroute = async (payload: SolroutePayload) => {
     await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };
 

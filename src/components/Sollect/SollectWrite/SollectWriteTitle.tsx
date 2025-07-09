@@ -3,8 +3,6 @@ import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';
 import FilePicker from '../../global/FilePicker';
 
-const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_MAX_FILE_SIZE);
-
 const ImageAdd = ({ onClick }: { onClick: () => void }) => {
   return (
     <div
@@ -47,7 +45,6 @@ const SollectWriteTitle = () => {
       accept='.png, .jpg, .jpeg'
       multiple={false}
       maxCount={1}
-      maxSize={MAX_FILE_SIZE}
       keepFiles={false}
     >
       {(open) => (

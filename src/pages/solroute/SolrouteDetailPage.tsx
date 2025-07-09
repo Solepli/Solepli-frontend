@@ -18,11 +18,12 @@ const SolrouteDetailPage = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { solrouteId } = useParams();
 
-  const { setIcon, setTitle, setPlaceInfos } = useSolrouteWriteStore(
+  const { setIcon, setTitle, setPlaceInfos, reset } = useSolrouteWriteStore(
     useShallow((state) => ({
       setIcon: state.setIcon,
       setTitle: state.setTitle,
       setPlaceInfos: state.setPlaceInfos,
+      reset: state.reset,
     }))
   );
   const { data, isLoading } = useQuery({
@@ -45,6 +46,7 @@ const SolrouteDetailPage = () => {
   const funcDelete = async () => {
     await mutation.mutateAsync();
     setShowMenu(false);
+    reset();
     navigate('/solroute');
   };
 
@@ -61,7 +63,7 @@ const SolrouteDetailPage = () => {
       <div>
         <TitleHeader
           title={data.name}
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/solroute')}
           center
           iconId={data.iconId}>
           {/* 케밥 아이콘 */}

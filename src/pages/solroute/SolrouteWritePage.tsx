@@ -21,14 +21,14 @@ import {
   getPlaceNearby,
   postSolroute,
 } from '../../api/solrouteApi';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import Modal from '../../components/global/Modal';
+import { queryClient } from '../../main';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const queryClient = useQueryClient();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const isSolroute = location.pathname.includes('solroute');
   const solrouteIdToEdit = searchParams.get('solrouteId');
@@ -69,6 +69,21 @@ const SolrouteWritePage = () => {
         queryKey: ['solroute'],
       });
     },
+    onError: () => {
+      toast(<Warn title='코스를 수정하는데 실패했습니다.' />);
+    },
+  });
+
+  const postMutation = useMutation({
+    mutationFn: (payload: SolroutePayload) => postSolroute(payload),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+      navigate(`/solroute`);
+    },
+    onError: () => {
+      toast(<Warn title='코스를 등록하는데 실패했습니다.' />);
+    },
   });
 
   const handleDragEnd = (result: DropResult) => {
@@ -82,6 +97,7 @@ const SolrouteWritePage = () => {
   };
 
   const validateToPost = () => {
+    if (editMutation.isPending || postMutation.isPending) return false;
     if (!icon || !title || title.length === 0 || placeInfos.length === 0) {
       return false;
     }
@@ -104,20 +120,9 @@ const SolrouteWritePage = () => {
     };
 
     if (solrouteIdToEdit) {
-      try {
-        await editMutation.mutateAsync(payload);
-        console.log('수정완:', solrouteIdToEdit);
-      } catch {
-        toast(<Warn title='코스를 수정하는데 실패했습니다.' />);
-        return;
-      }
+      await editMutation.mutateAsync(payload);
     } else {
-      try {
-        await postSolroute(payload);
-      } catch {
-        toast(<Warn title='코스를 등록하는데 실패했습니다.' />);
-        return;
-      }
+      await postMutation.mutateAsync(payload);
     }
 
     navigate(`/solroute`);
@@ -131,11 +136,16 @@ const SolrouteWritePage = () => {
       toast(<Warn title='코스명을 입력해주세요.' />);
       return;
     } else if (placeInfos.length === 0) {
-      toast(<Warn title='아직 장소가 추가되지 않았어요!' />);
+      toast(
+        <Warn
+          title='장소를 추가해주세요.'
+          message='장소가 한 개 이상 추가되어야 쏠루트를 등록할 수 있어요.'
+        />
+      );
       return;
     }
+    if (editMutation.isPending || postMutation.isPending) return;
     await submitSolroute();
-    reset();
   };
 
   const handleModalLeft = () => {
