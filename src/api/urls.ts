@@ -71,6 +71,10 @@ export const ENDPOINT = {
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
-  PROFILE:'/api/profile',
-  PROFILE_VALIDATE_NICKNAME:'/api/profile/validate/nickname'
+
+  // profile
+  PROFILE: '/api/profile',
+  PROFILE_VALIDATE_NICKNAME: '/api/profile/validate/nickname',
+  ANNOUNCEMENT: '/api/notice',
+  ANNOUNCEMENT_ID: (id: number) => `/api/notice/${id}`,
 };
