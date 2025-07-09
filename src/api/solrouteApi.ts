@@ -47,11 +47,18 @@ export const fetchSolroute = async (id: number) => {
 
 export const postSolroute = async (payload: SolroutePayload) => {
   try {
-    const res = await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
-    return res.data.success;
+    await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
   } catch (e) {
     console.error(e);
     throw e;
+  }
+};
+
+export const editSolroute = async (id: number, payload: SolroutePayload) => {
+  try {
+    await privateAxios.patch(ENDPOINT.SOLROUTE.PATCH(id), payload);
+  } catch (e) {
+    console.log(e);
   }
 };
 

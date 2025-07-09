@@ -4,7 +4,7 @@ import SolrouteMap from '../../components/Solroute/SolrouteMap';
 import SolroutePlace from '../../components/Solroute/SolroutePlace';
 import SolrouteTitle from '../../components/Solroute/SolrouteTitle';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import LargeButton from '../../components/global/LargeButton';
 import {
   DragDropContext,
@@ -16,7 +16,11 @@ import { SolroutePayload, SolroutePreviewSummary } from '../../types';
 import PreviewContentSummary from '../../components/Place/PreviewContentSummary';
 import { toast } from 'react-toastify';
 import Warn from '../../components/global/Warn';
-import { getPlaceNearby, postSolroute } from '../../api/solrouteApi';
+import {
+  editSolroute,
+  getPlaceNearby,
+  postSolroute,
+} from '../../api/solrouteApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import Modal from '../../components/global/Modal';
@@ -24,8 +28,10 @@ import { queryClient } from '../../main';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const isSolroute = location.pathname.includes('solroute');
+  const solrouteIdToEdit = searchParams.get('solrouteId');
 
   const { icon, title, placeInfos, setPlaceInfos, reset } =
     useSolrouteWriteStore(
@@ -38,18 +44,38 @@ const SolrouteWritePage = () => {
       }))
     );
 
+  // 마지막으로 추가된 장소 id
   const lastPlaceId = useMemo(() => {
     return placeInfos.length > 0 ? placeInfos[placeInfos.length - 1].id : null;
   }, [placeInfos]);
 
-  const { data } = useQuery({
-    queryKey: ['placeNearby', lastPlaceId],
+  // 요청사항 : solrouteIdToEdit가 없을 때만 실행
+  const { data: placeNearby } = useQuery({
+    queryKey: ['placeNearby', lastPlaceId, solrouteIdToEdit],
     queryFn: () => getPlaceNearby(lastPlaceId!),
     enabled: !!lastPlaceId,
   });
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: () => submitSolroute(),
+  const editMutation = useMutation({
+    mutationFn: (payload: SolroutePayload) =>
+      editSolroute(Number(solrouteIdToEdit), payload),
+    onSuccess: () => {
+      // SolroutePage.tsx 데이터 캐시 무효화
+      queryClient.invalidateQueries({
+        queryKey: ['solroutes'],
+      });
+      // SolrouteDetailPage.tsx 데이터 캐시 무효화
+      queryClient.invalidateQueries({
+        queryKey: ['solroute'],
+      });
+    },
+    onError: () => {
+      toast(<Warn title='코스를 수정하는데 실패했습니다.' />);
+    },
+  });
+
+  const postMutation = useMutation({
+    mutationFn: (payload: SolroutePayload) => postSolroute(payload),
     onSuccess: () => {
       reset();
       queryClient.invalidateQueries({ queryKey: ['solroutes'] });
@@ -71,7 +97,7 @@ const SolrouteWritePage = () => {
   };
 
   const validateToPost = () => {
-    if (isPending) return false;
+    if (editMutation.isPending || postMutation.isPending) return false;
     if (!icon || !title || title.length === 0 || placeInfos.length === 0) {
       return false;
     }
@@ -93,7 +119,13 @@ const SolrouteWritePage = () => {
       placeInfos: reorderPlaceInfos!,
     };
 
-    await postSolroute(payload); // boolean
+    if (solrouteIdToEdit) {
+      await editMutation.mutateAsync(payload);
+    } else {
+      await postMutation.mutateAsync(payload);
+    }
+
+    navigate(`/solroute`);
   };
 
   const handleRight = async () => {
@@ -112,13 +144,20 @@ const SolrouteWritePage = () => {
       );
       return;
     }
-    if (isPending) return;
-    await mutateAsync();
+    if (editMutation.isPending || postMutation.isPending) return;
+    await submitSolroute();
+  };
+
+  const handleModalLeft = () => {
+    reset();
+    setShowDeleteModal(false);
+    navigate('/solroute');
   };
 
   const handleModalRight = () => {
-    reset();
-    navigate(-1);
+    // todo : 임시저장 기능 구현하기
+    setShowDeleteModal(false);
+    navigate('/solroute');
   };
 
   return (
@@ -180,7 +219,8 @@ const SolrouteWritePage = () => {
       </div>
 
       {/* 추천 장소 content */}
-      {data && (
+      {/* 수정 모드에서는 보이지 않음 */}
+      {!solrouteIdToEdit && placeNearby && (
         <div className='flex flex-col border-t-10 border-solid border-primary-100'>
           <div className='flex py-24 px-16 pb-8 items-end border-b-1 border-solid border-primary-100'>
             <p className='grow text-primary-950 text-sm font-semibold leading-[150%] tracking-[-0.35px]'>
@@ -188,7 +228,7 @@ const SolrouteWritePage = () => {
             </p>
           </div>
           <div>
-            {data.map((place: SolroutePreviewSummary) => {
+            {placeNearby.map((place: SolroutePreviewSummary) => {
               return (
                 <PreviewContentSummary
                   place={place}
@@ -207,11 +247,11 @@ const SolrouteWritePage = () => {
         <Modal
           title='아직 작성 중인 내용이 있어요!'
           subtitle={
-            '페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'
+            '임시저장하지 않고 페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'
           }
-          leftText='취소'
-          rightText='나가기'
-          onLeftClick={() => setShowDeleteModal(false)}
+          leftText='나가기'
+          rightText='임시저장'
+          onLeftClick={handleModalLeft}
           onRightClick={handleModalRight}
         />
       )}

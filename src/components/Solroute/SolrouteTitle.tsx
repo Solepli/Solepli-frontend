@@ -9,7 +9,7 @@ const SolrouteTitle: React.FC = () => {
       icon: state.icon,
       setTitle: state.setTitle,
       setIcon: state.setIcon,
-    })),
+    }))
   );
   return (
     <div className='w-full h-50 pt-8 pb-16 px-16 flex items-center gap-10'>
@@ -18,9 +18,11 @@ const SolrouteTitle: React.FC = () => {
         type='text'
         onChange={(e) => setTitle(e.target.value)}
         value={title ?? ''}
+        maxLength={25}
         placeholder='코스명을 입력해주세요'
-        className='flex-1 placeholder:text-primary-500 placeholder:text-sm placeholder:font-normal placeholder:leading-tight
-        text-primary-950 text-sm font-bold leading-tight outline-none ring-0 focus:outline-none focus:ring-0 bg-transparent border-none'
+        className='placeholder:text-primary-500 placeholder:text-sm placeholder:font-normal placeholder:leading-tight
+        text-primary-950 text-sm font-bold leading-tight outline-none ring-0 focus:outline-none focus:ring-0 bg-transparent border-none
+        grow'
       />
     </div>
   );
