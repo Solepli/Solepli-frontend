@@ -4,6 +4,7 @@ import heartFillWhite from '../../assets/heartFillWhite.svg';
 import { fetchPlaceCollections, patchSolmark } from '../../api/solmarkApi';
 import LoginRequiredAction from '../../auth/LoginRequiredAction';
 import { useQuery } from '@tanstack/react-query';
+import { usePlaceStore } from '../../store/placeStore';
 
 interface SolmarkChipProps {
   label?: boolean;
@@ -18,17 +19,16 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   markCount = 0, // 기본값 설정
   isMarked = false, // 기본값 설정
 }) => {
-
   const { selectedPlace } = usePlaceStore();
   const [isSolmark, setIsSolmark] = useState(() =>
-  label ? !!selectedPlace?.isMarked : !!isMarked);
+    label ? !!selectedPlace?.isMarked : !!isMarked
+  );
   const [count, setCount] = useState(markCount ? markCount : 0);
-    
+
   const { data } = useQuery({
     queryKey: ['collections'],
     queryFn: () => fetchPlaceCollections(),
   });
-
 
   useEffect(() => {
     setCount(markCount);
@@ -37,13 +37,12 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   useEffect(() => {
     if (label) {
       setIsSolmark(!!selectedPlace?.isMarked);
-    }else{
+    } else {
       setIsSolmark(!!isMarked);
     }
   }, [label, selectedPlace?.isMarked, isMarked]);
 
-  const handleClick = () => {
- 
+  const handleClick = async () => {
     try {
       // todo : 추후 장소 쏠마크시 폴더 선택 기능 생기면 수정 필요
       const array: number[] = [data[0].collectionId];

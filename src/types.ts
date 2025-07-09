@@ -87,7 +87,9 @@ export type RelatedSearchPlace = {
   longitude: number;
 };
 
-export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
+export type SearchedPlace = RelatedSearchPlace & {
+  isSelected: boolean;
+};
 
 export type PlaceInfo = {
   id: number;
