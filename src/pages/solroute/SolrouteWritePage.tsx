@@ -12,8 +12,11 @@ import {
   Droppable,
   DropResult,
 } from '@hello-pangea/dnd';
-import { SolroutePreviewSummary } from '../../types';
+import { SolroutePayload, SolroutePreviewSummary } from '../../types';
 import PreviewContentSummary from '../../components/Place/PreviewContentSummary';
+import { toast } from 'react-toastify';
+import Warn from '../../components/global/Warn';
+import { postSolroute } from '../../api/solrouteApi';
 
 // todo : 추천코스 백엔드 api 연결
 const mockData: SolroutePreviewSummary[] = [
@@ -59,8 +62,10 @@ const SolrouteWritePage = () => {
   const navigate = useNavigate();
   const isSolroute = location.pathname.includes('solroute');
 
-  const { placeInfos, setPlaceInfos } = useSolrouteWriteStore(
+  const { icon, title, placeInfos, setPlaceInfos } = useSolrouteWriteStore(
     useShallow((state) => ({
+      icon: state.icon,
+      title: state.title,
       placeInfos: state.placeInfos,
       setPlaceInfos: state.setPlaceInfos,
     }))
@@ -76,6 +81,44 @@ const SolrouteWritePage = () => {
     setPlaceInfos(items);
   };
 
+  const submitSolroute = async () => {
+    // placeInfos 추출 및 새로운 seq 지정
+    const reorderPlaceInfos = placeInfos.map((p, index) => ({
+      id: p.id,
+      seq: index + 1,
+      memo: p.memo,
+    }));
+
+    // 쏠루트 payload 생성
+    const payload: SolroutePayload = {
+      iconId: icon!,
+      name: title!,
+      placeInfos: reorderPlaceInfos!,
+    };
+
+    const res = await postSolroute(payload); // boolean
+    if (!res) {
+      toast(<Warn title='코스를 등록하는데 실패했습니다.' />);
+      return;
+    }
+
+    navigate(`/solroute`);
+  };
+
+  const handleRight = async () => {
+    if (!icon) {
+      toast(<Warn title='코스 아이콘을 선택해주세요.' />);
+      return;
+    } else if (!title || title.length === 0) {
+      toast(<Warn title='코스명을 입력해주세요.' />);
+      return;
+    } else if (placeInfos.length === 0) {
+      toast(<Warn title='아직 장소가 추가되지 않았어요!' />);
+      return;
+    }
+    await submitSolroute();
+  };
+
   return (
     <div className='w-full h-full flex flex-col gap-10 relative overflow-hidden'>
       <div className='fixed top-0 left-0 right-0 z-10 '>
@@ -83,7 +126,7 @@ const SolrouteWritePage = () => {
           leftText='취소'
           rightText='등록'
           onLeft={() => window.history.back()}
-          onRight={() => console.log('완료 버튼 클릭')}
+          onRight={handleRight}
         />
       </div>
       <div className='flex-1 overflow-y-auto mt-50'>

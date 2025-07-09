@@ -38,7 +38,8 @@ export const fetchSolroute = async (id: number) => {
 
 export const postSolroute = async (payload: SolroutePayload) => {
   try {
-    await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
+    const res = await privateAxios.post(ENDPOINT.SOLROUTE.POST, payload);
+    return res.data.success;
   } catch (e) {
     console.error(e);
   }
