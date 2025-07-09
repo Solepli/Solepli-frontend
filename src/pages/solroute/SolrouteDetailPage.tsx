@@ -17,9 +17,10 @@ const SolrouteDetailPage = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { solrouteId } = useParams();
-  const { setPlaceInfos } = useSolrouteWriteStore(
+  const { setPlaceInfos, reset } = useSolrouteWriteStore(
     useShallow((state) => ({
       setPlaceInfos: state.setPlaceInfos,
+      reset: state.reset,
     }))
   );
   const { data, isLoading } = useQuery({
@@ -28,11 +29,11 @@ const SolrouteDetailPage = () => {
   });
 
   const mutation = useMutation({
-  mutationFn: () => deleteSolroute(Number(solrouteId)),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['solroutes'] });
-  },
-});
+    mutationFn: () => deleteSolroute(Number(solrouteId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+    },
+  });
 
   if (isLoading) {
     return <>로딩 중...</>;
@@ -42,14 +43,19 @@ const SolrouteDetailPage = () => {
   const funcDelete = async () => {
     await mutation.mutateAsync();
     setShowMenu(false);
+    reset();
     navigate('/solroute');
   };
 
   // 쏠루트 수정
-    const funcEdit = () => {
-      console.log('쏠루트 수정입니다.');
-      navigate('/solroute/write');
-    }
+  const funcEdit = () => {
+    navigate('/solroute/write');
+  };
+
+  const onBackClick = () => {
+    reset();
+    navigate(-1);
+  }
 
   //여기 이후부턴 data에 값이 존재
 
@@ -61,7 +67,7 @@ const SolrouteDetailPage = () => {
       <div>
         <TitleHeader
           title={data.name}
-          onClick={() => navigate(-1)}
+          onClick={onBackClick}
           center
           iconId={data.iconId}>
           {/* 케밥 아이콘 */}
@@ -71,7 +77,9 @@ const SolrouteDetailPage = () => {
             <Kebab />
           </div>
         </TitleHeader>
-        {showMenu && <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />}
+        {showMenu && (
+          <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />
+        )}
       </div>
       <div className='mt-58'>
         <SolrouteMap />

@@ -19,7 +19,7 @@ const SolrouteTitle: React.FC = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title ?? ''}
         placeholder='코스명을 입력해주세요'
-        className='placeholder:text-primary-500 placeholder:text-sm placeholder:font-normal placeholder:leading-tight
+        className='flex-1 placeholder:text-primary-500 placeholder:text-sm placeholder:font-normal placeholder:leading-tight
         text-primary-950 text-sm font-bold leading-tight outline-none ring-0 focus:outline-none focus:ring-0 bg-transparent border-none'
       />
     </div>
