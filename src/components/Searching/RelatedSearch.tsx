@@ -74,20 +74,22 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
         category={relatedSearchWord.category!}
       />
 
-      <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
-        <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
-          <div className='text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-950'>
+      <div className='flex flex-col items-start grow'>
+        {/* 이름 */}
+        <div className='flex flex-col items-start grow'>
+          <div className='text-sm font-semibold leading-[150%] tracking-[-0.35px] text-start text-primary-950'>
             {relatedSearchWord.name}
           </div>
         </div>
-
         {relatedSearchWord.type === 'PLACE' && (
-          <div className='flex justify-between items-center self-stretch'>
-            <div className='text-[12px] leading-[120%] tracking-[-0.18px] text-center text-primary-400'>
+          <div className='flex gap-8 justify-between items-center self-stretch'>
+            {/* 주소 */}
+            <div className='text-xs font-normal leading-[120%] tracking-[-0.18px] text-start text-primary-400'>
               {relatedSearchWord.address}
             </div>
+            {/* 거리 */}
             <div className='flex items-center'>
-              <div className='text-[12px] leading[120%] tracking-[-0.18px] text-center text-primary-400'>
+              <div className='text-xs leading[120%] tracking-[-0.18px] text-end text-primary-400'>
                 {relatedSearchWord.distance.value +
                   relatedSearchWord.distance.unit}
               </div>
