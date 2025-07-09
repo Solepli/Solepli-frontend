@@ -81,6 +81,13 @@ const SolrouteWritePage = () => {
     setPlaceInfos(items);
   };
 
+  const validateToPost = () => {
+    if (!icon || !title || title.length === 0 || placeInfos.length === 0) {
+      return false;
+    }
+    return true;
+  };
+
   const submitSolroute = async () => {
     // placeInfos 추출 및 새로운 seq 지정
     const reorderPlaceInfos = placeInfos.map((p, index) => ({
@@ -127,6 +134,7 @@ const SolrouteWritePage = () => {
           rightText='등록'
           onLeft={() => window.history.back()}
           onRight={handleRight}
+          validation={validateToPost()}
         />
       </div>
       <div className='flex-1 overflow-y-auto mt-50'>
