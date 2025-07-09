@@ -43,26 +43,34 @@ const SollectWriteLayout = () => {
   };
 
   const validateContent = () => {
-    if (!title && !thumbnail) {
+    if (!title && !thumbnail && paragraph.length === 0) {
       toast(
-        <Warn title='썸네일을 사진을 추가하고 제목과 내용을 입력하세요.' />
+        <Warn title='썸네일 사진을 추가하고 제목과 본문을 입력해주세요.' />
       );
       return false;
     }
+    if (!thumbnail && paragraph.length === 0) {
+      toast(<Warn title='썸네일 사진을 추가하고 본문을 입력해주세요.' />);
+      return false;
+    }
+    if (!title && !thumbnail) {
+      toast(<Warn title='썸네일 사진을 추가하고 제목을 입력해주세요' />);
+      return false;
+    }
     if (!title && paragraph.length === 0) {
-      toast(<Warn title='제목과 내용을 입력하세요.' />);
+      toast(<Warn title='제목과 본문을 입력해주세요.' />);
       return false;
     }
     if (!title) {
-      toast(<Warn title='제목을 입력하세요.' />);
+      toast(<Warn title='제목을 입력해주세요.' />);
       return false;
     }
     if (!thumbnail) {
-      toast(<Warn title='썸네일 사진을 추가해야합니다.' />);
+      toast(<Warn title='썸네일 사진을 추가해주세요.' />);
       return false;
     }
     if (paragraph.length === 0) {
-      toast(<Warn title='내용을 입력하세요.' />);
+      toast(<Warn title='본문을 입력해주세요.' />);
       return false;
     }
     return true;
@@ -70,7 +78,7 @@ const SollectWriteLayout = () => {
 
   const validatePlace = () => {
     if (places.length === 0) {
-      toast(<Warn title='아직 장소가 추가되지 않았어요!.' />);
+      toast(<Warn title='장소를 추가해주세요.' message='장소가 한 개 이상 추가되어야 쏠렉트를 등록할 수 있어요.' />);
       return false;
     }
     return true;
