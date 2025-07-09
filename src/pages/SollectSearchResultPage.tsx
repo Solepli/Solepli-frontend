@@ -27,7 +27,7 @@ const SollectSearchResultPage = () => {
         return lastPage[lastPage.length - 1].sollectId;
       },
       initialPageParam: undefined,
-      enabled: inputValue !== '',     // 입력 안하고 엔터 치면 no result여야함
+      enabled: inputValue !== '' || selectedCategory !== '',    // 입력 안하고 엔터 치면 no result여야함
     });
 
   // sentinelRef div가 뷰포트에 들어오면 다음 페이지 fetch
