@@ -8,6 +8,8 @@ import Warn from '../components/global/Warn';
 import { postSollect, postSollectUpload, putSollect } from '../api/sollectApi';
 import { useState } from 'react';
 import Modal from '../components/global/Modal';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../main';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
@@ -24,6 +26,55 @@ const SollectWriteLayout = () => {
         reset: state.reset,
       }))
     );
+
+  const submitSollect = async () => {
+    // 현재 작성된 paragraphs 순서대로 seq를 재설정
+    const renumberParagraphs = paragraph.map((p, index) => ({
+      ...p,
+      seq: index + 1, // seq를 1부터 시작하도록 재설정
+    }));
+
+    // 쏠렉트 request payload 생성
+    const payload = {
+      title,
+      contents: [thumbnail, ...renumberParagraphs],
+      placeIds: places.map((place) => place.id),
+    };
+
+    // id가 있으면 sollect 수정
+    // id가 없으면 sollect 등록
+    const res = id ? await putSollect(id, payload) : await postSollect(payload);
+    console.log('Sollect ID:', res);
+    if (!res) {
+      toast(<Warn title='솔렉트를 등록하는데 실패했습니다.' />);
+      return;
+    }
+
+    // 기존 id가 있다면 id를, 없다면 응답 값을 가져와 사용
+    // 생성된 쏠렉트의 ID를 이용해 파일 업로드
+    // 기존 contents에서 이미지 파일만 추출하여 FormData 생성
+    const sollectId = id ?? res.data.data.sollectId;
+    const formData = new FormData();
+    const files = payload.contents
+      .filter((item) => item?.type === 'IMAGE')
+      .map((item) => (item && item.file ? item.file : null));
+    files.forEach((file) => {
+      if (file) {
+        formData.append('files', file);
+      }
+    });
+    await postSollectUpload(sollectId, formData);
+    // Sollect 등록 후 어디로 가야할지?
+  };
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => submitSollect(),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({ queryKey: ['sollects'] });
+      navigate(`/sollect`);
+    },
+  });
 
   const isPlaceStep = pathname.endsWith('/place');
 
@@ -78,13 +129,19 @@ const SollectWriteLayout = () => {
 
   const validatePlace = () => {
     if (places.length === 0) {
-      toast(<Warn title='장소를 추가해주세요.' message='장소가 한 개 이상 추가되어야 쏠렉트를 등록할 수 있어요.' />);
+      toast(
+        <Warn
+          title='장소를 추가해주세요.'
+          message='장소가 한 개 이상 추가되어야 쏠렉트를 등록할 수 있어요.'
+        />
+      );
       return false;
     }
     return true;
   };
 
   const validateToPost = () => {
+    if (isPending) return false;
     if (isPlaceStep) {
       if (places.length === 0) {
         return false;
@@ -101,54 +158,13 @@ const SollectWriteLayout = () => {
   const handleRight = async () => {
     if (isPlaceStep) {
       if (validatePlace() === false) return;
-      await submitSollect();
+      if (isPending) return;
+      await mutateAsync();
     } else {
       if (validateContent() === false) return;
       // place 스텝으로 이동
       navigate('place');
     }
-  };
-
-  const submitSollect = async () => {
-    // 현재 작성된 paragraphs 순서대로 seq를 재설정
-    const renumberParagraphs = paragraph.map((p, index) => ({
-      ...p,
-      seq: index + 1, // seq를 1부터 시작하도록 재설정
-    }));
-
-    // 쏠렉트 request payload 생성
-    const payload = {
-      title,
-      contents: [thumbnail, ...renumberParagraphs],
-      placeIds: places.map((place) => place.id),
-    };
-
-    // id가 있으면 sollect 수정
-    // id가 없으면 sollect 등록
-    const res = id ? await putSollect(id, payload) : await postSollect(payload);
-    console.log('Sollect ID:', res);
-    if (!res) {
-      toast(<Warn title='솔렉트를 등록하는데 실패했습니다.' />);
-      return;
-    }
-
-    // 기존 id가 있다면 id를, 없다면 응답 값을 가져와 사용
-    // 생성된 쏠렉트의 ID를 이용해 파일 업로드
-    // 기존 contents에서 이미지 파일만 추출하여 FormData 생성
-    const sollectId = id ?? res.data.data.sollectId;
-    const formData = new FormData();
-    const files = payload.contents
-      .filter((item) => item?.type === 'IMAGE')
-      .map((item) => (item && item.file ? item.file : null));
-    files.forEach((file) => {
-      if (file) {
-        formData.append('files', file);
-      }
-    });
-    await postSollectUpload(sollectId, formData);
-    reset();
-    // Sollect 등록 후 어디로 가야할지?
-    navigate(`/sollect`);
   };
 
   return (
