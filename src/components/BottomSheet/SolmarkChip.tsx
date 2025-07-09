@@ -4,6 +4,7 @@ import heartFillWhite from '../../assets/heartFillWhite.svg';
 import { fetchPlaceCollections, patchSolmark } from '../../api/solmarkApi';
 import LoginRequiredAction from '../../auth/LoginRequiredAction';
 import { useQuery } from '@tanstack/react-query';
+import { usePlaceStore } from '../../store/placeStore';
 
 interface SolmarkChipProps {
   label?: boolean;
@@ -42,7 +43,7 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
     }
   }, [label, selectedPlace?.isMarked, isMarked]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
  
     try {
       // todo : 추후 장소 쏠마크시 폴더 선택 기능 생기면 수정 필요
