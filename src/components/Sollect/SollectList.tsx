@@ -15,7 +15,7 @@ const SollectList: React.FC<SollectListProps> = ({
   if (horizontal) {
     style += ' px-16 flex overflow-x-scroll flex-row gap-4 overflow-y-auto';
   } else {
-    style += ' px-16 gap-12 overflow-y-auto grid grid-cols-2';
+    style += ' px-16 gap-12 overflow-y-auto grid grid-cols-2 w-full w-max-100vw';
   }
 
   return (
