@@ -31,3 +31,17 @@ export const patchProfile = async (
     console.log(e);
   }
 };
+
+// 닉네임 검증 필요
+
+
+// 공지사항
+export const fetchAnnouncement = async () => {
+  try {
+    const res = await privateAxios.get(ENDPOINT.ANNOUNCEMENT);
+    console.log(res.data.data);
+    return res.data.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

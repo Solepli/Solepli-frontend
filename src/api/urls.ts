@@ -46,16 +46,17 @@ export const ENDPOINT = {
   SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
   //solroute
-  SOLROUTE_PLACE: (id: number) => `/api/solroute/place/${id}`,  //쏠렉트 수정시 장소 정보를 가져올 때 사용, 리팩토링 필요
+  SOLROUTE_PLACE: (id: number) => `/api/solroute/place/${id}`, //쏠렉트 수정시 장소 정보를 가져올 때 사용, 리팩토링 필요
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
   SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
-  
-  SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections',                     // 리스트 조회
+
+  SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections', // 리스트 조회
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>
-    `/api/solmark/place/collections/${collectionId}/places`,                      // 특정 컬렉션의 장소 리스트 조회
-  SOLMARK_PLACE: (placeId:number)=>`/api/solmark/place/${placeId}/collections`,   // 장소 쏠마크 추가
+    `/api/solmark/place/collections/${collectionId}/places`, // 특정 컬렉션의 장소 리스트 조회
+  SOLMARK_PLACE: (placeId: number) =>
+    `/api/solmark/place/${placeId}/collections`, // 장소 쏠마크 추가
 
   // solroute
   SOLROUTE: {
@@ -66,7 +67,6 @@ export const ENDPOINT = {
     DELETE: (id: number) => `/api/solroute/${id}`,
   },
 
-
   SOLROUTE_STATUS: (id: number) => `/api/solroute/${id}/status`,
 
   //place
@@ -74,6 +74,10 @@ export const ENDPOINT = {
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
-  PROFILE:'/api/profile',
-  PROFILE_VALIDATE_NICKNAME:'/api/profile/validate/nickname'
+
+  // profile
+  PROFILE: '/api/profile',
+  PROFILE_VALIDATE_NICKNAME: '/api/profile/validate/nickname',
+  ANNOUNCEMENT: '/api/notice',
+  ANNOUNCEMENT_ID: (id: number) => `/api/notice/${id}`,
 };
