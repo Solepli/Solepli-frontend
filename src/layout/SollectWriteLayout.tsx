@@ -76,6 +76,20 @@ const SollectWriteLayout = () => {
     return true;
   };
 
+  const validateToPost = () => {
+    if (isPlaceStep) {
+      if (places.length === 0) {
+        return false;
+      }
+      return true;
+    } else {
+      if (!title || !thumbnail || paragraph.length === 0) {
+        return false;
+      }
+      return true;
+    }
+  };
+
   const handleRight = async () => {
     if (isPlaceStep) {
       if (validatePlace() === false) return;
@@ -137,6 +151,7 @@ const SollectWriteLayout = () => {
         rightText={isPlaceStep ? '등록' : '다음'}
         onLeft={handleLeft}
         onRight={handleRight}
+        validation={validateToPost()}
       />
 
       {/* content */}
