@@ -1,6 +1,6 @@
 // src/pages/sollect-write/SollectWriteLayout.tsx
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
+import HeaderBothText from '../components/global/HeaderBothText';
 import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../store/sollectWriteStore';
 import { toast } from 'react-toastify';
@@ -170,7 +170,7 @@ const SollectWriteLayout = () => {
   return (
     <div className='w-full h-dvh flex flex-col relative overflow-hidden'>
       {/* header */}
-      <SollectWriteHeader
+      <HeaderBothText
         leftText='취소'
         rightText={isPlaceStep ? '등록' : '다음'}
         onLeft={handleLeft}

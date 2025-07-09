@@ -17,21 +17,22 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
         <Icon />
       </div>
 
-      {/* 이름 */}
-      <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
-        <div className='flex flex-col items-start gap-4 flex-[1_0_0]'>
-          <div className='text-[14px] leading-[100%] font-[500] tracking-[-0.35px] text-center text-primary-950'>
+      <div className='flex flex-col items-start grow'>
+        {/* 이름 */}
+        <div className='flex flex-col items-start grow'>
+          <div className='text-sm font-semibold leading-[150%] tracking-[-0.35px] text-start text-primary-950'>
             {place.name}
           </div>
         </div>
-        {/* 위치 */}
-        <div className='flex justify-between items-center self-stretch'>
-          <div className='text-[12px] leading-[120%] tracking-[-0.18px] text-center text-primary-400'>
+        {/* 주소 */}
+        <div className='flex gap-8 justify-between items-center self-stretch'>
+          <div className='text-xs leading-[120%] tracking-[-0.18px] text-start text-primary-400'>
             {place.address}
           </div>
           <div className='flex items-center'></div>
         </div>
       </div>
+
       {/* 추가 버튼 */}
       <SelectableChip place={place} />
     </div>

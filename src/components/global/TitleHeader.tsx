@@ -9,7 +9,7 @@ const TitleHeader: React.FC<
   const Icon = iconId ? selectableIconMap[iconId] : null;
   return (
     <header
-      className={`w-full flex items-center py-8 fixed z-101 bg-white top-0 ${center ? 'text-center' : ''}`}>
+      className={`w-full flex items-center py-4 fixed z-101 bg-white top-0 ${center ? 'text-center' : ''}`}>
       <div className='p-9 flex items-center justify-content' onClick={onClick}>
         <Arrow />
       </div>

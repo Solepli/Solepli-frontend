@@ -1,5 +1,5 @@
 import { useShallow } from 'zustand/shallow';
-import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader';
+import HeaderBothText from '../../components/global/HeaderBothText';
 import SolrouteMap from '../../components/Solroute/SolrouteMap';
 import SolroutePlace from '../../components/Solroute/SolroutePlace';
 import SolrouteTitle from '../../components/Solroute/SolrouteTitle';
@@ -163,7 +163,7 @@ const SolrouteWritePage = () => {
   return (
     <div className='w-full h-full flex flex-col gap-10 relative overflow-hidden'>
       <div className='fixed top-0 left-0 right-0 z-10 '>
-        <SollectWriteHeader
+        <HeaderBothText
           leftText='취소'
           rightText='등록'
           onLeft={() => setShowDeleteModal(true)}

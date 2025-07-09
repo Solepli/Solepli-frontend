@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface SollectWriteHeaderProps {
+interface HeaderBothTextProps {
   leftText: string;
   rightText: string;
   onLeft: () => void;
   onRight: () => void;
   validation: boolean;
 }
-const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
+const HeaderBothText: React.FC<HeaderBothTextProps> = ({
   leftText,
   rightText,
   onLeft,
@@ -33,4 +33,4 @@ const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
     </div>
   );
 };
-export default SollectWriteHeader;
+export default HeaderBothText;
