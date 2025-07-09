@@ -28,6 +28,7 @@ const ProfileMenu = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
         {visibleMenus.map((menu) => {
           return (
             <div
+              key={menu.name}
               className='flex gap-8 items-center py-8 text-sm'
               onClick={() => handleClick(menu.path)}>
               <img src={menu.icon} alt='' />
