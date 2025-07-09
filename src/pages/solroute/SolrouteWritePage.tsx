@@ -20,46 +20,6 @@ import { getPlaceNearby, postSolroute } from '../../api/solrouteApi';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-// todo : 추천코스 백엔드 api 연결
-const mockData: SolroutePreviewSummary[] = [
-  {
-    id: 133,
-    name: '벌툰 파리지앵 강남본점',
-    detailedCategory: '디저트 카페',
-    category: 'entertainment',
-    address: '서울특별시 서초구 강남대로65길 7 3층 만화카페 벌툰',
-    latitude: 37.5002212,
-    longitude: 127.0253161,
-    recommendationPercent: 77,
-    rating: 3.5,
-    tags: ['조용한', '편안한', '고급스러운'],
-  },
-  {
-    id: 2,
-    name: '양궁카페 로빈훗 강남점',
-    detailedCategory: '양궁장',
-    category: 'entertainment',
-    address: '서울특별시 강남구 강남대로110길 13',
-    latitude: 37.582604,
-    longitude: 126.983998,
-    recommendationPercent: null,
-    rating: null,
-    tags: [],
-  },
-  {
-    id: 199,
-    name: '남산 야외 식물원',
-    detailedCategory: '관광명소',
-    category: 'walk',
-    address: '서울특별시 용산구 이태원동 259-15',
-    latitude: 37.5427327,
-    longitude: 126.9936572,
-    recommendationPercent: 82,
-    rating: 2.8,
-    tags: ['기념되는', '굳', '볼거리가 있는'],
-  },
-];
-
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
   const isSolroute = location.pathname.includes('solroute');
