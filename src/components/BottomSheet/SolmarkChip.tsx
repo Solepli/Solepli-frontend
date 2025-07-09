@@ -69,12 +69,17 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
       });
       // 특정 장소의 상세 정보 쿼리도 무효화 (마커 아이콘 업데이트 필요)
       queryClient.invalidateQueries({ queryKey: ['detailSearching', placeId] });
-      
+
       // 마커 데이터 전체 무효화 - 모든 마커의 isMarked 상태를 최신으로 업데이트
       queryClient.invalidateQueries({
         predicate: (query) => {
           const key = query.queryKey[0];
-          return key === 'queryCategory' || key === 'queryRegion' || key === 'queryIdList' || key === 'detailSearching';
+          return (
+            key === 'queryCategory' ||
+            key === 'queryRegion' ||
+            key === 'queryIdList' ||
+            key === 'detailSearching'
+          );
         },
       });
     },
