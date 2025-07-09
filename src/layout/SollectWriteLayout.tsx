@@ -43,26 +43,34 @@ const SollectWriteLayout = () => {
   };
 
   const validateContent = () => {
-    if (!title && !thumbnail) {
+    if (!title && !thumbnail && paragraph.length === 0) {
       toast(
-        <Warn title='썸네일을 사진을 추가하고 제목과 내용을 입력하세요.' />
+        <Warn title='썸네일 사진을 추가하고 제목과 본문을 입력해주세요.' />
       );
       return false;
     }
+    if (!thumbnail && paragraph.length === 0) {
+      toast(<Warn title='썸네일 사진을 추가하고 본문을 입력해주세요.' />);
+      return false;
+    }
+    if (!title && !thumbnail) {
+      toast(<Warn title='썸네일 사진을 추가하고 제목을 입력해주세요' />);
+      return false;
+    }
     if (!title && paragraph.length === 0) {
-      toast(<Warn title='제목과 내용을 입력하세요.' />);
+      toast(<Warn title='제목과 본문을 입력해주세요.' />);
       return false;
     }
     if (!title) {
-      toast(<Warn title='제목을 입력하세요.' />);
+      toast(<Warn title='제목을 입력해주세요.' />);
       return false;
     }
     if (!thumbnail) {
-      toast(<Warn title='썸네일 사진을 추가해야합니다.' />);
+      toast(<Warn title='썸네일 사진을 추가해주세요.' />);
       return false;
     }
     if (paragraph.length === 0) {
-      toast(<Warn title='내용을 입력하세요.' />);
+      toast(<Warn title='본문을 입력해주세요.' />);
       return false;
     }
     return true;
