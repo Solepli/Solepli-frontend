@@ -17,9 +17,10 @@ import PreviewContentSummary from '../../components/Place/PreviewContentSummary'
 import { toast } from 'react-toastify';
 import Warn from '../../components/global/Warn';
 import { getPlaceNearby, postSolroute } from '../../api/solrouteApi';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import Modal from '../../components/global/Modal';
+import { queryClient } from '../../main';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
@@ -47,6 +48,18 @@ const SolrouteWritePage = () => {
     enabled: !!lastPlaceId,
   });
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => submitSolroute(),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+      navigate(`/solroute`);
+    },
+    onError: () => {
+      toast(<Warn title='코스를 등록하는데 실패했습니다.' />);
+    },
+  });
+
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -58,6 +71,7 @@ const SolrouteWritePage = () => {
   };
 
   const validateToPost = () => {
+    if (isPending) return false;
     if (!icon || !title || title.length === 0 || placeInfos.length === 0) {
       return false;
     }
@@ -79,13 +93,7 @@ const SolrouteWritePage = () => {
       placeInfos: reorderPlaceInfos!,
     };
 
-    const res = await postSolroute(payload); // boolean
-    if (!res) {
-      toast(<Warn title='코스를 등록하는데 실패했습니다.' />);
-      return;
-    }
-
-    navigate(`/solroute`);
+    await postSolroute(payload); // boolean
   };
 
   const handleRight = async () => {
@@ -96,11 +104,16 @@ const SolrouteWritePage = () => {
       toast(<Warn title='코스명을 입력해주세요.' />);
       return;
     } else if (placeInfos.length === 0) {
-      toast(<Warn title='장소를 추가해주세요.' message='장소가 한 개 이상 추가되어야 쏠루트를 등록할 수 있어요.' />);
+      toast(
+        <Warn
+          title='장소를 추가해주세요.'
+          message='장소가 한 개 이상 추가되어야 쏠루트를 등록할 수 있어요.'
+        />
+      );
       return;
     }
-    await submitSolroute();
-    reset();
+    if (isPending) return;
+    await mutateAsync();
   };
 
   const handleModalRight = () => {

@@ -51,6 +51,7 @@ export const postSolroute = async (payload: SolroutePayload) => {
     return res.data.success;
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };
 
