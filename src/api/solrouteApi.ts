@@ -18,6 +18,15 @@ export const getPlaceInfo = async (id: number) => {
   return placeInfo;
 };
 
+export const getPlaceNearby = async (id: number) => {
+  try {
+    const res = await privateAxios.get(ENDPOINT.SOLROUTE_PLACE_NEARBY(id));
+    return res.data.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const fetchSolroutes = async () => {
   try {
     const res = await privateAxios.get(ENDPOINT.SOLROUTE.GET);

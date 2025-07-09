@@ -16,7 +16,9 @@ import { SolroutePayload, SolroutePreviewSummary } from '../../types';
 import PreviewContentSummary from '../../components/Place/PreviewContentSummary';
 import { toast } from 'react-toastify';
 import Warn from '../../components/global/Warn';
-import { postSolroute } from '../../api/solrouteApi';
+import { getPlaceNearby, postSolroute } from '../../api/solrouteApi';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
 // todo : 추천코스 백엔드 api 연결
 const mockData: SolroutePreviewSummary[] = [
@@ -70,6 +72,16 @@ const SolrouteWritePage = () => {
       setPlaceInfos: state.setPlaceInfos,
     }))
   );
+
+  const lastPlaceId = useMemo(() => {
+    return placeInfos.length > 0 ? placeInfos[placeInfos.length - 1].id : null;
+  }, [placeInfos]);
+
+  const { data } = useQuery({
+    queryKey: ['placeNearby', lastPlaceId],
+    queryFn: () => getPlaceNearby(lastPlaceId!),
+    enabled: !!lastPlaceId,
+  });
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -184,7 +196,7 @@ const SolrouteWritePage = () => {
         </div>
       </div>
 
-      {mockData.length > 0 && (
+      {data && (
         <div className='flex flex-col border-t-10 border-solid border-primary-100'>
           <div className='flex py-24 px-16 pb-8 items-end border-b-1 border-solid border-primary-100'>
             <p className='grow text-primary-950 text-sm font-semibold leading-[150%] tracking-[-0.35px]'>
@@ -192,7 +204,7 @@ const SolrouteWritePage = () => {
             </p>
           </div>
           <div>
-            {mockData.map((place: SolroutePreviewSummary) => {
+            {data.map((place: SolroutePreviewSummary) => {
               return (
                 <PreviewContentSummary
                   place={place}
