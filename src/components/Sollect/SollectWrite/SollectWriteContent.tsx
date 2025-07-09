@@ -51,7 +51,7 @@ const SollectWriteContent = () => {
         ref={scrollRef}>
         <SollectWriteTitle />
         <div
-          className='flex-1 w-full pt-20 flex flex-col gap-16 pb-30'
+          className='flex-1 w-full pt-16 flex flex-col gap-16 pb-30'
           onClick={(e) => {
             if (e.target !== e.currentTarget) return; // 클릭한 영역이 빈 영역일 때만 실행
             // 빈 영역 클릭 시 새 텍스트 단락 추가
