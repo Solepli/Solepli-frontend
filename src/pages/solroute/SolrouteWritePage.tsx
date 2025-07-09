@@ -84,7 +84,7 @@ const SolrouteWritePage = () => {
     navigate(`/solroute`);
   };
 
-  const handleRight = async () => {
+  const handleRight = () => {
     if (!icon) {
       toast(<Warn title='코스 아이콘을 선택해주세요.' />);
       return;
@@ -92,10 +92,10 @@ const SolrouteWritePage = () => {
       toast(<Warn title='코스명을 입력해주세요.' />);
       return;
     } else if (placeInfos.length === 0) {
-      toast(<Warn title='아직 장소가 추가되지 않았어요!' />);
+      toast(<Warn title='장소를 추가해주세요.' message='장소가 한 개 이상 추가되어야 쏠루트를 등록할 수 있어요.' />);
       return;
     }
-    await submitSolroute();
+    submitSolroute();
   };
 
   return (
