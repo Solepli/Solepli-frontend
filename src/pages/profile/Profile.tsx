@@ -1,8 +1,8 @@
 import { useShallow } from 'zustand/shallow';
-import useAuthStore from '../store/authStore';
-import ProfileMenu from '../components/Profile/ProfileMenu';
-import profile from '../assets/profile.svg';
+import profile from '../../assets/profile.svg';
 import { useNavigate } from 'react-router-dom';
+import ProfileMenu from '../../components/Profile/ProfileMenu';
+import useAuthStore from '../../store/authStore';
 
 const Profile = () => {
   const navigate = useNavigate();

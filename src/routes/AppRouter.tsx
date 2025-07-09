@@ -13,7 +13,6 @@ import SollectPage from '../pages/SollectPage';
 import SearchPage from '../pages/SearchPage';
 import SollectSearchResultPage from '../pages/SollectSearchResultPage';
 import OAuthCallback from '../auth/OAuthCallback';
-import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 import SollectWritePage from '../pages/SollectWritePage';
 import SollectWriteLayout from '../layout/SollectWriteLayout';
@@ -29,6 +28,9 @@ import SolroutePlaceAddLayout from '../layout/SolroutePlaceAddLayout';
 import SolroutePlaceAddPage from '../pages/solroute/SolroutePlaceAddPage';
 import SolroutePage from '../pages/solroute/SolroutePage';
 import SolrouteDetailPage from '../pages/solroute/SolrouteDetailPage';
+import ProfileEditPage from '../pages/profile/ProfileEditPage';
+import Profile from '../pages/profile/Profile';
+
 
 const AppRouter = () => {
   const location = useLocation();
@@ -104,6 +106,8 @@ const AppRouter = () => {
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
+
+        <Route path='/profile/edit' element={<ProfileEditPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (
