@@ -16,15 +16,16 @@ createRoot(document.getElementById('root')!).render(
         <AppRouter />
       </BrowserRouter>
     </QueryClientProvider>
-    <ToastContainer 
-    position='bottom-center'
-    autoClose={2000}
-    hideProgressBar={true}
-    newestOnTop={true}
-    closeOnClick={false}
-    closeButton={false}
-    toastStyle={{ background: 'transparent', boxShadow: 'none', }}
-    style={{ bottom: '3rem',}}
+    <ToastContainer
+      position='bottom-center'
+      autoClose={2000}
+      hideProgressBar={true}
+      newestOnTop={true}
+      closeOnClick={false}
+      closeButton={false}
+      toastClassName={'flex items-center justify-center'}
+      toastStyle={{ background: 'transparent', boxShadow: 'none' }}
+      style={{ bottom: '3rem' }}
     />
   </>
   // </StrictMode>,
