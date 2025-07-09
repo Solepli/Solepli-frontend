@@ -142,7 +142,7 @@ export type MarkerInfoType = {
   category: string;
   latitude: number;
   longitude: number;
-  isMarked: boolean;
+  isMarked?: boolean;
 };
 
 export type SollectPhotoType = {
