@@ -9,11 +9,11 @@ import { useEffect } from 'react';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { logout } = useAuthStore(
-    useShallow((state) => ({
-      logout: state.logout,
-    }))
-  );
+  // const { logout } = useAuthStore(
+  //   useShallow((state) => ({
+  //     logout: state.logout,
+  //   }))
+  // );
 
   const isLoggedIn = useAuthStore(useShallow((state) => state.isLoggedIn));
 
@@ -48,7 +48,7 @@ const Profile = () => {
             <img
               src={profileImageUrl || profile}
               alt='profile'
-              className='mb-16 w-100 h-100'
+              className='mb-16 w-100 h-100 object-cover'
             />
 
             <p className='font-semibold text-primary-950 mb-4'>{nickname}</p>

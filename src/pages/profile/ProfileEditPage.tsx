@@ -1,9 +1,49 @@
-import React, { useState } from 'react'
-import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader'
+import React, { useEffect, useState } from 'react';
+import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader';
 import addProfileImg from '../../assets/addProfileImg.svg';
+import useAuthStore from '../../store/authStore';
+import { useShallow } from 'zustand/shallow';
+import { patchProfile } from '../../api/profileApi';
+import xButtonCircle from '../../assets/xButtonCircle.svg';
+import google from '../../assets/google.svg';
+import kakaoTalk from '../../assets/kakaoTalk.svg';
+import naver from '../../assets/naver.svg';
+import FilePicker from '../../components/global/FilePicker';
 
 const ProfileEditPage = () => {
-  const [nickname, setNickname] = useState("");
+  const { nickname, profileImageUrl, loginType } = useAuthStore(
+    useShallow((state) => ({
+      nickname: state.nickname,
+      profileImageUrl: state.profileImageUrl,
+      loginType: state.loginType,
+    }))
+  );
+  const [nicknameInput, setNickname] = useState(nickname);
+  const [profileFiles, setProfileFiles] = useState<File[]>([]);
+  const [previewUrl, setPreviewUrl] = useState<string>(profileImageUrl);
+  
+  useEffect(() => {
+    if (profileFiles.length > 0) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(profileFiles[0]);
+    } else {
+      setPreviewUrl(profileImageUrl);
+    }
+  }, [profileFiles, profileImageUrl]);
+
+ const handleSubmit = async () => {
+    try {
+      await patchProfile({ nickname: nicknameInput }, profileFiles[0]);
+      window.history.back();
+    } catch (e) {
+      console.error('프로필 수정 실패:', e);
+    }
+  };
+
+
   return (
     <div>
       <SollectWriteHeader
@@ -11,42 +51,84 @@ const ProfileEditPage = () => {
         rightText='저장'
         title='프로필 수정'
         onLeft={() => window.history.back()}
-        onRight={() => console.log('완료 버튼 클릭')}
+        onRight={handleSubmit}
       />
 
       {/* profile img */}
       <div className='flex justify-center items-center py-25'>
-        <div
-          style={{
-            backgroundImage: `url(${'https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*'})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
-          className='w-100 h-100 relative rounded-full'>
+        <div className='relative'>
           <img
-            src={addProfileImg}
-            alt=''
-            className='absolute bottom-[-15px] right-[-15px]'
+            src={previewUrl}
+            className='w-100 h-100 relative rounded-full object-cover'
+            alt='img'
           />
+          {/* 프로필 사진 수정 버튼 */}
+          <FilePicker
+            files={profileFiles}
+            onChange={setProfileFiles}
+            multiple={false}
+            maxCount={1}>
+            {(open) => (
+              <img
+                src={addProfileImg}
+                alt='addProfileImg'
+                onClick={open}
+                className='absolute bottom-[-15px] right-[-15px]'
+              />
+            )}
+          </FilePicker>
         </div>
       </div>
 
-      <div className='py-24 px-16 flex flex-col gap-4'>
+      <div className='py-24 px-16 flex flex-col gap-60'>
         {/* 닉네임 */}
-        <p>닉네임*</p>
-        <div className='flex justify-between border-b-1 border-primary-200'>
-          <input
-            type='text'
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className='w-300'
-          />
-          <span className='text-sm text-primary-500'>(17/20)</span>
+        <div>
+          <p className='font-bold mb-4'>닉네임*</p>
+          <div className='flex justify-between border-b-1 items-center border-primary-200 py-4'>
+            <input
+              type='text'
+              value={nicknameInput}
+              onChange={(e) => setNickname(e.target.value)}
+              className='w-300 focus:outline-none'
+            />
+
+            <div className='flex'>
+              <img src={xButtonCircle} alt='xButton' />
+
+              <p className='text-sm text-end text-primary-500'>
+                ({nicknameInput.length}/20)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* 계정 */}
+        <div>
+          <p className='font-bold mb-4'>연동 소셜 계정</p>
+          <div className='flex items-center gap-4 text-grayScale-500 py-4 border-b border-grayScale-200 text-sm'>
+            {loginType === 'NAVER' && (
+              <>
+                <img src={naver} alt='naver' />
+                <p>naver</p>
+              </>
+            )}
+            {loginType === 'GOOGLE' && (
+              <>
+                <img src={google} alt='google' />
+                <p>google</p>
+              </>
+            )}
+            {loginType === 'KAKAO' && (
+              <>
+                <img src={kakaoTalk} alt='kakaoTalk' />
+                <p>kakao</p>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ProfileEditPage
+export default ProfileEditPage;
