@@ -41,7 +41,7 @@ const ProfileMenu = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
         {!isLoggedIn && (
           <LargeButton
             text='간편 로그인'
-            onClick={() => navigate('/sollect/write')}
+            onClick={() => navigate('/login')}
           />
         )}
       </div>
