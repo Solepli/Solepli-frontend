@@ -61,6 +61,20 @@ const SollectWriteLayout = () => {
     return true;
   };
 
+  const validateToPost = () => {
+    if (isPlaceStep) {
+      if (places.length === 0) {
+        return false;
+      }
+      return true;
+    } else {
+      if (!title || !thumbnail || paragraph.length === 0) {
+        return false;
+      }
+      return true;
+    }
+  };
+
   const handleRight = async () => {
     if (isPlaceStep) {
       if (validatePlace() === false) return;
@@ -73,7 +87,7 @@ const SollectWriteLayout = () => {
   };
 
   const submitSollect = async () => {
-    // 현재 작성된 paragraphs 순서대로 seq를 재설정 
+    // 현재 작성된 paragraphs 순서대로 seq를 재설정
     const renumberParagraphs = paragraph.map((p, index) => ({
       ...p,
       seq: index + 1, // seq를 1부터 시작하도록 재설정
@@ -121,6 +135,7 @@ const SollectWriteLayout = () => {
         rightText={isPlaceStep ? '등록' : '다음'}
         onLeft={handleLeft}
         onRight={handleRight}
+        validation={validateToPost()}
       />
 
       {/* content */}
