@@ -18,20 +18,24 @@ import { toast } from 'react-toastify';
 import Warn from '../../components/global/Warn';
 import { getPlaceNearby, postSolroute } from '../../api/solrouteApi';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import Modal from '../../components/global/Modal';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const isSolroute = location.pathname.includes('solroute');
 
-  const { icon, title, placeInfos, setPlaceInfos } = useSolrouteWriteStore(
-    useShallow((state) => ({
-      icon: state.icon,
-      title: state.title,
-      placeInfos: state.placeInfos,
-      setPlaceInfos: state.setPlaceInfos,
-    }))
-  );
+  const { icon, title, placeInfos, setPlaceInfos, reset } =
+    useSolrouteWriteStore(
+      useShallow((state) => ({
+        icon: state.icon,
+        title: state.title,
+        placeInfos: state.placeInfos,
+        setPlaceInfos: state.setPlaceInfos,
+        reset: state.reset,
+      }))
+    );
 
   const lastPlaceId = useMemo(() => {
     return placeInfos.length > 0 ? placeInfos[placeInfos.length - 1].id : null;
@@ -96,6 +100,12 @@ const SolrouteWritePage = () => {
       return;
     }
     await submitSolroute();
+    reset();
+  };
+
+  const handleModalRight = () => {
+    reset();
+    navigate(-1);
   };
 
   return (
@@ -104,7 +114,7 @@ const SolrouteWritePage = () => {
         <SollectWriteHeader
           leftText='취소'
           rightText='등록'
-          onLeft={() => window.history.back()}
+          onLeft={() => setShowDeleteModal(true)}
           onRight={handleRight}
           validation={validateToPost()}
         />
@@ -156,6 +166,7 @@ const SolrouteWritePage = () => {
         </div>
       </div>
 
+      {/* 추천 장소 content */}
       {data && (
         <div className='flex flex-col border-t-10 border-solid border-primary-100'>
           <div className='flex py-24 px-16 pb-8 items-end border-b-1 border-solid border-primary-100'>
@@ -176,6 +187,20 @@ const SolrouteWritePage = () => {
             })}
           </div>
         </div>
+      )}
+
+      {/* 취소 버튼 확인 modal */}
+      {showDeleteModal && (
+        <Modal
+          title='아직 작성 중인 내용이 있어요!'
+          subtitle={
+            '페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'
+          }
+          leftText='취소'
+          rightText='나가기'
+          onLeftClick={() => setShowDeleteModal(false)}
+          onRightClick={handleModalRight}
+        />
       )}
     </div>
   );
