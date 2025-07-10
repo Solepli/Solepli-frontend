@@ -1,4 +1,4 @@
-import { Location, Route, Routes, useLocation } from 'react-router-dom';
+import { Location, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import Solmap from '../pages/Solmap';
 import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
@@ -46,6 +46,8 @@ const AppRouter = () => {
       {/* 모달이 아닐 땐 location으로, 모달일 땐 background로 Routes */}
       <Routes location={(modal && background) || location}>
         <Route path='/' element={<AppLayout />}>
+          {/* /는 /sollect로 Redirect */}
+          <Route index element={<Navigate to='/sollect' replace />} />
           <Route path='sollect' element={<SollectPage />} />
           <Route path='sollect/search' element={<SearchPage />} />
           <Route
@@ -113,7 +115,10 @@ const AppRouter = () => {
 
         <Route path='/profile/edit' element={<ProfileEditPage />} />
         <Route path='/profile/announcement' element={<AnnouncementPage />} />
-        <Route path='/profile/announcement/:announcementId' element={<AnnouncementDetailPage />} />
+        <Route
+          path='/profile/announcement/:announcementId'
+          element={<AnnouncementDetailPage />}
+        />
         <Route path='/profile/feedback' element={<FeedbackPage />} />
         <Route path='/profile/place' element={<AddPlacePage />} />
       </Routes>
