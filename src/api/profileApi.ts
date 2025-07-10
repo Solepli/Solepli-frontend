@@ -1,3 +1,4 @@
+import { PlaceRequest } from '../types';
 import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
 
@@ -66,3 +67,14 @@ export const postFeedback = async (feedback: string) => {
     console.log(e);
   }
 };
+
+
+export const postPlaceRequest = async(requestBody:PlaceRequest)=>{
+    try {
+    const res = await privateAxios.post(ENDPOINT.REQUEST_PLACE, requestBody);
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+}

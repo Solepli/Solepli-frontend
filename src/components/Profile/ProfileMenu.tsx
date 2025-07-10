@@ -10,7 +10,7 @@ const ProfileMenu = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const menus = [
     { name: '설정', path: '/profile/settings', common: true, icon: setting},
     { name: '의견 남기기', path: '/profile/feedback', common: false, icon: feedback },
-    { name: '장소 추가 요청', path: '/profile/location', common: false, icon: addLocation },
+    { name: '장소 추가 요청', path: '/profile/place', common: false, icon: addLocation },
     { name: '공지사항', path: '/profile/announcement', common: true, icon: announcement },
     { name: '약관 및 정책', path: '/profile/document', common: true, icon: document },
   ];

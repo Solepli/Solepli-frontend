@@ -64,10 +64,12 @@
   --color-secondary-800: #303F37;
   --color-secondary-900: #2B3630;
   --color-secondary-950: #151E19;
-  --color-white: #FAFAFA
+  --color-white: #FAFAFA;
+  --color-error: #E81C48;
+  --color-success: #23A26B;
+  --color-warn: #F3C323;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
-

@@ -199,3 +199,11 @@ export type Announcement = {
   createdAt: string;
   content?:string;
 };
+
+
+export type PlaceRequest = {
+  placeName: string;
+  address: string;
+  category: string[];
+  note?: string;
+};
