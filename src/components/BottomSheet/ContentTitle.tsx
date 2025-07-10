@@ -36,10 +36,9 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
 
   const handleBack = () => {
     // 뒤로가기 버튼
-    // search에서 넘어오는 경우 state로 from:search 넘겨줘야 함 (나중에 구현하기)
     if (from == 'preview') {
       navigate('/map/list');
-    } else if (from == 'search') {
+    } else if (from == 'map') {
       navigate('/map');
     } else {
       navigate(-1);

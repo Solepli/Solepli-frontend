@@ -48,7 +48,7 @@ const Profile = () => {
             <img
               src={profileImageUrl || profile}
               alt='profile'
-              className='mb-16 w-100 h-100 object-cover'
+              className='mb-16 w-100 h-100 object-cover rounded-full'
             />
 
             <p className='font-semibold text-primary-950 mb-4'>{nickname}</p>

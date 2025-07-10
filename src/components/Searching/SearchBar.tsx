@@ -91,7 +91,7 @@ const SearchBar: React.FC = () => {
       ) {
         // 결과가 1개이고 PLACE일 때
         setInputValue(relatedSearchList[0].name);
-        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`, { state: { from: 'map' } });
         await postRecentSearchWord(relatedSearchList[0].name, mode);
       } else if (
         relatedSearchList.length === 1 &&
