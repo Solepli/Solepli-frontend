@@ -30,7 +30,8 @@ import SolroutePage from '../pages/solroute/SolroutePage';
 import SolrouteDetailPage from '../pages/solroute/SolrouteDetailPage';
 import ProfileEditPage from '../pages/profile/ProfileEditPage';
 import Profile from '../pages/profile/Profile';
-import Announcement from '../pages/profile/Announcement';
+import AnnouncementPage from '../pages/profile/AnnouncementPage';
+import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 
 
 const AppRouter = () => {
@@ -109,7 +110,8 @@ const AppRouter = () => {
         </Route>
 
         <Route path='/profile/edit' element={<ProfileEditPage />} />
-        <Route path='/profile/announcement' element={<Announcement />} />
+        <Route path='/profile/announcement' element={<AnnouncementPage />} />
+        <Route path='/profile/announcement/:announcementId' element={<AnnouncementDetailPage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (
