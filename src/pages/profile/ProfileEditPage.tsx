@@ -9,6 +9,7 @@ import google from '../../assets/google.svg';
 import kakaoTalk from '../../assets/kakaoTalk.svg';
 import naver from '../../assets/naver.svg';
 import FilePicker from '../../components/global/FilePicker';
+import XButtonCircle from '../../components/XButtonCircle';
 
 const ProfileEditPage = () => {
   const { nickname, profileImageUrl, loginType } = useAuthStore(
@@ -93,7 +94,7 @@ const ProfileEditPage = () => {
             />
 
             <div className='flex'>
-              <img src={xButtonCircle} alt='xButton' />
+              <XButtonCircle onClickFunc={() => setNickname('')} />
 
               <p className='text-sm text-end text-primary-500'>
                 ({nicknameInput.length}/20)

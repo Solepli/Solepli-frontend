@@ -33,6 +33,7 @@ import Profile from '../pages/profile/Profile';
 import AnnouncementPage from '../pages/profile/AnnouncementPage';
 import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 import FeedbackPage from '../pages/profile/FeedbackPage';
+import AddPlacePage from '../pages/profile/AddPlacePage';
 
 
 const AppRouter = () => {
@@ -114,6 +115,7 @@ const AppRouter = () => {
         <Route path='/profile/announcement' element={<AnnouncementPage />} />
         <Route path='/profile/announcement/:announcementId' element={<AnnouncementDetailPage />} />
         <Route path='/profile/feedback' element={<FeedbackPage />} />
+        <Route path='/profile/place' element={<AddPlacePage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (

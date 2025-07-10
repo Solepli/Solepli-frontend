@@ -32,7 +32,7 @@ const FeedbackPage = () => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder='의견을 남겨주세요!'
-            className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] text-sm min-h-86'
+            className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] text-sm min-h-86 w-full'
           />
           <div className='self-stretch text-secondary-500 text-right text-xs'>
             ({feedback.length}/1000)
