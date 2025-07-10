@@ -9,21 +9,21 @@ import { useQuery } from '@tanstack/react-query';
 const AnnouncementDetailPage = () => {
   const navigate = useNavigate();
 
-  const {announcementId} = useParams();
+  const { announcementId } = useParams();
   console.log(announcementId);
 
-  const {setAnnouncement, announcement} = useAnnouncementStore();
+  const { setAnnouncement, announcement } = useAnnouncementStore();
 
   const { data } = useQuery({
     queryKey: ['announcementDetail'],
-    queryFn: ()=>fetchAnnouncementDetail(Number(announcementId))
+    queryFn: () => fetchAnnouncementDetail(Number(announcementId)),
   });
 
-  useEffect(()=>{
-    if(data){
+  useEffect(() => {
+    if (data) {
       setAnnouncement(data);
     }
-  },[data, setAnnouncement]);
+  }, [data, setAnnouncement]);
 
   return (
     <div>
@@ -31,10 +31,10 @@ const AnnouncementDetailPage = () => {
       {announcement && (
         <div className='pt-58'>
           <AnnouncementHeader announcement={announcement} />
-          <p className='border-t-1 border-grayScale-100 p-16 whitespace-pre-line'>{announcement.content}</p>
+          <p className='border-t-1 border-grayScale-100 p-16 whitespace-pre-line'>
+            {announcement.content}
+          </p>
         </div>
-
-        
       )}
     </div>
   );

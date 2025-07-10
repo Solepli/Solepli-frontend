@@ -26,15 +26,15 @@ const AnnouncementPage = () => {
     <div>
       <TitleHeader title='공지사항' onClick={() => navigate(-1)} center />
       <div className='pt-58'>
-        {announcementList?.map((announcement, i) => {
+        {announcementList?.map((announcement) => {
           return (
             // 공지 카드
             // <div onClick={()=>navigate(`/profile/announcement/${announcement.id}`)}>
-            <div onClick={()=>navigate(`/profile/announcement/1`)}>
+            <div onClick={()=>navigate(`/profile/announcement/${announcement.id}`)}>
               <AnnouncementHeader
                 announcement={announcement}
                 arrow={true}
-                key={i}
+                key={announcement.id}
               />
             </div>
           );
