@@ -21,6 +21,7 @@ import {
 import { useSearchStore } from '../../store/searchStore';
 import { getPlaceDetail } from '../../api/placeApi';
 import { usePlaceStore } from '../../store/placeStore';
+import { useQuery } from '@tanstack/react-query';
 
 /* // 클러스터 생성 함수
 const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
@@ -167,55 +168,72 @@ const MapSheet = () => {
   }, []);
 
   /* [useEffect] queryType 값에 따른 마커 변경 */
+  const { data: queryCategory } = useQuery({
+    queryKey: ['queryCategory', selectedCategory],
+    queryFn: () => {
+      if (!lastBounds) return null;
+      return getMarkersByDisplay(
+        lastBounds.getMin().y,
+        lastBounds.getMin().x,
+        lastBounds.getMax().y,
+        lastBounds.getMax().x,
+        selectedCategory ?? undefined
+      );
+    },
+    enabled: !!lastBounds && queryType === 'category',
+  });
+  const { data: queryRegion } = useQuery({
+    queryKey: ['queryRegion', selectedRegion],
+    queryFn: () => getMarkersByRegion(selectedRegion),
+    enabled: !!selectedRegion && queryType === 'region',
+  });
+  const { data: queryIdList } = useQuery({
+    queryKey: ['queryIdList', relatedPlaceIdList],
+    queryFn: () => getMarkersByIdList(relatedPlaceIdList),
+    enabled: !!relatedPlaceIdList && queryType === 'idList',
+  });
+  const { data: detailSearching } = useQuery({
+    queryKey: ['detailSearching', placeId],
+    queryFn: () => {
+      if (!placeId) return null;
+      return getPlaceDetail(parseInt(placeId));
+    },
+    enabled: !!placeId && detailType === 'searching',
+  });
+
   useEffect(() => {
-    if (!lastBounds) return;
-
-    const fetchMarkers = async () => {
-      try {
-        if (queryType === 'category') {
-          // 카테고리 선택시 마커 표시
-          const newInfo = await getMarkersByDisplay(
-            lastBounds.getMin().y,
-            lastBounds.getMin().x,
-            lastBounds.getMax().y,
-            lastBounds.getMax().x,
-            selectedCategory ?? undefined
-          );
-          const result = createMarkerObjectList(newInfo);
-          const { objectList, idList } = result;
-          setNewMarkerObjectList(objectList);
-          setMarkerIdList(idList);
-        } else if (queryType === 'region' && selectedRegion) {
-          // 검색창에서 지역명 선택/enter시 마커 표시
-          const newInfo = await getMarkersByRegion(selectedRegion);
-          const result = createMarkerObjectList(newInfo);
-          applyMarkerResult(result);
-        } else if (queryType === 'idList' && relatedPlaceIdList) {
-          // 검색창에서 장소 id 리스트 enter시 마커 표시
-          const newInfo = await getMarkersByIdList(relatedPlaceIdList);
-          const result = createMarkerObjectList(newInfo);
-          applyMarkerResult(result);
-        } else if (detailType === 'searching' && placeId) {
-          // 검색창에서 특정 장소 선택시 마커 표시
-          const placeDetail = await getPlaceDetail(parseInt(placeId));
-          const result = createMarkerObjectList([
-            {
-              id: placeDetail.place.id,
-              category: placeDetail.place.category,
-              latitude: placeDetail.place.latitude,
-              longitude: placeDetail.place.longitude,
-              isMarked: placeDetail.place.isMarked,
-            },
-          ]);
-          applyMarkerResult(result);
-        }
-      } catch (error) {
-        console.error('마커를 불러오는 중 오류 발생:', error);
-      }
-    };
-
-    fetchMarkers();
-  }, [queryType, selectedCategory, selectedRegion, detailType, placeId]);
+    if (queryType === 'category' && queryCategory) {
+      // 카테고리 선택시 마커 표시
+      // SolmarkChip에서 invalidateQueries 호출 시 queryCategory가 업데이트되어 마커 아이콘도 함께 업데이트됨
+      const result = createMarkerObjectList(queryCategory);
+      const { objectList, idList } = result;
+      setNewMarkerObjectList(objectList);
+      setMarkerIdList(idList);
+    } else if (queryType === 'region' && queryRegion) {
+      // 검색창에서 지역명 선택/enter시 마커 표시
+      // SolmarkChip에서 invalidateQueries 호출 시 queryRegion이 업데이트되어 마커 아이콘도 함께 업데이트됨
+      const result = createMarkerObjectList(queryRegion);
+      applyMarkerResult(result);
+    } else if (queryType === 'idList' && queryIdList) {
+      // 검색창에서 장소 id 리스트 enter시 마커 표시
+      // SolmarkChip에서 invalidateQueries 호출 시 queryIdList가 업데이트되어 마커 아이콘도 함께 업데이트됨
+      const result = createMarkerObjectList(queryIdList);
+      applyMarkerResult(result);
+    } else if (detailType === 'searching' && detailSearching) {
+      // 검색창에서 특정 장소 선택시 마커 표시
+      // SolmarkChip에서 invalidateQueries 호출 시 detailSearching이 업데이트되어 마커 아이콘도 함께 업데이트됨
+      const result = createMarkerObjectList([
+        {
+          id: detailSearching.place.id,
+          category: detailSearching.place.category,
+          latitude: detailSearching.place.latitude,
+          longitude: detailSearching.place.longitude,
+          isMarked: detailSearching.place.isMarked,
+        },
+      ]);
+      applyMarkerResult(result);
+    }
+  }, [queryCategory, queryRegion, queryIdList, detailSearching]);
 
   const applyMarkerResult = (
     result: ReturnType<typeof createMarkerObjectList>
@@ -253,11 +271,16 @@ const MapSheet = () => {
 
     console.log('selectedCategory:', selectedCategory);
 
+    if (!lastBounds) {
+      console.warn('lastBounds가 설정되지 않았습니다.');
+      return;
+    }
+
     const data = await getMarkersByDisplay(
-      lastBounds!.getMin().y,
-      lastBounds!.getMin().x,
-      lastBounds!.getMax().y,
-      lastBounds!.getMax().x,
+      lastBounds.getMin().y,
+      lastBounds.getMin().x,
+      lastBounds.getMax().y,
+      lastBounds.getMax().x,
       selectedCategory ?? undefined
     );
 

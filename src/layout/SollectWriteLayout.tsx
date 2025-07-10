@@ -1,6 +1,6 @@
 // src/pages/sollect-write/SollectWriteLayout.tsx
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import SollectWriteHeader from '../components/Sollect/SollectWrite/SollectWriteHeader';
+import HeaderBothText from '../components/global/HeaderBothText';
 import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../store/sollectWriteStore';
 import { toast } from 'react-toastify';
@@ -8,6 +8,8 @@ import Warn from '../components/global/Warn';
 import { postSollect, postSollectUpload, putSollect } from '../api/sollectApi';
 import { useState } from 'react';
 import Modal from '../components/global/Modal';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../main';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
@@ -24,68 +26,6 @@ const SollectWriteLayout = () => {
         reset: state.reset,
       }))
     );
-
-  const isPlaceStep = pathname.endsWith('/place');
-
-  const handleLeft = () => {
-    if (isPlaceStep) {
-      navigate(-1);
-    } else {
-      //쏠렉트 내용 작성일  경우
-      setShowDeleteModal(true);
-    }
-  };
-
-  //모달 나가기 버튼 클릭시
-  const onLeftClick = () => {
-    reset();
-    navigate(-1);
-  };
-
-  const validateContent = () => {
-    if (!title && !thumbnail) {
-      toast(
-        <Warn title='썸네일을 사진을 추가하고 제목과 내용을 입력하세요.' />
-      );
-      return false;
-    }
-    if (!title && paragraph.length === 0) {
-      toast(<Warn title='제목과 내용을 입력하세요.' />);
-      return false;
-    }
-    if (!title) {
-      toast(<Warn title='제목을 입력하세요.' />);
-      return false;
-    }
-    if (!thumbnail) {
-      toast(<Warn title='썸네일 사진을 추가해야합니다.' />);
-      return false;
-    }
-    if (paragraph.length === 0) {
-      toast(<Warn title='내용을 입력하세요.' />);
-      return false;
-    }
-    return true;
-  };
-
-  const validatePlace = () => {
-    if (places.length === 0) {
-      toast(<Warn title='아직 장소가 추가되지 않았어요!.' />);
-      return false;
-    }
-    return true;
-  };
-
-  const handleRight = async () => {
-    if (isPlaceStep) {
-      if (validatePlace() === false) return;
-      await submitSollect();
-    } else {
-      if (validateContent() === false) return;
-      // place 스텝으로 이동
-      navigate('place');
-    }
-  };
 
   const submitSollect = async () => {
     // 현재 작성된 paragraphs 순서대로 seq를 재설정
@@ -124,19 +64,118 @@ const SollectWriteLayout = () => {
       }
     });
     await postSollectUpload(sollectId, formData);
-    reset();
     // Sollect 등록 후 어디로 가야할지?
-    navigate(`/sollect`);
+  };
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => submitSollect(),
+    onSuccess: () => {
+      reset();
+      queryClient.invalidateQueries({ queryKey: ['sollects'] });
+      navigate(`/sollect`);
+    },
+  });
+
+  const isPlaceStep = pathname.endsWith('/place');
+
+  const handleLeft = () => {
+    if (isPlaceStep) {
+      navigate(-1);
+    } else {
+      //쏠렉트 내용 작성일  경우
+      setShowDeleteModal(true);
+    }
+  };
+
+  //모달 나가기 버튼 클릭시
+  const onLeftClick = () => {
+    reset();
+    navigate(-1);
+  };
+
+  const validateContent = () => {
+    if (!title && !thumbnail && paragraph.length === 0) {
+      toast(
+        <Warn title='썸네일 사진을 추가하고 제목과 본문을 입력해주세요.' />
+      );
+      return false;
+    }
+    if (!thumbnail && paragraph.length === 0) {
+      toast(<Warn title='썸네일 사진을 추가하고 본문을 입력해주세요.' />);
+      return false;
+    }
+    if (!title && !thumbnail) {
+      toast(<Warn title='썸네일 사진을 추가하고 제목을 입력해주세요' />);
+      return false;
+    }
+    if (!title && paragraph.length === 0) {
+      toast(<Warn title='제목과 본문을 입력해주세요.' />);
+      return false;
+    }
+    if (!title) {
+      toast(<Warn title='제목을 입력해주세요.' />);
+      return false;
+    }
+    if (!thumbnail) {
+      toast(<Warn title='썸네일 사진을 추가해주세요.' />);
+      return false;
+    }
+    if (paragraph.length === 0) {
+      toast(<Warn title='본문을 입력해주세요.' />);
+      return false;
+    }
+    return true;
+  };
+
+  const validatePlace = () => {
+    if (places.length === 0) {
+      toast(
+        <Warn
+          title='장소를 추가해주세요.'
+          message='장소가 한 개 이상 추가되어야 쏠렉트를 등록할 수 있어요.'
+        />
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const validateToPost = () => {
+    if (isPending) return false;
+    if (isPlaceStep) {
+      if (places.length === 0) {
+        return false;
+      }
+      return true;
+    } else {
+      if (!title || !thumbnail || paragraph.length === 0) {
+        return false;
+      }
+      return true;
+    }
+  };
+
+  const handleRight = async () => {
+    if (isPlaceStep) {
+      if (validatePlace() === false) return;
+      if (isPending) return;
+      await mutateAsync();
+    } else {
+      if (validateContent() === false) return;
+      // place 스텝으로 이동
+      navigate('place');
+    }
   };
 
   return (
     <div className='w-full h-dvh flex flex-col relative overflow-hidden'>
       {/* header */}
-      <SollectWriteHeader
+      <HeaderBothText
         leftText='취소'
         rightText={isPlaceStep ? '등록' : '다음'}
         onLeft={handleLeft}
         onRight={handleRight}
+        validation={validateToPost()}
       />
 
       {/* content */}

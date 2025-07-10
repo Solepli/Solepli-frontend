@@ -45,13 +45,10 @@ export const ENDPOINT = {
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
   SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
-  //solroute
-  SOLROUTE_PLACE: (id: number) => `/api/solroute/place/${id}`, //쏠렉트 수정시 장소 정보를 가져올 때 사용, 리팩토링 필요
 
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
   SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
-
   SOLMARK_PLACE_COLLECTION: '/api/solmark/place/collections', // 리스트 조회
   SOLMARK_PLACE_COLLECTION_PLACES: (collectionId: number) =>
     `/api/solmark/place/collections/${collectionId}/places`, // 특정 컬렉션의 장소 리스트 조회
@@ -59,6 +56,9 @@ export const ENDPOINT = {
     `/api/solmark/place/${placeId}/collections`, // 장소 쏠마크 추가
 
   // solroute
+  SOLROUTE_PLACE: (id: number) => `/api/solroute/place/${id}`, //쏠렉트 수정시 장소 정보를 가져올 때 사용, 리팩토링 필요
+  SOLROUTE_PLACE_NEARBY: (id: number) => `/api/solroute/place/nearby/${id}`,
+  SOLROUTE_STATUS: (id: number) => `/api/solroute/${id}/status`,
   SOLROUTE: {
     GET: '/api/solroute',
     GET_DETAIL: (id: number) => `/api/solroute/${id}`,
@@ -67,7 +67,6 @@ export const ENDPOINT = {
     DELETE: (id: number) => `/api/solroute/${id}`,
   },
 
-  SOLROUTE_STATUS: (id: number) => `/api/solroute/${id}/status`,
 
   //place
   PLACE_SEARCH: '/api/place/search',

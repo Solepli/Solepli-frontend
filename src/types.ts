@@ -87,7 +87,9 @@ export type RelatedSearchPlace = {
   longitude: number;
 };
 
-export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
+export type SearchedPlace = RelatedSearchPlace & {
+  isSelected: boolean;
+};
 
 export type PlaceInfo = {
   id: number;
@@ -99,9 +101,10 @@ export type PlaceInfo = {
   longitude: number;
 };
 
-export type SelectablePlace = PlaceInfo & {
-  isSelected: boolean;
-};
+// 쓰이는 곳이 없음
+// export type SelectablePlace = PlaceInfo & {
+//   isSelected: boolean;
+// };
 
 export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
@@ -109,9 +112,9 @@ export type SolroutePlacePreview = PlaceInfo & {
 };
 
 export type SolroutePreviewSummary = PlaceInfo & {
-  recommendationPercent: number;
+  recommendationPercent: number | null; // 리뷰 없을시 null
+  rating: number | null; // 리뷰 없을시 null;
   tags: string[];
-  rating: number;
 };
 
 export type ReviewType = {
@@ -135,7 +138,7 @@ export type MarkerInfoType = {
   category: string;
   latitude: number;
   longitude: number;
-  isMarked: boolean;
+  isMarked?: boolean;
 };
 
 export type SollectPhotoType = {

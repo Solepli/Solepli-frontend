@@ -8,19 +8,18 @@ interface StatusChipProps {
 }
 
 const StatusChip: React.FC<StatusChipProps> = ({ id, status }) => {
+  const mutation = useMutation({
+    mutationFn: () => patchStatus(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+      queryClient.invalidateQueries({ queryKey: ['solroute'] });
+    },
+  });
 
-const mutation = useMutation({
-  mutationFn: () => patchStatus(id),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['solroutes'] });
-    queryClient.invalidateQueries({ queryKey: ['solroute'] });
-  },
-});
-
-const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-  e.stopPropagation();
-  mutation.mutate();
-};
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    mutation.mutate();
+  };
 
   return (
     <div onClick={(e) => handleClick(e)}>
@@ -33,8 +32,8 @@ export default StatusChip;
 
 const CompletedChip: React.FC = () => {
   return (
-    <div className='self-stretch px-16 py-2 bg-secondary-700 rounded-lg outline outline-1 outline-offset-[-1px] outline-secondary-700 inline-flex justify-center items-center'>
-      <span className='justify-start text-secondary-50 text-sm font-bold leading-tight'>
+    <div className='w-58 flex py-2 px-16 justify-center items-center gap-10 rounded-lg border-1 border-secondary-700 bg-secondary-700'>
+      <span className='overflow-hidden text-secondary-50 overflow-ellipsis text-sm font-bold leading-[150%] tracking-[-0.21px]'>
         완료
       </span>
     </div>
@@ -43,8 +42,8 @@ const CompletedChip: React.FC = () => {
 
 const PlannedChip: React.FC = () => {
   return (
-    <div className='self-stretch px-16 py-2 rounded-lg outline outline-1 outline-offset-[-1px] outline-secondary-700 inline-flex justify-center items-center'>
-      <span className='justify-start text-secondary-600 text-sm font-bold leading-tight'>
+    <div className='w-58 flex py-2 px-16 justify-center items-center gap-10 rounded-lg border-1 border-solid border-secondary-700'>
+      <span className='overflow-hidden text-secondary-600 overflow-ellipsis text-sm font-bold leading-[150%] tracking-[-0.21px]'>
         예정
       </span>
     </div>

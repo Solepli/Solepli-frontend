@@ -6,20 +6,24 @@ import SolrouteDetailPlace from '../../components/Solroute/SolrouteDetailPlace';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { deleteSolroute, fetchSolroute } from '../../api/solrouteApi';
 import { SolroutePlacePreview } from '../../types';
-import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
-import { useShallow } from 'zustand/shallow';
 import EditDeletePopover from '../../components/global/EditDeletePopover';
 import { useState } from 'react';
 import Kebab from '../../assets/kebabGray.svg?react';
 import { queryClient } from '../../main';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
+import { useShallow } from 'zustand/shallow';
 
 const SolrouteDetailPage = () => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { solrouteId } = useParams();
-  const { setPlaceInfos } = useSolrouteWriteStore(
+
+  const { setIcon, setTitle, setPlaceInfos, reset } = useSolrouteWriteStore(
     useShallow((state) => ({
+      setIcon: state.setIcon,
+      setTitle: state.setTitle,
       setPlaceInfos: state.setPlaceInfos,
+      reset: state.reset,
     }))
   );
   const { data, isLoading } = useQuery({
@@ -28,11 +32,11 @@ const SolrouteDetailPage = () => {
   });
 
   const mutation = useMutation({
-  mutationFn: () => deleteSolroute(Number(solrouteId)),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['solroutes'] });
-  },
-});
+    mutationFn: () => deleteSolroute(Number(solrouteId)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['solroutes'] });
+    },
+  });
 
   if (isLoading) {
     return <>로딩 중...</>;
@@ -42,26 +46,24 @@ const SolrouteDetailPage = () => {
   const funcDelete = async () => {
     await mutation.mutateAsync();
     setShowMenu(false);
+    reset();
     navigate('/solroute');
   };
 
   // 쏠루트 수정
-    const funcEdit = () => {
-      console.log('쏠루트 수정입니다.');
-      navigate('/solroute/write');
-    }
-
-  //여기 이후부턴 data에 값이 존재
-
-  //map에 마커를 표시하기 위해 setPalceInfos를 설정
-  setPlaceInfos(data.placeInfos);
+  const funcEdit = () => {
+    setIcon(data.iconId);
+    setTitle(data.name);
+    setPlaceInfos(data.placeInfos);
+    navigate(`/solroute/write?solrouteId=${solrouteId}`);
+  };
 
   return (
     <>
       <div>
         <TitleHeader
           title={data.name}
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/solroute')}
           center
           iconId={data.iconId}>
           {/* 케밥 아이콘 */}
@@ -71,10 +73,12 @@ const SolrouteDetailPage = () => {
             <Kebab />
           </div>
         </TitleHeader>
-        {showMenu && <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />}
+        {showMenu && (
+          <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />
+        )}
       </div>
       <div className='mt-58'>
-        <SolrouteMap />
+        <SolrouteMap placeInfosOnDisplay={data.placeInfos} />
 
         {/* 장소 개수 */}
         <div className='px-16 pt-16 pb-8 flex'>
