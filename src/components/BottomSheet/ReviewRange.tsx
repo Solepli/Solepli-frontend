@@ -2,8 +2,8 @@ import React from 'react';
 import star from '../../assets/starFill.svg';
 
 interface ReviewRangeProps {
-  rating: number;
-  recommend: number;
+  rating: number | null;
+  recommend: number | null;
   hasReviews: boolean;
 }
 
@@ -32,7 +32,7 @@ const ReviewRange: React.FC<ReviewRangeProps> = ({
         <div className='flex items-center pt-4'>
           <img src={star} alt='star' className='w-20 h-20' />
           <p className='text-xs text-primary-900 font-medium'>
-            {hasReviews ? rating : '0.0'}
+            {hasReviews ? rating?.toFixed(1) : '0.0'}
           </p>
         </div>
       </div>

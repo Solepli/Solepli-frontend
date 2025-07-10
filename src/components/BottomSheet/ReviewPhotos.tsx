@@ -25,7 +25,7 @@ const ReviewPhotos: React.FC<ReviewPhotosProps> = ({ images, more }) => {
             <img
               src={image}
               alt='review-image'
-              className={`w-100 h-125 object-cover rounded-sm ${isLast && more ? 'brightness-20' : ''} ${i === 0 ? 'rounded-tl-[20px]' : ''} ${i === images.length - 1 ? 'rounded-br-[20px]' : ''}`}
+              className={`h-125 object-cover rounded-sm ${isLast && more ? 'brightness-20' : ''} ${i === 0 ? 'rounded-tl-[20px]' : ''} ${i === images.length - 1 ? 'rounded-br-[20px]' : ''}`}
             />
 
             {isLast && more && (

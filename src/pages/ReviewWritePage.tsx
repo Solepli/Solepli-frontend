@@ -14,12 +14,15 @@ import TitleHeader from '../components/global/TitleHeader';
 import { toast } from 'react-toastify';
 import Warn from '../components/global/Warn';
 import LargeButton from '../components/global/LargeButton';
+import Modal from '../components/global/Modal';
+import { useMutation } from '@tanstack/react-query';
+import { queryClient } from '../main';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();
   const { placeId } = useParams();
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   //리렌더링을 방지하기 위해 useShallow 사용
   const {
@@ -50,6 +53,22 @@ const ReviewWrite: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => reviewWrite(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['placeDetail', placeId] });
+      navigateToDetail();
+    },
+  });
+
+  const onBackClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const submitReview = async () => {
+    await mutateAsync();
+  };
+
   // 리뷰 작성 버튼 활성화 조건
   const isWrittenable =
     emoji !== null &&
@@ -61,13 +80,12 @@ const ReviewWrite: React.FC = () => {
   const placeName = location.state?.place;
 
   const reviewWrite = async () => {
-    setIsLoading(true);
     try {
       // review 데이터를 request로 만들어 FormData에 추가
       const formData = new FormData();
       const payload = {
         placeId: placeId,
-        recommendation: emoji === 'good' ? true : false,
+        recommendation: emoji,
         rating: rating,
         moodTag: moodTags,
         soloTag: singleTags,
@@ -82,28 +100,24 @@ const ReviewWrite: React.FC = () => {
 
       // 서버에 리뷰 등록 요청
       await postReview(formData);
-
-      // 성공할 때만 store를 초기화하고, Detail page로 돌아간다
-      reset();
-      navigateToDetail();
     } catch (e) {
       console.error(e);
       const message =
         e instanceof Error ? e.message : '알 수 없는 오류가 발생했습니다.';
       toast(<Warn title={message} />);
-    } finally {
-      setIsLoading(false);
+      throw e;
     }
   };
 
   const navigateToDetail = () => {
+    reset();
     navigate(`/map/detail/${placeId}`, { state: { placeName } });
   };
 
   return (
-    <div className='flex flex-col items-start justify-start pb-30'>
+    <div className='flex flex-col items-start justify-start pb-30 relative'>
       {/* 뒤로가기 */}
-      <TitleHeader title={placeName} onClick={navigateToDetail} />
+      <TitleHeader title={placeName} onClick={onBackClick} />
 
       {/* 방문 의향 체크, pt-78: TitleHeader + 해당 컴포넌트 20 */}
       <div className='w-full pt-58'>
@@ -141,11 +155,23 @@ const ReviewWrite: React.FC = () => {
       <div className='w-full pt-32 px-16 pb-16'>
         <LargeButton
           text={'리뷰 등록'}
-          onClick={reviewWrite}
-          disable={!isWrittenable || isLoading}
+          onClick={submitReview}
+          disable={!isWrittenable || isPending}
           bold={true}
         />
       </div>
+      {showDeleteModal && (
+        <Modal
+          title='아직 작성 중인 내용이 있어요!'
+          subtitle={
+            '페이지를 벗어날 경우,\n 지금까지 작성된 내용이 사라지게 돼요.'
+          }
+          leftText='취소'
+          rightText='나가기'
+          onLeftClick={() => setShowDeleteModal(false)}
+          onRightClick={navigateToDetail}
+        />
+      )}
     </div>
   );
 };

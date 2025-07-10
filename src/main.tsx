@@ -6,7 +6,7 @@ import AppRouter from './routes/AppRouter.tsx';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
@@ -16,15 +16,16 @@ createRoot(document.getElementById('root')!).render(
         <AppRouter />
       </BrowserRouter>
     </QueryClientProvider>
-    <ToastContainer 
-    position='bottom-center'
-    autoClose={2000}
-    hideProgressBar={true}
-    newestOnTop={true}
-    closeOnClick={false}
-    closeButton={false}
-    toastStyle={{ background: 'transparent', boxShadow: 'none', }}
-    style={{ bottom: '3rem',}}
+    <ToastContainer
+      position='bottom-center'
+      autoClose={2000}
+      hideProgressBar={true}
+      newestOnTop={true}
+      closeOnClick={false}
+      closeButton={false}
+      toastClassName={'flex items-center justify-center'}
+      toastStyle={{ background: 'transparent', boxShadow: 'none' }}
+      style={{ bottom: '3rem' }}
     />
   </>
   // </StrictMode>,

@@ -10,6 +10,7 @@ import SollectDetailContent from '../components/Sollect/SollectDetail/SollectDet
 import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectDetailBottomBar';
 import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton';
 import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
+import { placeSummary } from '../types';
 
 const SollectDetailPage = () => {
   const { sollectId } = useParams();
@@ -24,7 +25,18 @@ const SollectDetailPage = () => {
 
   useEffect(() => {
     if (sollect.data) {
-      setSollectDetail(sollect.data);
+      const sum = sollect.data.placeSummaries.map((place:RawPlace) => {
+        return {
+          ...place,
+          // id: place.placeId,
+        };
+      });
+      const updatedData = {
+        ...sollect.data,
+        placeSummaries: sum,
+      };
+      console.log(updatedData);
+      setSollectDetail(updatedData);
     }
   }, [sollect.data, setSollectDetail]);
 
@@ -81,12 +93,14 @@ const SollectDetailPage = () => {
         </div>
 
         <div
-          className='py-12 text-center text-xs text-primary-500'
+          className='py-8 px-16 text-center text-xs pb-56 text-primary-500'
           onClick={() => {
             const container = document.getElementById('scrollable');
             container?.scrollTo({ top: 0, behavior: 'smooth' });
           }}>
-          맨 위로 올라가기
+          <p className='h-40 flex justify-center items-center'>
+            맨 위로 올라가기
+          </p>
         </div>
       </div>
     </div>
@@ -94,3 +108,7 @@ const SollectDetailPage = () => {
 };
 
 export default SollectDetailPage;
+
+type RawPlace = placeSummary & {
+  placeId?:number;
+}

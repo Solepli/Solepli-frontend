@@ -74,19 +74,21 @@ const PreviewContentList: React.FC = () => {
   const placesDisplayQuery = useInfiniteQuery({
     queryKey: ['placesDisplay', selectedCategory, refreshTrigger],
     queryFn: ({ pageParam = { cursorId: undefined, cursorDist: undefined } }) =>
+      lastBounds &&
+      userLatLng &&
       getPlacesByDisplay(
-        lastBounds!.getMin().y,
-        lastBounds!.getMin().x,
-        lastBounds!.getMax().y,
-        lastBounds!.getMax().x,
-        userLatLng!.lat,
-        userLatLng!.lng,
+        lastBounds.getMin().y,
+        lastBounds.getMin().x,
+        lastBounds.getMax().y,
+        lastBounds.getMax().x,
+        userLatLng.lat,
+        userLatLng.lng,
         selectedCategory ?? undefined,
         pageParam.cursorId,
         pageParam.cursorDist,
         undefined
       ),
-    enabled: queryType === 'category',
+    enabled: queryType === 'category' && !!lastBounds && !!userLatLng,
     getNextPageParam: (lastPage) => {
       if (!lastPage?.nextCursor) return undefined;
       return {
