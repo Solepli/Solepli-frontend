@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import TitleHeader from '../../components/global/TitleHeader';
 import { useNavigate } from 'react-router-dom';
 import XButtonCircle from '../../components/XButtonCircle';
@@ -6,13 +6,22 @@ import { categories } from '../../utils/category';
 import CategoryTag from '../../components/Profile/CategoryTag';
 import LargeButton from '../../components/global/LargeButton';
 import { postPlaceRequest } from '../../api/profileApi';
+import { useInputAdjustScale } from '../../hooks/useInputAdjustScale';
+import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 
 const AddPlacePage = () => {
+  const inputPlaceRef = useRef<HTMLInputElement | null>(null);
+  const inputAddressRef = useRef<HTMLInputElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const navigate = useNavigate();
   const [placeName, setPlaceName] = useState('');
   const [address, setAdderss] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [note, setNote] = useState('');
+
+  useInputAdjustScale(inputPlaceRef);
+  useInputAdjustScale(inputAddressRef);
+  useAutoResizeAndScroll(textareaRef);
 
   const deletePlaceName = () => {
     setPlaceName('');
@@ -40,14 +49,14 @@ const AddPlacePage = () => {
 
   const handleSubmit = async () => {
     const requestBody = {
-    placeName: placeName.trim(),
-    address: address.trim(),
-    category: selectedCategories,
-    note: note,
-  };
+      placeName: placeName.trim(),
+      address: address.trim(),
+      category: selectedCategories,
+      note: note,
+    };
 
-  await postPlaceRequest(requestBody);
-  navigate('/profile');
+    await postPlaceRequest(requestBody);
+    navigate('/profile');
   };
 
   const headerStyle = 'text-primary-950 text-sm font-bold';
@@ -64,9 +73,12 @@ const AddPlacePage = () => {
           <div className='flex justify-between border-b-1 items-center border-primary-200 py-4'>
             <input
               type='text'
+              ref={inputPlaceRef}
               value={placeName}
+              maxLength={30}
               onChange={(e) => setPlaceName(e.target.value)}
-              className='w-300 focus:outline-none'
+              className='w-300 focus:outline-none
+              text-base scale-[var(--scale-16-14)] origin-left'
             />
 
             <div className='flex'>
@@ -85,9 +97,12 @@ const AddPlacePage = () => {
           <div className='flex justify-between border-b-1 items-center border-primary-200 py-4'>
             <input
               type='text'
+              ref={inputPlaceRef}
               value={address}
+              maxLength={30}
               onChange={(e) => setAdderss(e.target.value)}
-              className='w-300 focus:outline-none'
+              className='w-300 focus:outline-none
+              text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
             />
 
             <div className='flex'>
@@ -123,10 +138,12 @@ const AddPlacePage = () => {
           <p className={headerStyle}>추가 메모</p>
           <div className='border-1 border-primary-100 px-12 py-8 rounded-xl bg-primary-50 self-stretch w-full mb-24'>
             <textarea
+              ref={textareaRef}
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder='(선택) 장소와 관련해 더 남기실 말이 있다면 적어주세요.'
-              className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] text-sm min-h-86 w-full'
+              className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] min-h-86 w-full
+              text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
             />
             <div className='self-stretch text-secondary-500 text-right text-xs'>
               ({note.length}/500)

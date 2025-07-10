@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import TitleHeader from '../../components/global/TitleHeader';
 import { useNavigate } from 'react-router-dom';
 import { postFeedback } from '../../api/profileApi';
 import LargeButton from '../../components/global/LargeButton';
+import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 
 const FeedbackPage = () => {
   const navigate = useNavigate();
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [feedback, setFeedback] = useState('');
+  useAutoResizeAndScroll(textareaRef);
 
   const handleSubmit = async()=>{
     await postFeedback(feedback);
@@ -29,10 +32,12 @@ const FeedbackPage = () => {
 
         <div className='border-1 border-primary-100 px-12 py-8 rounded-xl bg-primary-50 self-stretch w-full mb-24'>
           <textarea
+          ref={textareaRef}
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder='의견을 남겨주세요!'
-            className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] text-sm min-h-86 w-full'
+            className='text-primary-950 placeholder:text-primary-500 focus:outline-none focus:ring-0 resize-none self-stretch] min-h-86 w-full
+            text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
           />
           <div className='self-stretch text-secondary-500 text-right text-xs'>
             ({feedback.length}/1000)
