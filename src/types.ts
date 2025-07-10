@@ -194,7 +194,7 @@ export type SolroutePayload = {
 };
 
 export type Announcement = {
-  id?: number;
+  id: number;
   title: string;
   createdAt: string;
   content?:string;
