@@ -125,7 +125,7 @@ const AppRouter = () => {
       {/* Modal Routes */}
       {modal && (
         <Routes>
-          <Route path='/login-modal' element={<LoginModal />} />
+          <Route path='/login-modal' element={<LoginModal key='login-modal' />} />
         </Routes>
       )}
     </>
