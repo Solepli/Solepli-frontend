@@ -49,6 +49,7 @@ const useReviewWriteStore = create<ReviewWriteState>((set) => ({
       moodTags: [],
       singleTags: [],
       text: '',
+      files: [],
     }),
 }));
 
