@@ -111,7 +111,7 @@ const ReviewWrite: React.FC = () => {
 
   const navigateToDetail = () => {
     reset();
-    navigate(`/map/detail/${placeId}`, { state: { placeName } });
+    navigate(`/map/detail/${placeId}`, { state: { placeName, from: 'map' } });
   };
 
   return (

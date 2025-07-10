@@ -38,8 +38,10 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
     // 뒤로가기 버튼
     if (from == 'preview') {
       navigate('/map/list');
-    } else {
+    } else if (from == 'map') {
       navigate('/map');
+    } else {
+      navigate(-1);
     }
   };
 

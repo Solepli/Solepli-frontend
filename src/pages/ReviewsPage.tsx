@@ -41,7 +41,7 @@ const ReviewsPage = () => {
       <TitleHeader
         title={placeName}
         onClick={() => {
-          navigate(`/map/detail/${placeId}`);
+          navigate(`/map/detail/${placeId}`, { state: { from: 'map' } });
         }}
       />
       <div className='mt-58 mb-32'>
