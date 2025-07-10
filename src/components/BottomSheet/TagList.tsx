@@ -19,7 +19,7 @@ const TagList: React.FC<TagListProps> = ({
     <div className='flex gap-8 px-16 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan'>
       {/* Tag Header */}
       {headerName && (
-        <div className='pr-60'>
+        <div className=''>
           <Tag name={headerName} header />
         </div>
       )}
