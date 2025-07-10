@@ -80,4 +80,5 @@ export const ENDPOINT = {
   PROFILE_VALIDATE_NICKNAME: '/api/profile/validate/nickname',
   ANNOUNCEMENT: '/api/notice',
   ANNOUNCEMENT_ID: (id: number) => `/api/notice/${id}`,
+  FEEDBACK:'/api/feedback'
 };
