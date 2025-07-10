@@ -14,7 +14,9 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
   return (
     <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>
       {/* 아이콘 */}
-      <Icon />
+      <div className='min-w-32'>
+        <Icon />
+      </div>
 
       <div className='flex flex-col items-start grow'>
         {/* 이름 */}
@@ -33,7 +35,9 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
       </div>
 
       {/* 추가 버튼 */}
-      <SelectableChip place={place} />
+      <div className='min-w-55'>
+        <SelectableChip place={place} />
+      </div>
     </div>
   );
 };
