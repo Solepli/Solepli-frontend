@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import XButtonCircle from '../../components/XButtonCircle';
 import { categories } from '../../utils/category';
 import CategoryTag from '../../components/Profile/CategoryTag';
-import { Category } from '../../types';
 import LargeButton from '../../components/global/LargeButton';
 import { postPlaceRequest } from '../../api/profileApi';
 
