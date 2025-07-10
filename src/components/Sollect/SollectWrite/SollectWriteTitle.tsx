@@ -56,8 +56,12 @@ const SollectWriteTitle = () => {
               : undefined,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundColor: thumbnail?.imageUrl ? '#18181866' : '#ECEEF2',
-          }}>
+            backgroundColor: '#ECEEF2'
+          }}
+        >
+          {thumbnail?.imageUrl && (
+            <div className="absolute inset-0 bg-black/50" />
+          )}
           {thumbnail?.imageUrl ? (
             <div
               onClick={open}

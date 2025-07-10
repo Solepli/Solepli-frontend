@@ -25,7 +25,7 @@ const HeaderBothText: React.FC<HeaderBothTextProps> = ({
         className={`w-42 h-42 pr-16 inline-flex justify-end items-center ${
           validation
             ? 'text-primary-950 font-bold tracking-[-0.21px]'
-            : 'text-primary-300 font-normal tracking-[-0.35px]'
+            : 'text-primary-400 font-normal tracking-[-0.35px]'
         }`}
         onClick={onRight}>
         {rightText}

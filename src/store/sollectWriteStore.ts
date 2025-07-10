@@ -7,6 +7,7 @@ type SollectWriteState = {
   seq: number;
   focusSeq: number | null;
   focusTextarea?: HTMLTextAreaElement | null; // 포커스된 텍스트 영역을 저장할 수 있는 속성
+  caretPosition?: number | null;
   title: string | null;
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
@@ -19,6 +20,7 @@ type SollectWriteState = {
   deleteParagraph: (seq: number) => void;
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
+  setCaretPosition: (caret: number) => void;
   insertImageAtCaret: (file: File, caret?: number | null) => void;
   addPlace: (place: PlaceInfo) => void; // 장소 ID 목록을 설정하는 함수
   removePlace: (id: number | null) => void; // 선택된 place 해제
@@ -105,6 +107,9 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       focusSeq: seq,
       focusTextarea: el,
     })),
+
+  setCaretPosition: (caretPosition: number | null) =>
+    set(() => ({ caretPosition })),
 
   insertImageAtCaret: (file, caret = null) => {
     set((state) => {
