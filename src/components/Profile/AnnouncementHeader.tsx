@@ -10,6 +10,8 @@ const AnnouncementHeader: React.FC<AnnouncementHeaderProps> = ({
   announcement,
   arrow,
 }) => {
+
+  console.log(announcement);
   return (
     <div className='p-16 flex gap-8 justify-between items-center'>
       <div>
