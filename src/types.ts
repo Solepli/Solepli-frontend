@@ -99,6 +99,7 @@ export type PlaceInfo = {
   category: string;
   latitude: number;
   longitude: number;
+  isMarked?: boolean;
 };
 
 // 쓰이는 곳이 없음
