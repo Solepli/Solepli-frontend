@@ -38,6 +38,7 @@ const ReviewPhotosInput = () => {
         <ReviewPhotos
           images={files.map((file) => URL.createObjectURL(file))}
           onDeleteFunc={handleDelete}
+          isEdit = {true}
         />
       </div>
       <div className='pl-20 flex items-center gap-4'>
