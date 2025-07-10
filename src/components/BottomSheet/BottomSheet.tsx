@@ -19,7 +19,7 @@ const Header: React.FC<{
   return (
     <div onPointerDown={onPointerDown} className='touch-none select-none'>
       <div className='w-full h-20 py-8 inline-flex flex-col justify-center items-center bg-white z-100'>
-        <div className='w-30 h-4 bg-gray-200 rounded-[10px]' />
+        <div className='w-40 h-4 bg-gray-200 rounded-[10px]' />
       </div>
       <div>{children}</div>
     </div>

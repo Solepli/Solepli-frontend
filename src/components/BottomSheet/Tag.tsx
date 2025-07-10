@@ -4,15 +4,16 @@ interface TagProps {
   name: string;
   header?: boolean;
   number?: number;
+  noTag?:boolean;
 }
 
-const Tag: React.FC<TagProps> = ({ name, header, number }) => {
+const Tag: React.FC<TagProps> = ({ name, header, number, noTag }) => {
   const style = 'text-center px-8 text-xs font-regular rounded-sm shrink-0';
   return (
     <>
       {/* default */}
-      {!number && !header && (
-        <div className={`${style} bg-primary-100 px-8 py-4  text-primary-700`}>
+      {!number && !header && !noTag && (
+        <div className={`${style} bg-primary-100 px-8 py-4 flex items-center text-primary-700`}>
           <p>{name}</p>
         </div>
       )}
@@ -30,6 +31,13 @@ const Tag: React.FC<TagProps> = ({ name, header, number }) => {
       {header && (
         <div
           className={`${style} w-60 py-6 bg-secondary-700 text-secondary-50`}>
+          <p>{name}</p>
+        </div>
+      )}
+
+      {noTag && (
+        <div
+          className={`${style} w-60 py-6 bg-primary-100 text-primary-700`}>
           <p>{name}</p>
         </div>
       )}

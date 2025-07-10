@@ -62,7 +62,10 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
         relatedSearchList[0].type === 'PLACE'
       ) {
         // 디테일 페이지로 이동
-        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+        navigate(
+          `/map/detail/${relatedSearchList[0].id}?detailType=searching`,
+          { state: { from: 'map' } }
+        );
       } else {
         // 프리뷰 리스트 페이지로 이동
         const anyResult = extractRegionOrPlaceIds(relatedSearchList);

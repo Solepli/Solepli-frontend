@@ -15,6 +15,7 @@ interface SollectDetailStore {
   markedCount:number;
   placeSummaries:placeSummary[];
   writerId:number;
+  isMarked:boolean;
 
   setSollectDetail:(data:SollectDetailStore)=>void;
 }
@@ -33,6 +34,7 @@ export const useSollectDetailStore = create<SollectDetailStore>((set) => ({
   markedCount:0,
   placeSummaries:[],
   writerId:0,
+  isMarked:false,
 
   setSollectDetail:(data)=>set(()=>({...data})),
 

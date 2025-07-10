@@ -31,6 +31,7 @@ type BasePlace = {
   detailedCategory: string;
   isSoloRecommended: number;
   rating: number;
+  isMarked: boolean;
 };
 
 export type DetailPlace = BasePlace & {
@@ -45,9 +46,6 @@ export type DetailPlace = BasePlace & {
   category: string;
   address: string;
   thumbnailUrl: string[];
-
-  // 디테일에서 쏠마크 되었는지 확인. 나중에 백엔드에서 받아옴
-  isMarked: boolean;
 };
 
 export type PreviewPlace = BasePlace & {
@@ -55,10 +53,10 @@ export type PreviewPlace = BasePlace & {
   thumbnailUrls: string[];
 };
 
-type Hours = {
+export type Hours = {
   dayOfWeek: number;
-  startTime: string;
-  endTime: string;
+  startTime: string | null;
+  endTime: string | null;
 };
 
 export type TagType = {
@@ -76,11 +74,8 @@ export type RelatedSearchWord = {
   id: number | null;
   name: string;
   type: 'DISTRICT' | 'PLACE';
+  isMarked: boolean | null;
 };
-
-export type SelectablePlace = {
-  isSelected: boolean;
-}
 
 export type RelatedSearchPlace = {
   id: number;
@@ -90,11 +85,13 @@ export type RelatedSearchPlace = {
   address: string;
   latitude: number;
   longitude: number;
-}
+};
 
-export type SearchedPlace = RelatedSearchPlace & SelectablePlace;
+export type SearchedPlace = RelatedSearchPlace & {
+  isSelected: boolean;
+};
 
-export type SolroutePlace = {
+export type PlaceInfo = {
   id: number;
   name: string;
   detailedCategory: string;
@@ -102,14 +99,24 @@ export type SolroutePlace = {
   category: string;
   latitude: number;
   longitude: number;
+  isMarked?: boolean;
 };
 
-export type SolroutePlacePreview = SolroutePlace & {
+// 쓰이는 곳이 없음
+// export type SelectablePlace = PlaceInfo & {
+//   isSelected: boolean;
+// };
+
+export type SolroutePlacePreview = PlaceInfo & {
   seq: number;
   memo: string;
 };
 
-export type Emoji = 'good' | 'bad' | null;
+export type SolroutePreviewSummary = PlaceInfo & {
+  recommendationPercent: number | null; // 리뷰 없을시 null
+  rating: number | null; // 리뷰 없을시 null;
+  tags: string[];
+};
 
 export type ReviewType = {
   userProfileUrl: string;
@@ -132,6 +139,7 @@ export type MarkerInfoType = {
   category: string;
   latitude: number;
   longitude: number;
+  isMarked?: boolean;
 };
 
 export type SollectPhotoType = {
@@ -169,4 +177,33 @@ export type SolmarkPlaceList = {
   collectionId: number;
   iconId: number;
   placeCount: number;
+};
+
+export type SolroutePreview = {
+  id: number;
+  iconId: number;
+  name: string;
+  placeCount: number;
+  status: boolean;
+};
+
+export type SolroutePayload = {
+  iconId: number;
+  name: string;
+  placeInfos: { id: number; seq: number; memo: string }[];
+};
+
+export type Announcement = {
+  id: number;
+  title: string;
+  createdAt: string;
+  content?:string;
+};
+
+
+export type PlaceRequest = {
+  placeName: string;
+  address: string;
+  category: string[];
+  note?: string;
 };

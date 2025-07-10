@@ -10,7 +10,13 @@
 
   background-color: var(--color-white);
 
+
   --scale-16-14: 0.875; /* 폰트 사이즈 스케일링 (16px -> 14px) */
+
+  /* 토스트 크기 변경 */
+  --toastify-container-width: 100%;
+  --toastify-toast-padding: 0px 16px 0px 16px; 
+  --toastify-toast-width: 100%;
 }
 
 body {
@@ -82,6 +88,9 @@ body {
   --color-secondary-900: #2b3630;
   --color-secondary-950: #151e19;
   --color-white: #fafafa;
+  --color-error: #E81C48;
+  --color-success: #23A26B;
+  --color-warn: #F3C323;
 }
 
 @layer base {

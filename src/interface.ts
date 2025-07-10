@@ -12,6 +12,7 @@ export interface TitleHeaderProps {
   title: string;
   onClick(): void;
   center?:boolean;
+  iconId?:number;
 }
 
 export interface SollectPhotoProps {

@@ -5,12 +5,14 @@ interface SollectWriteHeaderProps {
   rightText: string;
   onLeft: () => void;
   onRight: () => void;
+  title?:string;
 }
 const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
   leftText,
   rightText,
   onLeft,
   onRight,
+  title
 }) => {
   return (
     <div className='w-full h-50 py-4 flex justify-between items-center text-primary-950 text-sm font-normal leading-tight bg-white'>
@@ -18,6 +20,9 @@ const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
         className='w-42 h-42 pl-16 inline-flex justify-start items-center'
         onClick={onLeft}>
         {leftText}
+      </div>
+      <div className='text-primary-950 font-bold'>
+        {title}
       </div>
       <div
         className='w-42 h-42 pr-16 inline-flex justify-end items-center'

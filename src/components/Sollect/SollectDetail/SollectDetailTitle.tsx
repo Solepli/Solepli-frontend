@@ -12,10 +12,10 @@ const SollectDetailTitle = () => {
       }}
       className='w-full h-232 flex flex-col justify-end text-white relative'>
       {/* dim */}
-      <div className='absolute bg-black/40 w-full h-full'></div>
+      <div className='absolute bg-black/50 w-full h-full'></div>
 
       <div className='z-1 relative p-16'>
-        <h1 className='text-2xl font-bold'>{sollect.title}</h1>
+        <h1 className='text-2xl font-bold mb-2'>{sollect.title}</h1>
         <div className='text-xs flex justify-between'>
           <span className='text-xs'>
             {' '}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContentTitle from './ContentTitle';
 import ReviewRange from './ReviewRange';
 import TagList from './TagList';
@@ -33,12 +33,15 @@ const DetailContent: React.FC = () => {
     enabled: !!placeId,
   });
 
+  const[more, setMore] = useState(false);
+
   // complete api: 마커 클릭시 해당 장소 상세정보 호출
   // complete api: 검색 결과에서 특정 장소 클릭시 상세 정보 호출
   useEffect(() => {
     if (data) {
       console.log('placeDetail:', data);
       setPlace(data.place);
+      setMore(data.place.thumbnailUrl.length >= 6);
     }
   }, [data]);
 
@@ -72,7 +75,7 @@ const DetailContent: React.FC = () => {
       </div>
 
       {/* ReviewPhotoList */}
-      <ReviewPhotos images={selectedPlace.thumbnailUrl} more />
+      <ReviewPhotos images={selectedPlace.thumbnailUrl} more={more} />
 
       {/* 관련 쏠렉트 보기 */}
       <Link

@@ -1,25 +1,32 @@
 import { useShallow } from 'zustand/shallow';
 
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';
-import { useRef } from 'react';
+import { RefObject, useRef } from 'react';
 import SollectWriteTitle from './SollectWriteTitle';
 import SollectWriteTextarea from './SollectWriteTextarea';
 import XButton from '../../../assets/xButtonForImage.svg?react';
+import { useKeyboardAdjustment } from '../../../hooks/useKeyboardAdjustment';
 
-const SollectWriteContent = () => {
-  const { paragraphs, addTextParagraph, deleteParagraph } = useSollectWriteStore(
-    useShallow((state) => ({
-      paragraphs: state.paragraphs,
-      addTextParagraph: state.addTextParagraph,
-      addImageParagraph: state.addImageParagraph,
-      updateParagraphContent: state.updateParagraphContent,
-      deleteParagraph: state.deleteParagraph,
-      setParagraphs: state.setParagraphs,
-    }))
-  );
+const SollectWriteContent = ({
+  footerRef,
+}: {
+  footerRef: RefObject<HTMLDivElement | null>;
+}) => {
+  const { paragraphs, addTextParagraph, deleteParagraph } =
+    useSollectWriteStore(
+      useShallow((state) => ({
+        paragraphs: state.paragraphs,
+        addTextParagraph: state.addTextParagraph,
+        deleteParagraph: state.deleteParagraph,
+      }))
+    );
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+
+  //훅이 여기 있어야 키보드가 올라와있는 상태에서 이미지 추가 가능
+  useKeyboardAdjustment(footerRef);
 
   // 콜백 ref: 마지막 것만 저장
   const registerLastTextarea =
@@ -45,13 +52,14 @@ const SollectWriteContent = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col overflow-hidden pb-45'>
+    <div
+      className='w-full h-full flex flex-col overflow-hidden mb-44'>
       <div
         className='flex flex-col h-full overflow-y-auto relative'
         ref={scrollRef}>
         <SollectWriteTitle />
         <div
-          className='flex-1 w-full pt-20 flex flex-col gap-16 pb-30'
+          className='flex-1 w-full pt-16 flex flex-col gap-16 pb-50'
           onClick={(e) => {
             if (e.target !== e.currentTarget) return; // 클릭한 영역이 빈 영역일 때만 실행
             // 빈 영역 클릭 시 새 텍스트 단락 추가
@@ -80,13 +88,14 @@ const SollectWriteContent = () => {
               />
             ) : (
               <div key={para.seq} className='w-full relative'>
-                <div className='absolute top-10 right-10'
-                onClick={() => {
-                  deleteParagraph(para.seq);
-                }}>
+                <div
+                  className='absolute top-10 right-10'
+                  onClick={() => {
+                    deleteParagraph(para.seq);
+                  }}>
                   <XButton />
                 </div>
-                <img src={para.imageUrl} className='w-full' /> 
+                <img src={para.imageUrl} className='w-full' />
               </div>
             )
           )}

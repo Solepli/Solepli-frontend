@@ -11,10 +11,10 @@ interface ModalProps{
 
 const Modal:React.FC<ModalProps> = ({title, subtitle, leftText, rightText, onLeftClick, onRightClick}) => {
   return (
-    <div className='fixed inset-0 bg-black/80 flex justify-center items-center z-100'>
+    <div className='fixed inset-0 bg-black/80 flex justify-center items-center z-150'>
       <div className='bg-white rounded-lg p-20 pt-32 w-min-340 h-min-112 text-center'>
         <h3 className='text-primary-950 font-bold mb-8'>{title}</h3>
-        <p className='text-primary-950 text-sm mb-24'>{subtitle}</p>
+        <p className='text-primary-950 text-sm mb-24 whitespace-pre-line'>{subtitle}</p>
 
         <div className='flex justify-between gap-8'>
           <div

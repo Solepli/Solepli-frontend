@@ -15,7 +15,6 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
 
     navigate(url);
   };
-
   const handleAddSollectButton = () => {
     navigate('/sollect/write');
   };
@@ -24,7 +23,7 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
       <p className='font-bold text-primary-950 mb-5'>
         아직 {type === 'sollect' ? '저장된' : '작성된'} 쏠렉트가 없어요!
       </p>
-      <p
+      <div
         className='flex justify-center text-sm text-primary-700 underline items-center'
         onClick={handleClick}>
         {type === 'sollect' && '쏠렉트 보러가기'}
@@ -35,7 +34,8 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
           </LoginRequiredAction>
         )}
         <img src={arrow} alt='arrow' className='w-24 h-24' />{' '}
-      </p>
+      </div>
+
     </div>
   );
 };

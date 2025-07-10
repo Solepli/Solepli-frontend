@@ -15,7 +15,6 @@ import CultureFill from '../assets/category-icons/cultureFill.svg?react';
 import ShopFill from '../assets/category-icons/shopFill.svg?react';
 import WalkFill from '../assets/category-icons/walkFill.svg?react';
 import WorkFill from '../assets/category-icons/workFill.svg?react';
-import Location from '../assets/locationFill.svg?react';
 
 import FoodBlack from '../assets/category-icons/foodBlack.svg?react';
 import CafeBlack from '../assets/category-icons/cafeBlack.svg?react';
@@ -58,6 +57,17 @@ import Version11 from '../assets/selectableIconSet/version11.svg?react';
 import Version12 from '../assets/selectableIconSet/version12.svg?react';
 import Version13 from '../assets/selectableIconSet/version13.svg?react';
 import Version14 from '../assets/selectableIconSet/version14.svg?react';
+
+import CafeFillMedium from '../assets/category-icons/medium/cafe-fill-medium.svg?react';
+import CityFillMedium from '../assets/locationFill.svg?react';
+import CultureFillMedium from '../assets/category-icons/medium/culture-fill-medium.svg?react';
+import DrinkFillMedium from '../assets/category-icons/medium/drink-fill-medium.svg?react';
+import EntertainmentFillMedium from '../assets/category-icons/medium/entertainment-fill-medium.svg?react';
+import FoodFillMedium from '../assets/category-icons/medium/food-fill-medium.svg?react';
+import MarkFillMedium from '../assets/heartFill.svg?react';
+import ShopFillMedium from '../assets/category-icons/medium/shop-fill-medium.svg?react';
+import WalkFillMedium from '../assets/category-icons/medium/walk-fill-medium.svg?react';
+import WorkFillMedium from '../assets/category-icons/medium/work-fill-medium.svg?react';
 
 export const iconMap: Record<
   string,
@@ -127,19 +137,20 @@ export const IconMarkerMap: Record<string, string> = {
   work: WorkMarker,
 };
 
-export const iconRelatedSearch: Record<
+export const iconNonlabelSearch: Record<
   string,
   React.FC<React.SVGProps<SVGSVGElement>>
 > = {
-  food: FoodFill,
-  cafe: CafeFill,
-  drink: DrinkFill,
-  entertainment: EntertainmentFill,
-  culture: CultureFill,
-  shop: ShopFill,
-  walk: WalkFill,
-  work: WorkFill,
-  location: Location,
+  cafe: CafeFillMedium,
+  city: CityFillMedium,
+  culture: CultureFillMedium,
+  drink: DrinkFillMedium,
+  entertainment: EntertainmentFillMedium,
+  food: FoodFillMedium,
+  mark: MarkFillMedium,
+  shop: ShopFillMedium,
+  walk: WalkFillMedium,
+  work: WorkFillMedium,
 };
 
 export const selectableIconMap: Record<

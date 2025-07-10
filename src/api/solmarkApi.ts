@@ -16,7 +16,6 @@ export const fetchPlacesByCollectionId = async (collectionId: number) => {
     const res = await privateAxios.get(
       ENDPOINT.SOLMARK_PLACE_COLLECTION_PLACES(collectionId)
     );
-    console.log(res.data.data.places);
     return res.data.data.places;
   } catch (e) {
     console.log(e);
@@ -56,7 +55,7 @@ export const fetchSolmarkSollect = async (cursorId?: number) => {
 };
 
 export const fetchMySolmarkSollect = async (cursorId?: number) => {
-    try {
+  try {
     const res = await privateAxios.get(ENDPOINT.SOLMARK_MY_SOLLECT, {
       params: {
         cursorId: cursorId,

@@ -18,12 +18,16 @@ export interface FilePickerProps {
   accept?: string;
   /** 기존 file을 기억할지  */
   keepFiles?: boolean;
+  /* 외부 함수에 의해서만 파일이 관리될 경우 ex 쏠렉트*/
+  managedExternally?: boolean;
   /** 외부에서 클릭 트리거를 어떻게 그릴지 */
   children: (open: () => void) => React.ReactNode;
 }
 
 const DEFAULT_MAX_COUNT = 5;
-const MAX_FILE_SIZE: number = Number(import.meta.env.VITE_MAX_FILE_SIZE);
+const MAX_FILE_SIZE: number = Number(
+  import.meta.env.VITE_IMAGE_UPLOAD_MAX_SIZE
+);
 
 const FilePicker: React.FC<FilePickerProps> = ({
   files,
@@ -33,6 +37,7 @@ const FilePicker: React.FC<FilePickerProps> = ({
   maxSize = MAX_FILE_SIZE,
   accept = '.png,.jpg,.jpeg',
   keepFiles = true,
+  managedExternally = false,
   children,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -46,30 +51,47 @@ const FilePicker: React.FC<FilePickerProps> = ({
     if (!selected.length) return;
 
     // 장수 제한
-    if (
-      keepFiles
-        ? files.length + selected.length > maxCount
-        : selected.length > maxCount
-    ) {
-      toast(<Warn title={`최대 ${maxCount}개까지 등록 가능해요`} />);
-      selected = selected.slice(0, maxCount - files.length);
+    if (keepFiles) {
+      if (files.length + selected.length > maxCount) {
+        toast(<Warn title={`최대 ${maxCount}개까지 등록 가능해요`} />);
+        selected = selected.slice(0, maxCount - files.length);
+      }
+    } else {
+      if (selected.length > maxCount) {
+        toast(<Warn title={`최대 ${maxCount}개까지 등록 가능해요`} />);
+        selected = selected.slice(0, maxCount); // 여기선 files.length 무시
+      }
     }
 
     // 크기 제한
+    let tooLargeFileExists = false;
+    const isSingle = selected.length === 1;
+
+    //이미지 크기 큰 파일 필터링
     selected = selected.filter((file) => {
       if (file.size > maxSize) {
-        toast(
-          <Warn
-            title='해당 사진은 첨부할 수 없어요.'
-            message={`사진은 ${maxSize / 1024 / 1024}MB 이하만 첨부 가능해요.`}
-          />
-        );
+        tooLargeFileExists = true;
         return false;
       }
       return true;
     });
 
-    if (keepFiles) {
+    if (tooLargeFileExists) {
+      toast(
+        <Warn
+          title={
+            isSingle
+              ? '해당 사진은 첨부할 수 없어요.'
+              : '일부 사진은 첨부되지 않았어요.'
+          }
+          message={`사진은 ${maxSize / 1024 / 1024}MB 이하만 첨부 가능해요.`}
+        />
+      );
+    }
+
+    if (managedExternally) {
+      onChange(selected);
+    } else if (keepFiles) {
       onChange([...files, ...selected]);
     } else {
       onChange(selected);

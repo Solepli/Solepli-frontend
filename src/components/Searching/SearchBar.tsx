@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import XButtonCircle from '../XButtonCircle';
@@ -9,8 +9,11 @@ import { useMarkerStore } from '../../store/markerStore';
 import { extractRegionOrPlaceIds } from '../../utils/placeFunc';
 import { usePlaceStore } from '../../store/placeStore';
 import { useSollectStore } from '../../store/sollectStore';
+import { SCALE_16_14 } from '../../constants';
 
 const SearchBar: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const navigate = useNavigate();
 
   const { clearCategory } = useSollectStore();
@@ -43,11 +46,25 @@ const SearchBar: React.FC = () => {
   const { setCategory } = usePlaceStore();
 
   const pathname = window.location.pathname;
-  const mode = pathname.includes('/sollect')
-    ? pathname.includes('/write')
-      ? 'place' //sollect/write/search
-      : 'sollect'
-    : 'solmap';
+
+  let mode: 'place' | 'sollect' | 'solmap' = 'solmap';
+
+  if (pathname.includes('/write/search')) {
+    mode = 'place';
+  } else if (pathname.includes('/sollect')) {
+    mode = 'sollect';
+  }
+
+  useEffect(() => {
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      const inputWidth = inputElement.offsetWidth / SCALE_16_14 - 34;
+      console.log(inputWidth);
+      inputElement.style.width = `${inputWidth}px`;
+      const inputWidthtMargin = inputWidth * (1 - SCALE_16_14);
+      inputElement.style.marginRight = `-${inputWidthtMargin}px`;
+    }
+  }, []);
 
   const changeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -74,7 +91,7 @@ const SearchBar: React.FC = () => {
       ) {
         // 결과가 1개이고 PLACE일 때
         setInputValue(relatedSearchList[0].name);
-        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`);
+        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`, { state: { from: 'map' } });
         await postRecentSearchWord(relatedSearchList[0].name, mode);
       } else if (
         relatedSearchList.length === 1 &&
@@ -111,22 +128,23 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className='bg-primary-100 h-34 flex-[1_0_0] flex items-center px-8 rounded-xl'>
-      <div className='flex-1 flex items-center justify-start gap-[4px]'>
-        <img className='w-[24px] h-[24px]' src={search} />
-        <div className='flex-[1_0_0] flex items-center gap-2'>
-          <input
-            className="focus:outline-none focus:ring-0 resize-none 
-            flex-[1_0_0] text-[14px] leading-[100%] tracking-[-0.21px] font-['Pretendard'] text-primary-900"
-            type='text'
-            value={inputValue}
-            spellCheck={false}
-            onChange={(e) => changeInputValue(e)}
-            placeholder='오늘은 어디서 시간을 보내나요?'
-            autoFocus
-            onKeyDown={(e) => handleEnter(e)}
-          />
-        </div>
+    <div className='flex gap-10 h-34 px-8 justify-between items-center grow bg-primary-100 rounded-xl'>
+      <div className='grow flex items-center justify-start gap-4'>
+        <img className='w-24 h-24 aspect-square' src={search} />
+        <input
+          ref={inputRef}
+          className='focus:outline-none focus:ring-0 resize-none 
+            text-base self-stretch grow not-italic font-medium leading-[100%] tracking-[-0.35px] text-primary-900
+            scale-[var(--scale-16-14)] origin-left'
+          type='text'
+          value={inputValue}
+          spellCheck={false}
+          onChange={(e) => changeInputValue(e)}
+          placeholder='오늘은 어디서 시간을 보내나요?'
+          autoFocus
+          onKeyDown={(e) => handleEnter(e)}
+          maxLength={50}
+        />
       </div>
       {inputValue && <XButtonCircle onClickFunc={clickXButtonCircle} />}
     </div>

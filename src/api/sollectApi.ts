@@ -37,6 +37,19 @@ export const postSollect = async (data: {
   }
 };
 
+export const putSollect = async (id: number, data: {
+  title: string | null;
+  contents: (Paragraph | null)[];
+  placeIds: (number | null)[];
+}) => {
+  try {
+    const res = await privateAxios.put(ENDPOINT.SOLLECT.PUT(id), data);
+    return res;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export const postSollectUpload = async (id: number, formData: FormData) => {
   try {
     const res = await privateAxios.post(ENDPOINT.SOLLECT_UPLOAD(id), formData, {
