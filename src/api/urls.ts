@@ -45,6 +45,7 @@ export const ENDPOINT = {
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
   SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
+
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
   SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
@@ -66,9 +67,18 @@ export const ENDPOINT = {
     DELETE: (id: number) => `/api/solroute/${id}`,
   },
 
+
   //place
   PLACE_SEARCH: '/api/place/search',
 
   //login
   OAUTH_CALLBACK: (loginType: string) => `/api/auth/login/${loginType}`,
+
+  // profile
+  PROFILE: '/api/profile',
+  PROFILE_VALIDATE_NICKNAME: '/api/profile/validate/nickname',
+  ANNOUNCEMENT: '/api/notice',
+  ANNOUNCEMENT_ID: (id: number) => `/api/notice/${id}`,
+  FEEDBACK:'/api/feedback',
+  REQUEST_PLACE:'/api/place/request',
 };

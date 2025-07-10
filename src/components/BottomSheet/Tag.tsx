@@ -30,7 +30,7 @@ const Tag: React.FC<TagProps> = ({ name, header, number, noTag }) => {
       {/* green header */}
       {header && (
         <div
-          className={`${style} fixed w-60 py-6 bg-secondary-700 text-secondary-50`}>
+          className={`${style} w-60 py-6 bg-secondary-700 text-secondary-50`}>
           <p>{name}</p>
         </div>
       )}

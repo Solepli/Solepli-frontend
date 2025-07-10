@@ -93,6 +93,7 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
   }, [label, selectedPlace?.isMarked, isMarked]);
 
   const handleClick = async () => {
+ 
     try {
       // todo : 추후 장소 쏠마크시 폴더 선택 기능 생기면 수정 필요
       // const array: number[] = [data[0].collectionId];

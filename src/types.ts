@@ -192,3 +192,18 @@ export type SolroutePayload = {
   name: string;
   placeInfos: { id: number; seq: number; memo: string }[];
 };
+
+export type Announcement = {
+  id: number;
+  title: string;
+  createdAt: string;
+  content?:string;
+};
+
+
+export type PlaceRequest = {
+  placeName: string;
+  address: string;
+  category: string[];
+  note?: string;
+};
