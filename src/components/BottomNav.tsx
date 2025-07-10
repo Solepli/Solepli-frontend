@@ -48,8 +48,8 @@ const BottomNav = () => {
         {menu.map((item) => {
           return (
             <div>
-              {item.name === 'mark' ? (
-                <LoginRequiredAction onAction={() => navigate('/mark')} targetSource="/mark">
+              {(item.name === 'mark' || item.name === 'solroute') ? (
+                <LoginRequiredAction onAction={() => navigate(`/${item.name}`)} targetSource={`/${item.name}`}>
                   <NavLink
                     key={item.name}
                     to={item.path}
