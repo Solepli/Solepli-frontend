@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SollectWriteHeader from '../../components/Sollect/SollectWrite/SollectWriteHeader';
 import addProfileImg from '../../assets/addProfileImg.svg';
 import useAuthStore from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
 import { patchProfile } from '../../api/profileApi';
-import xButtonCircle from '../../assets/xButtonCircle.svg';
 import google from '../../assets/google.svg';
 import kakaoTalk from '../../assets/kakaoTalk.svg';
 import naver from '../../assets/naver.svg';
