@@ -2,18 +2,19 @@ import React from 'react';
 import type { PlaceInfo } from '../../types';
 import SelectableChip from '../global/SelectableChip';
 import { iconNonlabelSearch } from '../../utils/icon';
+import Marked from '../../assets/category-icons/medium/mark.svg?react';
 
 interface RelatedSearchPlaceProps {
   place: PlaceInfo;
 }
 
 const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
-  const Icon = iconNonlabelSearch[place.category!];
+  const Icon = place.isMarked ? Marked : iconNonlabelSearch[place.category!];
 
   return (
     <div className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'>
       {/* 아이콘 */}
-      <div className='flex p-4 items-start rounded-[4px] bg-gray-400/10'>
+      <div className='min-w-32'>
         <Icon />
       </div>
 
@@ -34,7 +35,9 @@ const RelatedSearchPlace: React.FC<RelatedSearchPlaceProps> = ({ place }) => {
       </div>
 
       {/* 추가 버튼 */}
-      <SelectableChip place={place} />
+      <div className='min-w-55'>
+        <SelectableChip place={place} />
+      </div>
     </div>
   );
 };

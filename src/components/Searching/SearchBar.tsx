@@ -46,11 +46,14 @@ const SearchBar: React.FC = () => {
   const { setCategory } = usePlaceStore();
 
   const pathname = window.location.pathname;
-  const mode = pathname.includes('/sollect')
-    ? pathname.includes('/write')
-      ? 'place' //sollect/write/search
-      : 'sollect'
-    : 'solmap';
+
+  let mode: 'place' | 'sollect' | 'solmap' = 'solmap';
+
+  if (pathname.includes('/write/search')) {
+    mode = 'place';
+  } else if (pathname.includes('/sollect')) {
+    mode = 'sollect';
+  }
 
   useEffect(() => {
     const inputElement = inputRef.current;
