@@ -22,6 +22,7 @@ const SolmarkPlacePreviewPage = () => {
   );
   const isSolroute = location.pathname.includes('solroute');
 
+
   const handleClick = () => {
     navigate(-1);
   };

@@ -35,6 +35,7 @@ text-sm z-101`}>
         {/* 수정 */}
         <div className='p-12 flex gap-8 items-center border-b border-primary-100'
       onClick={onEditClick}>
+
           <img src={edit} alt='edit' />
           수정
         </div>

@@ -32,7 +32,6 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
     transformSollectDetailToWrite(Number(sollect.sollectId));
     navigate('/sollect/write/');
   }
-  
   return (
     <div
       onClick={handleClick}
@@ -59,6 +58,7 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
               className='w-24 h-24'
               onClick={() => setShowMenu(!showMenu)}
             />
+
             {showMenu && (
               <EditDeletePopover
                 funcDelete={funcDelete}

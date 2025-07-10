@@ -52,7 +52,6 @@ const SollectSearchResultPage = () => {
     }
   }, [data, setSollects]);
 
-
   return (
     <div>
       <div className='z-10 w-full bg-white fixed'>
