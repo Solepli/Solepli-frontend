@@ -89,3 +89,17 @@ export const deleteUser = async () => {
     console.log(e);
   }
 };
+
+export const validateNickname = async (nickname: string) => {
+  try {
+    const res = await privateAxios.get(ENDPOINT.PROFILE_VALIDATE_NICKNAME, {
+      params: {
+        nickname,
+      },
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (e: any) {
+    return { success: false, message: e.response?.data?.message || '오류' };
+  }
+};
