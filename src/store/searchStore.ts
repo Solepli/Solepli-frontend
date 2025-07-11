@@ -32,7 +32,7 @@ export const useSearchStore = create<SearchState>((set) => ({
   setRelatedSearchList: (list) => set({ relatedSearchList: list }),
 
   relatedSearchPlaceList: [],
-  setRelatedSearchPlaceList: (list) => set({ relatedSearchPlaceList: list}),
+  setRelatedSearchPlaceList: (list) => set({ relatedSearchPlaceList: list }),
 
   selectedRegion: '',
   setSelectedRegion: (value) => set({ selectedRegion: value }),

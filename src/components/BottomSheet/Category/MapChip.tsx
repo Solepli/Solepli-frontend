@@ -4,6 +4,7 @@ import { usePlaceStore } from '../../../store/placeStore';
 import { iconMap, iconBlackMap } from '../../../utils/icon';
 import { useNavigate } from 'react-router-dom';
 import { useShallow } from 'zustand/shallow';
+import { useMarkerStore } from '../../../store/markerStore';
 
 interface CategoryButtonProps {
   category: Category;
@@ -18,25 +19,42 @@ const MapChip: React.FC<CategoryButtonProps> = ({ category }) => {
       setCategory: state.setCategory,
     }))
   );
+  const { searchByCategory } = useMarkerStore(
+    useShallow((state) => ({
+      searchByCategory: state.searchByCategory,
+    }))
+  );
 
-  const isSelected = selectedCategory === category.id;
+  // const isSelected = selectedCategory === category.id;
 
   const style = {
-    backgroundColor: isSelected
-      ? `var(--color-chip-bg-${category.id})`
-      : 'var(--color-white)',
-    color: isSelected ? 'var(--color-black)' : 'var(--color-primary-900)',
-    border: isSelected
-      ? `1px solid var(--color-chip-${category.id})`
-      : '1px solid var(--color-grayScale-100)',
+    backgroundColor:
+      selectedCategory === category.id
+        ? `var(--color-chip-bg-${category.id})`
+        : 'var(--color-white)',
+    // color: selectedCategory ? 'var(--color-black)' : 'var(--color-primary-900)',
+    border:
+      selectedCategory === category.id
+        ? `1px solid var(--color-chip-${category.id})`
+        : '1px solid var(--color-grayScale-100)',
   };
 
-  const IconComponent = isSelected
-    ? iconBlackMap[category.id]
-    : iconMap[category.id];
+  const IconComponent =
+    selectedCategory === category.id
+      ? iconBlackMap[category.id]
+      : iconMap[category.id];
 
   const handleClick = () => {
-    setCategory(category.id);
+    // setCategory(category.id);
+
+    if (selectedCategory === category.id) {
+      setCategory(null); // 카테고리 지정
+      searchByCategory(null); // 마커 업데이트
+    } else {
+      setCategory(category.id);
+      searchByCategory(category.id);
+    }
+
     navigate('/map/list?queryType=category');
   };
 

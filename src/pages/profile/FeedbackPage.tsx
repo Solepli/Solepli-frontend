@@ -11,10 +11,10 @@ const FeedbackPage = () => {
   const [feedback, setFeedback] = useState('');
   useAutoResizeAndScroll(textareaRef);
 
-  const handleSubmit = async()=>{
+  const handleSubmit = async () => {
     await postFeedback(feedback);
-    navigate('/profile')
-  }
+    navigate('/profile');
+  };
   return (
     <div className='w-full'>
       <TitleHeader title='의견 남기기' onClick={() => navigate(-1)} center />
@@ -32,7 +32,7 @@ const FeedbackPage = () => {
 
         <div className='border-1 border-primary-100 px-12 py-8 rounded-xl bg-primary-50 self-stretch w-full mb-24'>
           <textarea
-          ref={textareaRef}
+            ref={textareaRef}
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder='의견을 남겨주세요!'
@@ -43,7 +43,7 @@ const FeedbackPage = () => {
             ({feedback.length}/1000)
           </div>
         </div>
-        <LargeButton text="전송" onClick={handleSubmit}/>
+        <LargeButton text='전송' onClick={handleSubmit} />
       </div>
     </div>
   );

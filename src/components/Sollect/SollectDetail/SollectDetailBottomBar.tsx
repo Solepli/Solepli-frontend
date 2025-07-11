@@ -42,10 +42,10 @@ const SollectDetailBottomBar = () => {
     toast(<Success title='링크가 복사되었습니다' />);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setMakred(isMarked);
     setCount(markedCount);
-  },[isMarked, markedCount]);
+  }, [isMarked, markedCount]);
 
   return (
     <div className='sticky bottom-0 z-60 inset-x-0 bg-white w-full h-52 px-12 pb-8 flex justify-between items-center'>
