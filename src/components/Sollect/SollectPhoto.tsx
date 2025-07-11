@@ -59,6 +59,7 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
               className='w-24 h-24'
               onClick={() => setShowMenu(!showMenu)}
             />
+
             {showMenu && (
               <EditDeletePopover
                 funcDelete={funcDelete}

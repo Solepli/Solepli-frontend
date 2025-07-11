@@ -45,6 +45,7 @@ export const ENDPOINT = {
   SOLLECT_UPLOAD: (id: number) => `/api/sollect/${id}/upload`,
   SOLLECT_RELATED: (id: number) => `/api/sollect/related/${id}`,
 
+
   // solmark
   SOLMARK_SOLLECT: '/api/solmark/sollect',
   SOLMARK_MY_SOLLECT: '/api/solmark/sollect/my',
@@ -65,6 +66,7 @@ export const ENDPOINT = {
     PATCH: (id: number) => `/api/solroute/${id}`,
     DELETE: (id: number) => `/api/solroute/${id}`,
   },
+
 
   //place
   PLACE_SEARCH: '/api/place/search',

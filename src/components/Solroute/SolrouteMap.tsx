@@ -33,11 +33,11 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     }))
   );
 
+
   // 데이터 소스 결정: props가 있으면 props 사용, 없으면 store 사용
   const currentPlaceInfos = useMemo(() => {
     return placeInfosOnDisplay?.length ? placeInfosOnDisplay : placeInfos;
   }, [placeInfosOnDisplay, placeInfos]);
-
   // 지도 초기화
   useEffect(() => {
     if (!mapElement.current || !polyline.current) return;
@@ -73,11 +73,11 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
 
     // 폴리라인 초기화
     polyline.current.setPath([]);
-
     // 새 마커 생성 및 추가
     const { objectList } = createMarkerObjectList(currentPlaceInfos);
     objectList.forEach((marker, index) => {
       marker.setIcon({
+
         url: SolrouteNums26, // png 파일
         size: new naver.maps.Size(26, 26), // 화면에 나타나는 마커의 크기
         anchor: naver.maps.Position.CENTER, // 마커 중심 설정

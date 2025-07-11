@@ -5,19 +5,25 @@ interface ReviewPhotoProps {
   children?: React.ReactNode;
   isFirst?: boolean;
   isLast?: boolean;
+  isEdit?: boolean;
 }
 
-const ReviewPhoto = ({ src, children, isFirst, isLast }: ReviewPhotoProps) => {
+const ReviewPhoto = ({
+  src,
+  children,
+  isFirst,
+  isLast,
+}: ReviewPhotoProps) => {
   return (
     <div
-      className={`h-160 w-max bg-gray-200 flex items-center justify-center bg-white relative
+      className={`h-full w-max bg-gray-200 flex items-center justify-center bg-white relative
         ${isFirst ? 'ml-16' : ''}
         ${isLast ? 'mr-16' : ''}
       `}>
       <img
         src={src}
         alt={`Preview ${src}`}
-        className={`w-full h-full object-cover rounded-[5px] ${
+        className={`h-full object-cover rounded-[5px] ${
           isFirst ? 'rounded-tl-[20px]' : ''
         } ${isLast ? 'rounded-br-[20px]' : ''}`}
       />
@@ -29,21 +35,28 @@ const ReviewPhoto = ({ src, children, isFirst, isLast }: ReviewPhotoProps) => {
 interface ReviewPhotosProps {
   images: string[];
   onDeleteFunc?: (index: number) => void;
+  isEdit?: boolean;
 }
 
-const ReviewPhotos = ({ images, onDeleteFunc }: ReviewPhotosProps) => {
+const ReviewPhotos = ({
+  images,
+  onDeleteFunc,
+  isEdit = false,
+}: ReviewPhotosProps) => {
   if (images.length === 0) return;
 
   return (
-    <div className='w-full overflow-x-auto touch-pan'>
-      <div className='inline-flex gap-6'>
+    <div
+      className={`w-full overflow-auto touch-pan ${isEdit ? 'h-160' : 'h-125'}`}>
+      <div className='w-fit h-full flex overflow-x-auto touch-pan gap-6'>
         {images.map((image, index) => {
           return (
             <ReviewPhoto
               key={index}
               src={image}
               isFirst={index === 0}
-              isLast={index === images.length - 1}>
+              isLast={index === images.length - 1}
+              isEdit={isEdit}>
               {/* onClickFunc이 있다면 삭제 버튼 추가 */}
               {onDeleteFunc && (
                 <div

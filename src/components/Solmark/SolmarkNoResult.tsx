@@ -15,7 +15,6 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
 
     navigate(url);
   };
-
   const handleAddSollectButton = () => {
     navigate('/sollect/write');
   };
@@ -36,6 +35,7 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
         )}
         <img src={arrow} alt='arrow' className='w-24 h-24' />{' '}
       </div>
+
     </div>
   );
 };

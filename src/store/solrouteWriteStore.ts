@@ -44,13 +44,13 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
     set({
       placeInfos: [...get().placeInfos, { ...place, seq, memo: '' }],
     });
-  },
+  }, 
   deletePlaceInfo: (id: number) => {
     const originInfos = get().placeInfos;
     const newInfos = originInfos.filter((v) => v.id != id);
     set({ placeInfos: newInfos });
   },
-  setMarkers: (nextMarkers: naver.maps.Marker[]) => {
+  setMarkers: (nextMarkers: naver.maps.Marker[]) => { 
     const currentMarkers = get().nextMarkers;
     set({ prevMarkers: currentMarkers });
     set({ nextMarkers });
@@ -63,5 +63,5 @@ export const useSolrouteWriteStore = create<SolrouteWriteState>((set, get) => ({
       placeInfos: [],
       nextMarkers: [],
       prevMarkers: [],
-    }),
+    }), 
 }));

@@ -69,6 +69,7 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
           <div
             ref={lineColumnRef}
             className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
+
             <img
               src={'/solroute-dash-top-num.svg'}
               alt='solroute-dash-top-num'
