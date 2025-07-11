@@ -1,10 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 import LoginButtons from './LoginButtons';
+import useLocationStore from '../store/locationStore';
+import { useShallow } from 'zustand/shallow';
 
 const LoginModal = () => {
   const navigate = useNavigate();
+  const { background, clearLocation } = useLocationStore(
+    useShallow((state) => ({
+      background: state.background,
+      clearLocation: state.clearLocation,
+    }))
+  );
   const handleClose = () => {
-    navigate(-1);
+    const prevBackground = background;
+    clearLocation();
+    if (prevBackground && prevBackground.pathname) {
+      navigate(prevBackground.pathname, {replace: true});
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

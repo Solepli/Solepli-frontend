@@ -41,11 +41,15 @@ import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 import FeedbackPage from '../pages/profile/FeedbackPage';
 import AddPlacePage from '../pages/profile/AddPlacePage';
 import SettingPage from '../pages/profile/SettingPage';
-import DeleteProfilePage from '../pages/profile/DeleteProfilePage';
+import DeleteProfilePage from '../pages/profile/DeleteProfilePage';// import useAuthStore from '../store/authStore';
+import useLocationStore from '../store/locationStore';
+// import ProtectedRoute from './ProtectedRoute';
 
 const AppRouter = () => {
   const location = useLocation();
-  const background: Location = location.state?.background;
+  // const { isLoggedIn } = useAuthStore();
+
+  const background = useLocationStore().background;
   const modal = location.state?.modal;
 
   return (
@@ -71,6 +75,11 @@ const AppRouter = () => {
 
           <Route path='map/search' element={<SearchPage />} />
 
+          <Route path='profile' element={<Profile />} />
+          <Route path=':loginType/callback' element={<OAuthCallback />} />
+
+          {/* 로그인 된 상태만 접근 가능 */}
+          {/* <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}> */}
           <Route path='solroute' element={<SolroutePage />} />
 
           <Route path='mark' element={<SolmarkPage />}>
@@ -94,6 +103,7 @@ const AppRouter = () => {
           <Route path='/profile/settings' element={<SettingPage />} />
           <Route path='/profile/delete' element={<DeleteProfilePage />} />
         </Route>
+        {/* </Route> */}
 
         {/* BottomNav 없어야 하는 곳 */}
         <Route path='login' element={<Login />} />

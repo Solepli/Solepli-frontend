@@ -17,10 +17,10 @@ const LoginRequiredAction = ({
   targetSource,
 }: LoginRequiredActionProps) => {
   const isLoggedIn = useAuthStore(useShallow((state) => state.isLoggedIn));
-  const { setTargetSource, setPreviousLocation } = useLocationStore(
+  const { setTargetSource, setBackground } = useLocationStore(
     useShallow((state) => ({
       setTargetSource: state.setTargetSource,
-      setPreviousLocation: state.setPreviousLocation,
+      setBackground: state.setBackground,
     }))
   );
   const navigate = useNavigate();
@@ -32,11 +32,10 @@ const LoginRequiredAction = ({
     } else {
       if (targetSource) {
         setTargetSource(targetSource);
-      } else {
-        setPreviousLocation(location);
       }
+      setBackground(location);
       navigate('/login-modal', {
-        state: { modal: true, background: location },
+        state: { modal: true },
       });
     }
   };

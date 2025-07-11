@@ -3,9 +3,9 @@ import { persist } from 'zustand/middleware';
 import { Location } from 'react-router-dom';
 
 interface LocationState {
-  previousLocation: Location | null;
+  background: Location | null;
   targetSource: string | null;
-  setPreviousLocation: (location: Location) => void;
+  setBackground: (location: Location) => void;
   setTargetSource: (source: string) => void;
   clearLocation: () => void;
 }
@@ -13,11 +13,11 @@ interface LocationState {
 const useLocationStore = create<LocationState>()(
   persist(
     (set) => ({
-      previousLocation: null,
+      background: null,
       targetSource: null,
-      setPreviousLocation: (location) => set({ previousLocation: location }),
+      setBackground: (location) => set({ background: location }),
       setTargetSource: (source) => set({ targetSource: source }),
-      clearLocation: () => set({ previousLocation: null, targetSource: null }),
+      clearLocation: () => set({ background: null, targetSource: null }),
     }),
     {
       name: 'location-storage',
