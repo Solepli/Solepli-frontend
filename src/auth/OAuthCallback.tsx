@@ -53,14 +53,13 @@ const OAuthCallback = () => {
         const prevBackground = background;
         clearLocation();
 
-        // navigate('/', { replace: true });
-
         // Redirect to the desired page after successful login
         if (target) {
           // If there is a target source, redirect to that page
           navigate(target || '/', { state: undefined, replace: true });
         } else if (prevBackground) {
-          navigate(prevBackground || '/', { state: undefined, replace: true });
+          navigate(-1);
+          // navigate(prevBackground || '/', { state: undefined, replace: true });
         } else {
           navigate('/', { state: undefined, replace: true });
         }

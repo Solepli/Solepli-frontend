@@ -35,6 +35,7 @@ const LoginRequiredAction = ({
       }
       setBackground(location);
       navigate('/login-modal', {
+        replace: true,
         state: { modal: true },
       });
     }

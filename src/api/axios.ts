@@ -24,7 +24,6 @@ privateAxios.interceptors.request.use(
 //privateAxios에  토큰이  없다면 로그인 페이지로 리다이렉트
 privateAxios.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (error) => {
