@@ -14,6 +14,8 @@ interface PlaceStore {
   clearCategory: () => void;
   setPlace: (place: DetailPlace) => void;
   increaseRefreshTrigger: () => void;
+
+  clearPlaceStore: () => void;
 }
 
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
@@ -57,4 +59,15 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   increaseRefreshTrigger: () => {
     set((state) => ({ refreshTrigger: state.refreshTrigger + 1 }));
   },
+
+  clearPlaceStore : ()=>{
+    set(() => ({
+      places: [],
+      filteredPlaces: [],
+      recommendedPlaces: [],
+      selectedCategory: null,
+      selectedPlace: null,
+      refreshTrigger: 0,
+    }));
+  }
 }));

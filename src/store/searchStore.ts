@@ -19,6 +19,8 @@ interface SearchState {
 
   relatedPlaceIdList: number[];
   setRelatedPlaceIdList: (list: number[]) => void;
+
+  clearSearchStore: () => void;
 }
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -39,4 +41,15 @@ export const useSearchStore = create<SearchState>((set) => ({
 
   relatedPlaceIdList: [],
   setRelatedPlaceIdList: (value) => set({ relatedPlaceIdList: value }),
+
+  clearSearchStore:()=>{
+    set(() => ({
+      isFocused: false,
+      inputValue: '',
+      relatedSearchList: [],
+      relatedSearchPlaceList: [],
+      selectedRegion: '',
+      relatedPlaceIdList: [],
+    }));
+  }
 }));

@@ -6,6 +6,7 @@ interface SolmarkStore {
   places: placeSummary[];
   setList: (list: SolmarkPlaceList) => void;
   setPlaces: (places: placeSummary[]) => void;
+  clearSolmarkStore: () => void;
 }
 
 export const useSolmarkStore = create<SolmarkStore>((set) => ({
@@ -13,4 +14,9 @@ export const useSolmarkStore = create<SolmarkStore>((set) => ({
   places: [],
   setList: (list) => set({ list: list }),
   setPlaces: (places) => set({ places: places }),
+  clearSolmarkStore: () =>
+    set({
+      list: { collectionId: 1, collectionName: '', iconId: 0, placeCount: 0 },
+      places: [],
+    }),
 }));
