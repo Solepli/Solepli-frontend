@@ -62,8 +62,8 @@ export const fetchMySolmarkSollect = async (cursorId?: number) => {
         size: undefined,
       },
     });
-    console.log(res.data.data.contents);
-    return res.data.data.contents;
+    console.log(res.data.data);
+    return res.data.data;
   } catch (e) {
     console.log(e);
   }

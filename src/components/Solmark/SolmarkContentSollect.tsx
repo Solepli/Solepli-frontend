@@ -8,11 +8,7 @@ import { SollectPhotoType } from '../../types';
 import { useScrollSentinel } from '../../hooks/useInfiniteScrollQuery';
 
 const SolmarkContentSollect = () => {
-
   const { sollects, setSollects } = useSollectStore();
-
-
-
 
    const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
      useInfiniteQuery({
