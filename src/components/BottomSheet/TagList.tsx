@@ -9,34 +9,34 @@ interface TagListProps {
   headerName?: string;
 }
 
-const TagList: React.FC<TagListProps> = ({
-  tags,
-  detailTags,
-  headerName
-}) => {
+const TagList: React.FC<TagListProps> = ({ tags, detailTags, headerName }) => {
+  const hasTags = tags && tags.length > 0;
+  const showNoTag =
+    !hasTags && Array.isArray(detailTags) && detailTags.length === 0;
 
   return (
-    <div className='flex gap-8 px-16 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan'>
+    <div className='flex px-16 gap-8'>
       {/* Tag Header */}
       {headerName && (
-        <div className=''>
+        <div>
           <Tag name={headerName} header />
         </div>
       )}
+      <div className='flex gap-8 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan'>
+        {/* Preview tags */}
+        {tags?.map((tag, i) => {
+          return <Tag name={tag} key={i} />;
+        })}
 
-      {/* Preview tags */}
-      {tags?.map((tag, i) => {
-        return <Tag name={tag} key={i} />;
-      })}
-
-      {/* Detail tags with number */}
-      {detailTags && detailTags.length > 0 ? (
-        detailTags.map((tag, i) => {
-          return <Tag name={tag.tagName} number={tag.tagTotal} key={i} />;
-        })
-      ) : (
-        <Tag name='태그 없음' noTag />
-      )}
+        {/* Detail tags with number */}
+        {!hasTags &&
+          detailTags &&
+          detailTags.length > 0 &&
+          detailTags.map((tag, i) => {
+            return <Tag name={tag.tagName} number={tag.tagTotal} key={i} />;
+          })}
+        {showNoTag && <Tag name='태그 없음' noTag />}
+      </div>
     </div>
   );
 };

@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { LatLngType } from '../types';
 
 interface MapState {
+  locationAccessStatus: boolean | null;
+  setLocationAccessStatus: (b: boolean) => void;
+
   userLatLng: LatLngType | null;
   setUserLatLng: (center: LatLngType) => void;
 
@@ -16,7 +19,10 @@ interface MapState {
 }
 
 export const useMapStore = create<MapState>((set) => ({
-  userLatLng: { lat: 37.5666805, lng: 126.9784147 }, // 유저 기본 좌표 : 서울 시청
+  locationAccessStatus: null,
+  setLocationAccessStatus: (b) => set({ locationAccessStatus: b }),
+
+  userLatLng: null,
   setUserLatLng: (latlng) => set({ userLatLng: latlng }),
 
   isSearchBounds: false,

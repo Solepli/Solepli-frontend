@@ -277,11 +277,12 @@ export const addMarkers = (
     // 이벤트 리스너 (마커 클릭)
     if (!isClickAble || !markerIdList || !navigate) return;
     naver.maps.Event.addListener(m, 'click', () => {
-      mapRef.current?.morph(m.getPosition(), 18, {
+      mapRef.current?.morph(m.getPosition(), 16, {
         duration: 1000,
         easing: 'easeOutCubic',
       });
 
+      // todo : improve
       const isSame = window.location.pathname.includes(
         `/map/detail/${markerIdList[index]}`
       );

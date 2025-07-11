@@ -14,6 +14,8 @@ interface PlaceStore {
   clearCategory: () => void;
   setPlace: (place: DetailPlace) => void;
   increaseRefreshTrigger: () => void;
+
+  clearPlaceStore: () => void;
 }
 
 export const usePlaceStore = create<PlaceStore>((set, get) => ({
@@ -22,13 +24,13 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   recommendedPlaces: [],
   selectedCategory: null,
   selectedPlace: null,
-  refreshTrigger:0,
+  refreshTrigger: 0,
 
   setPlaces: (places) => set({ places: places, filteredPlaces: places }),
   setCategory: (category) => {
     const { selectedCategory, places } = get();
 
-    if (selectedCategory === category) {
+    if (selectedCategory === category || category === null) {
       set({
         selectedCategory: null,
         filteredPlaces: places,
@@ -42,7 +44,8 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
       });
     }
   },
-  setRecommendedPlaces:(recommendedPlaces)=>set({recommendedPlaces:recommendedPlaces}),
+  setRecommendedPlaces: (recommendedPlaces) =>
+    set({ recommendedPlaces: recommendedPlaces }),
   clearCategory: () => {
     set((state) => ({
       selectedCategory: null,
@@ -52,8 +55,19 @@ export const usePlaceStore = create<PlaceStore>((set, get) => ({
   setPlace: (place) => {
     set({ selectedPlace: place });
   },
-  
-  increaseRefreshTrigger:()=>{
+
+  increaseRefreshTrigger: () => {
     set((state) => ({ refreshTrigger: state.refreshTrigger + 1 }));
+  },
+
+  clearPlaceStore : ()=>{
+    set(() => ({
+      places: [],
+      filteredPlaces: [],
+      recommendedPlaces: [],
+      selectedCategory: null,
+      selectedPlace: null,
+      refreshTrigger: 0,
+    }));
   }
 }));

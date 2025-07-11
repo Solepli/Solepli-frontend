@@ -7,6 +7,8 @@ interface SollectStore {
   setSelectedCategory: (category: string) => void;
   clearCategory: () => void;
   setSollects: (sollects: SollectPhotoType[]) => void;
+
+  clearSollectStore: () => void;
 }
 
 export const useSollectStore = create<SollectStore>((set) => ({
@@ -15,4 +17,9 @@ export const useSollectStore = create<SollectStore>((set) => ({
   setSelectedCategory: (category) => set({ selectedCategory: category }),
   clearCategory: () => set({ selectedCategory: '' }),
   setSollects: (sollects) => set({ sollects: sollects }),
+  clearSollectStore: () =>
+    set({
+      selectedCategory: '',
+      sollects: [],
+    }),
 }));

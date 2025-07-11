@@ -8,7 +8,7 @@ import google from '../../assets/google.svg';
 import kakaoTalk from '../../assets/kakaoTalk.svg';
 import naver from '../../assets/naver.svg';
 import FilePicker from '../../components/global/FilePicker';
-import XButtonCircle from '../../components/XButtonCircle';
+import NicknameInput from '../../components/Profile/NicknameInput';
 
 const ProfileEditPage = () => {
   const { nickname, profileImageUrl, loginType } = useAuthStore(
@@ -18,10 +18,10 @@ const ProfileEditPage = () => {
       loginType: state.loginType,
     }))
   );
-  const [nicknameInput, setNickname] = useState(nickname);
+  const [nicknameInput, setNicknameInput] = useState(nickname);
   const [profileFiles, setProfileFiles] = useState<File[]>([]);
   const [previewUrl, setPreviewUrl] = useState<string>(profileImageUrl);
-  
+
   useEffect(() => {
     if (profileFiles.length > 0) {
       const reader = new FileReader();
@@ -34,7 +34,7 @@ const ProfileEditPage = () => {
     }
   }, [profileFiles, profileImageUrl]);
 
- const handleSubmit = async () => {
+  const handleSubmit = async () => {
     try {
       await patchProfile({ nickname: nicknameInput }, profileFiles[0]);
       window.history.back();
@@ -42,7 +42,6 @@ const ProfileEditPage = () => {
       console.error('프로필 수정 실패:', e);
     }
   };
-
 
   return (
     <div>
@@ -80,26 +79,16 @@ const ProfileEditPage = () => {
         </div>
       </div>
 
-      <div className='py-24 px-16 flex flex-col gap-60'>
+      <div className='py-24 px-16 flex flex-col gap-40'>
         {/* 닉네임 */}
         <div>
-          <p className='font-bold mb-4'>닉네임*</p>
-          <div className='flex justify-between border-b-1 items-center border-primary-200 py-4'>
-            <input
-              type='text'
-              value={nicknameInput}
-              onChange={(e) => setNickname(e.target.value)}
-              className='w-300 focus:outline-none'
-            />
-
-            <div className='flex'>
-              <XButtonCircle onClickFunc={() => setNickname('')} />
-
-              <p className='text-sm text-end text-primary-500'>
-                ({nicknameInput.length}/20)
-              </p>
-            </div>
-          </div>
+          <p className='font-bold mb-4'>
+            닉네임 <span className='text-error'>*</span>
+          </p>
+          <NicknameInput
+            setNicknameInput={setNicknameInput}
+            nicknameInput={nicknameInput}
+          />
         </div>
 
         {/* 계정 */}

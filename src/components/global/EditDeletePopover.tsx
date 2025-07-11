@@ -9,7 +9,7 @@ type EditDeletePopoverProps = {
 };
 const EditDeletePopover: React.FC<EditDeletePopoverProps> = ({
   funcDelete,
-  onEditClick
+  onEditClick,
 }) => {
   const my = location.pathname.includes('/mark/my');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -33,9 +33,9 @@ const EditDeletePopover: React.FC<EditDeletePopoverProps> = ({
         className={`absolute top-${my ? '30' : '40'} right-4 rounded-lg border-1 border-primary-100 bg-white w-136 shadow-[3px_3px_4px_0px_rgba(24,24,24,0.06)] text-primary-950
 text-sm z-101`}>
         {/* 수정 */}
-        <div className='p-12 flex gap-8 items-center border-b border-primary-100'
-      onClick={onEditClick}>
-
+        <div
+          className='p-12 flex gap-8 items-center border-b border-primary-100'
+          onClick={onEditClick}>
           <img src={edit} alt='edit' />
           수정
         </div>
