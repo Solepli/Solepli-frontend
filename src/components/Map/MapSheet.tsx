@@ -173,7 +173,7 @@ const MapSheet = () => {
     if (!mapInstance.current) return;
 
     if (!userLatLng) {
-      console.error('위치 추적 중 에러 발생');
+      console.error('위치 정보 접근 거부 또는 위치를 가져올 수 없습니다.');
       return;
     }
 
