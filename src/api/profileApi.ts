@@ -61,20 +61,31 @@ export const fetchAnnouncementDetail = async (announcementId: number) => {
 
 export const postFeedback = async (feedback: string) => {
   try {
-    const res = await privateAxios.post(ENDPOINT.FEEDBACK, {feedback:feedback});
+    const res = await privateAxios.post(ENDPOINT.FEEDBACK, {
+      feedback: feedback,
+    });
     return res;
   } catch (e) {
     console.log(e);
   }
 };
 
-
-export const postPlaceRequest = async(requestBody:PlaceRequest)=>{
-    try {
+export const postPlaceRequest = async (requestBody: PlaceRequest) => {
+  try {
     const res = await privateAxios.post(ENDPOINT.REQUEST_PLACE, requestBody);
     console.log(res);
     return res;
   } catch (e) {
     console.log(e);
   }
-}
+};
+
+export const deleteUser = async () => {
+  try {
+    const res = await privateAxios.delete(ENDPOINT.PROFILE_DELETE);
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};

@@ -1,4 +1,10 @@
-import { Location, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  Location,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import Solmap from '../pages/Solmap';
 import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
@@ -34,7 +40,8 @@ import AnnouncementPage from '../pages/profile/AnnouncementPage';
 import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 import FeedbackPage from '../pages/profile/FeedbackPage';
 import AddPlacePage from '../pages/profile/AddPlacePage';
-
+import SettingPage from '../pages/profile/SettingPage';
+import DeleteProfilePage from '../pages/profile/DeleteProfilePage';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -75,6 +82,17 @@ const AppRouter = () => {
 
           <Route path='profile' element={<Profile />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
+
+          <Route path='/profile/edit' element={<ProfileEditPage />} />
+          <Route path='/profile/announcement' element={<AnnouncementPage />} />
+          <Route
+            path='/profile/announcement/:announcementId'
+            element={<AnnouncementDetailPage />}
+          />
+          <Route path='/profile/feedback' element={<FeedbackPage />} />
+          <Route path='/profile/place' element={<AddPlacePage />} />
+          <Route path='/profile/settings' element={<SettingPage />} />
+          <Route path='/profile/delete' element={<DeleteProfilePage />} />
         </Route>
 
         {/* BottomNav 없어야 하는 곳 */}
@@ -112,20 +130,14 @@ const AppRouter = () => {
         <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
           <Route index element={<SolroutePlaceAddPage />} />
         </Route>
-
-        <Route path='/profile/edit' element={<ProfileEditPage />} />
-        <Route path='/profile/announcement' element={<AnnouncementPage />} />
-        <Route
-          path='/profile/announcement/:announcementId'
-          element={<AnnouncementDetailPage />}
-        />
-        <Route path='/profile/feedback' element={<FeedbackPage />} />
-        <Route path='/profile/place' element={<AddPlacePage />} />
       </Routes>
       {/* Modal Routes */}
       {modal && (
         <Routes>
-          <Route path='/login-modal' element={<LoginModal key='login-modal' />} />
+          <Route
+            path='/login-modal'
+            element={<LoginModal key='login-modal' />}
+          />
         </Routes>
       )}
     </>

@@ -2,7 +2,7 @@ import React from 'react'
 
 interface ModalProps{
     title:string,
-    subtitle:string,
+    subtitle?:string,
     leftText:string,
     rightText:string,
     onLeftClick:()=>void,
