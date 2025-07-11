@@ -170,8 +170,8 @@ const MapSheet = () => {
   const moveToUserLocation = useCallback(async () => {
     if (!mapInstance.current) return;
 
-    if (userLatLng == null) {
-      alert('사용자의 현재 위치를 불러올 수 없습니다.');
+    if (!userLatLng) {
+      console.error('위치 추적 중 에러 발생');
       return;
     }
 
