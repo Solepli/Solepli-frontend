@@ -20,7 +20,7 @@ interface MapState {
 
 export const useMapStore = create<MapState>((set) => ({
   locationAccessStatus: null,
-  setLocationAccessStatus: (b) => set({ isLocationAccess: b }),
+  setLocationAccessStatus: (b) => set({ locationAccessStatus: b }),
 
   userLatLng: null,
   setUserLatLng: (latlng) => set({ userLatLng: latlng }),
