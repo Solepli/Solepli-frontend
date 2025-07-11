@@ -6,6 +6,7 @@ import { postSolroute } from '../../../api/solrouteApi';
 import { SolroutePayload } from '../../../types';
 import { queryClient } from '../../../main';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
+import LoginRequiredAction from '../../../auth/LoginRequiredAction';
 
 const AddCourseButton = () => {
   const [isAdded, setIsAdded] = useState(false);
@@ -37,7 +38,7 @@ const AddCourseButton = () => {
   const style =
     'rounded-full border-1 border-primary-700 py-4 pr-16 pl-8 flex text-sm font-bold items-center';
   return (
-    <div onClick={clickButton}>
+    <LoginRequiredAction onAction={clickButton}>
       {isAdded ? (
         <button className={'bg-primary-700  text-white ' + style}>
           <img src={check} alt='check' className='w-24 h-24' /> 코스로 저장
@@ -47,7 +48,7 @@ const AddCourseButton = () => {
           <img src={addBlack} alt='add' className='w-24 h-24' /> 코스로 저장
         </button>
       )}
-    </div>
+    </LoginRequiredAction>
   );
 };
 
