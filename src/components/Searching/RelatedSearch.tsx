@@ -12,10 +12,6 @@ const ResultIcon: React.FC<{
   isMarked: boolean | null;
   category: string;
 }> = ({ isMarked, category }) => {
-  const style = {
-    backgroundColor: `var(--color-chip-light-bg-${category})`,
-    color: `var(--color-chip-${category})`,
-  };
   const Icon =
     isMarked === null
       ? iconNonlabelSearch['city'] // null === 지역명
@@ -23,9 +19,7 @@ const ResultIcon: React.FC<{
         ? iconNonlabelSearch['mark'] // true === 장소 추가 O
         : iconNonlabelSearch[category]; // true === 장소 추가 X
   return (
-    <div
-      className='inline-flex p-4 items-center gap-6 rounded-sm'
-      style={style}>
+    <div>
       <Icon />
     </div>
   );
