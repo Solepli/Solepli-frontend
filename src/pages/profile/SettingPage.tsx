@@ -6,9 +6,19 @@ import useAuthStore from '../../store/authStore';
 import { useShallow } from 'zustand/shallow';
 import LargeButtonInverted from '../../components/global/LargeButtonInverted';
 import Modal from '../../components/global/Modal';
+import { usePlaceStore } from '../../store/placeStore';
+import useReviewWriteStore from '../../store/reviewWriteStore';
+import { useSearchStore } from '../../store/searchStore';
+import { useSollectDetailStore } from '../../store/sollectDetailStore';
+import { useSollectStore } from '../../store/sollectStore';
+import { useSollectWriteStore } from '../../store/sollectWriteStore';
+import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
+import { useSolmarkStore } from '../../store/solmarkStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SettingPage = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { logout } = useAuthStore(
     useShallow((state) => ({
@@ -16,16 +26,39 @@ const SettingPage = () => {
     }))
   );
 
+  const { clearPlaceStore } = usePlaceStore();
+  const { reset:clearReviewWriteStore } = useReviewWriteStore();
+  const { clearSearchStore } = useSearchStore();
+  const { clearSollectDetailStore } = useSollectDetailStore();
+  const { clearSollectStore } = useSollectStore();
+  const {reset:clearSollectWriteStore} = useSollectWriteStore();
+  const {reset:clearSolrouteWriteStore} = useSolrouteWriteStore();
+  const { clearSolmarkStore } = useSolmarkStore();
+
   const [modal, setModal] = useState(false);
 
   const style =
     'p-16 flex justify-between items-center border-b border-grayScale-100';
 
-    const handleLogout = ()=>{
-        setModal(false);
-        logout();
-        navigate('/login');
-    }
+  const clear = () => {
+    clearPlaceStore();
+    clearReviewWriteStore();
+    clearSearchStore();
+    clearSollectDetailStore();
+    clearSollectStore();
+    clearSollectWriteStore();
+    clearSolrouteWriteStore();
+    clearSolmarkStore();
+  };
+
+  const handleLogout = () => {
+    setModal(false);
+    clear();
+    queryClient.clear();
+    // queryClient.removeQueries({ queryKey: ['solroutes'] }); 이건 solroute만 지우기
+    logout();
+    navigate('/login');
+  };
 
   return (
     <div className='flex flex-col h-screen justify-between'>
@@ -65,7 +98,9 @@ const SettingPage = () => {
             onRightClick={handleLogout}
           />
         )}
-        <p className='text-center text-primary-700 text-xs underline' onClick={()=>navigate('/profile/delete')}>
+        <p
+          className='text-center text-primary-700 text-xs underline'
+          onClick={() => navigate('/profile/delete')}>
           회원탈퇴
         </p>
       </div>
