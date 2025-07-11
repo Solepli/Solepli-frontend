@@ -89,7 +89,7 @@ const SollectWriteContent = ({
             ) : (
               <div key={para.seq} className='w-full relative'>
                 <div
-                  className='absolute top-10 right-10'
+                  className='absolute top-0 right-0 p-8'
                   onClick={() => {
                     deleteParagraph(para.seq);
                   }}>
