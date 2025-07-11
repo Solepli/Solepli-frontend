@@ -3,18 +3,15 @@ import { privateAxios } from './axios';
 import { ENDPOINT } from './urls';
 
 export const getMarkersByDisplay = async (
-  swLat: number, // swY - min
-  swLng: number, // swX
-  neLat: number, // neY - max
-  neLng: number, // neX
+  bounds: naver.maps.Bounds,
   category?: string
 ) => {
   const response = await privateAxios.get(ENDPOINT.SOLMAP_MARKERS, {
     params: {
-      swLat,
-      swLng,
-      neLat,
-      neLng,
+      swLat: bounds.getMin().y, // swY - min
+      swLng: bounds.getMin().x, // swX
+      neLat: bounds.getMax().y, // neY - max
+      neLng: bounds.getMax().x, // neX
       category,
     },
   });

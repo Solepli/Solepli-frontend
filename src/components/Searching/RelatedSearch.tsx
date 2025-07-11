@@ -6,6 +6,7 @@ import { useSearchStore } from '../../store/searchStore';
 import { postRecentSearchWord } from '../../api/searchApi';
 import { usePlaceStore } from '../../store/placeStore';
 import { useShallow } from 'zustand/shallow';
+import { useMarkerStore } from '../../store/markerStore';
 
 const ResultIcon: React.FC<{
   isMarked: boolean | null;
@@ -44,6 +45,13 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
     }))
   );
 
+  const { searchByRegion, searchByPlace } = useMarkerStore(
+    useShallow((state) => ({
+      searchByRegion: state.searchByRegion,
+      searchByPlace: state.searchByPlace,
+    }))
+  );
+
   const { setCategory } = usePlaceStore();
 
   const mode = window.location.pathname.includes('/sollect/search')
@@ -51,13 +59,17 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
     : 'solmap';
 
   const clickResult = async () => {
-    if (relatedSearchWord.type === 'PLACE') {
-      // 클릭한 장소 디테일뷰로 이동
-      navigate(`/map/detail/${relatedSearchWord.id}?detailType=searching`, { state: { from: 'map' } });
-    } else if (relatedSearchWord.type === 'DISTRICT') {
+    if (relatedSearchWord.type === 'DISTRICT' && !relatedSearchWord.id) {
       // 클릭한 지역명 저장
       setSelectedRegion(relatedSearchWord.name);
+      searchByRegion(relatedSearchWord.name);
       navigate('/map/list?queryType=region');
+    } else if (relatedSearchWord.type === 'PLACE' && relatedSearchWord.id) {
+      // 클릭한 장소 디테일뷰로 이동
+      searchByPlace(relatedSearchWord.id);
+      navigate(`/map/detail/${relatedSearchWord.id}?detailType=searching`, {
+        state: { from: 'map' },
+      });
     }
 
     setInputValue(relatedSearchWord.name);

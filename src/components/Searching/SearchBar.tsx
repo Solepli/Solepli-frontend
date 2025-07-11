@@ -13,8 +13,17 @@ import { SCALE_16_14 } from '../../constants';
 
 const SearchBar: React.FC = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
-
   const navigate = useNavigate();
+  const pathname = window.location.pathname;
+  let mode: 'place' | 'sollect' | 'solmap' = 'solmap';
+
+  if (pathname.includes('/write/search')) {
+    mode = 'place';
+  } else if (pathname.includes('/sollect')) {
+    mode = 'sollect';
+  }
+
+  const { setCategory } = usePlaceStore();
 
   const { clearCategory } = useSollectStore();
 
@@ -36,24 +45,13 @@ const SearchBar: React.FC = () => {
     }))
   );
 
-  const { setMarkerIdList, setNewMarkerObjectList } = useMarkerStore(
+  const { searchByRegion, searchByPlaces, clearActiveFilter } = useMarkerStore(
     useShallow((state) => ({
-      setMarkerIdList: state.setMarkerIdList,
-      setNewMarkerObjectList: state.setNewMarkerObjectList,
+      searchByRegion: state.searchByRegion,
+      searchByPlaces: state.searchByPlaces,
+      clearActiveFilter: state.clearActiveFilter,
     }))
   );
-
-  const { setCategory } = usePlaceStore();
-
-  const pathname = window.location.pathname;
-
-  let mode: 'place' | 'sollect' | 'solmap' = 'solmap';
-
-  if (pathname.includes('/write/search')) {
-    mode = 'place';
-  } else if (pathname.includes('/sollect')) {
-    mode = 'sollect';
-  }
 
   useEffect(() => {
     const inputElement = inputRef.current;
@@ -72,54 +70,38 @@ const SearchBar: React.FC = () => {
 
   const handleEnter = async (e: React.KeyboardEvent) => {
     if (e.key !== 'Enter') return;
+    setCategory(null); // usePlaceStore
+    clearCategory(); // useSollectStore
     if (mode === 'place') return;
-
     if (mode === 'sollect') {
-      clearCategory();
       navigate('/sollect/search/result');
       await postRecentSearchWord(inputValue, mode);
-    } else if (mode === 'solmap') {
+    }
+    if (mode === 'solmap') {
       if (!relatedSearchList.length) {
-        // 검색 결과가 없을 때
+        // 검색 결과 갯수 === 0
         setSelectedRegion('');
-        setMarkerIdList([]);
-        setNewMarkerObjectList([]);
+        clearActiveFilter();
         navigate('/map/not-found');
-      } else if (
-        relatedSearchList.length === 1 &&
-        relatedSearchList[0].type === 'PLACE'
-      ) {
-        // 결과가 1개이고 PLACE일 때
-        setInputValue(relatedSearchList[0].name);
-        navigate(`/map/detail/${relatedSearchList[0].id}?detailType=searching`, { state: { from: 'map' } });
-        await postRecentSearchWord(relatedSearchList[0].name, mode);
-      } else if (
-        relatedSearchList.length === 1 &&
-        relatedSearchList[0].type === 'DISTRICT'
-      ) {
-        // 결과가 1개이고 DISTRICT일 때
-        setSelectedRegion(relatedSearchList[0].name);
-        setInputValue(relatedSearchList[0].name);
-        navigate('/map/list?queryType=region');
-        await postRecentSearchWord(relatedSearchList[0].name, mode);
       } else {
-        const anyResult = extractRegionOrPlaceIds(relatedSearchList);
-        if (Array.isArray(anyResult)) {
+        // 검색 결과 갯수 >= 1
+        const { type, result } = extractRegionOrPlaceIds(relatedSearchList);
+        if (type === 'DISTRICT') {
+          // 지역명 반환시
+          searchByRegion(result); // 마커 업데이트
+          setSelectedRegion(result);
+          setInputValue(result);
+          navigate('/map/list?queryType=region');
+          await postRecentSearchWord(result, mode);
+        } else if (type === 'PLACE') {
           // 장소 id 리스트 반환시
-          setRelatedPlaceIdList(anyResult);
+          searchByPlaces(result); // 마커 업데이트
+          setRelatedPlaceIdList(result);
           navigate('/map/list?queryType=idList');
           await postRecentSearchWord(inputValue, mode);
-        } else {
-          // 지역명 반환시
-          setSelectedRegion(anyResult);
-          setInputValue(relatedSearchList[0].name);
-          navigate('/map/list?queryType=region');
-          await postRecentSearchWord(relatedSearchList[0].name, mode);
         }
       }
     }
-
-    setCategory(null);
   };
 
   const clickXButtonCircle = () => {
