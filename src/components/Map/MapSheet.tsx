@@ -117,8 +117,8 @@ const MapSheet = () => {
       setLastZoom(idleZoom);
     });
 
-    // todo : lastBounds가 없어서 초기 마커 추가 안되고 있음
     if (newMarkerObjectList === null) {
+      setLastBounds(map.getBounds());
       searchByCategory(null);
     }
 
