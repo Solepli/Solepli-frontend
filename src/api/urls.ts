@@ -81,4 +81,5 @@ export const ENDPOINT = {
   ANNOUNCEMENT_ID: (id: number) => `/api/notice/${id}`,
   FEEDBACK:'/api/feedback',
   REQUEST_PLACE:'/api/place/request',
+  PROFILE_DELETE:'/api/user',
 };

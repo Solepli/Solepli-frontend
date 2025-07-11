@@ -9,11 +9,6 @@ import { useEffect } from 'react';
 
 const Profile = () => {
   const navigate = useNavigate();
-  // const { logout } = useAuthStore(
-  //   useShallow((state) => ({
-  //     logout: state.logout,
-  //   }))
-  // );
 
   const isLoggedIn = useAuthStore(useShallow((state) => state.isLoggedIn));
 

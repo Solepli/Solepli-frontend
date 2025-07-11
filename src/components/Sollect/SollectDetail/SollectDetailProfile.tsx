@@ -8,7 +8,7 @@ const SollectDetailProfile = () => {
       <img
         src={sollect.profileImageUrl}
         alt=''
-        className='w-36 h-36 rounded-full'
+        className='w-36 h-36 rounded-full object-cover'
       />
       <div>
         <p className='text-primary-900 text-sm font-bold'>{sollect.nickname}</p>
