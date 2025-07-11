@@ -20,7 +20,7 @@ const SollectList: React.FC<SollectListProps> = ({
   }
 
   return (
-    <div className='flex justify-center'>
+    <div className={`flex ${!horizontal && 'justify-center'}`}>
       <div className={style}>
         {recommendSollect &&
           recommendSollect.map((sollect) => {
