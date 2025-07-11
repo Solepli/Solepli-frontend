@@ -1,10 +1,4 @@
-import {
-  Location,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AppLayout from '../layout/AppLayout';
 import Solmap from '../pages/Solmap';
 import CategoryButtonList from '../components/BottomSheet/Category/CategoryButtonList';
@@ -41,7 +35,8 @@ import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 import FeedbackPage from '../pages/profile/FeedbackPage';
 import AddPlacePage from '../pages/profile/AddPlacePage';
 import SettingPage from '../pages/profile/SettingPage';
-import DeleteProfilePage from '../pages/profile/DeleteProfilePage';import useAuthStore from '../store/authStore';
+import DeleteProfilePage from '../pages/profile/DeleteProfilePage';
+import useAuthStore from '../store/authStore';
 import useLocationStore from '../store/locationStore';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -75,7 +70,13 @@ const AppRouter = () => {
           <Route path='map/search' element={<SearchPage />} />
 
           <Route path='profile' element={<Profile />} />
-          <Route path=':loginType/callback' element={<OAuthCallback />} />
+
+          <Route path='/profile/announcement' element={<AnnouncementPage />} />
+          <Route
+            path='/profile/announcement/:announcementId'
+            element={<AnnouncementDetailPage />}
+          />
+          <Route path='/profile/settings' element={<SettingPage />} />
 
           {/* 로그인 된 상태만 접근 가능 */}
           <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
@@ -87,21 +88,12 @@ const AppRouter = () => {
               <Route path='sollect' element={<SolmarkContentSollect />} />
               <Route path='my' element={<SolmarkContentMy />} />
             </Route>
-  
-          <Route path='profile' element={<Profile />} />
-          <Route path=':loginType/callback' element={<OAuthCallback />} />
 
-          <Route path='/profile/edit' element={<ProfileEditPage />} />
-          <Route path='/profile/announcement' element={<AnnouncementPage />} />
-          <Route
-            path='/profile/announcement/:announcementId'
-            element={<AnnouncementDetailPage />}
-          />
-          <Route path='/profile/feedback' element={<FeedbackPage />} />
-          <Route path='/profile/place' element={<AddPlacePage />} />
-          <Route path='/profile/settings' element={<SettingPage />} />
-          <Route path='/profile/delete' element={<DeleteProfilePage />} />
-        </Route>
+            <Route path='/profile/edit' element={<ProfileEditPage />} />
+            <Route path='/profile/feedback' element={<FeedbackPage />} />
+            <Route path='/profile/place' element={<AddPlacePage />} />
+            <Route path='/profile/delete' element={<DeleteProfilePage />} />
+          </Route>
         </Route>
 
         {/* BottomNav 없어야 하는 곳 */}
@@ -116,6 +108,8 @@ const AppRouter = () => {
           path='/profile/announcement/:announcementId'
           element={<AnnouncementDetailPage />}
         />
+
+        <Route path=':loginType/callback' element={<OAuthCallback />} />
 
         {/* bottomNav 없는 페이지 중 로그인 필수인 페이지 */}
         <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
