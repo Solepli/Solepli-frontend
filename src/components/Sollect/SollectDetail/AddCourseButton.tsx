@@ -26,7 +26,7 @@ const AddCourseButton = () => {
       name: title ?? '제목 없는 쏠렉트',
       placeInfos: placeSummaries.map((place, i) => ({
         id: place.id,
-        seq: i,
+        seq: i+1,
         memo: '',
       })),
     };
