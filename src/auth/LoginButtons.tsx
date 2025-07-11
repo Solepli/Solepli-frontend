@@ -14,7 +14,9 @@ const LoginButtons = () => {
   );
 
   const login = (url: string) => {
-    navigate(background?.pathname || '/', { replace: true });
+    if (background) {
+      navigate(background.pathname, { replace: true });
+    }
     setTimeout(() => {
       window.location.href = url;
     }, 0);
