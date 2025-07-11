@@ -44,6 +44,7 @@ const MapSheet = () => {
   const mapInstance = useRef<naver.maps.Map | null>(null);
 
   const {
+    locationAccessStatus,
     userLatLng,
     isSearchBounds,
     setIsSearchBounds,
@@ -53,6 +54,7 @@ const MapSheet = () => {
     setLastZoom,
   } = useMapStore(
     useShallow((state) => ({
+      locationAccessStatus: state.locationAccessStatus,
       userLatLng: state.userLatLng,
       isSearchBounds: state.isSearchBounds,
       setIsSearchBounds: state.setIsSearchBounds,
@@ -89,7 +91,7 @@ const MapSheet = () => {
 
   /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
-    if (!mapElement.current) return;
+    if (!mapElement.current || locationAccessStatus === null) return;
 
     let center;
     if (userLatLng) {
@@ -124,7 +126,7 @@ const MapSheet = () => {
       naver.maps.Event.removeListener(idleEventListener);
       map.destroy();
     };
-  }, []);
+  }, [locationAccessStatus]);
 
   /* [useEffect] markerInfos 변경될 때 */
   useEffect(() => {
