@@ -41,14 +41,13 @@ import AnnouncementDetailPage from '../pages/profile/AnnouncementDetailPage';
 import FeedbackPage from '../pages/profile/FeedbackPage';
 import AddPlacePage from '../pages/profile/AddPlacePage';
 import SettingPage from '../pages/profile/SettingPage';
-import DeleteProfilePage from '../pages/profile/DeleteProfilePage';// import useAuthStore from '../store/authStore';
+import DeleteProfilePage from '../pages/profile/DeleteProfilePage';import useAuthStore from '../store/authStore';
 import useLocationStore from '../store/locationStore';
-// import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRouter = () => {
   const location = useLocation();
-  // const { isLoggedIn } = useAuthStore();
-
+  const { isLoggedIn } = useAuthStore();
   const background = useLocationStore().background;
   const modal = location.state?.modal;
 
@@ -79,16 +78,16 @@ const AppRouter = () => {
           <Route path=':loginType/callback' element={<OAuthCallback />} />
 
           {/* 로그인 된 상태만 접근 가능 */}
-          {/* <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}> */}
-          <Route path='solroute' element={<SolroutePage />} />
+          <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+            <Route path='solroute' element={<SolroutePage />} />
 
-          <Route path='mark' element={<SolmarkPage />}>
-            <Route index element={<SolmarkContentPlace />} />
-            <Route path='place' element={<SolmarkContentPlace />} />
-            <Route path='sollect' element={<SolmarkContentSollect />} />
-            <Route path='my' element={<SolmarkContentMy />} />
-          </Route>
-
+            <Route path='mark' element={<SolmarkPage />}>
+              <Route index element={<SolmarkContentPlace />} />
+              <Route path='place' element={<SolmarkContentPlace />} />
+              <Route path='sollect' element={<SolmarkContentSollect />} />
+              <Route path='my' element={<SolmarkContentMy />} />
+            </Route>
+  
           <Route path='profile' element={<Profile />} />
           <Route path=':loginType/callback' element={<OAuthCallback />} />
 
@@ -103,42 +102,66 @@ const AppRouter = () => {
           <Route path='/profile/settings' element={<SettingPage />} />
           <Route path='/profile/delete' element={<DeleteProfilePage />} />
         </Route>
-        {/* </Route> */}
+        </Route>
 
         {/* BottomNav 없어야 하는 곳 */}
         <Route path='login' element={<Login />} />
-        <Route path='/sollect/write/*' element={<SollectWriteLayout />}>
-          <Route index element={<SollectWritePage />} />
-          <Route path='place' element={<SollectWritePlacePage />} />
-        </Route>
 
         <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
         <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
-        <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
-        <Route path='/sollect/write/search' element={<SearchPage />} />
 
-        <Route path='/solroute/:solrouteId' element={<SolrouteDetailPage />} />
-        <Route path='/solroute/write' element={<SolrouteWritePage />} />
-        <Route path='/solroute/write/search' element={<SearchPage />} />
+        <Route path='/profile/announcement' element={<AnnouncementPage />} />
         <Route
-          path='/solroute/place/list/:collectionId'
-          element={<SolmarkPlacePreviewPage />}
+          path='/profile/announcement/:announcementId'
+          element={<AnnouncementDetailPage />}
         />
-        <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
-          <Route index element={<SolroutePlaceAddPage />} />
-        </Route>
 
-        <Route
-          path='mark/place/list/:collectionId'
-          element={<SolmarkPlacePreviewPage />}
-        />
-        <Route
-          path='/solroute/place/list/:collectionId'
-          element={<SolmarkPlacePreviewPage />}
-        />
-        <Route path='/solroute/add/place' element={<SolroutePlaceAddLayout />}>
-          <Route index element={<SolroutePlaceAddPage />} />
+        {/* bottomNav 없는 페이지 중 로그인 필수인 페이지 */}
+        <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+          <Route path='/sollect/write/*' element={<SollectWriteLayout />}>
+            <Route index element={<SollectWritePage />} />
+            <Route path='place' element={<SollectWritePlacePage />} />
+          </Route>
+          <Route path='/sollect/write/search' element={<SearchPage />} />
+
+          <Route path='/map/review/write/:placeId' element={<ReviewWrite />} />
+
+          <Route
+            path='/solroute/place/list/:collectionId'
+            element={<SolmarkPlacePreviewPage />}
+          />
+
+          <Route path='/solroute/write' element={<SolrouteWritePage />} />
+          <Route path='/solroute/write/search' element={<SearchPage />} />
+          <Route
+            path='/solroute/add/place'
+            element={<SolroutePlaceAddLayout />}>
+            <Route index element={<SolroutePlaceAddPage />} />
+          </Route>
+
+          <Route
+            path='/solroute/place/list/:collectionId'
+            element={<SolmarkPlacePreviewPage />}
+          />
+          <Route
+            path='/solroute/add/place'
+            element={<SolroutePlaceAddLayout />}>
+            <Route index element={<SolroutePlaceAddPage />} />
+          </Route>
+          <Route
+            path='/solroute/:solrouteId'
+            element={<SolrouteDetailPage />}
+          />
+
+          <Route
+            path='mark/place/list/:collectionId'
+            element={<SolmarkPlacePreviewPage />}
+          />
+
+          <Route path='/profile/edit' element={<ProfileEditPage />} />
+          <Route path='/profile/feedback' element={<FeedbackPage />} />
+          <Route path='/profile/place' element={<AddPlacePage />} />
         </Route>
       </Routes>
       {/* Modal Routes */}
