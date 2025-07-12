@@ -3,7 +3,7 @@ import DragAndDropLine from '../../assets/dragAndDropLine.svg?react';
 import Trash from '../../assets/trash.svg?react';
 import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 import { SolroutePlacePreview } from '../../types';
-import useDebounce from '../../hooks/useDebounce';
+// import useDebounce from '../../hooks/useDebounce';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
 import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
@@ -25,7 +25,7 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
 
   const [memo, setMemo] = useState(place.memo);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const debouncedMemo = useDebounce(memo, 300);
+  // const debouncedMemo = useDebounce(memo, 300);
   useAutoResizeAndScroll(textareaRef);
 
   const { deletePlaceInfo, setPlaceMemo } = useSolrouteWriteStore(
@@ -35,9 +35,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
     }))
   );
 
-  useEffect(() => {
-    setPlaceMemo(place.id, memo);
-  }, [debouncedMemo, memo, place.id, setPlaceMemo]);
+  // useEffect(() => {
+  //   setPlaceMemo(place.id, memo);
+  // }, [debouncedMemo, memo, place.id, setPlaceMemo]);
 
   useEffect(() => {
     const lineElement = lineColumnRef.current;
@@ -69,7 +69,6 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
           <div
             ref={lineColumnRef}
             className='flex w-9 flex-col justify-start items-center gap-4 self-stretch'>
-
             <img
               src={'/solroute-dash-top-num.svg'}
               alt='solroute-dash-top-num'
@@ -135,6 +134,9 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
                   placeholder='메모를 남겨보세요.'
                   rows={1}
                   maxLength={100}
+                  onBlur={() => {
+                    setPlaceMemo(place.id, memo);
+                  }}
                   className='text-primary-950 placeholder:text-secondary-500
                 focus:outline-none focus:ring-0 resize-none
                 self-stretch not-italic font-normal leading-[150%] tracking-[-0.35px]
