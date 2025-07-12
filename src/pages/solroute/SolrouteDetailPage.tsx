@@ -39,7 +39,7 @@ const SolrouteDetailPage = () => {
   });
 
   if (isLoading) {
-    return <>로딩 중...</>;
+    return <></>;
   }
 
   // 쏠루트 삭제

@@ -55,7 +55,7 @@ const ReviewsPage = () => {
         ))}
         <div ref={sentinelRef} style={{ height: '1px' }} />
         {isFetchingNextPage && (
-          <div className='text-center py-4'>로딩 중...</div>
+          <div className='text-center py-4'></div>
         )}
       </div>
     </div>
