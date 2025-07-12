@@ -25,19 +25,23 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     })
   );
 
-  const { placeInfos, nextMarkers, setMarkers } = useSolrouteWriteStore(
+  const { placeInfos, prevMarkers, setMarkers } = useSolrouteWriteStore(
     useShallow((state) => ({
       placeInfos: state.placeInfos,
-      nextMarkers: state.nextMarkers,
+      prevMarkers: state.prevMarkers,
       setMarkers: state.setMarkers,
     }))
   );
 
+  useEffect(() => {
+    console.log('placeInfos', placeInfos);
+  }, [placeInfos]);
 
   // 데이터 소스 결정: props가 있으면 props 사용, 없으면 store 사용
   const currentPlaceInfos = useMemo(() => {
     return placeInfosOnDisplay?.length ? placeInfosOnDisplay : placeInfos;
   }, [placeInfosOnDisplay, placeInfos]);
+
   // 지도 초기화
   useEffect(() => {
     if (!mapElement.current || !polyline.current) return;
@@ -63,21 +67,19 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
 
   // 마커 및 폴리라인 업데이트
   useEffect(() => {
-    if (!mapInstance.current || !currentPlaceInfos?.length) return;
-
-    // 기존 마커 삭제
-    const existingMarkers = nextMarkers;
-    existingMarkers.forEach((marker) => {
-      marker.setMap(null);
-    });
+    if (
+      !mapInstance.current
+      // || !currentPlaceInfos?.length
+    )
+      return;
 
     // 폴리라인 초기화
     polyline.current.setPath([]);
+
     // 새 마커 생성 및 추가
     const { objectList } = createMarkerObjectList(currentPlaceInfos);
     objectList.forEach((marker, index) => {
       marker.setIcon({
-
         url: SolrouteNums26, // png 파일
         size: new naver.maps.Size(26, 26), // 화면에 나타나는 마커의 크기
         anchor: naver.maps.Position.CENTER, // 마커 중심 설정
@@ -95,6 +97,7 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     });
     polyline.current.setPath(path);
 
+    if (!currentPlaceInfos.length) return;
     // 모든 마커를 포함하는 bounds 계산 및 지도 이동
     const bounds = createMarkersBounds(objectList);
     if (bounds) {
@@ -138,6 +141,14 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
       // });
     }
   }, [currentPlaceInfos, setMarkers]);
+
+  useEffect(() => {
+    // 기존 마커 삭제
+    const existingMarkers = prevMarkers;
+    existingMarkers.forEach((marker) => {
+      marker.setMap(null);
+    });
+  }, [prevMarkers]);
 
   return (
     <>
