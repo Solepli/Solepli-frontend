@@ -4,7 +4,10 @@ import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
 import useDebounce from '../../hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
-import { getRelatedSearchWords } from '../../api/searchApi';
+import {
+  getRelatedSearchPlaces,
+  getRelatedSearchWords,
+} from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import { useMapStore } from '../../store/mapStore';
 
@@ -22,7 +25,7 @@ const RelatedSearchList: React.FC = () => {
 
   const debouncedInput = useDebounce(inputValue, 500);
 
-  const { data, isSuccess } = useQuery({
+  const { data: dataWithLoc, isSuccess: successWithLoc } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
       return getRelatedSearchWords(
@@ -34,11 +37,28 @@ const RelatedSearchList: React.FC = () => {
     enabled: debouncedInput !== '' && !!userLatLng,
   });
 
+  // 입력값과 관련된 장소들을 RelatedSearchPlace type으로 가져옴
+  const { data: dataNoLoc, isSuccess: successNoLoc } = useQuery({
+    queryKey: ['RSList', debouncedInput],
+    queryFn: () => {
+      return getRelatedSearchPlaces(debouncedInput);
+    },
+    enabled: debouncedInput !== '' && userLatLng === null,
+  });
+
   useEffect(() => {
-    if (isSuccess) {
-      setRelatedSearchList(data);
+    if (successWithLoc) {
+      setRelatedSearchList(dataWithLoc);
+    } else if (successNoLoc && dataNoLoc) {
+      setRelatedSearchList(dataNoLoc);
     }
-  }, [isSuccess, data, setRelatedSearchList]);
+  }, [
+    setRelatedSearchList,
+    successWithLoc,
+    successNoLoc,
+    dataWithLoc,
+    dataNoLoc,
+  ]);
 
   return (
     <div className='flex flex-col items-start'>
