@@ -78,7 +78,7 @@ const AddPlacePage = () => {
               maxLength={30}
               onChange={(e) => setPlaceName(e.target.value)}
               className='w-300 focus:outline-none
-              text-base scale-[var(--scale-16-14)] origin-left'
+              text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
             />
 
             <div className='flex'>
