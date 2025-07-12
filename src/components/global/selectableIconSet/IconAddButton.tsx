@@ -55,7 +55,7 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({
               left: window.innerWidth >= 400 ? rect?.left : undefined,
             }}
             onClick={(e) => e.stopPropagation()}>
-            <SelectableIconSet setIcon={setIcon} />
+            <SelectableIconSet setIcon={setIcon} closeModal={setModalOpen} />
           </div>
         </div>
       )}

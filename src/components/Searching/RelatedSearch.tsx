@@ -58,7 +58,7 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
       setSelectedRegion(relatedSearchWord.name);
       searchByRegion(relatedSearchWord.name);
       navigate('/map/list?queryType=region');
-    } else if (relatedSearchWord.type === 'PLACE' && relatedSearchWord.id) {
+    } else if (relatedSearchWord.id) {  //추후 type=PLACE도 확인하도록 변경
       // 클릭한 장소 디테일뷰로 이동
       searchByPlace(relatedSearchWord.id);
       navigate(`/map/detail/${relatedSearchWord.id}?detailType=searching`, {
