@@ -6,7 +6,7 @@ const Warn: React.FC<{ title: string; message?: string }> = ({
   return (
     <div className='flex w-full px-12 py-8 bg-primary-950 rounded-lg gap-4 items-center'>
       <WarnIcon className='min-w-24' />
-      <div className='flex flex flex-col gap-2'>
+      <div className='flex flex-col gap-2'>
         <span className='text-primary-50 text-sm font-semibold leading-tight'>
           {title}
         </span>
