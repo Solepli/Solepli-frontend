@@ -70,7 +70,6 @@ const AppRouter = () => {
           <Route path='map/search' element={<SearchPage />} />
 
           <Route path='profile' element={<Profile />} />
-
           <Route path='/profile/announcement' element={<AnnouncementPage />} />
           <Route
             path='/profile/announcement/:announcementId'
