@@ -2,6 +2,8 @@ import XButtonCircle from '../XButtonCircle';
 import useNicknameValidation from '../../hooks/useNicknameValidation';
 import success from '../../assets/successGreen.svg';
 import error from '../../assets/error.svg';
+import { useRef } from 'react';
+import { useInputAdjustScale } from '../../hooks/useInputAdjustScale';
 const NicknameInput = ({
   setNicknameInput,
   nicknameInput,
@@ -9,16 +11,21 @@ const NicknameInput = ({
   setNicknameInput: (input: string) => void;
   nicknameInput: string;
 }) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const { isAvailable, message } = useNicknameValidation(nicknameInput);
+  useInputAdjustScale(inputRef);
 
   return (
     <div>
       <div className='flex justify-between border-b-1 items-center border-primary-200 py-4'>
         <input
+          ref={inputRef}
+          maxLength={20}
           type='text'
           value={nicknameInput}
           onChange={(e) => setNicknameInput(e.target.value)}
-          className='w-300 focus:outline-none text-primary-950 text-sm'
+          className='w-300 focus:outline-none text-primary-950
+          text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]'
         />
 
         <div className='flex'>
