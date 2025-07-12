@@ -20,27 +20,26 @@ const SollectWriteImageInput = ({
       }))
     );
 
-
   const onFileChange = (newFiles: File[]) => {
-  if (newFiles.length === 0) return;
+    if (newFiles.length === 0) return;
 
-  if (focusTextarea) {
-    focusTextarea.focus(); // ensure focus
+    if (focusTextarea) {
+      focusTextarea.focus(); // ensure focus
 
-    //textarea에서 저장한 caretPostion 을 이용해 사용
-    //기존 방식은 모바일에서 작동 안함
-    setTimeout(() => {
+      //textarea에서 저장한 caretPostion 을 이용해 사용
+      //기존 방식은 모바일에서 작동 안함
+      setTimeout(() => {
+        newFiles.reverse().forEach((file) => {
+          insertImageAtCaret(file, caretPosition);
+        });
+      }, 0);
+    } else {
+      // fallback: 그냥 맨 뒤에 삽입
       newFiles.reverse().forEach((file) => {
-        insertImageAtCaret(file, caretPosition);
+        insertImageAtCaret(file, null);
       });
-    }, 0);
-  } else {
-    // fallback: 그냥 맨 뒤에 삽입
-    newFiles.reverse().forEach((file) => {
-      insertImageAtCaret(file, null);
-    });
-  }
-};
+    }
+  };
 
   return (
     <div

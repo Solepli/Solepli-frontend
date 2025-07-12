@@ -15,10 +15,10 @@ const OAuthCallback = () => {
       login: state.login,
     }))
   );
-  const { targetSource, previousLocation, clearLocation } = useLocationStore(
+  const { targetSource, background, clearLocation } = useLocationStore(
     useShallow((state) => ({
       targetSource: state.targetSource,
-      previousLocation: state.previousLocation,
+      background: state.background,
       clearLocation: state.clearLocation,
     }))
   );
@@ -50,17 +50,16 @@ const OAuthCallback = () => {
         login();
 
         const target = targetSource;
-        const previous = previousLocation;
+        const prevBackground = background;
         clearLocation();
-
-        navigate('/', {replace: true});
 
         // Redirect to the desired page after successful login
         if (target) {
           // If there is a target source, redirect to that page
           navigate(target || '/', { state: undefined, replace: true });
-        } else if (previous) {
-          navigate(previous || '/', { state: undefined, replace: true });
+        } else if (prevBackground) {
+          navigate(-1);
+          // navigate(prevBackground || '/', { state: undefined, replace: true });
         } else {
           navigate('/', { state: undefined, replace: true });
         }
@@ -70,12 +69,12 @@ const OAuthCallback = () => {
         // Handle error (e.g., show an error message to the user)
       });
   }, [
+    background,
     clearLocation,
     code,
     login,
     loginType,
     navigate,
-    previousLocation,
     targetSource,
   ]);
 

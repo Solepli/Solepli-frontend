@@ -10,6 +10,8 @@ import walkFill from '../../../assets/category-icons/walkFill.svg';
 import workFill from '../../../assets/category-icons/workFill.svg';
 import { useNavigate } from 'react-router-dom';
 import { usePlaceStore } from '../../../store/placeStore';
+import { useMarkerStore } from '../../../store/markerStore';
+import { useShallow } from 'zustand/shallow';
 
 interface CategoryButtonProps {
   category: Category;
@@ -30,10 +32,23 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
   const navigate = useNavigate();
   const icon = iconMap[category.id];
 
-  const { setCategory } = usePlaceStore();
+  const { selectedCategory, setCategory } = usePlaceStore(
+    useShallow((state) => ({
+      selectedCategory: state.selectedCategory,
+      setCategory: state.setCategory,
+    }))
+  );
+  const { searchByCategory } = useMarkerStore(
+    useShallow((state) => ({
+      searchByCategory: state.searchByCategory,
+    }))
+  );
 
   const handleClick = () => {
-    setCategory(category.id);
+    if (selectedCategory !== category.id) {
+      setCategory(category.id);
+    }
+    searchByCategory(category.id);
     navigate('/map/list?queryType=category');
   };
 

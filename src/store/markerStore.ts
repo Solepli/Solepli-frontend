@@ -58,7 +58,7 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
     set({
       filters: {
         ...get().filters,
-        category,
+        category: category,
         activeFilter: 'category',
       },
     });

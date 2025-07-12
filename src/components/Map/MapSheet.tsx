@@ -39,7 +39,6 @@ const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
 /* MapSheet.tsx */
 const MapSheet = () => {
   const navigate = useNavigate();
-
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
 
@@ -64,7 +63,6 @@ const MapSheet = () => {
       setLastZoom: state.setLastZoom,
     }))
   );
-
   const {
     filters,
     searchByCategory,
@@ -86,8 +84,8 @@ const MapSheet = () => {
       prevMarkerObjectList: state.prevMarkerObjectList,
     }))
   );
-
   const { selectedCategory } = usePlaceStore();
+  const { increaseRefreshTrigger } = usePlaceStore();
 
   /* [useLayoutEffect] 지도 생성 및 초기 마커 추가 */
   useLayoutEffect(() => {
@@ -156,11 +154,10 @@ const MapSheet = () => {
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
-  const { increaseRefreshTrigger } = usePlaceStore();
   const researchMarker = useCallback(async () => {
     if (!mapInstance.current || !lastBounds) return;
 
-    searchByCategory(null);
+    searchByCategory(selectedCategory);
 
     // preview list 재검색을 위해 increase refresh
     increaseRefreshTrigger();

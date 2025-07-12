@@ -77,7 +77,7 @@ const SolrouteDetailPage = () => {
           <EditDeletePopover funcDelete={funcDelete} onEditClick={funcEdit} />
         )}
       </div>
-      <div className='mt-58'>
+      <div className='mt-50'>
         <SolrouteMap placeInfosOnDisplay={data.placeInfos} />
 
         {/* 장소 개수 */}

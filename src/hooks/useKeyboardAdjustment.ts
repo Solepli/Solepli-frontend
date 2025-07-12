@@ -33,17 +33,20 @@ export const useKeyboardAdjustment = (
     const footer = footerRef.current;
     if (!footer || !window.visualViewport) return;
 
+    const vv = window.visualViewport;
+    if (!vv) return;
+
     const controlScroll = () => {
       window.scrollTo(0, 1);
-      const vv = window.visualViewport;
-      if (!vv) return;
       footer.style.top = `${vv.height}px`;
     };
 
     document.addEventListener('scroll', controlScroll);
+    vv.addEventListener('resize', controlScroll);
 
     return () => {
       document.removeEventListener('scroll', controlScroll);
+      vv.removeEventListener('resize', controlScroll);
     };
   }, [footerRef]);
 };
