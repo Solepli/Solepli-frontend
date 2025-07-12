@@ -14,6 +14,8 @@ import {
   initMap, // 지도 생성
 } from '../../utils/mapFunc';
 import { usePlaceStore } from '../../store/placeStore';
+import Warn from '../global/Warn';
+import { toast } from 'react-toastify';
 
 /* // 클러스터 생성 함수
 const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
@@ -170,6 +172,7 @@ const MapSheet = () => {
     if (!mapInstance.current) return;
 
     if (!userLatLng) {
+      toast(<Warn title='위치 정보 접근 권한을 허용해주세요!' />);
       console.error('위치 정보 접근 거부 또는 위치를 가져올 수 없습니다.');
       return;
     }

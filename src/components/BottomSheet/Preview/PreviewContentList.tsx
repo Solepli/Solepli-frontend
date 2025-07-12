@@ -151,7 +151,7 @@ const PreviewContentList: React.FC = () => {
   // (queryType === 'category' && placesDisplayQuery.isLoading);
 
   if (activeQuery?.isLoading) {
-    return <div>로딩</div>;
+    return <div></div>;
   }
 
   return (
