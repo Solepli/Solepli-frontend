@@ -144,7 +144,7 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
       {mapInstance ? (
         <div ref={mapElement} className='self-stretch h-214 bg-primary-100' />
       ) : (
-        <div>지도 로딩중</div>
+        <div></div>
       )}
     </>
   );

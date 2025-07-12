@@ -51,7 +51,7 @@ const DetailContent: React.FC = () => {
 
   //data 값이 없으면 data.review에서 오류나기에 data 값을 받아올 동안 ...을 반환
   if (isLoading) {
-    return <>...</>;
+    return <></>;
   }
 
   const hasReviews = data.reviews.length !== 0;
