@@ -1,80 +1,93 @@
-name: Deploy to Google Cloud Run
+name: deployment to gcp cloud storage
 
-# main 브랜치에 push 이벤트가 발생했을 때 이 워크플로우를 실행
 on:
   push:
     branches:
       - main
 
-# 워크플로우에서 사용할 환경 변수 설정
 env:
-  # GCP 관련 설정
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # GCP 프로젝트 ID
-  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }} # WIF
-  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }} # 접근할 서비스 계정
-
-  # 배포 대상 및 이미지 정보 설정
-  CLOUD_RUN_SERVICE_NAME: ${{ secrets.CLOUD_RUN_SERVICE_NAME }} # Cloud Run 서비스 이름
-  CLOUD_RUN_REGION: ${{ secrets.CLOUD_RUN_REGION }} # Cloud Run 리전
-  ARTIFACT_REGISTRY_REPOSITORY: ${{ secrets.ARTIFACT_REGISTRY_REPOSITORY }} # Artifact Registry 서비스 이름
-  ARTIFACT_REGISTRY_LOCATION: asia-northeast3 # Artifact Registry 리전
-  IMAGE_NAME: ${{ secrets.CLOUD_RUN_SERVICE_NAME }} # 이미지 이름은 Cloud Run 서비스 이름과 동일하게 사용
+  ARTIFACT_NAME: build-output
+  BUILD_DIR: dist
+  GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+  GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+  GCP_BUCKET_NAME: ${{ secrets.GCP_BUCKET_NAME }}
+  GCP_CDN_LOAD_BALANCER_NAME: ${{ secrets.GCP_CDN_LOAD_BALANCER_NAME }}
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  ci:
     runs-on: ubuntu-latest
 
-    # 권한 설정
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set Environment Variables
+        run: |
+          echo "VITE_MAP_CLIENT_ID=${{ secrets.VITE_MAP_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> $GITHUB_ENV
+          echo "VITE_MAP_STYLE_ID=${{ secrets.VITE_MAP_STYLE_ID }}" >> $GITHUB_ENV
+          echo "VITE_IMAGE_UPLOAD_MAX_SIZE=${{ secrets.VITE_IMAGE_UPLOAD_MAX_SIZE }}" >> $GITHUB_ENV
+          echo "VITE_KAKAO_REST_API_KEY=${{ secrets.VITE_KAKAO_REST_API_KEY }}" >> $GITHUB_ENV
+          echo "VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "VITE_NAVER_CLIENT_SECRET=${{ secrets.VITE_NAVER_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "VITE_NAVER_REDIRECT_URI=${{ secrets.VITE_NAVER_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "VITE_GOOGLE_CLIENT_SECRET=${{ secrets.VITE_GOOGLE_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }}" >> $GITHUB_ENV
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.BUILD_DIR }}
+
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
     permissions:
       contents: 'read'
       id-token: 'write'
 
     steps:
-      # 1. 소스 코드 체크아웃
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        id: 'checkout'
+        uses: 'actions/checkout@v4'
 
-      # 2. WIF를 사용하여 GCP에 인증
-      - name: Authenticate to Google Cloud
-        id: auth
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.BUILD_DIR }}
+
+      - name: Auth
+        id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: ${{ env.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
 
-      # 3. Docker 로그인 설정
-      # Artifact Registry에 인증하도록 gcloud CLI 설정
-      - name: Configure Docker
-        run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev
-
-      # 4. Docker 이미지 빌드 (+환경변수 설정) 및 Artifact Registry에 푸시
-      - name: Build and Push Docker Image
-        run: |
-          docker build \
-            --build-arg VITE_MAP_CLIENT_ID=${{ secrets.VITE_MAP_CLIENT_ID }} \
-            --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
-            --build-arg VITE_MAP_STYLE_ID=${{ secrets.VITE_MAP_STYLE_ID }} \
-            --build-arg VITE_IMAGE_UPLOAD_MAX_SIZE=${{ secrets.VITE_IMAGE_UPLOAD_MAX_SIZE }} \
-            --build-arg VITE_KAKAO_REST_API_KEY=${{ secrets.VITE_KAKAO_REST_API_KEY }} \
-            --build-arg VITE_KAKAO_REDIRECT_URI=${{ secrets.VITE_KAKAO_REDIRECT_URI }} \
-            --build-arg VITE_NAVER_CLIENT_ID=${{ secrets.VITE_NAVER_CLIENT_ID }} \
-            --build-arg VITE_NAVER_CLIENT_SECRET=${{ secrets.VITE_NAVER_CLIENT_SECRET }} \
-            --build-arg VITE_NAVER_REDIRECT_URI=${{ secrets.VITE_NAVER_REDIRECT_URI }} \
-            --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }} \
-            --build-arg VITE_GOOGLE_CLIENT_SECRET=${{ secrets.VITE_GOOGLE_CLIENT_SECRET }} \
-            --build-arg VITE_GOOGLE_REDIRECT_URI=${{ secrets.VITE_GOOGLE_REDIRECT_URI }} \
-            --build-arg VITE_CLOUDFRONT_URL=${{ secrets.VITE_CLOUDFRONT_URL }} \
-            -t ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-          docker push ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-
-      # 5. 빌드된 이미지를 사용하여 Google Cloud Run에 배포
-      - name: Deploy to Cloud Run
-        uses: 'google-github-actions/deploy-cloudrun@v2'
+      - name: Upload Folder
+        id: 'upload-folder'
+        uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
-          service: ${{ env.CLOUD_RUN_SERVICE_NAME }}
-          region: ${{ env.CLOUD_RUN_REGION }}
-          image: ${{ env.ARTIFACT_REGISTRY_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REGISTRY_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          flags: >-
-            --port=80
-            --allow-unauthenticated
+          path: ${{ env.BUILD_DIR }}
+          destination: ${{ env.GCP_BUCKET_NAME }}
+          parent: false
+
+      - name: Invalidate Cloud CDN Cache
+        run: |
+          gcloud compute url-maps invalidate-cdn-cache ${{ env.GCP_CDN_LOAD_BALANCER_NAME }} \
+            --path "/*"
