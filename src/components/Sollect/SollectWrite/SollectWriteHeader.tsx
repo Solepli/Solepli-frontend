@@ -17,7 +17,7 @@ const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
   return (
     <div className='w-full h-50 py-4 flex justify-between items-center text-primary-950 text-sm font-normal leading-tight bg-white'>
       <div
-        className='w-42 h-42 pl-16 inline-flex justify-start items-center'
+        className='w-42 h-42 pl-16 inline-flex justify-start items-center button'
         onClick={onLeft}>
         {leftText}
       </div>
@@ -25,7 +25,7 @@ const SollectWriteHeader: React.FC<SollectWriteHeaderProps> = ({
         {title}
       </div>
       <div
-        className='w-42 h-42 pr-16 inline-flex justify-end items-center'
+        className='w-42 h-42 pr-16 inline-flex justify-end items-center button'
         onClick={onRight}>
         {rightText}
       </div>

@@ -62,7 +62,7 @@ const SelectButton: React.FC<{ onClickFunc: () => void }> = ({
 }) => {
   return (
     <div
-      className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-700 inline-flex justify-start items-center'
+      className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl outline outline-1 outline-offset-[-1px] outline-primary-700 inline-flex justify-start items-center button'
       onClick={() => {
         onClickFunc();
       }}>
@@ -82,7 +82,7 @@ const SelectededButton: React.FC<{ onClickFunc: () => void }> = ({
 }) => {
   return (
     <div
-      className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl bg-primary-700 inline-flex justify-start items-center'
+      className='w-55 h-28 pl-2 pr-8 py-2 rounded-xl bg-primary-700 inline-flex justify-start items-center button'
       onClick={() => {
         onClickFunc();
       }}>

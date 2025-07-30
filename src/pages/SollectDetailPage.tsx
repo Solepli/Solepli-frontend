@@ -93,7 +93,7 @@ const SollectDetailPage = () => {
         </div>
 
         <div
-          className='py-8 px-16 text-center text-xs pb-56 text-primary-500'
+          className='py-8 px-16 text-center text-xs pb-56 text-primary-500 button'
           onClick={() => {
             const container = document.getElementById('scrollable');
             container?.scrollTo({ top: 0, behavior: 'smooth' });

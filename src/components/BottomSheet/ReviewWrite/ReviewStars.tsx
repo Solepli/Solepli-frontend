@@ -13,7 +13,7 @@ const ReviewStars: React.FC = () => {
     }))
   );
   return (
-    <div className='self-stretch flex flex-row items-center justify-center gap-[2px]'>
+    <div className='self-stretch flex flex-row items-center justify-center gap-[2px] button'>
       {Array.from({ length: 5 }).map((_, i) =>
         i + 1 <= rating ? (
           <StarFillDark

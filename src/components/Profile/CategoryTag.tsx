@@ -22,7 +22,7 @@ const CategoryTag: React.FC<CategoryTagProps> = ({
 
   return (
     <div
-      className={`${baseStyle} ${selectedStyle}`}
+      className={`${baseStyle} ${selectedStyle} button`}
       style={backgroundColor}
       onClick={onClick}>
       {category.title}

@@ -12,7 +12,7 @@ const CurrentLocationButton: React.FC<CurrentLocationButtonProps> = ({
 
   return (
     <div
-      className='w-30 h-30 bg-white rounded-full flex justify-center items-center right-14 shadow-[0px_0px_4px_0px_rgba(18,18,18,0.10)]'
+      className='w-30 h-30 bg-white rounded-full flex justify-center items-center right-14 shadow-[0px_0px_4px_0px_rgba(18,18,18,0.10)] button'
       style={{
         position: 'absolute',
         bottom: `${(snap || 0) + 6}px`,

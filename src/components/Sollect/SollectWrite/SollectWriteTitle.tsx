@@ -6,7 +6,7 @@ import FilePicker from '../../global/FilePicker';
 const ImageAdd = ({ onClick }: { onClick: () => void }) => {
   return (
     <div
-      className='flex flex-col items-center justify-center'
+      className='flex flex-col items-center justify-center button'
       onClick={onClick}>
       <Add />
       <span className='text-primary-900 text-xs font-normal leanding-none'>
@@ -65,12 +65,12 @@ const SollectWriteTitle = () => {
           {thumbnail?.imageUrl ? (
             <div
               onClick={open}
-              className='absolute bg-white w-81 h-26 top-12 right-12 flex items-center justify-center rounded outline outline-1 outline-offset-[-1px] outline-grayScale-100'
+              className='absolute bg-white w-81 h-26 top-12 right-12 flex items-center justify-center rounded outline outline-1 outline-offset-[-1px] outline-grayScale-100 button'
             >
               <span className='text-grayScale-600 text-xs font-normal leading-none'>커버 변경하기</span>
             </div>
           ) : (
-            <div className='w-full h-68 py-13 px-12 flex justify-center items-center'>
+            <div className='w-full h-68 py-13 px-12 flex justify-center items-center button'>
               <ImageAdd onClick={open} />
             </div>
           )}

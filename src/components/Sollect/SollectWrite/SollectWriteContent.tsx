@@ -59,7 +59,7 @@ const SollectWriteContent = ({
         ref={scrollRef}>
         <SollectWriteTitle />
         <div
-          className='flex-1 w-full pt-16 flex flex-col gap-16 pb-50'
+          className='flex-1 w-full pt-16 flex flex-col gap-16 pb-50 button'
           onClick={(e) => {
             if (e.target !== e.currentTarget) return; // 클릭한 영역이 빈 영역일 때만 실행
             // 빈 영역 클릭 시 새 텍스트 단락 추가
@@ -68,7 +68,7 @@ const SollectWriteContent = ({
           {/* 빈 영역일 때 */}
           {paragraphs.length === 0 && (
             <div
-              className='w-full flex flex-1 px-16 items-up justify-start text-primary-500 text-sm font-normal leading-tight'
+              className='w-full flex flex-1 px-16 items-up justify-start text-primary-500 text-sm font-normal leading-tight button'
               onClick={handleBlankClick}>
               쏠플 경험에 대해 자세히 알려주세요!
             </div>

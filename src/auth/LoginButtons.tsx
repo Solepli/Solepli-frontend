@@ -44,7 +44,7 @@ const LoginButtons = () => {
   return (
     <div className='w-full inline-flex flex-col justify-start items-center gap-12'>
       <div
-        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10'
+        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10 button'
         onClick={() => login(signupWithKakao())}>
         <Kakao />
         <div className='flex-1 text-center text-white text-sm font-medium'>
@@ -53,7 +53,7 @@ const LoginButtons = () => {
       </div>
 
       <div
-        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10'
+        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10 button'
         onClick={() => login(signupWithNaver())}>
         <Naver />
         <div className='flex-1 text-center text-white text-sm font-medium'>
@@ -62,7 +62,7 @@ const LoginButtons = () => {
       </div>
 
       <div
-        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10'
+        className='self-stretch h-50 px-16 bg-white/5 rounded-lg outline outline-1 outline-offset-[-1px] outline-white/50 backdrop-blur-[5px] inline-flex justify-start items-center gap-10 button'
         onClick={() => login(signupWithGoogle())}>
         <Google />
         <div className='flex-1 text-center text-white text-sm font-medium'>

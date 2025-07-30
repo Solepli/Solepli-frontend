@@ -29,7 +29,7 @@ const ProfileMenu = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           return (
             <div
               key={menu.name}
-              className='flex gap-8 items-center py-8 text-sm'
+              className='flex gap-8 items-center py-8 text-sm button'
               onClick={() => handleClick(menu.path)}>
               <img src={menu.icon} alt='' />
               <p>{menu.name}</p>

@@ -40,7 +40,7 @@ const LoginModal = () => {
             <LoginButtons />
           </div>
           <div
-            className='text-right text-grayScale-200 text-xs font-normal'
+            className='text-right text-grayScale-200 text-xs font-normal button'
             onClick={handleClose}>
             취소
           </div>

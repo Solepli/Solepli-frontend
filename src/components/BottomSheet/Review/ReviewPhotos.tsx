@@ -60,7 +60,7 @@ const ReviewPhotos = ({
               {/* onClickFunc이 있다면 삭제 버튼 추가 */}
               {onDeleteFunc && (
                 <div
-                  className='absolute top-0 right-0 p-6'
+                  className='absolute top-0 right-0 p-6 button'
                   onClick={() => onDeleteFunc(index)}>
                   <XButton />
                 </div>

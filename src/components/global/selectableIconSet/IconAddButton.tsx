@@ -38,7 +38,7 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({
   return (
     <>
       <div
-        className='w-28 h-28 p-2 bg-primary-50 rounded justify-center items-center'
+        className='w-28 h-28 p-2 bg-primary-50 rounded justify-center items-center button'
         onClick={() => setModalOpen(true)}
         ref={buttonRef}>
         {!icon ? <AddButton /> : <SelectedIcon icon={icon} />}
@@ -46,7 +46,7 @@ const IconAddButton: React.FC<IconAddButtonProps> = ({
 
       {modalOpen && (
         <div
-          className={`fixed inset-0 z-101 ${window.innerWidth < 400 ? 'flex justify-center' : ''}`}
+          className={`fixed inset-0 z-101 button ${window.innerWidth < 400 ? 'flex justify-center' : ''}`}
           onClick={() => setModalOpen(false)}>
           <div
             className='absolute'

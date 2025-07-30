@@ -48,7 +48,7 @@ const SollectWriteImageInput = ({
         e.stopPropagation();
       }}
       // footer는 -translate-y-full로 설정해 footer의 top이 전체 화면 bottom 0에 위치할 경우 footer가 다 보임
-      className='w-full h-44 flex items-center justify-start px-16 fixed -translate-y-full border-t border-grayScale-100 bg-white'>
+      className='w-full h-44 flex items-center justify-start px-16 fixed -translate-y-full border-t border-grayScale-100 bg-white button'>
       <FilePicker
         files={paragraphs
           .filter((p) => p.type === 'IMAGE')

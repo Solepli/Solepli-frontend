@@ -11,7 +11,7 @@ const AddPhoto: React.FC<{
   onClick: React.MouseEventHandler<HTMLDivElement>;
 }> = ({ onClick }) => {
   return (
-    <div onClick={onClick} className='flex py-4 gap-2'>
+    <div onClick={onClick} className='flex py-4 gap-2 button'>
       <Photo />
       <button className='pl-2 text-sm leading-tight text-primary-500 font-normal whitespace-nowrap'>
         사진 추가하기

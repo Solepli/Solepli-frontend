@@ -33,7 +33,7 @@ const Login = () => {
         <div className='flex-2 w-full px-36'>
           <LoginButtons />
           <div
-            className='text-grayScale-400 text-xs font-medium underline leading-none text-center pt-24'
+            className='text-grayScale-400 text-xs font-medium underline leading-none text-center pt-24 button'
             onClick={() => navigate('/', { replace: true })}
           >
             비회원으로 이용하기
