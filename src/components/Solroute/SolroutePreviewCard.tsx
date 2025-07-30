@@ -18,7 +18,7 @@ const SolroutePreviewCard: React.FC<SolrouteListCardProps> = ({ preview }) => {
 
   return (
     <div
-      className='p-10 flex bg-white rounded-lg border-1 border-primary-200 items-center gap-9 self-stretch'
+      className='p-10 flex bg-white rounded-lg border-1 border-primary-200 items-center gap-9 self-stretch button'
       onClick={handleClick}>
       {/* 아이콘*/}
       <div className='w-40 h-40 p-8 bg-primary-50 rounded flex items-center justify-center'>

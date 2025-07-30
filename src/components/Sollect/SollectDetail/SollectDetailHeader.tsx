@@ -35,7 +35,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
       className={`w-full h-50 py-4 flex justify-between items-center fixed z-70 ${isTop ? 'bg-transparent' : 'bg-white'} transition-colors duration-300`}>
       {/* 뒤로가기 */}
       <div
-        className='flex w-42 h-42 justify-center items-center gap-10 shrink-0'
+        className='flex w-42 h-42 justify-center items-center gap-10 shrink-0 button'
         onClick={() => navigate(-1)}>
         <img
           src={isTop ? arrowTailWhite : arrowTail}
@@ -51,7 +51,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
             <img
               src={isTop ? kebabWhite : kebabGray}
               alt='kebab'
-              className='flex w-24 h-24 px-4.5 justify-center items-center shrink-0'
+              className='flex w-24 h-24 px-4.5 justify-center items-center shrink-0 button'
               onClick={() => setShowMenu(!showMenu)}
             />
           </div>

@@ -18,7 +18,7 @@ const SelectableIconSet: React.FC<SelectableIconSetProps> = ({ setIcon, closeMod
       {Object.entries(selectableIconMap).map(([key, Icon]) => (
         <div
           key={key}
-          className='w-40 h-40 flex items-center justify-center bg-primary-50 rounded outline outline-1 outline-offset-[-1px] outline-primary-100'
+          className='w-40 h-40 flex items-center justify-center bg-primary-50 rounded outline outline-1 outline-offset-[-1px] outline-primary-100 button'
           onClick={() => {closeModal(false); onClickIcon(key)}}>
           <Icon />
         </div>

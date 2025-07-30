@@ -68,7 +68,7 @@ const SolrouteDetailPage = () => {
           iconId={data.iconId}>
           {/* 케밥 아이콘 */}
           <div
-            className='w-42 h-42 flex justify-center items-center'
+            className='w-42 h-42 flex justify-center items-center button'
             onClick={() => setShowMenu(!showMenu)}>
             <Kebab />
           </div>

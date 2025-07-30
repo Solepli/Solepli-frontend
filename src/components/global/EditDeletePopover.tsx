@@ -34,14 +34,14 @@ const EditDeletePopover: React.FC<EditDeletePopoverProps> = ({
 text-sm z-101`}>
         {/* 수정 */}
         <div
-          className='p-12 flex gap-8 items-center border-b border-primary-100'
+          className='p-12 flex gap-8 items-center border-b border-primary-100 button'
           onClick={onEditClick}>
           <img src={edit} alt='edit' />
           수정
         </div>
         {/* 삭제 */}
         <div
-          className='p-12 flex gap-8 items-center'
+          className='p-12 flex gap-8 items-center button'
           onClick={clickDeleteModal}>
           <img src={deleteIcon} alt='delete' />
           삭제

@@ -162,3 +162,9 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+button { @apply active:opacity-70 }
+
+.button{
+  @apply active:opacity-70
+}

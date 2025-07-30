@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const SolmarkTab = () => {
   const navigate = useNavigate();
-  const tabStyle = 'py-12 w-full text-sm ';
+  const tabStyle = 'py-12 w-full text-sm button ';
   const activeStyle = 'border-b-2 border-primary-950 font-bold';
   const [active, setActive] = useState(0);
   const tabs = ['place', 'sollect', 'my'];

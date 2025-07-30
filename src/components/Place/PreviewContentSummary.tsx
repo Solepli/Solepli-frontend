@@ -31,7 +31,7 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
   };
   return (
     <div
-      className='w-full bg-white pt-12 pb-8 border-b border-primary-100'
+      className='w-full bg-white pt-12 pb-8 border-b border-primary-100 button'
       onClick={handleClick}>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}

@@ -143,7 +143,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
               isMarked={detailPlace.isMarked}
             />
             <div
-              className={`${buttonStyle} border border-primary-400`}
+              className={`${buttonStyle} border border-primary-400 button`}
               onClick={copyUrl}>
               <img src={share} alt='share' />
             </div>

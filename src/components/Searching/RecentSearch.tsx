@@ -90,7 +90,7 @@ const RecentSearch: React.FC<RecentSearchTextProps> = ({ text, mode }) => {
     <div className='flex pt-8 pl-12 pr-8 pb-0 items-center gap-10'>
       <div className='flex h-36 items-center gap-4 flex-[1_0_0] justify-start'>
         <div
-          className='flex items-center gap-4 flex-[1_0_0]'
+          className='flex items-center gap-4 flex-[1_0_0] button'
           onClick={handleClick}>
           <ClockFill />
           <div className='flex-[1_0_0] text-[12px] leading-[120%] tracking-[-0.18px] text-primary-950'>

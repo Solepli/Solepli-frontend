@@ -26,7 +26,7 @@ const SollectMark: React.FC<SollectMarkProps> = ({ marked, setMarked, id }) => {
   return (
     <LoginRequiredAction onAction={handleClick}>
       <div
-        className='w-28 h-28 bg-black/10 rounded-lg border-1 border-black/50 backdrop-blur-[2px] flex justify-center items-center'>
+        className='w-28 h-28 bg-black/10 rounded-lg border-1 border-black/50 backdrop-blur-[2px] flex justify-center items-center button'>
         <img src={marked ? heartFillWhite : heartWhite} alt='heart' />
       </div>
     </LoginRequiredAction>

@@ -46,7 +46,7 @@ const SollectWriteAddedPlace: React.FC<{
           </span>
         </div>
       </div>
-      <div className='p-6' onClick={() => handleRemove(place.id)}>
+      <div className='p-6 button' onClick={() => handleRemove(place.id)}>
         <Trash
           className={`w-24 h-24 flex-shrink-0 ${
             isDragging ? 'text-primary-50' : 'text-primary-400'

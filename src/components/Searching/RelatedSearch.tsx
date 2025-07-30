@@ -73,7 +73,7 @@ const RelatedSearch: React.FC<RelatedSearchProps> = ({ relatedSearchWord }) => {
 
   return (
     <div
-      className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch'
+      className='flex p-[16px_16px_4px_16px] items-center gap-10 self-stretch button'
       onClick={clickResult}>
       <ResultIcon
         isMarked={relatedSearchWord.isMarked}

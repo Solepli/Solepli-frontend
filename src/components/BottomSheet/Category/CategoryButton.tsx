@@ -54,7 +54,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category }) => {
 
   return (
     <div
-      className='relative w-84 h-84 flex justify-center items-center rounded-[10px]'
+      className='relative w-84 h-84 flex justify-center items-center rounded-[10px] button'
       style={{
         backgroundColor: `var(--color-chip-light-bg-${category.id})`,
       }}
