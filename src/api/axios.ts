@@ -21,21 +21,62 @@ privateAxios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-//privateAxios에  토큰이  없다면 로그인 페이지로 리다이렉트
+let isRefreshing = false;
+let requestQueue: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resolve: (value: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  reject: (reason?: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any;
+}[] = [];
+
+function refreshAuthToken() {
+  return axios.post(BASE_URL + '/api/auth/reissue-token', null, {
+    withCredentials: true,
+  });
+}
+
 privateAxios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const { response } = error;
-    if (response?.status === 401) {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        console.warn('토큰이 유효하지 않습니다. ');
-        localStorage.removeItem('accessToken');
-        window.location.href = '/login'; // 또는 navigate('/login')
-      }
+  (response) => response,
+  async (error) => {
+    const { config, response } = error;
+    const originalRequest = config;
+
+    if (response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      return new Promise((resolve, reject) => {
+        requestQueue.push({ resolve, reject, config: originalRequest });
+
+        if (!isRefreshing) {
+          isRefreshing = true;
+
+          refreshAuthToken()
+            .then((res) => {
+              const newToken = res.data.accessToken;
+              localStorage.setItem('accessToken', newToken);
+
+              // 큐에 쌓인 모든 요청 다시 실행
+              requestQueue.forEach(({ resolve, config }) => {
+                config.headers.Authorization = `Bearer ${newToken}`;
+                resolve(privateAxios(config));
+              });
+              requestQueue = [];
+            })
+            .catch((err) => {
+              requestQueue.forEach(({ reject }) => reject(err));
+              requestQueue = [];
+              localStorage.removeItem('accessToken');
+              window.location.replace('/login');
+            })
+            .finally(() => {
+              isRefreshing = false;
+            });
+        }
+      });
     }
+
     return Promise.reject(error);
   }
 );
