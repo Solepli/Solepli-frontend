@@ -53,6 +53,7 @@ const MapSheet = () => {
     setLastBounds,
     lastZoom,
     setLastZoom,
+    setMapInstance,
   } = useMapStore(
     useShallow((state) => ({
       locationAccessStatus: state.locationAccessStatus,
@@ -63,6 +64,7 @@ const MapSheet = () => {
       setLastBounds: state.setLastBounds,
       lastZoom: state.lastZoom,
       setLastZoom: state.setLastZoom,
+      setMapInstance: state.setMapInstance,
     }))
   );
   const {
@@ -108,6 +110,9 @@ const MapSheet = () => {
     );
 
     if (!map) return;
+    mapInstance.current = map;
+    setMapInstance(map);
+
     if (isSearchBounds) setIsSearchBounds(false);
 
     const idleEventListener = naver.maps.Event.addListener(map, 'idle', () => {
@@ -124,9 +129,12 @@ const MapSheet = () => {
 
     return () => {
       naver.maps.Event.removeListener(idleEventListener);
-      map.destroy();
+      if (mapInstance.current) {
+        setMapInstance(null);
+        mapInstance.current.destroy();
+      }
     };
-  }, [locationAccessStatus]);
+  }, [setMapInstance, locationAccessStatus]);
 
   /* [useEffect] markerInfos 변경될 때 */
   useEffect(() => {
