@@ -31,8 +31,12 @@ let requestQueue: {
   config: any;
 }[] = [];
 
+// dev 환경에서는 baseURL을 빈 문자열로 설정해 프록시를 이용하도록 함
+// 기존에 생성한 privateAxios를 이용하면 무한 루프가 발생할 수 있으므로 새로운 axios 인스턴스를 생성
 function refreshAuthToken() {
-  return axios.post(BASE_URL + '/api/auth/reissue-token', null, {
+  const baseURL = import.meta.env.DEV ? '' : BASE_URL;
+  return axios.post('/api/auth/reissue-token', null, {
+    baseURL,
     withCredentials: true,
   });
 }
