@@ -54,6 +54,7 @@ const MapSheet = () => {
     lastZoom,
     setLastZoom,
     setMapInstance,
+    fitCenterLocation,
   } = useMapStore(
     useShallow((state) => ({
       locationAccessStatus: state.locationAccessStatus,
@@ -65,6 +66,7 @@ const MapSheet = () => {
       lastZoom: state.lastZoom,
       setLastZoom: state.setLastZoom,
       setMapInstance: state.setMapInstance,
+      fitCenterLocation: state.fitCenterLocation,
     }))
   );
   const {
@@ -160,7 +162,14 @@ const MapSheet = () => {
   /* [useEffect] newMarkerObjectList 변경될 때 */
   useEffect(() => {
     if (!mapInstance.current) return;
-    addMarkers(mapInstance, newMarkerObjectList, true, markerIdList, navigate);
+    addMarkers(
+      mapInstance,
+      newMarkerObjectList,
+      true,
+      markerIdList,
+      navigate,
+      fitCenterLocation
+    );
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
