@@ -53,7 +53,7 @@ export const useMapStore = create<MapState>((set, get) => ({
     );
 
     mapInstance.fitBounds(bounds, {
-      bottom: 320,
+      bottom: 360,
       maxZoom: 18,
     });
   },
