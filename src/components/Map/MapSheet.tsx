@@ -9,7 +9,6 @@ import { useMarkerStore } from '../../store/markerStore';
 import {
   addMarkers, // 마커 추가 함수
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
-  createMarkersBounds, // 마커 객체 바운드 생성 후 반환 함수
   deleteMarkers, // 마커 제거 함수
   initMap, // 지도 생성
 } from '../../utils/mapFunc';
@@ -70,7 +69,6 @@ const MapSheet = () => {
     }))
   );
   const {
-    filters,
     searchByCategory,
     markerInfos,
     markerIdList,
@@ -80,7 +78,6 @@ const MapSheet = () => {
     prevMarkerObjectList,
   } = useMarkerStore(
     useShallow((state) => ({
-      filters: state.filters,
       searchByCategory: state.searchByCategory,
       markerInfos: state.markerInfos,
       markerIdList: state.markerIdList,
@@ -137,6 +134,14 @@ const MapSheet = () => {
       }
     };
   }, [setMapInstance, locationAccessStatus]);
+
+  /* [useEffect] markerInfos 변경될 때 */
+  useEffect(() => {
+    const result = createMarkerObjectList(markerInfos);
+    const { objectList, idList } = result;
+    setNewMarkerObjectList(objectList);
+    setMarkerIdList(idList);
+  }, [markerInfos]);
 
   /* [useEffect] prevMarkerObjectList 변경될 때 */
   useEffect(() => {
