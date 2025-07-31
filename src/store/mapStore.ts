@@ -71,7 +71,7 @@ export const useMapStore = create<MapState>((set, get) => ({
     });
 
     mapInstance.fitBounds(bounds, {
-      bottom: markerInfos.length === 1 ? 320 : 48,
+      bottom: markerInfos.length === 1 ? 360 : 180,
       maxZoom: 16,
     });
   },

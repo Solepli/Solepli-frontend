@@ -105,7 +105,7 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
   },
   getMapMarkerData: async () => {
     const { filters } = get();
-    const { lastBounds } = useMapStore.getState();
+    const { lastBounds, fitBoundsToMarkers } = useMapStore.getState();
     let newMarkerInfos: MarkerInfoType[] = [];
     try {
       switch (filters.activeFilter) {
@@ -140,6 +140,7 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
           break;
       }
       set({ markerInfos: newMarkerInfos });
+      fitBoundsToMarkers(newMarkerInfos);
     } catch (error) {
       console.error('Failed to fetch map data:', error);
       set({ markerInfos: [] });

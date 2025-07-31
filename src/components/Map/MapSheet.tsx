@@ -138,22 +138,6 @@ const MapSheet = () => {
     };
   }, [setMapInstance, locationAccessStatus]);
 
-  /* [useEffect] markerInfos 변경될 때 */
-  useEffect(() => {
-    const result = createMarkerObjectList(markerInfos);
-    const { objectList, idList } = result;
-    setNewMarkerObjectList(objectList);
-    setMarkerIdList(idList);
-    if (filters.activeFilter === 'category') return;
-    const newBounds = createMarkersBounds(objectList);
-    if (!newBounds) return;
-
-    mapInstance.current?.fitBounds(newBounds, {
-      bottom: idList.length === 1 ? 3200 : 480,
-      maxZoom: 16,
-    });
-  }, [markerInfos]);
-
   /* [useEffect] prevMarkerObjectList 변경될 때 */
   useEffect(() => {
     deleteMarkers(prevMarkerObjectList);
