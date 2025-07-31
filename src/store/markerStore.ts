@@ -105,7 +105,8 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
   },
   getMapMarkerData: async () => {
     const { filters } = get();
-    const { lastBounds } = useMapStore.getState();
+    const { lastBounds, fitCenterLocation, fitBoundsToMarkers } =
+      useMapStore.getState();
     let newMarkerInfos: MarkerInfoType[] = [];
     try {
       switch (filters.activeFilter) {
@@ -119,6 +120,7 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
           break;
         case 'search-district':
           newMarkerInfos = await getMarkersByRegion(filters.searchRegion!);
+          fitBoundsToMarkers(newMarkerInfos);
           break;
         case 'search-place':
           const data = await getPlaceDetail(filters.searchPlaceId!);
@@ -131,9 +133,11 @@ export const useMarkerStore = create<markerState>()((set, get) => ({
           if (data.place.isMarked !== undefined) {
             newMarkerInfos[0].isMarked = data.place.isMarked;
           }
+          fitCenterLocation(data.place.latitude, data.place.longitude);
           break;
         case 'search-places':
           newMarkerInfos = await getMarkersByIdList(filters.searchPlaceIdList!);
+          fitBoundsToMarkers(newMarkerInfos);
           break;
         default:
           newMarkerInfos = [];

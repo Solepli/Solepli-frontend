@@ -9,7 +9,6 @@ import { useMarkerStore } from '../../store/markerStore';
 import {
   addMarkers, // 마커 추가 함수
   createMarkerObjectList, // 마커를 객체로 생성 후 반환
-  createMarkersBounds, // 마커 객체 바운드 생성 후 반환 함수
   deleteMarkers, // 마커 제거 함수
   initMap, // 지도 생성
 } from '../../utils/mapFunc';
@@ -53,6 +52,8 @@ const MapSheet = () => {
     setLastBounds,
     lastZoom,
     setLastZoom,
+    setMapInstance,
+    fitCenterLocation,
   } = useMapStore(
     useShallow((state) => ({
       locationAccessStatus: state.locationAccessStatus,
@@ -63,10 +64,11 @@ const MapSheet = () => {
       setLastBounds: state.setLastBounds,
       lastZoom: state.lastZoom,
       setLastZoom: state.setLastZoom,
+      setMapInstance: state.setMapInstance,
+      fitCenterLocation: state.fitCenterLocation,
     }))
   );
   const {
-    filters,
     searchByCategory,
     markerInfos,
     markerIdList,
@@ -76,7 +78,6 @@ const MapSheet = () => {
     prevMarkerObjectList,
   } = useMarkerStore(
     useShallow((state) => ({
-      filters: state.filters,
       searchByCategory: state.searchByCategory,
       markerInfos: state.markerInfos,
       markerIdList: state.markerIdList,
@@ -108,6 +109,9 @@ const MapSheet = () => {
     );
 
     if (!map) return;
+    mapInstance.current = map;
+    setMapInstance(map);
+
     if (isSearchBounds) setIsSearchBounds(false);
 
     const idleEventListener = naver.maps.Event.addListener(map, 'idle', () => {
@@ -124,9 +128,12 @@ const MapSheet = () => {
 
     return () => {
       naver.maps.Event.removeListener(idleEventListener);
-      map.destroy();
+      if (mapInstance.current) {
+        setMapInstance(null);
+        mapInstance.current.destroy();
+      }
     };
-  }, [locationAccessStatus]);
+  }, [setMapInstance, locationAccessStatus]);
 
   /* [useEffect] markerInfos 변경될 때 */
   useEffect(() => {
@@ -134,14 +141,6 @@ const MapSheet = () => {
     const { objectList, idList } = result;
     setNewMarkerObjectList(objectList);
     setMarkerIdList(idList);
-    if (filters.activeFilter === 'category') return;
-    const newBounds = createMarkersBounds(objectList);
-    if (!newBounds) return;
-
-    mapInstance.current?.fitBounds(newBounds, {
-      bottom: idList.length === 1 ? 3200 : 480,
-      maxZoom: 16,
-    });
   }, [markerInfos]);
 
   /* [useEffect] prevMarkerObjectList 변경될 때 */
@@ -152,7 +151,14 @@ const MapSheet = () => {
   /* [useEffect] newMarkerObjectList 변경될 때 */
   useEffect(() => {
     if (!mapInstance.current) return;
-    addMarkers(mapInstance, newMarkerObjectList, true, markerIdList, navigate);
+    addMarkers(
+      mapInstance,
+      newMarkerObjectList,
+      true,
+      markerIdList,
+      navigate,
+      fitCenterLocation
+    );
   }, [newMarkerObjectList]);
 
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
