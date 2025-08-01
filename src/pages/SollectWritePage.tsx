@@ -3,7 +3,6 @@ import SollectWriteContent from '../components/Sollect/SollectWrite/SollectWrite
 import SollectWriteImageInput from '../components/Sollect/SollectWrite/SollectWriteImageInput';
 
 const SollectWritePage = () => {
-  const footerRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
   //setTimeout을 이용해 항상 footer의 input Event가 먼저 반응할 수 있도록 함
   const vv = window.visualViewport;
@@ -28,22 +27,22 @@ const SollectWritePage = () => {
 
   //textarea focus/blur 시 footer 위치 조정
   //safari에서는 blur 이벤트가 즉시 반응함
-  function focus() {
-    setTimeout(() => {
-      console.log('focus timeout');
-      window.scrollTo(0, 1); // Scroll to the top to avoid keyboard overlap
-      contentRef.current!.style.height = `${vv!.height - 95}px`; // Adjust height based on viewport
-    }, 0);
-  }
-  function blur() {
-    setTimeout(() => {
-      contentRef.current!.style.height = `100dvh`; // Adjust height based on viewport
-    }, 0);
-  }
+  // function focus() {
+  //   setTimeout(() => {
+  //     console.log('focus timeout');
+  //     window.scrollTo(0, 1); // Scroll to the top to avoid keyboard overlap
+  //     contentRef.current!.style.height = `${vv!.height - 95}px`; // Adjust height based on viewport
+  //   }, 0);
+  // }
+  // function blur() {
+  //   setTimeout(() => {
+  //     contentRef.current!.style.height = `100dvh`; // Adjust height based on viewport
+  //   }, 0);
+  // }
   return (
     <div className='w-full h-full flex flex-col'>
-      <SollectWriteContent footerRef={footerRef} contentRef={contentRef} />
-      <SollectWriteImageInput footerRef={footerRef} />
+      <SollectWriteContent ref={contentRef} />
+      <SollectWriteImageInput />
     </div>
   );
 };
