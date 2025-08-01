@@ -14,7 +14,7 @@ const ShowAllReviewsButton: React.FC = () => {
           state: { name: selectedPlace.name },
         })
       }
-      className='w-full p-16 flex justify-center items-center cursor-pointer'>
+      className='w-full p-16 flex justify-center items-center cursor-pointer button'>
       <span className='text-primary-500 text-xs font-normal underline leading-none'>
         리뷰 더보기
       </span>

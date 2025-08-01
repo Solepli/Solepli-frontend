@@ -24,7 +24,7 @@ const SolmarkNoResult = ({ type }: { type: string }) => {
         아직 {type === 'sollect' ? '저장된' : '작성된'} 쏠렉트가 없어요!
       </p>
       <div
-        className='flex justify-center text-sm text-primary-700 underline items-center'
+        className='flex justify-center text-sm text-primary-700 underline items-center button'
         onClick={handleClick}>
         {type === 'sollect' && '쏠렉트 보러가기'}
         {type === 'my' && (

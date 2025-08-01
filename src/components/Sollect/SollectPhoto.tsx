@@ -36,7 +36,7 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
   return (
     <div
       onClick={handleClick}
-      className='relative h-220 rounded-lg overflow-hidden flex flex-col justify-end shrink-0'
+      className='relative h-220 rounded-lg overflow-hidden flex flex-col justify-end shrink-0 button'
       style={{
         backgroundImage: `url(${sollect.thumbnailImage})`,
         backgroundRepeat: 'no-repeat',
@@ -56,7 +56,7 @@ const SollectPhoto: React.FC<Props> = ({ sollect, isMine, horizontal }) => {
             <img
               src={kebabWhite}
               alt='kebab'
-              className='w-24 h-24'
+              className='w-24 h-24 button'
               onClick={() => setShowMenu(!showMenu)}
             />
 

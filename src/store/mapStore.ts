@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { LatLngType } from '../types';
+import { LatLngType, MarkerInfoType } from '../types';
 
 interface MapState {
   locationAccessStatus: boolean | null;
@@ -16,9 +16,15 @@ interface MapState {
 
   lastZoom: number;
   setLastZoom: (zoom: number) => void;
+
+  mapInstance: naver.maps.Map | null;
+  setMapInstance: (map: naver.maps.Map | null) => void;
+
+  fitCenterLocation: (lat: number, lng: number) => void;
+  fitBoundsToMarkers: (markerInfos: MarkerInfoType[]) => void;
 }
 
-export const useMapStore = create<MapState>((set) => ({
+export const useMapStore = create<MapState>((set, get) => ({
   locationAccessStatus: null,
   setLocationAccessStatus: (b) => set({ locationAccessStatus: b }),
 
@@ -33,4 +39,40 @@ export const useMapStore = create<MapState>((set) => ({
 
   lastZoom: 15,
   setLastZoom: (zoom) => set({ lastZoom: zoom }),
+
+  mapInstance: null,
+  setMapInstance: (map) => set({ mapInstance: map }),
+
+  fitCenterLocation: (lat: number, lng: number) => {
+    const { mapInstance } = get();
+    if (!mapInstance) return;
+
+    const bounds = new naver.maps.LatLngBounds(
+      new naver.maps.LatLng(lat, lng),
+      new naver.maps.LatLng(lat, lng)
+    );
+
+    mapInstance.fitBounds(bounds, {
+      bottom: 360,
+      maxZoom: 18,
+    });
+  },
+
+  fitBoundsToMarkers: (markerInfos: MarkerInfoType[]) => {
+    const { mapInstance } = get();
+    if (!mapInstance || !markerInfos.length) return;
+
+    const bounds = new naver.maps.LatLngBounds(
+      new naver.maps.LatLng(0, 0),
+      new naver.maps.LatLng(0, 0)
+    );
+    markerInfos.forEach((marker) => {
+      bounds.extend(new naver.maps.LatLng(marker.latitude, marker.longitude));
+    });
+
+    mapInstance.fitBounds(bounds, {
+      bottom: markerInfos.length === 1 ? 360 : 180,
+      maxZoom: 16,
+    });
+  },
 }));

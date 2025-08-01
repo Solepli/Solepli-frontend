@@ -75,7 +75,7 @@ const SolmarkChip: React.FC<SolmarkChipProps> = ({
         {label ? (
           <div
             className={`flex w-58 h-32 p-2 border rounded-lg justify-center items-center 
-        ${isSolmark ? 'border-chip-mark bg-chip-mark' : 'border-chip-bg-mark'}`}>
+        ${isSolmark ? 'border-chip-mark bg-chip-mark' : 'border-chip-bg-mark'} button`}>
             <img
               src={isSolmark ? heartFillWhite : heart}
               alt=''

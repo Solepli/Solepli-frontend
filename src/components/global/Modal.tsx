@@ -19,10 +19,10 @@ const Modal:React.FC<ModalProps> = ({title, subtitle, leftText, rightText, onLef
         <div className='flex justify-between gap-8'>
           <div
             onClick={onLeftClick}
-            className='w-146 h-40 bg-primary-100 rounded flex justify-center items-center text-primary-950 text-sm text-center'>
+            className='w-146 h-40 bg-primary-100 rounded flex justify-center items-center text-primary-950 text-sm text-center button'>
             {leftText}
           </div>
-          <div onClick={onRightClick} className='w-146 h-40 bg-primary-700 rounded flex justify-center items-center text-primary-50 text-sm text-center'>{rightText}</div>
+          <div onClick={onRightClick} className='w-146 h-40 bg-primary-700 rounded flex justify-center items-center text-primary-50 text-sm text-center button'>{rightText}</div>
         </div>
       </div>
     </div>

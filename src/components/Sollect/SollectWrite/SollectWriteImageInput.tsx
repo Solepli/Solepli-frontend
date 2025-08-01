@@ -2,53 +2,68 @@ import AddLogo from '../../../assets/photoAddIcon.svg?react';
 import FilePicker from '../../global/FilePicker';
 import { useShallow } from 'zustand/shallow';
 import { useSollectWriteStore } from '../../../store/sollectWriteStore';
-import { RefObject } from 'react';
 
-const SollectWriteImageInput = ({
-  footerRef,
-}: {
-  footerRef: RefObject<HTMLDivElement | null>;
-}) => {
+const SollectWriteImageInput = () => {
   // const footerRef = useRef<HTMLDivElement>(null);
-  const { paragraphs, focusTextarea, caretPosition, insertImageAtCaret } =
-    useSollectWriteStore(
-      useShallow((state) => ({
-        paragraphs: state.paragraphs,
-        focusTextarea: state.focusTextarea,
-        caretPosition: state.caretPosition,
-        insertImageAtCaret: state.insertImageAtCaret,
-      }))
-    );
+  const { paragraphs, insertImageAtCaret } = useSollectWriteStore(
+    useShallow((state) => ({
+      focusSeq: state.focusSeq,
+      setFocus: state.setFocus,
+      getNextSeq: state.getNextSeq,
+      paragraphs: state.paragraphs,
+      setParagraphs: state.setParagraphs,
+      insertImageAtCaret: state.insertImageAtCaret,
+    }))
+  );
 
   const onFileChange = (newFiles: File[]) => {
     if (newFiles.length === 0) return;
 
-    if (focusTextarea) {
-      focusTextarea.focus(); // ensure focus
+    // if (focusSeq) {
+    //   // console.log('Inserting images at caret position:', caretPosition);
+    //   // const focusTextarea = focusTextareaRef.current;
+    //   // console.log('before paragraphs:', paragraphs);
+    //   // console.log('seq:', seq);
 
-      //textarea에서 저장한 caretPostion 을 이용해 사용
-      //기존 방식은 모바일에서 작동 안함
-      setTimeout(() => {
-        newFiles.reverse().forEach((file) => {
-          insertImageAtCaret(file, caretPosition);
-        });
-      }, 0);
-    } else {
-      // fallback: 그냥 맨 뒤에 삽입
-      newFiles.reverse().forEach((file) => {
-        insertImageAtCaret(file, null);
-      });
-    }
+    //   // const newParagraphs: Paragraph[] = [
+    //   //   ...paragraphs.slice(0, seq).map((p) => ({ ...p, seq: getNextSeq()})),
+    //   //   { ...paragraphs[seq], content: focusTextarea!.value.slice(0, caretPosition) } as Paragraph,
+    //   //   ...newFiles.map((file) => ({
+    //   //     seq: getNextSeq(),
+    //   //     type: 'IMAGE',
+    //   //     content: file.name,
+    //   //     file: file,
+    //   //     imageUrl: URL.createObjectURL(file),
+    //   //   } as Paragraph)),
+    //   //   { seq: getNextSeq(), type:'TEXT', content: focusTextarea!.value.slice(caretPosition) } as Paragraph,
+    //   //   ...paragraphs.slice(focusTextareaRef.seq + 1),
+    //   // ];
+
+    //   // console.log('New paragraphs after image insert:', newParagraphs);
+
+    //   //textarea에서 저장한 caretPostion 을 이용해 사용
+    //   //기존 방식은 모바일에서 작동 안함
+    //   setTimeout(() => {
+    //     newFiles.reverse().forEach((file) => {
+    //       insertImageAtCaret(file, focusSeq, );
+    //     });
+    //   }, 0);
+    // } else {
+    //   newFiles.reverse().forEach((file) => {
+    //     insertImageAtCaret(file);
+    //   });
+    // }
+    newFiles.reverse().forEach((file) => {
+      insertImageAtCaret(file);
+    });
   };
 
   return (
     <div
-      ref={footerRef}
       onClick={(e) => {
         e.stopPropagation();
       }}
-      // footer는 -translate-y-full로 설정해 footer의 top이 전체 화면 bottom 0에 위치할 경우 footer가 다 보임
-      className='w-full h-44 flex items-center justify-start px-16 fixed -translate-y-full border-t border-grayScale-100 bg-white'>
+      className='w-full h-44 flex items-center justify-start px-16 border-t border-grayScale-100 bg-white button'>
       <FilePicker
         files={paragraphs
           .filter((p) => p.type === 'IMAGE')

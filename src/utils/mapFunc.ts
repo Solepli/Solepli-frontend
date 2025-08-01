@@ -266,7 +266,8 @@ export const addMarkers = (
   objectList: naver.maps.Marker[] | null,
   isClickAble: boolean = false,
   markerIdList?: number[] | null,
-  navigate?: NavigateFunction
+  navigate?: NavigateFunction,
+  fitCenterLocation?: (lat: number, lng: number) => void
 ) => {
   if (!mapRef.current || !objectList) return;
 
@@ -275,12 +276,10 @@ export const addMarkers = (
     m.setMap(mapRef.current);
 
     // 이벤트 리스너 (마커 클릭)
-    if (!isClickAble || !markerIdList || !navigate) return;
+    if (!isClickAble || !markerIdList || !navigate || !fitCenterLocation)
+      return;
     naver.maps.Event.addListener(m, 'click', () => {
-      mapRef.current?.morph(m.getPosition(), 16, {
-        duration: 1000,
-        easing: 'easeOutCubic',
-      });
+      fitCenterLocation(m.getPosition().y, m.getPosition().x);
 
       // todo : improve
       const isSame = window.location.pathname.includes(

@@ -115,7 +115,7 @@ const SolroutePlace: React.FC<SolroutePlaceProps> = ({
               <div className='flex w-40 h-40 justify-end items-center gap-10'>
                 <div
                   onClick={() => setShowDeleteModal(true)}
-                  className='flex p-4 items-center rounded-lg border-1 border-solid border-primary-700'>
+                  className='flex p-4 items-center rounded-lg border-1 border-solid border-primary-700 button'>
                   <Trash className='text-primary-700' />
                 </div>
               </div>

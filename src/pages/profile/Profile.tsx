@@ -48,7 +48,7 @@ const Profile = () => {
 
             <p className='font-semibold text-primary-950 mb-4'>{nickname}</p>
             <p
-              className='text-sm text-primary-700 underline'
+              className='text-sm text-primary-700 underline button'
               onClick={() => navigate('/profile/edit')}>
               프로필 수정
             </p>

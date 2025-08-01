@@ -5,6 +5,7 @@ import TagList from '../BottomSheet/TagList';
 import { placeSummary, SolroutePreviewSummary } from '../../types';
 import SelectableChip from '../global/SelectableChip';
 import { useNavigate } from 'react-router-dom';
+import { useMarkerStore } from '../../store/markerStore';
 
 interface SummaryProps {
   place: SolroutePreviewSummary | placeSummary;
@@ -20,6 +21,8 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
 }) => {
   const navigate = useNavigate();
 
+  const { searchByPlace } = useMarkerStore();
+
   if (!place) {
     return;
   }
@@ -27,11 +30,13 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
   const handleClick = () => {
     //쏠루트일 경우는 detail로 이동하지 않음
     if (isSolroute) return;
+    searchByPlace(place.id);
     navigate(`/map/detail/${place.id}`);
   };
+
   return (
     <div
-      className='w-full bg-white pt-12 pb-8 border-b border-primary-100'
+      className='w-full bg-white pt-12 pb-8 border-b border-primary-100 button'
       onClick={handleClick}>
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}

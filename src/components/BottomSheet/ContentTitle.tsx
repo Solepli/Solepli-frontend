@@ -97,12 +97,26 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
       <div className='flex justify-between pb-8 px-16'>
         {/* left */}
         <div className='inline-flex items-center'>
-          <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
-            {place.name}
-          </span>
-          <span className='text-sm text-primary-400 pr-12'>
+          {isPreview && (
+            <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4'>
+              {place.name.length > 10
+                ? place.name.substring(0, 10) + '...'
+                : place.name}
+            </span>
+          )}
+
+          {isDetail && (
+            <span className='text-lg leading-relaxed text-primary-900 font-bold pr-4 break-keep line-clamp-2'>
+              {place.name}
+            </span>
+          )}
+
+          <div className='self-start pt-2'>
+
+          <span className='text-sm text-primary-400 pr-12 whitespace-nowrap'>
             {place.detailedCategory}
           </span>
+          </div>
           {isPreview && (
             <span className='text-sm text-primary-900 font-semibold'>
               {place.isOpen ? '영업 중' : '영업 종료'}
@@ -129,7 +143,7 @@ const ContentTitle: React.FC<ContentTitleProps> = ({
               isMarked={detailPlace.isMarked}
             />
             <div
-              className={`${buttonStyle} border border-primary-400`}
+              className={`${buttonStyle} border border-primary-400 button`}
               onClick={copyUrl}>
               <img src={share} alt='share' />
             </div>

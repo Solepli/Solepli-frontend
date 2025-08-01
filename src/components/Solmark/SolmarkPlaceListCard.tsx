@@ -29,7 +29,7 @@ const SolmarkPlaceListCard: React.FC<SolmarkPlaceListProps> = ({ list, isSolrout
 
   return (
     <div
-      className='py-8 px-10 flex bg-white rounded-lg border-1 border-primary-200 items-center gap-10'
+      className='py-8 px-10 flex bg-white rounded-lg border-1 border-primary-200 items-center gap-10 button'
       onClick={handleClick}>
       <div className='w-40 h-40 p-8 bg-primary-50 rounded'>
         <img src={heartFill} alt='' />

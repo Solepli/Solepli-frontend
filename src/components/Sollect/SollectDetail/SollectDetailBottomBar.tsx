@@ -61,7 +61,7 @@ const SollectDetailBottomBar = () => {
         )}
         <p>{count}</p>
       </div>
-      <img src={share} alt='' className='w-32 h-32' onClick={copyUrl} />
+      <img src={share} alt='' className='w-32 h-32 button' onClick={copyUrl} />
     </div>
   );
 };

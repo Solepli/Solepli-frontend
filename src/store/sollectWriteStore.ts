@@ -12,19 +12,21 @@ type SollectWriteState = {
   thumbnail: Paragraph | null;
   paragraphs: Paragraph[];
   places: PlaceInfo[];
+  getNextSeq: () => number; // 다음 시퀀스를 가져오는 함수
   setTitle: (title: string | null) => void; // 제목을 설정하는 함수
   setThumbnail: (thumbnail: Paragraph | null) => void; // 썸네일을 설정하는 함수
-  addTextParagraph: (afterSeq?: number) => void;
+  addTextParagraph: (seq?: number) => void;
   addImageParagraph: (file: File, afterSeq?: number) => void;
   updateParagraphContent: (seq: number, content: string) => void;
   deleteParagraph: (seq: number) => void;
   setParagraphs: (paragraphs: Paragraph[]) => void;
   setFocus: (seq: number, el: HTMLTextAreaElement | null) => void;
   setCaretPosition: (caret: number) => void;
-  insertImageAtCaret: (file: File, caret?: number | null) => void;
+  insertImageAtCaret: (file: File, seq?:number, caret?: number | null) => void;
   addPlace: (place: PlaceInfo) => void; // 장소 ID 목록을 설정하는 함수
   removePlace: (id: number | null) => void; // 선택된 place 해제
   reset: () => void;
+  flushParagraphsFromRefs: (refMap: Map<number, HTMLTextAreaElement>) => void;
 };
 
 export const useSollectWriteStore = create<SollectWriteState>((set) => ({
@@ -48,19 +50,22 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       thumbnail,
     })),
 
-  addTextParagraph: (afterSeq) =>
+  addTextParagraph: (seq) =>
     set((state) => {
       const newPara: Paragraph = {
         seq: state.seq++,
         type: 'TEXT',
         content: '',
       };
-      if (!afterSeq) return { paragraphs: [...state.paragraphs, newPara] };
+
+      if (seq === undefined) {
+        return { paragraphs: [...state.paragraphs, newPara] };
+      }
 
       const updated = [
-        ...state.paragraphs.slice(0, afterSeq + 1),
+        ...state.paragraphs.slice(0, seq),
         newPara,
-        ...state.paragraphs.slice(afterSeq + 1),
+        ...state.paragraphs.slice(seq + 1),
       ];
       return { paragraphs: updated };
     }),
@@ -85,22 +90,36 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       return { paragraphs: updated };
     }),
 
-  updateParagraphContent: (seq, content) =>
-    set((state) => ({
-      paragraphs: state.paragraphs.map((p) =>
-        p.seq === seq ? { ...p, content } : p
-      ),
-    })),
+updateParagraphContent: (seq, content) =>
+  set((state) => {
+    const index = state.paragraphs.findIndex((p) => p.seq === seq);
+    if (index === -1) return {}; // 없는 seq면 변경 없음
+
+    const updated = [...state.paragraphs];
+    updated[index] = { ...updated[index], content };
+
+    return { paragraphs: updated };
+  }),
 
   deleteParagraph: (seq) =>
     set((state) => ({
-      paragraphs: state.paragraphs.filter((p) => p.seq !== seq),
+      paragraphs: [...state.paragraphs].filter((p) => p.seq !== seq),
     })),
 
-  setParagraphs: (paragraphs: Paragraph[]) =>
+  setParagraphs: (paragraphs: Paragraph[]) => {
     set(() => ({
       paragraphs,
-    })),
+    }));
+  },
+
+  getNextSeq: () => {
+  let next: number;
+  set((state) => {
+    next = state.seq;
+    return { seq: state.seq + 1 };
+  });
+  return next!;
+},
 
   setFocus: (seq, el) =>
     set(() => ({
@@ -111,7 +130,7 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
   setCaretPosition: (caretPosition: number | null) =>
     set(() => ({ caretPosition })),
 
-  insertImageAtCaret: (file, caret = null) => {
+  insertImageAtCaret: (file, ) => {
     set((state) => {
       // focus된 텍스트 영역이 없으면 새 단락 추가
       if (!state.focusTextarea) {
@@ -120,6 +139,7 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
       }
 
       const idx = state.paragraphs.findIndex((p) => p.seq === state.focusSeq);
+      const caret = state.focusTextarea?.selectionStart ?? null;
       if (idx === -1 || state.paragraphs[idx].type !== 'TEXT') {
         // focus된 단락이 없거나 텍스트 단락이 아니면 새 단락 추가
         state.addImageParagraph(file);
@@ -168,6 +188,16 @@ export const useSollectWriteStore = create<SollectWriteState>((set) => ({
     set((state) => ({
       places: [...state.places].filter((p) => p.id !== id),
     })),
+
+  flushParagraphsFromRefs: (refMap: Map<number, HTMLTextAreaElement>) => {
+    set((state) => {
+      const updated = state.paragraphs.map((p) => ({
+        ...p,
+        content: refMap.get(p.seq)?.value ?? p.content,
+      }));
+      return { paragraphs: updated };
+    });
+  },
 
   reset: () =>
     set({

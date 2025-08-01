@@ -10,7 +10,7 @@ const TitleHeader: React.FC<
   return (
     <header
       className={`w-full flex items-center py-4 fixed z-101 bg-white top-0 ${center ? 'text-center' : ''}`}>
-      <div className='p-9 flex items-center justify-content' onClick={onClick}>
+      <div className='p-9 flex items-center justify-content button' onClick={onClick}>
         <Arrow />
       </div>
       {/* iconId가 있다면 아이콘을 표시 */}
