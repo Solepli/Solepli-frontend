@@ -30,7 +30,7 @@ export const getRelatedSearchPlaces = async (keyword: string) => {
       },
     });
 
-    return res.data.data;
+    return res.data.data.contents;
   } catch (e) {
     console.error(e);
   }
