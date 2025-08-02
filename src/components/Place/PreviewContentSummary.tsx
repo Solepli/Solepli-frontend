@@ -52,7 +52,10 @@ const PreviewContentSummary: React.FC<SummaryProps> = ({
         {/* right */}
         {/* preview */}
         {!isSolroute ? (
-          <SolmarkChip placeId={place.id} isMarked={isMarked} />
+          <SolmarkChip
+            placeId={place.id}
+            isMarked={place.isMarked || isMarked}
+          />
         ) : (
           //쏠루트에서 해당 컴포넌트를 호출할 때는 항상 SolroutePreviewSummary type을 받아야 함
           <SelectableChip place={place as SolroutePreviewSummary} />
