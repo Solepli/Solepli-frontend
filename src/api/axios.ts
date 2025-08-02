@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from './urls';
+import authStore from '../store/authStore';
 
 // 인증 필요 x
 export const publicAxios = axios.create({
@@ -46,7 +47,7 @@ privateAxios.interceptors.response.use(
   async (error) => {
     const { config, response } = error;
     const originalRequest = config;
-    const isLoggedIn = localStorage.getItem('accessToken') !== null;
+    const isLoggedIn = authStore.getState().isLoggedIn;
 
     if (isLoggedIn && response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
