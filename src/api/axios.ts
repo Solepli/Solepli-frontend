@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from './urls';
+import authStore from '../store/authStore';
 
 // 인증 필요 x
 export const publicAxios = axios.create({
@@ -21,21 +22,67 @@ privateAxios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-//privateAxios에  토큰이  없다면 로그인 페이지로 리다이렉트
+let isRefreshing = false;
+let requestQueue: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resolve: (value: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  reject: (reason?: any) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config: any;
+}[] = [];
+
+// dev 환경에서는 baseURL을 빈 문자열로 설정해 프록시를 이용하도록 함
+// 기존에 생성한 privateAxios를 이용하면 무한 루프가 발생할 수 있으므로 새로운 axios 인스턴스를 생성
+function refreshAuthToken() {
+  const baseURL = import.meta.env.DEV ? '' : BASE_URL;
+  return axios.post('/api/auth/reissue-token', null, {
+    baseURL,
+    withCredentials: true,
+  });
+}
+
 privateAxios.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const { response } = error;
-    if (response?.status === 401) {
-      const token = localStorage.getItem('accessToken');
-      if (token) {
-        console.warn('토큰이 유효하지 않습니다. ');
-        localStorage.removeItem('accessToken');
-        window.location.href = '/login'; // 또는 navigate('/login')
-      }
+  (response) => response,
+  async (error) => {
+    const { config, response } = error;
+    const originalRequest = config;
+    const isLoggedIn = authStore.getState().isLoggedIn;
+
+    if (isLoggedIn && response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      return new Promise((resolve, reject) => {
+        requestQueue.push({ resolve, reject, config: originalRequest });
+
+        if (!isRefreshing) {
+          isRefreshing = true;
+
+          refreshAuthToken()
+            .then((res) => {
+              const newToken = res.data.data.accessToken;
+              localStorage.setItem('accessToken', newToken);
+
+              // 큐에 쌓인 모든 요청 다시 실행
+              requestQueue.forEach(({ resolve, config }) => {
+                config.headers.Authorization = `Bearer ${newToken}`;
+                resolve(privateAxios(config));
+              });
+              requestQueue = [];
+            })
+            .catch((err) => {
+              requestQueue.forEach(({ reject }) => reject(err));
+              requestQueue = [];
+              localStorage.removeItem('accessToken');
+              window.location.replace('/login');
+            })
+            .finally(() => {
+              isRefreshing = false;
+            });
+        }
+      });
     }
+
     return Promise.reject(error);
   }
 );
