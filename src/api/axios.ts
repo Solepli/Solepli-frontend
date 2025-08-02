@@ -46,8 +46,9 @@ privateAxios.interceptors.response.use(
   async (error) => {
     const { config, response } = error;
     const originalRequest = config;
+    const isLoggedIn = localStorage.getItem('accessToken') !== null;
 
-    if (response?.status === 401 && !originalRequest._retry) {
+    if (isLoggedIn && response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       return new Promise((resolve, reject) => {
@@ -58,7 +59,7 @@ privateAxios.interceptors.response.use(
 
           refreshAuthToken()
             .then((res) => {
-              const newToken = res.data.accessToken;
+              const newToken = res.data.data.accessToken;
               localStorage.setItem('accessToken', newToken);
 
               // 큐에 쌓인 모든 요청 다시 실행
