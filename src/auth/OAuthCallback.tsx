@@ -43,6 +43,7 @@ const OAuthCallback = () => {
     client
       .get(ENDPOINT.OAUTH_CALLBACK(loginType.toUpperCase()), {
         params: { code },
+        withCredentials: true,
       })
       .then((response) => {
         const accessToken = response.data.data.accessToken;
