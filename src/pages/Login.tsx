@@ -3,9 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import loginBackground from '../assets/loginBackground.jpg';
 import Logo from '../assets/SolepliLogoLogin.svg?react';
 import LoginButtons from '../auth/LoginButtons';
+import { useShallow } from 'zustand/shallow';
+import useAuthStore from '../store/authStore';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { logout } = useAuthStore(
+    useShallow((state) => ({
+      logout: state.logout,
+    }))
+  );
   const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
@@ -14,6 +21,11 @@ const Login = () => {
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
+
+  const onClick = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
 
   return (
     <div
@@ -34,8 +46,7 @@ const Login = () => {
           <LoginButtons />
           <div
             className='text-grayScale-400 text-xs font-medium underline leading-none text-center pt-24 button'
-            onClick={() => navigate('/', { replace: true })}
-          >
+            onClick={onClick}>
             비회원으로 이용하기
           </div>
         </div>

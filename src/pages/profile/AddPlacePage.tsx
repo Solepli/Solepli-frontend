@@ -8,6 +8,9 @@ import LargeButton from '../../components/global/LargeButton';
 import { postPlaceRequest } from '../../api/profileApi';
 import { useInputAdjustScale } from '../../hooks/useInputAdjustScale';
 import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
+import Success from '../../components/global/Success';
 
 const AddPlacePage = () => {
   const inputPlaceRef = useRef<HTMLInputElement | null>(null);
@@ -47,7 +50,15 @@ const AddPlacePage = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => requestAddPlace(),
+    onSuccess: () => {
+      toast(<Success title='장소 추가 요청이 완료됐습니다' />);
+      navigate('/profile');
+    },
+  });
+
+  const requestAddPlace = async () => {
     const requestBody = {
       placeName: placeName.trim(),
       address: address.trim(),
@@ -56,7 +67,10 @@ const AddPlacePage = () => {
     };
 
     await postPlaceRequest(requestBody);
-    navigate('/profile');
+  };
+
+  const handleSubmit = async () => {
+    await mutateAsync();
   };
 
   const headerStyle = 'text-primary-950 text-sm font-bold';
@@ -149,7 +163,11 @@ const AddPlacePage = () => {
               ({note.length}/500)
             </div>
           </div>
-          <LargeButton text='전송' onClick={handleSubmit} />
+          <LargeButton
+            text={isPending ? '전송 중' : '전송'}
+            disable={isPending}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </div>

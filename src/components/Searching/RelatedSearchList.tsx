@@ -4,10 +4,7 @@ import SearchTitle from './SearchTitle';
 import { useSearchStore } from '../../store/searchStore';
 import useDebounce from '../../hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
-import {
-  getRelatedSearchPlaces,
-  getRelatedSearchWords,
-} from '../../api/searchApi';
+import { getRelatedSearchWords } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import { useMapStore } from '../../store/mapStore';
 
@@ -37,28 +34,11 @@ const RelatedSearchList: React.FC = () => {
     enabled: debouncedInput !== '' && !!userLatLng,
   });
 
-  // 입력값과 관련된 장소들을 RelatedSearchPlace type으로 가져옴
-  const { data: dataNoLoc, isSuccess: successNoLoc } = useQuery({
-    queryKey: ['RSList', debouncedInput],
-    queryFn: () => {
-      return getRelatedSearchPlaces(debouncedInput);
-    },
-    enabled: debouncedInput !== '' && userLatLng === null,
-  });
-
   useEffect(() => {
     if (successWithLoc) {
       setRelatedSearchList(dataWithLoc);
-    } else if (successNoLoc && dataNoLoc) {
-      setRelatedSearchList(dataNoLoc);
     }
-  }, [
-    setRelatedSearchList,
-    successWithLoc,
-    successNoLoc,
-    dataWithLoc,
-    dataNoLoc,
-  ]);
+  }, [setRelatedSearchList, successWithLoc, dataWithLoc]);
 
   return (
     <div className='flex flex-col items-start'>

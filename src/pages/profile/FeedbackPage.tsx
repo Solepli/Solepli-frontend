@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { postFeedback } from '../../api/profileApi';
 import LargeButton from '../../components/global/LargeButton';
 import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
+import { toast } from 'react-toastify';
+import Success from '../../components/global/Success';
+import { useMutation } from '@tanstack/react-query';
 
 const FeedbackPage = () => {
   const navigate = useNavigate();
@@ -11,9 +14,16 @@ const FeedbackPage = () => {
   const [feedback, setFeedback] = useState('');
   useAutoResizeAndScroll(textareaRef);
 
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: () => postFeedback(feedback),
+    onSuccess: () => {
+      toast(<Success title='의견 남기기 성공했습니다' />);
+      navigate('/profile');
+    },
+  });
+
   const handleSubmit = async () => {
-    await postFeedback(feedback);
-    navigate('/profile');
+    await mutateAsync();
   };
   return (
     <div className='w-full'>
@@ -43,7 +53,11 @@ const FeedbackPage = () => {
             ({feedback.length}/1000)
           </div>
         </div>
-        <LargeButton text='전송' onClick={handleSubmit} />
+        <LargeButton
+          text={isPending ? '전송 중' : '전송'}
+          disable={isPending}
+          onClick={handleSubmit}
+        />
       </div>
     </div>
   );

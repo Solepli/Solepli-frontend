@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/shallow';
 import useLocationStore from '../store/locationStore';
 import { publicAxios } from '../api/axios';
 import { ENDPOINT } from '../api/urls';
+import axios from 'axios';
 
 const OAuthCallback = () => {
   const { search } = useLocation();
@@ -36,7 +37,10 @@ const OAuthCallback = () => {
       return;
     }
 
-    publicAxios
+    //dev 환경에서는 baseURL을 빈 문자열로 설정해 프록시를 이용하도록 함
+    const client = import.meta.env.DEV ? axios : publicAxios;
+
+    client
       .get(ENDPOINT.OAUTH_CALLBACK(loginType.toUpperCase()), {
         params: { code },
       })

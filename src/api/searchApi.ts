@@ -22,15 +22,21 @@ export const getRelatedSearchWords = async (
   }
 };
 
-export const getRelatedSearchPlaces = async (keyword: string) => {
+export const getRelatedSearchPlaces = async (
+  keyword: string,
+  userLat?: number,
+  userLng?: number
+) => {
   try {
     const res = await privateAxios.get(ENDPOINT.PLACE_SEARCH, {
       params: {
-        keyword: keyword,
+        keyword,
+        userLat,
+        userLng,
       },
     });
 
-    return res.data.data.contents;
+    return res.data.data;
   } catch (e) {
     console.error(e);
   }
