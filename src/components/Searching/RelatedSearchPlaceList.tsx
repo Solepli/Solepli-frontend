@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getRelatedSearchPlaces } from '../../api/searchApi';
 import { useShallow } from 'zustand/shallow';
 import RelatedSearchPlace from './RelatedSearchPlace';
+import { useMapStore } from '../../store/mapStore';
 
 const RelatedSearchPlaceList: React.FC = () => {
   //search와 관련된 store
@@ -18,13 +19,18 @@ const RelatedSearchPlaceList: React.FC = () => {
       }))
     );
 
+  const { userLatLng } = useMapStore();
   const debouncedInput = useDebounce(inputValue, 500);
 
   // 입력값과 관련된 장소들을 RelatedSearchPlace type으로 가져옴
   const { data, isSuccess, error } = useQuery({
     queryKey: ['RSList', debouncedInput],
     queryFn: () => {
-      return getRelatedSearchPlaces(debouncedInput);
+      return getRelatedSearchPlaces(
+        debouncedInput,
+        userLatLng?.lat,
+        userLatLng?.lng
+      );
     },
     enabled: debouncedInput !== '',
   });
