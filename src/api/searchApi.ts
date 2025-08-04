@@ -36,7 +36,7 @@ export const getRelatedSearchPlaces = async (
       },
     });
 
-    return res.data.data.contents;
+    return res.data.data;
   } catch (e) {
     console.error(e);
   }
