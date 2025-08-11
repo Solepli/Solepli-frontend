@@ -22,7 +22,11 @@ const SearchArea: React.FC = () => {
     setInputValue('');
     setRelatedSearchList([]);
     setRelatedSearchPlaceList([]);
-    navigate(-1);
+    if (location.pathname.includes('/solroute/write/search')) {
+      navigate('/solroute/write');
+    } else {
+      navigate(-1);
+    }
   };
 
   return (
