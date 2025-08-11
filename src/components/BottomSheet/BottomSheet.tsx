@@ -33,6 +33,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [dragOffset, setDragOffset] = React.useState(0);
   const isHeader = useRef(false);
   const isDragging = useRef(false);
+  const pointerDownTarget = useRef<EventTarget | null>(null);
   const location = useLocation();
   const isCategory = location.pathname === '/map';
   const isList = location.pathname === '/map/list';
@@ -48,6 +49,7 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const MID = isCategory ? null : MID_Y;
 
   const handlePointerDown = (e: React.PointerEvent) => {
+    pointerDownTarget.current = e.target;
     setDragStartY(e.clientY);
     sheetRef.current?.setPointerCapture(e.pointerId);
   };
@@ -56,9 +58,9 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (snap === MAX && !isHeader.current && !isCategory) return; // MAX_Y일 때는 Header를 통해서만 드래그 가능(카테고리 제외)
 
     if (dragStartY !== null) {
-      isDragging.current = true;
       const offset = dragStartY - e.clientY; //offset이 양수면 위로 드래그, 음수면 아래로 드래그
       if (Math.abs(offset) < 10) return; // 드래그 감지 최소값
+      isDragging.current = true;
       if (offset > 0 && snap === MAX) return; // MAX_Y일 때는 위로 드래그 불가
       if (offset < 0 && snap === MIN) return; // MIN_Y일 때는 아래로 드래그 불가
       setDragOffset(offset);
@@ -85,13 +87,26 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return snap;
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (e: React.PointerEvent) => {
     if (dragStartY !== null) {
       const nextSnap: number = getNextSnap();
       setSnap(nextSnap);
     }
+
+    if (
+      e.pointerType === 'mouse' &&
+      !isDragging.current &&
+      pointerDownTarget.current
+    ) {
+      pointerDownTarget.current.dispatchEvent(
+        new MouseEvent('click', { bubbles: true, cancelable: true })
+      );
+    }
+
+    pointerDownTarget.current = null;
     isHeader.current = false;
     isDragging.current = false;
+    sheetRef.current?.releasePointerCapture(e.pointerId);
     setDragStartY(null);
     setDragOffset(0);
   };
