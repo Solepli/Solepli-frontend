@@ -114,6 +114,7 @@ const AppRouter = () => {
         <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
           <Route path='/sollect/write/*' element={<SollectWriteLayout />}>
             <Route index element={<SollectWritePage />} />
+            <Route path=':sollectId' element={<SollectWritePage />} />
             <Route path='place' element={<SollectWritePlacePage />} />
           </Route>
           <Route path='/sollect/write/search' element={<SearchPage />} />

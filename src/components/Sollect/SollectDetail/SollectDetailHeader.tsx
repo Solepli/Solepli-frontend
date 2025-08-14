@@ -8,7 +8,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteSollect } from '../../../api/sollectApi';
 import EditDeletePopover from '../../global/EditDeletePopover';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
-import { transformSollectDetailToWrite } from '../../../utils/transformDetailToWrite';
 
 const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
@@ -28,8 +27,7 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   };
 
   const onEditClick = () => {
-    transformSollectDetailToWrite(Number(sollectId));
-    navigate('/sollect/write/');
+    navigate(`/sollect/write/${sollectId}`);
   };
 
   const onBackClick = () => {
