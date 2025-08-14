@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Modal from '../components/global/Modal';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../main';
+import Loading from '../components/global/Loading';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
@@ -182,6 +183,8 @@ const SollectWriteLayout = () => {
       <div className='flex-1 overflow-y-auto'>
         <Outlet /> {/* editor, place … */}
       </div>
+
+      {isPending && <Loading text='쏠렉트 등록 중' />}
 
       {/* modal */}
       {showDeleteModal && (
