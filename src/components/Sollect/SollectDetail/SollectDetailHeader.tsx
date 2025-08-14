@@ -4,7 +4,7 @@ import arrowTailWhite from '../../../assets/arrowTailWhite.svg';
 import kebabWhite from '../../../assets/kebabWhite.svg';
 import kebabGray from '../../../assets/kebabGray.svg';
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { deleteSollect } from '../../../api/sollectApi';
 import EditDeletePopover from '../../global/EditDeletePopover';
 import { useSollectDetailStore } from '../../../store/sollectDetailStore';
@@ -14,6 +14,8 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const { sollectId } = useParams();
+  const location = useLocation();
+  const to = location.state?.to || null;
 
   // 내 글인지 확인
   const userId = localStorage.getItem('userId');
@@ -30,13 +32,21 @@ const SollectDetailHeader = ({ isTop }: { isTop: boolean }) => {
     navigate('/sollect/write/');
   };
 
+  const onBackClick = () => {
+    if (to) {
+      navigate(to);
+    } else {
+      navigate(-1);
+    }
+  };
+
   return (
     <div
       className={`w-full h-50 py-4 flex justify-between items-center fixed z-70 ${isTop ? 'bg-transparent' : 'bg-white'} transition-colors duration-300`}>
       {/* 뒤로가기 */}
       <div
         className='flex w-42 h-42 justify-center items-center gap-10 shrink-0 button'
-        onClick={() => navigate(-1)}>
+        onClick={onBackClick}>
         <img
           src={isTop ? arrowTailWhite : arrowTail}
           alt='arrowTail'
