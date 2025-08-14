@@ -168,3 +168,28 @@ button { @apply active:opacity-70 }
 .button{
   @apply active:opacity-70
 }
+
+.animate-breathe {
+  transform-box: fill-box;
+  animation:
+    breathe 1.6s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { scale: 0.92; }
+  50% { scale: 1.06; }
+}
+
+.animate-updown {
+  display: inline-block;
+  animation: bounceUpDown 1s ease-in-out infinite;
+}
+
+.delay-0 { animation-delay: 0s; }
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+
+@keyframes bounceUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
