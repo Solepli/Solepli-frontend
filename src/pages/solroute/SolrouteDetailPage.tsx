@@ -12,6 +12,7 @@ import Kebab from '../../assets/kebabGray.svg?react';
 import { queryClient } from '../../main';
 import { useSolrouteWriteStore } from '../../store/solrouteWriteStore';
 import { useShallow } from 'zustand/shallow';
+import Loading from '../../components/global/Loading';
 
 const SolrouteDetailPage = () => {
   const navigate = useNavigate();
@@ -93,6 +94,7 @@ const SolrouteDetailPage = () => {
           <SolrouteDetailPlace place={solroutePlace} key={solroutePlace.seq} />
         ))}
       </div>
+      {<Loading active={isLoading} text='쏠루트 삭제 중' />}
     </>
   );
 };

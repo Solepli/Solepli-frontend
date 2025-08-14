@@ -185,7 +185,7 @@ const SollectWriteLayout = () => {
         <Outlet /> {/* editor, place … */}
       </div>
 
-      {isPending && <Loading text='쏠렉트 등록 중' />}
+      {<Loading active={isPending} text='쏠렉트 등록 중' />}
 
       {/* modal */}
       {showDeleteModal && (

@@ -8,13 +8,14 @@ import LoginRequiredAction from '../../../auth/LoginRequiredAction';
 import { useState } from 'react';
 import Modal from '../../global/Modal';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../global/Loading';
 
 const AddCourseButton = () => {
   const [showModal, setShowModal] = useState(false);
   const { title, placeSummaries } = useSollectDetailStore();
   const navigate = useNavigate();
 
-  const mutation = useMutation({
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: (payload: SolroutePayload) => postSolroute(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['solroutes'] });
@@ -32,7 +33,7 @@ const AddCourseButton = () => {
       })),
     };
     // add to course
-    await mutation.mutateAsync(payload);
+    await mutateAsync(payload);
     queryClient.invalidateQueries({ queryKey: ['solroutes'] });
     setShowModal(true);
   };
@@ -46,6 +47,7 @@ const AddCourseButton = () => {
           <img src={addBlack} alt='add' className='w-24 h-24' /> 코스로 저장
         </button>
       </LoginRequiredAction>
+      {<Loading active={isPending} text='코스 저장 중' />}
       {showModal && (
         <Modal
           title='코스로 저장 완료!'

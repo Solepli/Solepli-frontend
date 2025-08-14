@@ -25,6 +25,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import Modal from '../../components/global/Modal';
 import { queryClient } from '../../main';
+import Loading from '../../components/global/Loading';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
@@ -255,6 +256,7 @@ const SolrouteWritePage = () => {
           onRightClick={handleModalRight}
         />
       )}
+      {<Loading active={editMutation.isPending || postMutation.isPending} text='쏠루트 작성 중' />}
     </div>
   );
 };
