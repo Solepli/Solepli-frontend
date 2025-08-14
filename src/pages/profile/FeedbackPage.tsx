@@ -7,6 +7,7 @@ import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 import { toast } from 'react-toastify';
 import Success from '../../components/global/Success';
 import { useMutation } from '@tanstack/react-query';
+import Loading from '../../components/global/Loading';
 
 const FeedbackPage = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ const FeedbackPage = () => {
           onClick={handleSubmit}
         />
       </div>
+      {<Loading active={isPending} text='의견 남기는 중' />}
     </div>
   );
 };

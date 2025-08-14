@@ -11,6 +11,7 @@ import SollectDetailBottomBar from '../components/Sollect/SollectDetail/SollectD
 import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton';
 import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
 import { placeSummary } from '../types';
+import Loading from '../components/global/Loading';
 
 const SollectDetailPage = () => {
   const { sollectId } = useParams();
@@ -25,7 +26,7 @@ const SollectDetailPage = () => {
 
   useEffect(() => {
     if (sollect.data) {
-      const sum = sollect.data.placeSummaries.map((place:RawPlace) => {
+      const sum = sollect.data.placeSummaries.map((place: RawPlace) => {
         return {
           ...place,
           // id: place.placeId,
@@ -103,6 +104,7 @@ const SollectDetailPage = () => {
           </p>
         </div>
       </div>
+      <Loading active={sollect.isLoading} text='쏠렉트 불러오는 중' />
     </div>
   );
 };
@@ -110,5 +112,5 @@ const SollectDetailPage = () => {
 export default SollectDetailPage;
 
 type RawPlace = placeSummary & {
-  placeId?:number;
-}
+  placeId?: number;
+};

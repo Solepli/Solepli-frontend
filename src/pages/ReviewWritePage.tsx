@@ -17,6 +17,7 @@ import LargeButton from '../components/global/LargeButton';
 import Modal from '../components/global/Modal';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../main';
+import Loading from '../components/global/Loading';
 
 const ReviewWrite: React.FC = () => {
   const navigate = useNavigate();
@@ -160,6 +161,7 @@ const ReviewWrite: React.FC = () => {
           bold={true}
         />
       </div>
+      {<Loading active={isPending} text='리뷰 작성 중' />}
       {showDeleteModal && (
         <Modal
           title='아직 작성 중인 내용이 있어요!'

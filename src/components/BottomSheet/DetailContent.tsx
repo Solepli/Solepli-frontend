@@ -10,6 +10,7 @@ import arrow from '../../assets/arrow.svg';
 import { useQuery } from '@tanstack/react-query';
 import ReviewWriteTriggerEmoji from './ReviewWrite/ReviewWriteTriggerEmoji';
 import DetailContentReviewResult from './DetailContentReviewResult';
+import Loading from '../global/Loading';
 
 const NoReviewResult: React.FC = () => {
   return (
@@ -33,7 +34,7 @@ const DetailContent: React.FC = () => {
     enabled: !!placeId,
   });
 
-  const[more, setMore] = useState(false);
+  const [more, setMore] = useState(false);
 
   // complete api: 마커 클릭시 해당 장소 상세정보 호출
   // complete api: 검색 결과에서 특정 장소 클릭시 상세 정보 호출
@@ -96,6 +97,7 @@ const DetailContent: React.FC = () => {
       ) : (
         <NoReviewResult />
       )}
+      {<Loading active={isLoading} text='쏠맵 불러오는 중' />}
     </div>
   );
 };

@@ -1,9 +1,21 @@
 import { useRef } from 'react';
 import SollectWriteContent from '../components/Sollect/SollectWrite/SollectWriteContent';
 import SollectWriteImageInput from '../components/Sollect/SollectWrite/SollectWriteImageInput';
+import { useParams } from 'react-router-dom';
+import { transformSollectDetailToWrite } from '../utils/transformDetailToWrite';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../components/global/Loading';
 
 const SollectWritePage = () => {
+  const params = useParams<{ sollectId?: string }>();
   const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const { isPending } = useQuery({
+    queryKey: ['sollectDetail', params.sollectId],
+    queryFn: () => transformSollectDetailToWrite(Number(params.sollectId)),
+    enabled: !!params.sollectId, // sollectId가 있을 때만 실행
+  });
+
   //setTimeout을 이용해 항상 footer의 input Event가 먼저 반응할 수 있도록 함
   const vv = window.visualViewport;
   if (!vv) return <div>Visual viewport not supported</div>;
@@ -43,6 +55,7 @@ const SollectWritePage = () => {
     <div className='w-full h-full flex flex-col'>
       <SollectWriteContent ref={contentRef} />
       <SollectWriteImageInput />
+      {<Loading active={isPending} text='쏠렉트 불러오는 중' delayMs={100} />}
     </div>
   );
 };
