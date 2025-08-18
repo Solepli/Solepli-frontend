@@ -1,17 +1,15 @@
 import logo from '../../assets/logo.svg';
-import add from '../../assets/add.svg';
+
 import search from '../../assets/search.svg';
 import { useSearchStore } from '../../store/searchStore';
 import { useNavigate } from 'react-router-dom';
-import LoginRequiredAction from '../../auth/LoginRequiredAction';
+
 
 const SollectGNB = () => {
   const { inputValue, setInputValue } = useSearchStore();
   const navigate = useNavigate();
 
-  const handleAddSollectButton = () => {
-    navigate('/sollect/write');
-  }
+
   return (
     <div className='flex px-16 py-12 gap-8 bg-white'>
       {/* logo */}

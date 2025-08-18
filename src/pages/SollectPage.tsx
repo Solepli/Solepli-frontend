@@ -5,6 +5,7 @@ import SollectGroupList from '../components/Sollect/SollectGroup/SollectGroupLis
 import { useSearchStore } from '../store/searchStore';
 import PopularSollectSlider from '../components/Sollect/PopularSollectSlider';
 import { useSollectStore } from '../store/sollectStore';
+import AddSollectButton from '../components/Sollect/AddSollectButton';
 
 const SollectPage = () => {
   const { setInputValue } = useSearchStore();
@@ -36,6 +37,11 @@ const SollectPage = () => {
 
       {/* Sollect Group List*/}
       <SollectGroupList />
+
+      {/* AddSollectButton */}
+      <div className='fixed z-10 bottom-73 right-12'>
+        <AddSollectButton />
+      </div>
     </div>
   );
 };
