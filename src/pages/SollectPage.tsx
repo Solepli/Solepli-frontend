@@ -14,7 +14,7 @@ const SollectPage = () => {
   useEffect(() => {
     setInputValue('');
     clearCategory();
-  }, []);
+  }, [clearCategory, setInputValue]);
 
   return (
     <div className='touch-pan-y'>
