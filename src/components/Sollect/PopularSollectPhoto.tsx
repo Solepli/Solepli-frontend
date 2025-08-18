@@ -21,7 +21,7 @@ const PopularSollectPhoto: React.FC<PopularSollectProps> = ({
   }
   return (
     <div
-      className={`relative rounded-lg overflow-hidden flex flex-col justify-end shrink-0 button ${center ? 'w-350 h-430' : 'w-320 h-390'}`}
+      className={`relative rounded-lg overflow-hidden flex flex-col justify-end shrink-0 ${center ? 'w-350 h-430' : 'w-320 h-390'}`}
       style={{
         backgroundImage: `url(${sollect.thumbnailImage})`,
         backgroundRepeat: 'no-repeat',
