@@ -110,7 +110,7 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className='flex gap-10 h-34 px-8 justify-between items-center grow bg-primary-100 rounded-xl'>
+    <div className='flex gap-10 h-34 px-8 justify-between items-center grow bg-primary-100 rounded-2xl'>
       <div className='grow flex items-center justify-start gap-4'>
         <img className='w-24 h-24 aspect-square' src={search} />
         <input

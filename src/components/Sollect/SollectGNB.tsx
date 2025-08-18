@@ -23,7 +23,7 @@ const SollectGNB = () => {
       />
 
       {/* search */}
-      <div className='px-8 py-4 border-1 border-primary-100 rounded-xl flex gap-4 w-full'>
+      <div className='px-8 py-4 border-1 border-primary-100 rounded-2xl flex gap-4 w-full'>
         <img src={search} alt='search' />
         <input
           type='text'
@@ -36,13 +36,13 @@ const SollectGNB = () => {
       </div>
 
       {/* AddSollectButton */}
-      <LoginRequiredAction
+      {/* <LoginRequiredAction
         onAction={handleAddSollectButton}
         targetSource='/sollect/write'>
         <button className='bg-primary-900 rounded-xl w-34 h-34 shrink-0 flex justify-center items-center'>
           <img src={add} alt='add' className='w-24 h-24' />
         </button>
-      </LoginRequiredAction>
+      </LoginRequiredAction> */}
     </div>
   );
 };
