@@ -39,12 +39,17 @@ import DeleteProfilePage from '../pages/profile/DeleteProfilePage';
 import useAuthStore from '../store/authStore';
 import useLocationStore from '../store/locationStore';
 import ProtectedRoute from './ProtectedRoute';
+import { useGlobalSwipeNavigation } from '../hooks/useGlobalSwipeNavigation';
 
 const AppRouter = () => {
   const location = useLocation();
   const { isLoggedIn } = useAuthStore();
   const background = useLocationStore().background;
   const modal = location.state?.modal;
+
+useGlobalSwipeNavigation({
+  excludedSelector: ".no-global-swipe",
+});
 
   return (
     <>

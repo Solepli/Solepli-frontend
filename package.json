@@ -15,6 +15,7 @@
     "@tanstack/react-query": "^5.71.1",
     "@tanstack/react-query-devtools": "^5.71.1",
     "axios": "^1.8.4",
+    "hammerjs": "^2.0.8",
     "qs": "^6.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@types/hammerjs": "^2.0.46",
     "@types/navermaps": "^3.7.9",
     "@types/node": "^24.1.0",
     "@types/qs": "^6.14.0",
