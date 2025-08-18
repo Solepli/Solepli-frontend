@@ -6,7 +6,11 @@ import Star from '../../../assets/star.svg?react';
 import ExpandableText from './ExpandableText';
 import ReviewPhotos from './ReviewPhotos';
 
+import { useState } from 'react';
+import ReivewPhotoLightBoxModal from './ReivewPhotoLightBoxModal';
+
 const Review = ({ review }: { review: ReviewType }) => {
+  const [open, setOpen] = useState(false);
   return (
     <div className='pt-20 pb-12 border-b border-grayScale-100'>
       <div className='px-16 pb-12 flex items-center justify-between'>
@@ -48,10 +52,12 @@ const Review = ({ review }: { review: ReviewType }) => {
         <TagList tags={review.tags} />
       </div>
       {review.photoUrls.length > 0 && (
-        <div className='pb-8'>
+        <div className='pb-8' onClick={() => setOpen(true)}>
           <ReviewPhotos images={review.photoUrls} />
         </div>
       )}
+
+      {open && <ReivewPhotoLightBoxModal images={review.photoUrls} open={open} setOpen={setOpen}/>}
     </div>
   );
 };
