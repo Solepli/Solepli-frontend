@@ -1,10 +1,7 @@
 import React from 'react';
-import { usePlaceStore } from '../../../store/placeStore';
 import RecommendedPreviewContentList from './RecommendedPreviewContentList';
 
 const PreviewContentEmpty: React.FC = () => {
-  const { recommendedPlaces } = usePlaceStore();
-
   return (
     <div>
       <div className='flex py-80 flex-col items-start'>
@@ -16,7 +13,7 @@ const PreviewContentEmpty: React.FC = () => {
         </div>
       </div>
 
-      {recommendedPlaces.length > 0 && <RecommendedPreviewContentList />}
+      <RecommendedPreviewContentList />
     </div>
   );
 };
