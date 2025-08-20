@@ -5,21 +5,26 @@ import { useMapStore } from '../../../store/mapStore';
 import { getPlacesNearby } from '../../../api/placeApi';
 import { useScrollSentinel } from '../../../hooks/useInfiniteScrollQuery';
 import { usePlaceStore } from '../../../store/placeStore';
+import { getCenterFromBounds } from '../../../utils/getCenterFromBounds';
 
 const PreviewContentEmpty: React.FC = () => {
   const { recommendedPlaces, setRecommendedPlaces } = usePlaceStore();
-  const { userLatLng } = useMapStore();
+  const { lastBounds } = useMapStore();
 
   const placesNearbyQuery = useInfiniteQuery({
-    queryKey: ['placesNearby', userLatLng],
-    queryFn: ({ pageParam = { cursorId: undefined, cursorDist: undefined } }) =>
-      getPlacesNearby(
-        userLatLng!.lat,
-        userLatLng!.lng,
+    queryKey: ['placesNearby'],
+    queryFn: ({
+      pageParam = { cursorId: undefined, cursorDist: undefined },
+    }) => {
+      const { centerY, centerX } = getCenterFromBounds(lastBounds!);
+      return getPlacesNearby(
+        centerY,
+        centerX,
         pageParam.cursorId,
         pageParam.cursorDist
-      ),
-    enabled: !!userLatLng,
+      );
+    },
+    enabled: !!lastBounds,
     getNextPageParam: (lastPage) => {
       if (!lastPage?.nextCursor) return undefined;
       return {
