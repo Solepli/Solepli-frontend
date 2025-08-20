@@ -141,7 +141,6 @@ const PreviewContentList: React.FC = () => {
 
   useEffect(() => {
     if (!activeQuery?.data) return;
-    console.log(activeQuery.data.pages);
     const places = activeQuery.data.pages.flatMap((page) => page.places);
     setPlaces(places);
   }, [activeQuery?.data, setPlaces]);
