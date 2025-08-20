@@ -47,23 +47,25 @@ const RecommendedPreviewContentList: React.FC = () => {
     setRecommendedPlaces(places);
   }, [placesNearbyQuery?.data, setRecommendedPlaces]);
 
-  return (
-    <div>
-      <div className='flex pt-0 px-16 pb-16 items-center gap-10 self-stretch'>
-        <div className='flex-1 h-1 bg-primary-100' />
-        <p className='text-sm font-bold leading-[120%] tracking-[-0.21px] text-primary-900 text-center'>
-          이런 장소는 어떠세요?
-        </p>
-        <div className='flex-1 h-1 bg-primary-100' />
+  if (recommendedPlaces.length > 0) {
+    return (
+      <div>
+        <div className='flex pt-0 px-16 pb-16 items-center gap-10 self-stretch'>
+          <div className='flex-1 h-1 bg-primary-100' />
+          <p className='text-sm font-bold leading-[120%] tracking-[-0.21px] text-primary-900 text-center'>
+            이런 장소는 어떠세요?
+          </p>
+          <div className='flex-1 h-1 bg-primary-100' />
+        </div>
+
+        {recommendedPlaces.map((place) => (
+          <PreviewContent key={place.id} place={place} />
+        ))}
+
+        <div ref={sentinelRef} />
       </div>
-
-      {recommendedPlaces.map((place) => (
-        <PreviewContent key={place.id} place={place} />
-      ))}
-
-      <div ref={sentinelRef} />
-    </div>
-  );
+    );
+  }
 };
 
 export default RecommendedPreviewContentList;
