@@ -134,7 +134,7 @@ const SolrouteWritePage = () => {
       toast(<Warn title='코스 아이콘을 선택해주세요.' />);
       return;
     } else if (!title || title.length === 0) {
-      toast(<Warn title='코스명을 입력해주세요.' />);
+      toast(<Warn title='제목을 입력해주세요.' />);
       return;
     } else if (placeInfos.length === 0) {
       toast(
@@ -256,7 +256,12 @@ const SolrouteWritePage = () => {
           onRightClick={handleModalRight}
         />
       )}
-      {<Loading active={editMutation.isPending || postMutation.isPending} text='쏠루트 작성 중' />}
+      {
+        <Loading
+          active={editMutation.isPending || postMutation.isPending}
+          text='쏠루트 작성 중'
+        />
+      }
     </div>
   );
 };
