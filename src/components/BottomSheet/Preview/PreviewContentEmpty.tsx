@@ -53,7 +53,7 @@ const PreviewContentEmpty: React.FC = () => {
         </div>
       </div>
 
-      {recommendedPlaces.map((place) => (
+      {recommendedPlaces.length > 0 && (
         <>
           <div className='flex pt-0 px-16 pb-16 items-center gap-10 self-stretch'>
             <div className='flex-1 h-1 bg-primary-100' />
@@ -63,11 +63,13 @@ const PreviewContentEmpty: React.FC = () => {
             <div className='flex-1 h-1 bg-primary-100' />
           </div>
 
-          <PreviewContent key={place.id} place={place} />
+          {recommendedPlaces.map((place) => (
+            <PreviewContent key={place.id} place={place} />
+          ))}
 
-          <div ref={sentinelRef}></div>
+          <div ref={sentinelRef} />
         </>
-      ))}
+      )}
     </div>
   );
 };
