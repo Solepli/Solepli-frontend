@@ -6,6 +6,7 @@ import {
   MID_Y,
   CATAGORY_MAX_Y,
   CATAGORY_MIN_Y,
+  CATAGORY_MID_Y,
 } from '../../constants';
 import { useBottomSheetStore } from '../../store/bottomSheetStore';
 import { useLocation } from 'react-router-dom';
@@ -41,12 +42,12 @@ const BottomSheet: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // 카테고리일 때는 CATAGORY_MAX_Y로 초기화
   // 카테고리가 아닐 때는 MID_Y로 초기화
   useEffect(() => {
-    setSnap(isCategory ? CATAGORY_MAX_Y : MID_Y);
+    setSnap(isCategory ? CATAGORY_MID_Y : MID_Y);
   }, [isCategory, setSnap]);
 
   const MAX = isCategory ? CATAGORY_MAX_Y : MAX_Y;
   const MIN = isCategory ? CATAGORY_MIN_Y : MIN_Y;
-  const MID = isCategory ? null : MID_Y;
+  const MID = isCategory ? CATAGORY_MID_Y : MID_Y;
 
   const handlePointerDown = (e: React.PointerEvent) => {
     pointerDownTarget.current = e.target;

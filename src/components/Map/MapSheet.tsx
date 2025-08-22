@@ -15,6 +15,7 @@ import {
 import { usePlaceStore } from '../../store/placeStore';
 import Warn from '../global/Warn';
 import { toast } from 'react-toastify';
+import { useQueryClient } from '@tanstack/react-query';
 
 /* // 클러스터 생성 함수
 const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
@@ -39,6 +40,7 @@ const initCluster = (markerArray: naver.maps.Marker[], map: naver.maps.Map) => {
 
 /* MapSheet.tsx */
 const MapSheet = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
@@ -164,6 +166,8 @@ const MapSheet = () => {
   /* 현재 지도 화면을 기준으로 마커 재검색 함수 */
   const researchMarker = useCallback(async () => {
     if (!mapInstance.current || !lastBounds) return;
+
+    queryClient.invalidateQueries({ queryKey: ['placesNearby'] });
 
     searchByCategory(selectedCategory);
 
