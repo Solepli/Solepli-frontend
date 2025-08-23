@@ -10,7 +10,7 @@ const Solmap: React.FC = () => {
   const { isFocused } = useSearchStore();
 
   return (
-    <div className='h-full'>
+    <div className='h-dvh w-full'>
       <div className='z-100 fixed top-0 inset-x-0'>
         {/* SearchArea */}
         <MapSearchBar />
