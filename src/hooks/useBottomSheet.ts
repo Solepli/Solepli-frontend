@@ -15,7 +15,6 @@ export type BottomSheetController = {
 };
 
 export function useBottomSheet(): BottomSheetController {
-
   // Refs shared by header/content
   const sheetRef = useRef<HTMLDivElement>(
     null
@@ -31,64 +30,82 @@ export function useBottomSheet(): BottomSheetController {
 
   const dragStartYRef = useRef(0);
   const startScrollTopRef = useRef(0);
-  const headerGrabOffset = useRef(0);
-  const isFristContentTop = useRef(true);
+  const grabOffset = useRef(0);
   const gestureAreaRef = useRef<'header' | 'content' | null>(null);
 
   const location = useLocation();
 
   const MIN = 58;
-  const MAX = window.innerHeight - 60 - 60;
+  const MAX = window.innerHeight - 70 - 60;
   const MID = window.innerHeight / 2;
   const CATAGORY = window.innerHeight - 270 - 60; // 카테고리 바텀시트 최대로 올렸을 때 높이
 
   useEffect(() => {
-    isFristContentTop.current = true;
+    const sheet = sheetRef.current;
+    if (!sheet) return;
 
     if (location.pathname === '/map') {
-      const sheet = sheetRef.current;
-      if (sheet) {
-        sheet.style.transform = `translateY(${CATAGORY}px)`;
-        sheet.style.height = `${window.innerHeight - CATAGORY}px`;
-        console.log(sheet.getBoundingClientRect());
-      }
+      sheet.style.transform = `translateY(${CATAGORY}px)`;
+      sheet.style.height = `${window.innerHeight - CATAGORY}px`;
+    } else {
+      sheet.style.transform = `translateY(${MID}px)`;
+      sheet.style.height = `${window.innerHeight - MID}px`;
     }
-  }, [CATAGORY, location.pathname]);
+  }, [CATAGORY, MID, location.pathname]);
 
+  //현재 높이에서 가장 가까운 스냅 포인트 찾기
+  const getClosestSnap = useCallback(
+    (top: number) => {
+      const snaps = [MIN, MID, MAX];
+      let closestSnap = snaps[0];
+      let minDist = Math.abs(top - snaps[0]);
+      for (let i = 1; i < snaps.length; i++) {
+        const dist = Math.abs(top - snaps[i]);
+        if (dist < minDist) {
+          minDist = dist;
+          closestSnap = snaps[i];
+        }
+      }
+      return closestSnap;
+    },
+    [MAX, MID]
+  );
+
+  //현재 위치에서 가장 가까운 스냅 포인트로 이동 및 높이 조정
   const updateHeightFromTop = useCallback(() => {
     const sheet = sheetRef.current;
     if (!sheet) return;
-    const rect = sheet.getBoundingClientRect();
-    sheet.style.height = `${window.innerHeight - rect.top}px`;
-  }, []);
+    const top = sheet.getBoundingClientRect().top;
+    // Snap to closest of MIN, MID, MAX
+    const closestSnap = getClosestSnap(top);
+    sheet.style.transform = `translateY(${closestSnap}px)`;
+    sheet.style.height = `${window.innerHeight - closestSnap}px`;
+  }, [getClosestSnap]);
 
-  // ==== Unified root handlers (branch by ref.contains) ====
   const onPointerDown = useCallback((e: React.PointerEvent) => {
+    const sheet = sheetRef.current;
+    const header = headerRef.current;
+    const content = contentRef.current;
+    if (!sheet || !header || !content) return;
+
     pointerDownTarget.current = e.target;
     dragStartYRef.current = e.clientY;
+    const rect = sheet.getBoundingClientRect();
+
+    e.currentTarget.setPointerCapture(e.pointerId);
+    grabOffset.current = e.clientY - rect.y;
 
     const targetNode = e.target as Node;
-    if (headerRef.current?.contains(targetNode)) {
-      // Header gesture start
+    // Header gesture start
+    if (headerRef.current.contains(targetNode)) {
       gestureAreaRef.current = 'header';
-      const sheet = sheetRef.current;
-      if (sheet) {
-        const rect = sheet.getBoundingClientRect();
-        headerGrabOffset.current = e.clientY - rect.y;
-        sheet.style.height = '100dvh';
-      }
-      (e.currentTarget as Element).setPointerCapture(e.pointerId);
-      e.preventDefault(); // avoid text selection / native scroll during header drag
       return;
     }
 
-    if (contentRef.current?.contains(targetNode)) {
-      // Content gesture start
+    // Content gesture start
+    if (contentRef.current.contains(targetNode)) {
       gestureAreaRef.current = 'content';
-      if (contentRef.current) {
-        startScrollTopRef.current = contentRef.current.scrollTop;
-      }
-      (e.currentTarget as Element).setPointerCapture(e.pointerId);
+      startScrollTopRef.current = contentRef.current.scrollTop;
       return;
     }
 
@@ -97,95 +114,122 @@ export function useBottomSheet(): BottomSheetController {
 
   const onPointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!(e.currentTarget as Element).hasPointerCapture(e.pointerId)) return;
+      if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+      const sheet = sheetRef.current;
+      const content = contentRef.current;
+      if (!sheet || !content) return;
 
-      if (gestureAreaRef.current === 'header') {
-        // Move sheet by translateY based on grab offset
-        const sheet = sheetRef.current;
-        if (!sheet) return;
-        let newTop = e.clientY - headerGrabOffset.current;
-        if (newTop < 0) newTop = 0;
+      const moveSheet = () => {
+        let newTop = e.clientY - grabOffset.current;
+        if (newTop < MIN) newTop = MIN;
         if (newTop > MAX) newTop = MAX;
+        sheet.style.height = '100dvh';
         sheet.style.transform = `translateY(${newTop}px)`;
+      };
+
+      // Move sheet by translateY based on grab offset
+      if (gestureAreaRef.current === 'header') {
+        moveSheet();
         return;
       }
 
-      console.log(gestureAreaRef.current, isFristContentTop.current);
-      if (gestureAreaRef.current === 'content' && isFristContentTop.current) {
+      if (gestureAreaRef.current === 'content') {
         console.log('content move');
-        // Optional: emulate vertical scroll based on pointer delta (absolute mapping)
-        const el = contentRef.current;
-        if (!el) return;
         const dy = e.clientY - dragStartYRef.current; // down:+ / up:-
-        const max = Math.max(0, el.scrollHeight - el.clientHeight);
-        let next = startScrollTopRef.current - dy; // up moves list up
-        if (next < 0) next = 0;
-        if (next > max) next = max;
-        el.scrollTop = next;
-        contentRef.current.style.touchAction = 'auto';
+        if (dy < 0) {
+          // scroll down
+          const max = Math.max(0, content.scrollHeight - content.clientHeight);
+          let next = startScrollTopRef.current - dy; // up moves list up
+          if (next < 0) next = 0;
+          if (next > max) next = max;
+          content.scrollTop = next;
+          content.style.touchAction = 'pan-y';
+        } else if (dy > 10 && content.scrollTop === 0) {
+          //만약 스크롤이 최상단이면 시트 이동
+          moveSheet();
+        }
         return;
       }
     },
     [MAX]
   );
 
+  const getNextSnap = useCallback(
+    (currentTop: number, offset: number) => {
+      // offset: +up / -down
+      currentTop = getClosestSnap(currentTop);
+      console.log('get next snap', currentTop, offset);
+      if (offset >= 0) {
+        // moving up
+        if (currentTop === MAX) return MID;
+        if (currentTop === MID) return MIN;
+        return MIN;
+      } else if (offset < 0) {
+        // moving down
+        if (currentTop === MIN) return MID;
+        if (currentTop === MID) return MAX;
+        return MAX;
+      }
+    },
+    [MAX, MID, getClosestSnap]
+  );
+
   const onPointerUp = useCallback(
     (e: React.PointerEvent) => {
       if (!(e.currentTarget as Element).hasPointerCapture(e.pointerId)) return;
+      const sheet = sheetRef.current;
+      const content = contentRef.current;
+      if (!sheet || !content) return;
+
+      const sheetTop = sheet.getBoundingClientRect().top;
+
+      const offset = dragStartYRef.current - e.clientY; // +up / -down
+      if (Math.abs(offset) < 10) {
+        return;
+      }
+
+      console.log('pointer up', sheet.getBoundingClientRect().top, offset);
+      const nextSnap = getNextSnap(sheetTop, offset);
 
       if (gestureAreaRef.current === 'header') {
-        // Snap by Y thresholds
-        const sheet = sheetRef.current;
-        if (sheet) {
-          if (e.clientY < MID) sheet.style.transform = `translateY(${MIN}px)`;
-          else if (e.clientY >= MID && e.clientY < MAX)
-            sheet.style.transform = `translateY(${MID}px)`;
-          else sheet.style.transform = `translateY(${MAX}px)`;
-          updateHeightFromTop();
-        }
-      } else if (gestureAreaRef.current === 'content') {
-        // Decide next snap based on motion from content
-        const sheet = sheetRef.current;
-        if (sheet) {
-          const nowTop = sheet.getBoundingClientRect().top;
-          const offset = dragStartYRef.current - e.clientY; // +up / -down
-          let nextSnap = nowTop;
-          if (offset > 0 && nowTop === MAX) nextSnap = MID;
-          else if (offset < 0 && nowTop === MID) nextSnap = MAX;
-          else if (offset < 0 && nowTop === MIN) nextSnap = MID;
-          const changed = nextSnap !== nowTop;
-          if (changed) {
-            const target = `translateY(${nextSnap}px)`;
-            if (sheet.style.transform !== target)
-              sheet.style.transform = target;
-            updateHeightFromTop();
-            isFristContentTop.current = true;
-          } else {
-            isFristContentTop.current = false;
-          }
-        }
+        console.log('next snap', nextSnap);
+        sheet.style.transform = `translateY(${nextSnap}px)`;
+        updateHeightFromTop();
+      }
+
+      if (
+        gestureAreaRef.current === 'content' &&
+        contentRef.current.scrollTop === 0 &&
+        nextSnap !== sheetTop
+      ) {
+        sheet.style.transform = `translateY(${nextSnap}px)`;
+        updateHeightFromTop();
+        content.style.touchAction = 'none';
       }
 
       (e.currentTarget as Element).releasePointerCapture(e.pointerId);
       gestureAreaRef.current = null;
       pointerDownTarget.current = null;
     },
-    [MAX, MID, MIN, updateHeightFromTop]
+    [getNextSnap, updateHeightFromTop]
   );
 
-  const onPointerCancel = useCallback((e: React.PointerEvent) => {
-    (e.currentTarget as Element).releasePointerCapture(e.pointerId);
-    gestureAreaRef.current = null;
-    pointerDownTarget.current = null;
-  }, []);
+  const onPointerCancel = useCallback(
+    (e: React.PointerEvent) => {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+      updateHeightFromTop();
+      gestureAreaRef.current = null;
+      pointerDownTarget.current = null;
+    },
+    [updateHeightFromTop]
+  );
 
   const onContentScroll = useCallback((e: React.UIEvent) => {
     const el = e.currentTarget as HTMLElement;
     if (el.scrollTop === 0) {
-      isFristContentTop.current = true;
       el.style.touchAction = 'none';
     } else {
-      el.style.touchAction = 'auto';
+      el.style.touchAction = 'pan-y';
     }
   }, []);
 
