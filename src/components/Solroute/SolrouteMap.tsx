@@ -53,13 +53,15 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     // 폴리라인 설정
     polyline.current.setMap(map);
 
+    const polylineForCleanup = polyline.current;
+    const mapInstanceForCleanup = mapInstance.current;
+
     return () => {
-      const currentPolyline = polyline.current;
-      if (currentPolyline) {
-        currentPolyline.setMap(null);
+      if (polylineForCleanup) {
+        polylineForCleanup.setMap(null);
       }
-      if (mapInstance.current) {
-        mapInstance.current.destroy();
+      if (mapInstanceForCleanup) {
+        mapInstanceForCleanup.destroy();
         mapInstance.current = null;
       }
     };
