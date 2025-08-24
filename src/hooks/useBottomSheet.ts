@@ -77,13 +77,15 @@ export function useBottomSheet(): BottomSheetController {
 
   useEffect(() => {
     const sheet = sheetRef.current;
-    if (!sheet) return;
+    const content = contentRef.current;
+    if (!sheet || !content) return;
 
     if (location.pathname === '/map') {
       sheet.style.transform = `translateY(${CATAGORY}px)`;
       updateHeightFromTop();
       // sheet.style.height = `${window.innerHeight - CATAGORY}px`;
       // currentSnapRef.current = CATAGORY;
+      content.scrollTop = 0;
     } else {
       if (currentSnapRef.current === 0 || currentSnapRef.current === CATAGORY) {
         currentSnapRef.current = MID;
@@ -91,6 +93,9 @@ export function useBottomSheet(): BottomSheetController {
       sheet.style.transform = `translateY(${currentSnapRef.current}px)`;
       updateHeightFromTop();
       // sheet.style.height = `${window.innerHeight - currentSnapRef.current}px`;
+      if(location.pathname.includes('/map/detail')) {
+        content.scrollTop = 0;
+      }
     }
   }, [location.pathname, updateHeightFromTop]);
 
