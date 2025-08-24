@@ -217,6 +217,18 @@ export function useBottomSheet(): BottomSheetController {
     [MAX, MID, getClosestSnap]
   );
 
+  const dispatchClickEventWhenUsingMouse = useCallback(
+    (e: React.PointerEvent) => {
+      if (e.pointerType === 'mouse' && pointerDownTarget.current) {
+        console.log(pointerDownTarget.current);
+        pointerDownTarget.current.dispatchEvent(
+          new MouseEvent('click', { bubbles: true, cancelable: true })
+        );
+      }
+    },
+    []
+  );
+
   const onPointerUp = useCallback(
     (e: React.PointerEvent) => {
       if (!(e.currentTarget as Element).hasPointerCapture(e.pointerId)) return;
@@ -228,6 +240,7 @@ export function useBottomSheet(): BottomSheetController {
 
       const offset = dragStartYRef.current - e.clientY; // +up / -down
       if (Math.abs(offset) < 10) {
+        dispatchClickEventWhenUsingMouse(e);
         return;
       }
 
@@ -254,7 +267,7 @@ export function useBottomSheet(): BottomSheetController {
       gestureAreaRef.current = null;
       pointerDownTarget.current = null;
     },
-    [getNextSnap, updateHeightFromTop]
+    [dispatchClickEventWhenUsingMouse, getNextSnap, updateHeightFromTop]
   );
 
   const onPointerCancel = useCallback(
