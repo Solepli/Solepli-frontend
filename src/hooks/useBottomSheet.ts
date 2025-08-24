@@ -32,6 +32,7 @@ export function useBottomSheet(): BottomSheetController {
   const startScrollTopRef = useRef(0);
   const grabOffset = useRef(0);
   const gestureAreaRef = useRef<'header' | 'content' | null>(null);
+  const currentSnapRef = useRef(0);
 
   const location = useLocation();
 
@@ -47,9 +48,13 @@ export function useBottomSheet(): BottomSheetController {
     if (location.pathname === '/map') {
       sheet.style.transform = `translateY(${CATAGORY}px)`;
       sheet.style.height = `${window.innerHeight - CATAGORY}px`;
+      currentSnapRef.current = CATAGORY;
     } else {
-      sheet.style.transform = `translateY(${MID}px)`;
-      sheet.style.height = `${window.innerHeight - MID}px`;
+      if (currentSnapRef.current === 0 || currentSnapRef.current === CATAGORY) {
+        currentSnapRef.current = MID;
+      }
+      sheet.style.transform = `translateY(${currentSnapRef.current}px)`;
+      sheet.style.height = `${window.innerHeight - currentSnapRef.current}px`;
     }
   }, [CATAGORY, MID, location.pathname]);
 
@@ -77,10 +82,15 @@ export function useBottomSheet(): BottomSheetController {
     if (!sheet) return;
     const top = sheet.getBoundingClientRect().top;
     // Snap to closest of MIN, MID, MAX
-    const closestSnap = getClosestSnap(top);
+    let closestSnap = getClosestSnap(top);
+    if (closestSnap === MID && location.pathname === '/map') {
+      closestSnap = CATAGORY;
+    }
     sheet.style.transform = `translateY(${closestSnap}px)`;
     sheet.style.height = `${window.innerHeight - closestSnap}px`;
-  }, [getClosestSnap]);
+    currentSnapRef.current = closestSnap;
+    console.log('update height', currentSnapRef.current);
+  }, [CATAGORY, MID, getClosestSnap, location.pathname]);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     const sheet = sheetRef.current;
@@ -127,6 +137,30 @@ export function useBottomSheet(): BottomSheetController {
         sheet.style.transform = `translateY(${newTop}px)`;
       };
 
+      const scrollSheet = (dy: number) => {
+        const max = Math.max(0, content.scrollHeight - content.clientHeight);
+        let next = startScrollTopRef.current - dy; // up moves list up
+        if (next < 0) next = 0;
+        if (next > max) next = max;
+        content.scrollTop = next;
+        console.log('사실상 여기서 스크롤?');
+        if (max !== 0) {
+          //스크롤이 존재할 때만 auto로 변경
+          console.log('여기서 변경?');
+          content.style.touchAction = 'auto';
+        }
+      };
+
+      const handleScrollOrDrag = (dy: number) => {
+        //최상단에서 아래로 drag하면 바텀시트를 내린다
+        if (dy > 10 && content.scrollTop === 0) {
+          moveSheet();
+        } else {
+          //그 외에는 바텀시트를 scroll한다
+          scrollSheet(dy);
+        }
+      };
+
       // Move sheet by translateY based on grab offset
       if (gestureAreaRef.current === 'header') {
         moveSheet();
@@ -136,22 +170,31 @@ export function useBottomSheet(): BottomSheetController {
       if (gestureAreaRef.current === 'content') {
         console.log('content move');
         const dy = e.clientY - dragStartYRef.current; // down:+ / up:-
-        if (dy < 0) {
-          // scroll down
-          const max = Math.max(0, content.scrollHeight - content.clientHeight);
-          let next = startScrollTopRef.current - dy; // up moves list up
-          if (next < 0) next = 0;
-          if (next > max) next = max;
-          content.scrollTop = next;
-          content.style.touchAction = 'pan-y';
-        } else if (dy > 10 && content.scrollTop === 0) {
-          //만약 스크롤이 최상단이면 시트 이동
+
+        const path = location.pathname;
+        //바텀시트가 가장 작거나 CATEGORY일 경우 무조건 바텀시트 움직임
+        if (
+          currentSnapRef.current === MAX ||
+          currentSnapRef.current === CATAGORY
+        ) {
+          moveSheet();
+        } else if (currentSnapRef.current === MID) {
+          //리스트일 떄는 MID 크기에서도 스크롤 가능
+          if (path.includes('/map/list')) {
+            handleScrollOrDrag(dy);
+          } else {
+            moveSheet();
+          }
+          // 바텀시트가 가장 높을 땐 스크롤 가능
+        } else if (currentSnapRef.current === MIN) {
+          handleScrollOrDrag(dy);
+        } else {
           moveSheet();
         }
         return;
       }
     },
-    [MAX]
+    [CATAGORY, MAX, MID, location.pathname]
   );
 
   const getNextSnap = useCallback(
@@ -229,7 +272,7 @@ export function useBottomSheet(): BottomSheetController {
     if (el.scrollTop === 0) {
       el.style.touchAction = 'none';
     } else {
-      el.style.touchAction = 'pan-y';
+      el.style.touchAction = 'auto';
     }
   }, []);
 
