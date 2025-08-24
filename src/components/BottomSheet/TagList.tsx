@@ -22,7 +22,7 @@ const TagList: React.FC<TagListProps> = ({ tags, detailTags, headerName }) => {
           <Tag name={headerName} header />
         </div>
       )}
-      <div className='flex gap-8 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan'>
+      <div className='flex gap-8 pb-4 whitespace-nowrap overflow-x-scroll overflow-y-hidden touch-pan-x'>
         {/* Preview tags */}
         {tags?.map((tag, i) => {
           return <Tag name={tag} key={i} />;

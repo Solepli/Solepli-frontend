@@ -1,21 +1,21 @@
 import React from 'react';
 import Compass from '../../assets/compass.svg?react';
 import { ReloadMarkerButtonProps } from '../../interface';
-import { MAX_Y } from '../../constants';
+import { MIN } from '../../constants';
 import { useBottomSheetStore } from '../../store/bottomSheetStore';
 
 const ReloadMarkerButton: React.FC<ReloadMarkerButtonProps> = ({
   handleClick,
 }) => {
   const { snap } = useBottomSheetStore();
-  const isVisible = snap !== MAX_Y;
+  const isVisible = snap !== MIN;
 
   return (
     <div
       style={{
         width: '100%',
         position: 'absolute',
-        bottom: `${(snap || 0) + 6}px`,
+        top: `${(snap || 0) - 45}px`,
         display: isVisible ? 'flex' : 'none',
         alignItems: 'center',
         justifyContent: 'center',

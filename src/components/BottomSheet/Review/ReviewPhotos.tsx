@@ -47,8 +47,8 @@ const ReviewPhotos = ({
 
   return (
     <div
-      className={`w-full overflow-auto touch-pan ${isEdit ? 'h-160' : 'h-125'}`}>
-      <div className='w-fit h-full flex overflow-x-auto touch-pan gap-6'>
+      className={`w-full overflow-x-scroll touch-pan-x ${isEdit ? 'h-160' : 'h-125'}`}>
+      <div className='w-fit h-full flex gap-6'>
         {images.map((image, index) => {
           return (
             <ReviewPhoto
