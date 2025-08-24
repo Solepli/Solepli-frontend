@@ -11,9 +11,13 @@ import { SolroutePlacePreview } from '../../types';
 
 interface SolrouteMapProps {
   placeInfosOnDisplay?: SolroutePlacePreview[];
+  mapHeight?: number;
 }
 
-const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
+const SolrouteMap: React.FC<SolrouteMapProps> = ({
+  placeInfosOnDisplay,
+  mapHeight,
+}) => {
   const mapElement = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<naver.maps.Map | null>(null);
   const polyline = useRef<naver.maps.Polyline>(
@@ -33,10 +37,6 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     }))
   );
 
-  useEffect(() => {
-    console.log('placeInfos', placeInfos);
-  }, [placeInfos]);
-
   // 데이터 소스 결정: props가 있으면 props 사용, 없으면 store 사용
   const currentPlaceInfos = useMemo(() => {
     return placeInfosOnDisplay?.length ? placeInfosOnDisplay : placeInfos;
@@ -53,13 +53,15 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     // 폴리라인 설정
     polyline.current.setMap(map);
 
+    const polylineForCleanup = polyline.current;
+    const mapInstanceForCleanup = mapInstance.current;
+
     return () => {
-      const currentPolyline = polyline.current;
-      if (currentPolyline) {
-        currentPolyline.setMap(null);
+      if (polylineForCleanup) {
+        polylineForCleanup.setMap(null);
       }
-      if (mapInstance.current) {
-        mapInstance.current.destroy();
+      if (mapInstanceForCleanup) {
+        mapInstanceForCleanup.destroy();
         mapInstance.current = null;
       }
     };
@@ -150,10 +152,24 @@ const SolrouteMap: React.FC<SolrouteMapProps> = ({ placeInfosOnDisplay }) => {
     });
   }, [prevMarkers]);
 
+  useEffect(() => {
+    if (mapInstance.current && mapHeight) {
+      // 약간의 지연 후 autoResize 호출 (DOM 업데이트 완료 대기)
+      setTimeout(() => {
+        if (mapInstance.current) {
+          mapInstance.current.autoResize();
+        }
+      }, 10);
+    }
+  }, [mapHeight]);
+
   return (
     <>
       {mapInstance ? (
-        <div ref={mapElement} className='self-stretch h-214 bg-primary-100' />
+        <div
+          ref={mapElement}
+          className='self-stretch h-full min-h-214 bg-primary-100'
+        />
       ) : (
         <div></div>
       )}
