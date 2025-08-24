@@ -193,10 +193,11 @@ const SolrouteDetailPage = () => {
         {/* 장소 정보 컨테이너 */}
         <div
           className='flex flex-col grow'
-          style={{ height: `calc(100vh - ${topHeight}px)` }}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}>
-          <div className='px-16 pt-16 pb-8 flex'>
+          style={{ height: `calc(100vh - ${topHeight}px)` }}>
+          <div
+            className='px-16 pt-16 pb-8 flex'
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}>
             <div className='flex-1 text-primary-950 text-sm font-normal leading-tight start-end'>
               장소{data.placeInfos.length}개
             </div>
