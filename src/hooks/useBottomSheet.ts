@@ -1,5 +1,8 @@
 import { useRef, useCallback, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useBottomSheetStore } from '../store/bottomSheetStore';
+import { useShallow } from 'zustand/shallow';
+import { CATAGORY, MAX, MID, MIN } from '../constants';
 
 export type BottomSheetController = {
   sheetRef: React.RefObject<HTMLDivElement>;
@@ -36,45 +39,24 @@ export function useBottomSheet(): BottomSheetController {
 
   const location = useLocation();
 
-  const MIN = 58;
-  const MAX = window.innerHeight - 70 - 60;
-  const MID = window.innerHeight / 2;
-  const CATAGORY = window.innerHeight - 270 - 60; // 카테고리 바텀시트 최대로 올렸을 때 높이
-
-  useEffect(() => {
-    const sheet = sheetRef.current;
-    if (!sheet) return;
-
-    if (location.pathname === '/map') {
-      sheet.style.transform = `translateY(${CATAGORY}px)`;
-      sheet.style.height = `${window.innerHeight - CATAGORY}px`;
-      currentSnapRef.current = CATAGORY;
-    } else {
-      if (currentSnapRef.current === 0 || currentSnapRef.current === CATAGORY) {
-        currentSnapRef.current = MID;
-      }
-      sheet.style.transform = `translateY(${currentSnapRef.current}px)`;
-      sheet.style.height = `${window.innerHeight - currentSnapRef.current}px`;
-    }
-  }, [CATAGORY, MID, location.pathname]);
+  const { setSnap } = useBottomSheetStore(
+    useShallow((state) => ({ setSnap: state.setSnap }))
+  );
 
   //현재 높이에서 가장 가까운 스냅 포인트 찾기
-  const getClosestSnap = useCallback(
-    (top: number) => {
-      const snaps = [MIN, MID, MAX];
-      let closestSnap = snaps[0];
-      let minDist = Math.abs(top - snaps[0]);
-      for (let i = 1; i < snaps.length; i++) {
-        const dist = Math.abs(top - snaps[i]);
-        if (dist < minDist) {
-          minDist = dist;
-          closestSnap = snaps[i];
-        }
+  const getClosestSnap = useCallback((top: number) => {
+    const snaps = [MIN, MID, MAX];
+    let closestSnap = snaps[0];
+    let minDist = Math.abs(top - snaps[0]);
+    for (let i = 1; i < snaps.length; i++) {
+      const dist = Math.abs(top - snaps[i]);
+      if (dist < minDist) {
+        minDist = dist;
+        closestSnap = snaps[i];
       }
-      return closestSnap;
-    },
-    [MAX, MID]
-  );
+    }
+    return closestSnap;
+  }, []);
 
   //현재 위치에서 가장 가까운 스냅 포인트로 이동 및 높이 조정
   const updateHeightFromTop = useCallback(() => {
@@ -89,8 +71,28 @@ export function useBottomSheet(): BottomSheetController {
     sheet.style.transform = `translateY(${closestSnap}px)`;
     sheet.style.height = `${window.innerHeight - closestSnap}px`;
     currentSnapRef.current = closestSnap;
+    setSnap(closestSnap);
     console.log('update height', currentSnapRef.current);
-  }, [CATAGORY, MID, getClosestSnap, location.pathname]);
+  }, [getClosestSnap, location.pathname, setSnap]);
+
+  useEffect(() => {
+    const sheet = sheetRef.current;
+    if (!sheet) return;
+
+    if (location.pathname === '/map') {
+      sheet.style.transform = `translateY(${CATAGORY}px)`;
+      updateHeightFromTop();
+      // sheet.style.height = `${window.innerHeight - CATAGORY}px`;
+      // currentSnapRef.current = CATAGORY;
+    } else {
+      if (currentSnapRef.current === 0 || currentSnapRef.current === CATAGORY) {
+        currentSnapRef.current = MID;
+      }
+      sheet.style.transform = `translateY(${currentSnapRef.current}px)`;
+      updateHeightFromTop();
+      // sheet.style.height = `${window.innerHeight - currentSnapRef.current}px`;
+    }
+  }, [location.pathname, updateHeightFromTop]);
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
     const sheet = sheetRef.current;
@@ -194,7 +196,7 @@ export function useBottomSheet(): BottomSheetController {
         return;
       }
     },
-    [CATAGORY, MAX, MID, location.pathname]
+    [location.pathname]
   );
 
   const getNextSnap = useCallback(
@@ -214,7 +216,7 @@ export function useBottomSheet(): BottomSheetController {
         return MAX;
       }
     },
-    [MAX, MID, getClosestSnap]
+    [getClosestSnap]
   );
 
   const dispatchClickEventWhenUsingMouse = useCallback(
