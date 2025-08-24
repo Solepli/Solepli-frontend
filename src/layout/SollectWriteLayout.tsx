@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Modal from '../components/global/Modal';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../main';
+import Loading from '../components/global/Loading';
 
 const SollectWriteLayout = () => {
   const { pathname } = useLocation();
@@ -27,7 +28,7 @@ const SollectWriteLayout = () => {
       }))
     );
 
-  const submitSollect = async () => {
+  const submitSollect = async (): Promise<number> => {
     // 현재 작성된 paragraphs 순서대로 seq를 재설정
     const renumberParagraphs = paragraph.map((p, index) => ({
       ...p,
@@ -47,7 +48,7 @@ const SollectWriteLayout = () => {
     console.log('Sollect ID:', res);
     if (!res) {
       toast(<Warn title='솔렉트를 등록하는데 실패했습니다.' />);
-      return;
+      throw new Error('Sollect 등록 실패');
     }
 
     // 기존 id가 있다면 id를, 없다면 응답 값을 가져와 사용
@@ -64,15 +65,16 @@ const SollectWriteLayout = () => {
       }
     });
     await postSollectUpload(sollectId, formData);
-    // Sollect 등록 후 어디로 가야할지?
+    return sollectId;
   };
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: () => submitSollect(),
-    onSuccess: () => {
+    mutationFn: submitSollect,
+    onSuccess: (id: number) => {
       reset();
       queryClient.invalidateQueries({ queryKey: ['sollects'] });
-      navigate(`/sollect`);
+      //state값을 같이 넘겨 디테일 페이지에서 뒤로가기 클릭시 /sollect로 넘어감
+      navigate(`/sollect/${id}`, { state: { to: '/sollect' } });
     },
   });
 
@@ -182,6 +184,8 @@ const SollectWriteLayout = () => {
       <div className='flex-1 overflow-y-auto'>
         <Outlet /> {/* editor, place … */}
       </div>
+
+      {<Loading active={isPending} text='쏠렉트 등록 중' />}
 
       {/* modal */}
       {showDeleteModal && (

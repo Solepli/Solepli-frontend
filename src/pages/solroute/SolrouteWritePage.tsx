@@ -25,6 +25,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import Modal from '../../components/global/Modal';
 import { queryClient } from '../../main';
+import Loading from '../../components/global/Loading';
 
 const SolrouteWritePage = () => {
   const navigate = useNavigate();
@@ -133,7 +134,7 @@ const SolrouteWritePage = () => {
       toast(<Warn title='코스 아이콘을 선택해주세요.' />);
       return;
     } else if (!title || title.length === 0) {
-      toast(<Warn title='코스명을 입력해주세요.' />);
+      toast(<Warn title='제목을 입력해주세요.' />);
       return;
     } else if (placeInfos.length === 0) {
       toast(
@@ -255,6 +256,12 @@ const SolrouteWritePage = () => {
           onRightClick={handleModalRight}
         />
       )}
+      {
+        <Loading
+          active={editMutation.isPending || postMutation.isPending}
+          text='쏠루트 작성 중'
+        />
+      }
     </div>
   );
 };

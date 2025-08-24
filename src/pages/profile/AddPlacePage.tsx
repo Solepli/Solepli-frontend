@@ -11,6 +11,7 @@ import { useAutoResizeAndScroll } from '../../hooks/useAutoResizeAndScroll';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import Success from '../../components/global/Success';
+import Loading from '../../components/global/Loading';
 
 const AddPlacePage = () => {
   const inputPlaceRef = useRef<HTMLInputElement | null>(null);
@@ -170,6 +171,7 @@ const AddPlacePage = () => {
           />
         </div>
       </div>
+      {<Loading active={isPending} text='장소 추가 요청 중' />}
     </div>
   );
 };

@@ -24,7 +24,7 @@ const SolrouteTitle: React.FC = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title ?? ''}
         maxLength={25}
-        placeholder='코스명을 입력해주세요'
+        placeholder='제목을 입력해주세요'
         className='placeholder:text-primary-500 placeholder:text-sm placeholder:font-normal placeholder:leading-tight
         text-primary-950 font-bold leading-tight outline-none ring-0 focus:outline-none focus:ring-0 bg-transparent border-none
         text-base scale-[var(--scale-16-14)] origin-top-left w-[calc(100%/var(--scale-16-14))]
