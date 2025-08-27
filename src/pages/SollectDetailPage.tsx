@@ -12,7 +12,6 @@ import AddCourseButton from '../components/Sollect/SollectDetail/AddCourseButton
 import PlaceSummaryList from '../components/Sollect/SollectDetail/PlaceSummaryList';
 import { placeSummary } from '../types';
 import Loading from '../components/global/Loading';
-import Lightbox from 'yet-another-react-lightbox';
 
 const SollectDetailPage = () => {
   const { sollectId } = useParams();
