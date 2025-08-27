@@ -16,7 +16,11 @@ const ReviewPhotos: React.FC<ReviewPhotosProps> = ({ images, more }) => {
   }
 
   return (
-    <div className='px-16 pb-8 gap-2 flex overflow-x-scroll touch-pan-x'>
+    <div
+      className='px-16 pb-8 gap-2 flex overflow-x-scroll touch-pan-x'
+      onClick={() => {
+        navigate('/map/reviews/photos', { state: { images } });
+      }}>
       {images.map((image, i) => {
         const isLast = i === images.length - 1;
 
@@ -29,7 +33,9 @@ const ReviewPhotos: React.FC<ReviewPhotosProps> = ({ images, more }) => {
             />
 
             {isLast && more && (
-              <button className='absolute top-40 left-34 text-xs text-white flex flex-col justify-center items-center gap-4' onClick={handleClick}>
+              <button
+                className='absolute top-40 left-34 text-xs text-white flex flex-col justify-center items-center gap-4'
+                onClick={handleClick}>
                 <div className='bg-white rounded-full w-24 h-24 flex justify-center items-center'>
                   <img src={arrowTail} alt='arrow' className='w-24 h-24' />
                 </div>

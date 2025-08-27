@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
-import { Counter, Captions } from "yet-another-react-lightbox/plugins";
-import "yet-another-react-lightbox/plugins/counter.css";
-import "yet-another-react-lightbox/plugins/captions.css";
-import arrow from "../../../assets/arrowWhite.svg"
+import { useState } from 'react';
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
+import { Counter, Captions } from 'yet-another-react-lightbox/plugins';
+import 'yet-another-react-lightbox/plugins/counter.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
+import arrow from '../../../assets/arrowWhite.svg';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-type LightBoxProps = {
-  images: string[];
-  open: boolean;
-  setOpen: (open:boolean) => void;
-};
-const ReivewPhotoLightBoxModal = ({ images, open, setOpen }: LightBoxProps) => {
+const ReivewPhotoLightBoxModal = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
-  const prevSlide = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
+  const { images } = location.state as { images: string[] };
+  const prevSlide = () =>
+    setIndex((prev) => (prev - 1 + images.length) % images.length);
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
 
   return (
     <div>
       <Lightbox
-        open={open}
-        close={() => setOpen(false)}
+        open={true}
+        close={() => navigate(-1)}
         index={index}
         // 라이트박스가 열릴 때 보여줄 이미지 배열
         slides={images.map((src) => ({ src }))}
@@ -59,4 +59,4 @@ const ReivewPhotoLightBoxModal = ({ images, open, setOpen }: LightBoxProps) => {
   );
 };
 
-export default ReivewPhotoLightBoxModal
+export default ReivewPhotoLightBoxModal;
