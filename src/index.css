@@ -193,3 +193,8 @@ button { @apply active:opacity-70 }
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
+
+
+.lightbox-container {
+  touch-action: pan-y; /* 세로 스크롤 허용, 가로 스와이프는 Lightbox가 가져감 */
+}

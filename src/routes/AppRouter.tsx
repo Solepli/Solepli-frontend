@@ -39,6 +39,7 @@ import DeleteProfilePage from '../pages/profile/DeleteProfilePage';
 import useAuthStore from '../store/authStore';
 import useLocationStore from '../store/locationStore';
 import ProtectedRoute from './ProtectedRoute';
+import ReivewPhotoLightBoxModal from '../components/BottomSheet/Review/ReivewPhotoLightBoxModal';
 
 const AppRouter = () => {
   const location = useLocation();
@@ -101,6 +102,7 @@ const AppRouter = () => {
         <Route path='sollect/:sollectId' element={<SollectDetailPage />} />
         <Route path='related-sollect/:placeId' element={<RelatedSollect />} />
         <Route path='/map/reviews/:placeId' element={<ReviewsPage />} />
+        <Route path='/map/reviews/photos' element={<ReivewPhotoLightBoxModal />} />
 
         <Route path='/profile/announcement' element={<AnnouncementPage />} />
         <Route
